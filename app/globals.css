@@ -1,4 +1,25 @@
-/*@tailwind base;*/
+/* Font Popppins */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
+/* @tailwind base; */
 @tailwind components;
 @tailwind utilities;
 
+body {
+  @apply font-poppins text-zinc-900;
+}
+
+p {
+  margin: 0;
+}
+
+a:-webkit-any-link {
+    color: #18181B;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+/* Button Components */
+.ant-btn-color-primary {
+  box-shadow: none;
+}
