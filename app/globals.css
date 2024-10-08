@@ -2,3 +2,24 @@
 @tailwind components;
 @tailwind utilities;
 
+.gradient-image {
+  position: absolute;
+  background: linear-gradient(180deg, #000, #e0e0e0, #000); /* Gradient warna */
+  height: 38rem;
+  width: 28rem;
+  margin-Left:-25px;
+  margin-top: -608px;
+  opacity: 0.3;
+}
+
+.textW{
+  position: absolute;
+  margin-top: -580px;
+}
+
+.text2{
+  margin-top: 420px;
+  color: white;
+  font-size: small;
+  width: 25rem;
+}
