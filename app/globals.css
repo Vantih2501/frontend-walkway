@@ -23,3 +23,9 @@ a:-webkit-any-link {
 .ant-btn-color-primary {
   box-shadow: none;
 }
+
+/* Card Components */
+.ant-card .ant-card-body {
+    padding: 0px;
+    border-radius: 0px;
+}
