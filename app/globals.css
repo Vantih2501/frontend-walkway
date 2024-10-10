@@ -23,3 +23,70 @@
   font-size: small;
   width: 25rem;
 }
+
+.headernav{
+  height: 10rem !important;
+  background-color: #f4f4f5;
+  width: 120rem !important;
+  display: block !important;
+}
+
+.searcbar{
+  margin-left: 30px;
+  width: 75rem;
+}
+
+.head1{
+  margin-left: 140px;
+}
+
+.fotoprof{
+  margin-left: 70px;
+  margin-top: -22px;
+}
+
+.menuNav{
+  margin-left: 45rem;
+  font-size: 15px;
+  font-weight: 600;
+  border-bottom: none; 
+}
+
+.cardC{
+  width: 95rem;
+  background-color: #e4e4e7;
+  margin-left: 12rem;
+  margin-top: 100px;
+}
+
+.cardI{
+  width: 50rem;
+}
+
+.butaddress{
+  margin-Left: 440px;
+  font-Size: 15px;
+  color: white;
+  background-color: #10b981;
+}
+
+.svaddress{
+  font-Size: 15px;
+  color: white;
+  background-color: #bbf7d0;
+}
+
+.svaddress:hover{
+  font-Size: 15px;
+  color: rgb(0, 182, 73) !important;
+  background-color: #ffffff !important;
+  border: 1px solid rgb(0, 182, 73) !important;
+}
+
+/* .buttonqty{
+  background-color: #e0e0e0;
+}
+
+.buttonqty:hover{
+  background-color: #18181b;
+} */
