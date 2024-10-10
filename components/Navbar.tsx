@@ -13,7 +13,7 @@ import Link from 'next/link';
 import { Breadcrumb, Layout, Menu, theme, Input, message, MenuProps } from "antd";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
-import Footer from "./checkout/footer";
+
 
 const { Search } = Input;
 
@@ -46,13 +46,8 @@ const items2: MenuProps["items"] = [
   };
 });
 
-interface AuthenticatedLayoutProps {
-  children: React.ReactNode;
-}
 
-const AuthenticatedLayout: React.FC<AuthenticatedLayoutProps> = ({
-  children,
-}) => {
+export default function Navbar() {
   const router = useRouter();
 
   const {
@@ -129,7 +124,7 @@ const AuthenticatedLayout: React.FC<AuthenticatedLayoutProps> = ({
           className={"flex-1 menuNav"}
         />
       </Header>
-      <br />
+      <br /><br />
       <Layout>
         <Layout
           style={{ padding: "0 0px 0px", height: "calc(100vh - 64px)" }}
@@ -137,7 +132,7 @@ const AuthenticatedLayout: React.FC<AuthenticatedLayoutProps> = ({
           <Content
             style={{ backgroundColor:'white' }}
           >
-            {children}
+     
           </Content>
         </Layout>
       </Layout>
@@ -145,4 +140,4 @@ const AuthenticatedLayout: React.FC<AuthenticatedLayoutProps> = ({
   );
 };
 
-export default AuthenticatedLayout;
+

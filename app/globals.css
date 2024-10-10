@@ -7,6 +7,7 @@
 
 body {
   @apply font-poppins text-zinc-900;
+  overflow-x: hidden;
 }
 
 p {
@@ -81,38 +82,78 @@ a:-webkit-any-link {
 .cardC{
   width: 95rem;
   background-color: #e4e4e7;
-  margin-left: 12rem;
+ 
   margin-top: 100px;
 }
 
 .cardI{
-  width: 50rem;
+  width: 52rem;
+  
+}
+
+.CardT{
+  width: 36rem;
+  
 }
 
 .butaddress{
-  margin-Left: 440px;
+  margin-Left: 470px;
   font-Size: 15px;
   color: white;
-  background-color: #10b981;
+  background-color: #4E7772;
 }
 
 .svaddress{
   font-Size: 15px;
   color: white;
-  background-color: #bbf7d0;
+  background-color: #4E7772;
 }
 
 .svaddress:hover{
   font-Size: 15px;
-  color: rgb(0, 182, 73) !important;
+  color: #4E7772 !important;
   background-color: #ffffff !important;
-  border: 1px solid rgb(0, 182, 73) !important;
+  border: 1px solid #4E7772 !important;
 }
 
-/* .buttonqty{
-  background-color: #e0e0e0;
+.colprice{
+  margin-left: 230px;
 }
 
-.buttonqty:hover{
-  background-color: #18181b;
-} */
+.shipprice{
+  margin-left: 310px;
+}
+
+.coltotal{
+  margin-left: 250px;
+}
+
+.nameaddress{
+  margin-left: -20px;
+  width: 27rem;
+}
+
+.editadd{
+  margin-Left: 470px;
+  font-Size: 15px;
+  background-color: #ffffff !important;
+  border: 1px solid #4E7772 !important;
+}
+
+.cardFooter{
+  background-color: #29362C !important;
+  width: auto;
+  height: 400px;
+  padding: 0;
+}
+
+.img-bg-footer{
+  height: 395px;
+  padding: 0;
+  position: absolute;
+  margin-left: 73rem;
+}
+
+.text-footer{
+  margin-top: 100px;
+}
