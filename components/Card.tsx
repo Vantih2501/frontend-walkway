@@ -30,7 +30,7 @@ const ProductCard = ({
 	const isTextColor = variant === "bid";
 
 	const cardClasses = `relative cursor-pointer rounded-xl border border-transparent transition-all duration-300 ease-in-out hover:border-primary-500 ${
-		isLarge ? "max-w-[295px]" : "max-w-[232px]"
+		isLarge ? "w-full" : "max-w-[232px]"
 	} ${
 		variant === "bid"
 			? "bg-primary-300 border-primary-300 text-white"
@@ -41,7 +41,7 @@ const ProductCard = ({
 		<Card
 			style={{ fontSize: `${isLarge ? "18px" : "14px"}` }}
 			className={cardClasses}
-		>   
+		>
 			{variant === "bid" && (
 				<div className="absolute w-full top-0 h-14 bg-primary-300 flex justify-center items-center rounded-t-xl">
 					<Countdown
@@ -56,27 +56,38 @@ const ProductCard = ({
 					/>
 				</div>
 			)}
-            
-            {/* PRODUCT IMAGE */}
+
+			{/* PRODUCT IMAGE */}
 			<div className="overflow-hidden rounded-t-xl aspect-w-1 aspect-h-1 bg-white">
 				<Image
 					src={imageUrl}
 					alt={productName}
 					width={isLarge ? 295 : 232}
 					height={isLarge ? 295 : 232}
-					className="object-cover transition-transform duration-300 ease-in-out group-hover:scale-110"
+					className="w-full h-full object-cover transition-transform duration-300 ease-in-out group-hover:scale-110"
 				/>
 			</div>
 
-            {/* PRODUCT DESCRIPTION */}
-			<div className="p-5">
+			{/* PRODUCT DESCRIPTION */}
+			<div className="p-5 xl:p-8">
 				{variant === "bid" && <p className="text-primary-100">Current bid:</p>}
 
-				<h2 className={`text-${isLarge ? "2xl" : "xl"} font-medium mb-4`}>
+				<h2
+					className={`${isLarge? "text-2xl" : "text-xl"} font-medium mb-4`}
+				>
 					Rp. {price}
 				</h2>
-                
-				<p className={`text-${isTextColor ? "primary-100" : "zinc-500"} leading-7 line-clamp-2`}>
+
+				<p
+					className={`
+						text-${isTextColor ? "primary-100" : "zinc-500"}
+						${
+							isLarge
+								? "text-lg"
+								: "text-sm"
+						}
+					} line-clamp-2`}
+				>
 					{productName}
 				</p>
 			</div>

@@ -18,6 +18,12 @@ export const Provider = ({ children }: any) => {
 					colorPrimary: "#4E7772",
 					fontFamily: "'Poppins', sans-serif",
 				},
+				components: {
+					Statistic: {
+						contentFontSize: 40,
+						titleFontSize: 14,
+					},
+				},
 			}}
 		>
 			{children}
