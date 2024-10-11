@@ -34,7 +34,7 @@ a:-webkit-any-link {
   background: linear-gradient(180deg, #000, #e0e0e0, #000); /* Gradient warna */
   height: 38rem;
   width: 28rem;
-  margin-Left:-25px;
+
   margin-top: -608px;
   opacity: 0.3;
 }
@@ -151,9 +151,133 @@ a:-webkit-any-link {
   height: 395px;
   padding: 0;
   position: absolute;
-  margin-left: 73rem;
+  margin-left: 65rem;
 }
 
 .text-footer{
   margin-top: 100px;
+}
+
+.avatarProf{
+  width: 7rem;
+  height: 7rem;
+}
+
+.NavProf{
+  box-shadow: none !important; 
+  border: none !important; 
+  width: 13rem !important;
+}
+
+.NavProf:active{
+  background-color: #4E7772 !important;
+  color: white !important;
+}
+
+.editProf{
+  font-Size: 15px;
+  color: white;
+  background-color: #4E7772;
+  margin-top: 40px;
+}
+
+.addressprof{
+  width: 27rem;
+}
+
+.scroll{
+  max-height: 280px;
+  overflow-y: auto; 
+  padding-right: 10px; 
+}
+
+.scroll::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 147, 96, 0.2); 
+  border-radius: 4px;
+}
+
+.feTabs .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn{
+  background-color: #4E7772 !important;
+  color: white !important;
+  font-weight: 600;
+  width: 80px;
+  height: 40px;
+  border-radius: 5px;
+  padding: 0%;
+  line-height: 40px;
+  
+}
+
+.ant-tabs-tab{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  height: 100%;
+  border-bottom: none !important;
+  box-shadow: none !important;
+  border: none !important;
+}
+
+.ant-tabs-nav::before{
+  border: none !important;
+}
+
+.ant-tabs-nav{
+  box-shadow: none !important;
+  border: none !important;
+}
+
+.ant-tabs{
+  box-shadow: none !important;
+  border: none !important;
+}
+
+.ant-tabs-content{
+  box-shadow: none !important;
+  border: none !important;
+}
+
+.status1{
+  width: 90px;
+  height: 25px;
+  margin-top: 13px;
+  margin-left: 15px;
+  background-color: #E0FFE0;
+  text-align: center;
+  line-height: 25px;
+  color: #0F930F;
+}
+
+.status2{
+  width: 90px;
+  height: 25px;
+  margin-top: 13px;
+  margin-left: 15px;
+  background-color: #FFEFDB;
+  text-align: center;
+  line-height: 25px;
+  color: #FF9407;
+}
+
+.status3{
+  width: 90px;
+  height: 25px;
+  margin-top: 13px;
+  margin-left: 15px;
+  background-color: #FFE6EA;
+  text-align: center;
+  line-height: 25px;
+  color: #D80027;
+}
+
+.list1{
+  max-height: 56rem;
+  overflow-y: auto; 
+  padding-right: 10px; 
+}
+
+.list1::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 147, 96, 0.2); 
+  border-radius: 4px;
 }

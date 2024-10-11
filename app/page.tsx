@@ -16,12 +16,11 @@ export default function Home() {
   // }, [router]);
 
   return (
+    <div className="container ml-72 mt-24">
     <Card
       className="shadow-lg rounded-lg"
       style={{
         width: "55rem",
-        marginLeft: "33rem",
-        marginTop: "10rem",
         height: "38rem",
       }}
     >
@@ -34,8 +33,7 @@ export default function Home() {
             style={{
               width: "28rem",
               height: "38rem",
-              marginLeft: "-25px",
-              marginTop: "-25px",
+              
             }}
           />
           <div className="gradient-image"></div>
@@ -56,7 +54,7 @@ export default function Home() {
 
         {/* Kolom 2 */}
         <div className="mx-8">
-          <div className="login">
+          <div className="login"><br />
             <LeftOutlined /> <a href="" style={{ color:'black' }}>Sign In</a>
           </div>
           <h2 className="text-2xl font-bold mt-8">Join With Us</h2>
@@ -129,5 +127,6 @@ export default function Home() {
         </div>
       </div>
     </Card>
+    </div>
   );
 }

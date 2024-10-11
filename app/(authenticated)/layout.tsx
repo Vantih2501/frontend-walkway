@@ -13,7 +13,7 @@ import Link from 'next/link';
 import { Breadcrumb, Layout, Menu, theme, Input, message, MenuProps } from "antd";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
-import Footer from "./checkout/footer";
+
 
 const { Search } = Input;
 
