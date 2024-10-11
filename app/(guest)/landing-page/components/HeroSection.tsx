@@ -5,10 +5,10 @@ import Image from "next/image";
 
 const HeroSection = () => {
 	return (
-		<div className="w-full p-28">
+		<div className="w-full p-24">
 			<div className="grid grid-cols-12 gap-14">
 				<div className="col-span-5 space-y-7 my-auto">
-					<h1 className="font-montserrat font-bold text-6xl leading-[68px]">
+					<h1 className="font-montserrat font-bold text-5xl leading-[68px]">
 						Explore the latest in sneaker styles
 					</h1>
 					<p className="text-base text-gray-500 leading-7">
@@ -25,7 +25,7 @@ const HeroSection = () => {
 				</div>
 				<div className="relative flex justify-center items-center col-span-7">
 					<Image
-						src={"/hero-image.png"}
+						src={"/image/hero-image.png"}
 						alt="..."
 						width={1000}
 						height={655}

@@ -2,8 +2,8 @@
 
 import React, { useRef } from "react";
 import ProductCard from "#/components/Card";
-import { LeftOutlined, RightOutlined } from "@ant-design/icons";
 import { Carousel, Button } from "antd";
+import { HiArrowRight, HiArrowLeft } from "react-icons/hi2";
 
 interface carouselUiProps {
 	dataFetch: Array<{
@@ -31,7 +31,7 @@ const CarouselUi = ({ dataFetch, variant= "bid" }: carouselUiProps) => {
 			<Button
 				type="primary"
 				shape="circle"
-				icon={<LeftOutlined />}
+				icon={<HiArrowLeft className="flex items-center justify-center"/>}
 				onClick={handlePrev}
 				className="absolute top-1/2 left-4 transform -translate-y-1/2 z-10"
 			/>
@@ -43,8 +43,7 @@ const CarouselUi = ({ dataFetch, variant= "bid" }: carouselUiProps) => {
 					{ breakpoint: 2560, settings: { slidesToShow: 5 } },
 					{ breakpoint: 1440, settings: { slidesToShow: 4 } },
 					{ breakpoint: 1024, settings: { slidesToShow: 3 } },
-					{ breakpoint: 768, settings: { slidesToShow: 2 } },
-					{ breakpoint: 480, settings: { slidesToShow: 1 } },
+					{ breakpoint: 768, settings: { slidesToShow: 1 } },
 				]}
 			>
 				{dataFetch.map((product) => (
@@ -61,7 +60,7 @@ const CarouselUi = ({ dataFetch, variant= "bid" }: carouselUiProps) => {
 			<Button
 				type="primary"
 				shape="circle"
-				icon={<RightOutlined />}
+				icon={<HiArrowRight className="flex items-center justify-center"/>}
 				onClick={handleNext}
 				className="absolute top-1/2 right-4 transform -translate-y-1/2 z-10"
 			/>

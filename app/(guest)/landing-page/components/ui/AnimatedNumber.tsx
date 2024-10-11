@@ -32,7 +32,7 @@ const CustomStatistic = ({ title, value, precision }: customStatisticProps) => (
 
 const AnimatedNumberUi = () => {
 	return (
-		<div className="flex gap-8 items-center">
+		<div className="flex justify-between items-center">
 			<CustomStatistic
 				title="Items Sold Across Our Platform"
 				value={10000}

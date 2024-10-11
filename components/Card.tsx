@@ -29,19 +29,14 @@ const ProductCard = ({
 	const isLarge = size === "lg";
 	const isTextColor = variant === "bid";
 
-	const cardClasses = `relative cursor-pointer rounded-xl border border-transparent transition-all duration-300 ease-in-out hover:border-primary-500 ${
-		isLarge ? "w-full" : "max-w-[232px]"
-	} ${
+	const cardClasses = `relative cursor-pointer rounded-xl border border-transparent transition-all duration-300 ease-in-out hover:border-primary-500 w-full ${
 		variant === "bid"
 			? "bg-primary-300 border-primary-300 text-white"
 			: "bg-white"
 	}`;
 
 	return (
-		<Card
-			style={{ fontSize: `${isLarge ? "18px" : "14px"}` }}
-			className={cardClasses}
-		>
+		<Card style={{ fontSize: `${isLarge ? "18px" : "14px"}` }} className={cardClasses}>
 			{variant === "bid" && (
 				<div className="absolute w-full top-0 h-14 bg-primary-300 flex justify-center items-center rounded-t-xl">
 					<Countdown
@@ -69,8 +64,8 @@ const ProductCard = ({
 			</div>
 
 			{/* PRODUCT DESCRIPTION */}
-			<div className="p-5 xl:p-8">
-				{variant === "bid" && <p className="text-primary-100">Current bid:</p>}
+			<div className="p-5">
+				{variant === "bid" && <p className="text-primary-100 text-base mb-1">Current bid:</p>}
 
 				<h2
 					className={`${isLarge? "text-2xl" : "text-xl"} font-medium mb-4`}
@@ -80,13 +75,8 @@ const ProductCard = ({
 
 				<p
 					className={`
-						text-${isTextColor ? "primary-100" : "zinc-500"}
-						${
-							isLarge
-								? "text-lg"
-								: "text-sm"
-						}
-					} line-clamp-2`}
+					text-${isTextColor ? "primary-100" : "zinc-500"}
+					${isLarge ? "text-base" : "text-sm"} line-clamp-2`}
 				>
 					{productName}
 				</p>
