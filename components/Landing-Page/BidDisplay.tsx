@@ -1,6 +1,6 @@
 import React from 'react'
 import CarouselUi from './ui/Carousel'
-import { products } from '../../mock-data/products'
+import { products } from '#/mock-data/products'
 
 const BidDisplay = () => {
   return (

@@ -1,90 +1,141 @@
 "use client";
 
-import React from 'react';
-import {HomeFilled, InfoCircleFilled, LaptopOutlined, NotificationOutlined, UserOutlined} from '@ant-design/icons';
-import type {MenuProps} from 'antd';
-import {Breadcrumb, Layout, Menu, theme} from 'antd';
-import {useRouter} from "next/navigation";
+import React, { useState } from "react";
+import {
+  HomeFilled,
+  InfoCircleFilled,
+  LaptopOutlined,
+  NotificationOutlined,
+  ShoppingOutlined,
+  UserOutlined,
+} from "@ant-design/icons";
+import Link from 'next/link'; 
+import { Breadcrumb, Layout, Menu, theme, Input, message, MenuProps } from "antd";
+import { useRouter } from "next/navigation";
+import Image from "next/image";
+import Footer from "./checkout/footer";
 
-const {Header, Content, Sider} = Layout;
+const { Search } = Input;
 
-const items1: MenuProps['items'] = ['1', '2', '3'].map((key) => ({
+const { Header, Content, Sider } = Layout;
+
+const items1: MenuProps["items"] = ["1", "2", "3"].map((key) => ({
   key,
   label: `nav ${key}`,
 }));
 
-const items2: MenuProps['items'] = [UserOutlined, LaptopOutlined, NotificationOutlined].map(
-  (icon, index) => {
-    const key = String(index + 1);
+const items2: MenuProps["items"] = [
+  UserOutlined,
+  LaptopOutlined,
+  NotificationOutlined,
+].map((icon, index) => {
+  const key = String(index + 1);
 
-    return {
-      key: `sub${key}`,
-      icon: React.createElement(icon),
-      label: `subnav ${key}`,
+  return {
+    key: `sub${key}`,
+    icon: React.createElement(icon),
+    label: `subnav ${key}`,
 
-      children: new Array(4).fill(null).map((_, j) => {
-        const subKey = index * 4 + j + 1;
-        return {
-          key: subKey,
-          label: `option${subKey}`,
-        };
-      }),
-    };
-  },
-);
+    children: new Array(4).fill(null).map((_, j) => {
+      const subKey = index * 4 + j + 1;
+      return {
+        key: subKey,
+        label: `option${subKey}`,
+      };
+    }),
+  };
+});
 
 interface AuthenticatedLayoutProps {
-  children: React.ReactNode
+  children: React.ReactNode;
 }
 
-const AuthenticatedLayout: React.FC<AuthenticatedLayoutProps> = ({children}) => {
+const AuthenticatedLayout: React.FC<AuthenticatedLayoutProps> = ({
+  children,
+}) => {
   const router = useRouter();
 
   const {
-    token: {colorBgContainer},
+    token: { colorBgContainer },
   } = theme.useToken();
 
-  const menu: MenuProps['items'] = [
+  const menu: MenuProps["items"] = [
     {
-      key: `/home`,
-      icon: <HomeFilled/>,
-      label: `Home`,
+      key: `Sneakers`,
+      label: (      
+      <Link href="/">
+        Sneakers
+      </Link>),
     },
     {
-      key: `/about`,
-      icon: <InfoCircleFilled/>,
-      label: `About`,
-    }
-  ]
+      key: `Casual`,
+      label: (      
+        <Link href="/">
+         Casual
+        </Link>),
+    },
+    {
+      key: `Sport`,
+      label: (      
+        <Link href="/">
+         Sport
+        </Link>),
+    },
+    {
+      key: `Auction`,
+      label: (      
+        <Link href="/">
+         Auction
+        </Link>),
+    },
+  ];
+
+  const [value, setValue] = useState('');
+
+  const onSearch = (value: string) => {
+    // Logika pencarian ketika pengguna menekan tombol "Enter" atau klik ikon pencarian
+    message.info(`Searching for: ${value}`);
+  };
+
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setValue(e.target.value);
+  };
 
   return (
     <Layout>
-      <Header className="header flex">
-        <div className={"text-white"}>y</div>
-        <Menu theme="dark" mode="horizontal" defaultSelectedKeys={[]} items={items1} className={"flex-1"}/>
-      </Header>
-      <Layout>
-        <Sider width={200} style={{background: colorBgContainer}}>
-          <Menu
-            mode="inline"
-            defaultSelectedKeys={['1']}
-            defaultOpenKeys={['sub1']}
-            style={{height: '100%', borderRight: 0}}
-            items={menu.concat(items2)}
-            onClick={({key}) => {
-              router.push(key);
-              // console.log(`key ${key} route not found`);
-            }}
+      <Header
+        className="drop-shadow-md"
+        style={{ backgroundColor: "white", height: "10rem" }}
+      >
+        <div className={"text-black bg-white flex mt-4 head1"}>
+          <Image src="/logo-black.png" alt="logo" width={150} height={40} />
+          <Search
+            placeholder="Search for sneakers..."
+            size="large"
+            value={value}
+            onChange={onChange}
+            onSearch={onSearch}
+            className="searcbar"
           />
-        </Sider>
-        <Layout style={{padding: '0 24px 24px', height: 'calc(100vh - 64px)'}}>
+          <div className="prof-bag flex"> 
+            <ShoppingOutlined style={{ position:"absolute", marginTop: '5px', marginLeft:'30px', fontSize:'30px' }} /> 
+            <a href="http://"> <Image src="/fotoprof.jpg" alt="Profile" className="rounded-full fotoprof" width={40} height={40}/> </a>
+          </div>
+        </div>
+        <Menu
+          mode="horizontal"
+          defaultSelectedKeys={[]}
+          items={menu}
+          className={"flex-1 menuNav"}
+        />
+      </Header>
+      <br />
+      <Layout>
+        <Layout
+          style={{ padding: "0 0px 0px", height: "calc(100vh - 64px)" }}
+        >
           <Content
-            style={{
-              padding: 24,
-              margin: '16px 0 0 0',
-              minHeight: 280,
-              background: colorBgContainer,
-            }}
+            style={{ backgroundColor:'white' }}
           >
             {children}
           </Content>
