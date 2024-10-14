@@ -4,7 +4,7 @@ import {
   BrandBanner,
   OurCollection,
   ProductDisplay,
-} from "#/components/Landing-Page/page";
+} from "#/components/LandingPage/page";
 import Navbar from "#/components/Navbar/Navbar";
 import React from "react";
 

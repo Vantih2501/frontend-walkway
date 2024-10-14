@@ -15,8 +15,13 @@ p, h1 {
   margin: 0;
 }
 
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
 a:-webkit-any-link {
-    color: #18181B;
     cursor: pointer;
     text-decoration: none;
 }

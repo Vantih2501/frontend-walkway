@@ -4,6 +4,7 @@ import { Poppins } from 'next/font/google';
 import Script from 'next/script';
 import './globals.css';
 import { Provider } from './provider';
+import Footer from '#/components/Footer/page';
 
 const poppins = Poppins({
   subsets: ['latin'],
@@ -24,18 +25,21 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang='en'>
-      {/* ugh */}
-      {/*
+		<html lang="en">
+			{/* ugh */}
+			{/*
         <head /> will contain the components returned by the nearest parent
         head.tsx. Find out more at https://beta.nextjs.org/docs/api-reference/file-conventions/head
       */}
-      <head />
+			<head />
 
-      <body className={poppins.className}>
-        <Script src='/api/env' strategy={'beforeInteractive'}></Script>
-        <Provider>{children}</Provider>
-      </body>
-    </html>
-  );
+			<body className={poppins.className}>
+				<>
+					<Script src="/api/env" strategy={"beforeInteractive"}></Script>
+					<Provider>{children}</Provider>
+          <Footer/>
+				</>
+			</body>
+		</html>
+	);
 }

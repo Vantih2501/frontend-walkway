@@ -1,5 +1,5 @@
 import React from "react";
-import DisplayProduct from "../../../components/Product-Category/DisplayProduct";
+import DisplayProduct from "../../../components/ProductCategory/DisplayProduct";
 
 const ProductCategory = () => {
   return (
