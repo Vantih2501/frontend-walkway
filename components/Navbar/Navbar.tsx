@@ -24,6 +24,7 @@ import {
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import SignContainer from "./ui/SignContainer";
+import ProfileContainer from "./ui/ProfileContainer";
 
 const { Header } = Layout;
 
@@ -81,7 +82,7 @@ export default function Navbar() {
   };
 
   return (
-    <div className="px-24 py-7 shadow-xl bg-white">
+    <div className="px-24 py-7 shadow-[0_8px_30px_rgb(0,0,0,0.12)] bg-white">
       <div className="flex gap-5 justify-between items-center mb-2">
         <Image
           src="/icons/logo.svg"
@@ -101,7 +102,7 @@ export default function Navbar() {
           className="h-9 2xl:h-14 2xl:text-xl"
         />
 
-        <SignContainer />
+        <ProfileContainer />
       </div>
 
       <div style={{ display: "flex", justifyContent: "center" }}>

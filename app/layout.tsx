@@ -4,6 +4,7 @@ import { Poppins } from 'next/font/google';
 import Script from 'next/script';
 import './globals.css';
 import { Provider } from './provider';
+import Navbar from '#/components/Navbar/Navbar';
 
 const poppins = Poppins({
   subsets: ['latin'],
@@ -33,8 +34,11 @@ export default function RootLayout({
       <head />
 
       <body className={poppins.className}>
+        <>
         <Script src='/api/env' strategy={'beforeInteractive'}></Script>
+        <Navbar/>
         <Provider>{children}</Provider>
+        </>
       </body>
     </html>
   );
