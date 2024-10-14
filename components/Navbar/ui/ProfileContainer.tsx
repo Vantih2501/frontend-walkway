@@ -1,17 +1,17 @@
-import Link from 'next/link'
-import React from 'react'
+import Link from "next/link";
+import React from "react";
+import { HiOutlineShoppingBag } from "react-icons/hi2";
+import { Avatar } from "antd";
 
 const ProfileContainer = () => {
   return (
-    <div className="flex gap-3 items-center">
-          <Link
-            href="/login"
-            className="flex justify-center items-center text-sm w-24 h-9 2xl:w-24 2xl:h-9 rounded-full bg-white hover:bg-zinc-50"
-          >
-            Sign In
-          </Link>
-    </div>
-  )
-}
+		<div className="flex gap-3 items-center">
+			<HiOutlineShoppingBag size={32} />
+			<Link href="/profile">
+				<Avatar src={"/image/farel-widianto.jpg"} />
+			</Link>
+		</div>
+	);
+};
 
-export default ProfileContainer
+export default ProfileContainer;

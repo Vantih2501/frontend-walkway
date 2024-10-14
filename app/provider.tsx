@@ -3,6 +3,19 @@
 import React, { useEffect } from "react";
 import { ConfigProvider } from "antd";
 import { TokenUtil } from "#/utils/token";
+import { Montserrat, Poppins } from "next/font/google";
+
+const montserrat = Montserrat({
+	subsets: ["latin"],
+	weight: ["300", "400", "500", "600", "700"],
+	preload: false,
+});
+
+const poppins = Poppins({
+	subsets: ["latin"],
+	weight: ["300", "400", "500", "600", "700"],
+	preload: false,
+});
 
 TokenUtil.loadToken();
 export const Provider = ({ children }: any) => {
@@ -16,10 +29,11 @@ export const Provider = ({ children }: any) => {
 			theme={{
 				token: {
 					colorPrimary: "#4E7772",
-					fontFamily: "'Poppins', sans-serif",
+					fontFamily: poppins.style.fontFamily,
 				},
 				components: {
 					Statistic: {
+						fontFamily: montserrat.style.fontFamily,
 						contentFontSize: 40,
 						titleFontSize: 14,
 					},

@@ -16,23 +16,23 @@ interface customStatisticProps {
 }
 
 const CustomStatistic = ({ title, value, precision }: customStatisticProps) => (
-	<div>
-		<div className="flex items-center gap-1">
+	<div className="">
+		<div className="flex items-center">
 			<Statistic
 				className="font-semibold"
 				value={value}
 				precision={precision}
 				formatter={formatter}
 			/>
-			<span className="font-medium text-4xl">+</span>
+			<span className="font-medium text-4xl 2xl:text-[52px]">+</span>
 		</div>
-		<div className="text-zinc-500">{title}</div>
+		<div className="text-zinc-500 2xl:text:lg">{title}</div>
 	</div>
 );
 
 const AnimatedNumberUi = () => {
 	return (
-		<div className="flex justify-between items-center">
+		<div className="flex items-center gap-8">
 			<CustomStatistic
 				title="Items Sold Across Our Platform"
 				value={10000}

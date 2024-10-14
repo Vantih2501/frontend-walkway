@@ -1,30 +1,37 @@
-import 'antd/dist/reset.css';
-import { Metadata } from 'next';
-import { Poppins } from 'next/font/google';
-import Script from 'next/script';
-import './globals.css';
-import { Provider } from './provider';
-import Footer from '#/components/Footer/page';
+import "antd/dist/reset.css";
+import { Metadata } from "next";
+import { Poppins, Montserrat } from "next/font/google";
+import Script from "next/script";
+import "./globals.css";
+import { Provider } from "./provider";
+import Footer from "#/components/Footer/page";
+import Navbar from "#/components/Navbar/Navbar";
 
 const poppins = Poppins({
-  subsets: ['latin'],
-  weight: ['300', '400', '500', '600', '700'],
-  preload: false,
+	subsets: ["latin"],
+	weight: ["300", "400", "500", "600", "700"],
+	preload: false,
+});
+
+const montserrat = Montserrat({
+	subsets: ["latin"],
+	weight: ["300", "400", "500", "600", "700"],
+	preload: false,
 });
 
 export const metadata: Metadata = {
-  title: {
-    template: '%s - Walkway',
-    default: 'Walkway',
-  },
+	title: {
+		template: "%s - Walkway",
+		default: "Walkway",
+	},
 };
 
 export default function RootLayout({
-  children,
+	children,
 }: {
-  children: React.ReactNode;
+	children: React.ReactNode;
 }) {
-  return (
+	return (
 		<html lang="en">
 			{/* ugh */}
 			{/*
@@ -35,9 +42,12 @@ export default function RootLayout({
 
 			<body className={poppins.className}>
 				<>
-					<Script src="/api/env" strategy={"beforeInteractive"}></Script>
-					<Provider>{children}</Provider>
-          <Footer/>
+					<>
+						<Script src="/api/env" strategy={"beforeInteractive"}></Script>
+						<Navbar />
+						<Provider>{children}</Provider>
+						<Footer />
+					</>
 				</>
 			</body>
 		</html>

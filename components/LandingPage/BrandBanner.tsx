@@ -4,9 +4,9 @@ import Image from "next/image";
 const brandLogo = [
   { src: "/icons/newbalance.svg", alt: "New Balance Logo", width: 105, height: 50, class: '' },
   { src: "/icons/adidas.svg", alt: "Adidas Logo", width: 74, height: 50, class: '' },
-//   { src: "/icons/puma.svg", alt: "Puma Logo", width: 100, height: 50, class: 'hidden xl:block' },
+  { src: "/icons/puma.svg", alt: "Puma Logo", width: 100, height: 50, class: 'hidden 2xl:block'},
   { src: "/icons/nike.svg", alt: "Nike Logo", width: 96, height: 50, class: '' },
-//   { src: "/icons/reebok.svg", alt: "Rebook Logo", width: 107, height: 50, class: 'hidden xl:block' },
+  { src: "/icons/reebok.svg", alt: "Rebook Logo", width: 107, height: 50, class: 'hidden 2xl:block' },
   { src: "/icons/vans.svg", alt: "Vans Logo", width: 75, height: 50, class: '' },
 ];
 
@@ -21,8 +21,8 @@ const BrandBanner = () => {
 					alt={logo.alt}
 					width={logo.width}
 					height={logo.height}
+					className={logo.class}
 					layout="intrinsic"
-					// className={logo.class}
 				/>
 				))}
 			</div>

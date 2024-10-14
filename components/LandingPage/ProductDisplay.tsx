@@ -20,11 +20,11 @@ const ProductDisplay = () => {
 							HOTTEST SNEAKER
 						</h1>
 					</div>
-					<Link href={"#"} className="font-medium text-sm font-montserrat">
+					<Link href={"#"} className="font-montserrat font-medium text-sm text-zinc-500 hover:opacity-75">
 						VIEW ALL
 					</Link>
 				</div>
-				<CarouselUi dataFetch={products} variant={"default"}/>
+				<CarouselUi dataFetch={products} variant={"default"} />
 			</div>
 		</div>
 	);

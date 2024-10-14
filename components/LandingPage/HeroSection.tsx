@@ -7,17 +7,17 @@ const HeroSection = () => {
 	return (
 		<div className="w-full p-24">
 			<div className="grid grid-cols-12 gap-14">
-				<div className="col-span-5 space-y-7 my-auto">
-					<h1 className="font-montserrat font-bold text-5xl leading-[68px]">
-						Explore the latest in sneaker styles
+				<div className="col-span-5 space-y-7 my-auto xl:space-y-9">
+					<h1 className="montserrat.className font-bold tracking-tight text-[50px] leading-[68px] 2xl:text-[80px] 2xl:leading-[105px]">
+						Explore The Latest in Sneaker Styles
 					</h1>
-					<p className="text-base text-gray-500 leading-7">
+					<p className="text-base text-gray-500 leading-7 2xl:text-xl 2xl:leading-9">
 						from timeless classics to modern designs. Find your perfect pair and
 						step up your look today!
 					</p>
 					<Button
 						type="primary"
-						className="rounded-full h-14 px-14 text-base font-medium"
+						className="bg-primary font-poppins rounded-full h-14 px-14 text-base font-medium"
 					>
 						Shop Now
 					</Button>
