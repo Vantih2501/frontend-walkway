@@ -1,13 +1,14 @@
 import React from "react";
 import DisplayProduct from "../../../components/ProductCategory/DisplayProduct";
+import CategoryTag from "#/components/ProductCategory/CategoryTag";
 
 const ProductCategory = () => {
   return (
-    <div className="grid grid-cols-12 gap-5">
-      <div className="col-span-3 bg-blue-100">
-        kiri
+    <div className="p-24 grid grid-cols-12 gap-5">
+      <div className="col-span-3">
+        <CategoryTag/>
       </div>
-      <div className="col-span-9 bg-red-100">
+      <div className="col-span-9">
         <DisplayProduct />
       </div>
     </div>

@@ -21,14 +21,14 @@ export default function Footer() {
 				/>
 			</div>
 			<div className="relative w-full px-28">
-				<div className="flex items-start gap-24 2xl:[146px]">
+				<div className="flex items-start gap-24 2xl:gap-40">
 					<div>
 						<Image
 							src={"/icons/logo-white.svg"}
 							alt={"logo walkway"}
 							width={305}
 							height={76}
-							className="text-left w-[203px] h-[50px] 2xl:w-[305px] 2xl:h-[76px]"
+							className="text-left w-[203px] h-[50px] 2xl:w-[259px] 2xl:h-16"
 						/>
 						<p className="mt-7 w-[257px] text-sm leading-6 text-zinc-300 2xl:text-base 2xl:w-[385px] 2xl:leading-8">
 							Explore the latest in sneaker styles, from timeless classics to

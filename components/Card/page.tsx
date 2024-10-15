@@ -10,7 +10,7 @@ interface CardProps {
 	productName: string;
 	imageUrl: string;
 	size?: "md" | "lg";
-	variant?: "default" | "bid";
+	variant?: "default" | "bid" | "categories";
 }
 
 const ProductCard = ({
@@ -50,14 +50,18 @@ const ProductCard = ({
 			)}
 
 			{/* PRODUCT IMAGE */}
-			<div className="overflow-hidden rounded-t-xl aspect-w-1 aspect-h-1 bg-white">
+			<div
+				className="overflow-hidden rounded-t-xl aspect-w-1 aspect-h-1"
+			>
 				<Image
 					src={imageUrl}
 					alt={productName}
 					width={isLarge ? 295 : 232}
 					height={isLarge ? 295 : 232}
 					quality={100}
-					className="w-full h-full object-cover transition-transform duration-300 ease-in-out group-hover:scale-105"
+					className={`w-full h-full object-cover transition-transform duration-300 ease-in-out group-hover:scale-105 ${
+					variant === "categories" ? "bg-[#F7F8F7]" : "bg-white"
+				}`}
 				/>
 			</div>
 
@@ -67,11 +71,19 @@ const ProductCard = ({
 					<p className="text-primary-100/80 text-sm mb-1">Current bid:</p>
 				)}
 
-				<h1 className={`montserrat.className ${isLarge ? "text-2xl mb-4" : "text-xl mb-3"} font-medium`}>
+				<h1
+					className={`montserrat.className ${
+						isLarge ? "text-2xl mb-4" : "text-xl mb-3"
+					} font-medium`}
+				>
 					Rp. {price}
 				</h1>
 
-				<p className={`text-${isTextColor ? "primary-100" : "zinc-500"} ${isLarge ? "text-base" : "text-sm"} line-clamp-2 mb-auto`}>
+				<p
+					className={`text-${isTextColor ? "primary-100" : "zinc-500"} ${
+						isLarge ? "text-base" : "text-sm"
+					} line-clamp-2 mb-auto`}
+				>
 					{productName}
 				</p>
 			</div>

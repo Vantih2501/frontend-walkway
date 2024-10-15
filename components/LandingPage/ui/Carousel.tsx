@@ -6,27 +6,27 @@ import { Carousel, Button } from "antd";
 import { HiArrowRight, HiArrowLeft } from "react-icons/hi2";
 
 interface carouselUiProps {
-  dataFetch: Array<{
-    id: string;
-    name: string;
-    price: string;
-    image: string;
-  }>;
-  variant: "default" | "bid";
+	dataFetch: Array<{
+		id: string;
+		name: string;
+		price: string;
+		image: string;
+	}>;
+	variant: "default" | "bid";
 }
 
 const CarouselUi = ({ dataFetch, variant = "bid" }: carouselUiProps) => {
-  const carouselRef = useRef<any>(null);
+	const carouselRef = useRef<any>(null);
 
-  const handleNext = () => {
-    carouselRef.current.next();
-  };
+	const handleNext = () => {
+		carouselRef.current.next();
+	};
 
-  const handlePrev = () => {
-    carouselRef.current.prev();
-  };
+	const handlePrev = () => {
+		carouselRef.current.prev();
+	};
 
-  return (
+	return (
 		<div className="relative">
 			<Button
 				type="primary"
