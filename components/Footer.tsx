@@ -22,9 +22,9 @@ export default function Footer() {
             </div>
             <div className="waway">
             <p className='font-medium text-white text-base'>Social Media</p>
-            <TwitterOutlined style={{ fontSize:'25px', color:"white" }} />
-            <InstagramOutlined style={{ fontSize:'25px', color:"white" }} className='mx-3' />
-            <FacebookOutlined style={{ fontSize:'25px', color:"white" }} className='mx-1' />
+            <a href="http://"><TwitterOutlined style={{ fontSize:'25px', color:"white" }} /></a>
+            <a href="http://"><InstagramOutlined style={{ fontSize:'25px', color:"white" }} className='mx-3' /></a>
+            <a href="http://"><FacebookOutlined style={{ fontSize:'25px', color:"white" }} className='mx-1' /></a>
             </div>
         </div>
         <img className='img-bg-footer' src='/background-footer.png' alt=''/>
