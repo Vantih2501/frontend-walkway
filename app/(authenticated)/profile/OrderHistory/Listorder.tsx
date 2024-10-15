@@ -16,15 +16,10 @@ const tabItems = [
     key: "1",
     children: (
       <div className="mx-5">
-        <a href="http://">
+        <a href="/profile/OrderHistory/DetailOrder">
         <div className="list">
           <Card
-            style={{
-              width: 800,
-              height: 50,
-              borderRadius: "10px",
-              backgroundColor: "#fafafa",
-            }}
+            className="cardStatus"
           >
             <div className="flex">
               <div className="status1">
@@ -53,7 +48,7 @@ const tabItems = [
                 <p className="mx-4">Quantity: 1</p>
               </div>
             </div>
-            <div className="HBut ml-96">
+            <div className="HBut">
               <h3>Rp 2,500,000</h3>
               <Button
                 style={{
@@ -74,22 +69,13 @@ const tabItems = [
         <a href="http://">
         <div className="list">
           <Card
-            style={{
-              width: 800,
-              height: 50,
-              borderRadius: "10px",
-              backgroundColor: "#fafafa",
-            }}
+           className="cardStatus"
           >
             <div className="flex">
               <div className="status2">
                 <p>Pending</p>
               </div>
               <p className="font-medium mx-3 mt-4">11 Oktober 2024</p>
-              {/* <div className="resi ml-72 flex">
-                    <p className="font-medium mx-3 mt-4">Resi Number</p>
-                    <p style={{ color:"#0F930F" }} className="font-medium mx-1 mt-4">LDKV-6317328462</p>
-                </div> */}
             </div>
           </Card>
           <div className="flex mt-3">
@@ -131,22 +117,13 @@ const tabItems = [
         <a href="http://">
         <div className="list">
           <Card
-            style={{
-              width: 800,
-              height: 50,
-              borderRadius: "10px",
-              backgroundColor: "#fafafa",
-            }}
+            className="cardStatus"
           >
             <div className="flex">
               <div className="status2">
                 <p>Pending</p>
               </div>
               <p className="font-medium mx-3 mt-4">11 Oktober 2024</p>
-              {/* <div className="resi ml-72 flex">
-                    <p className="font-medium mx-3 mt-4">Resi Number</p>
-                    <p style={{ color:"#0F930F" }} className="font-medium mx-1 mt-4">LDKV-6317328462</p>
-                </div> */}
             </div>
           </Card>
           <div className="flex mt-3">
@@ -188,22 +165,13 @@ const tabItems = [
         <a href="http://">
         <div className="list">
           <Card
-            style={{
-              width: 800,
-              height: 50,
-              borderRadius: "10px",
-              backgroundColor: "#fafafa",
-            }}
+            className="cardStatus"
           >
             <div className="flex">
               <div className="status3">
                 <p>Cancelled</p>
               </div>
               <p className="font-medium mx-3 mt-4">09 Oktober 2024</p>
-              {/* <div className="resi ml-72 flex">
-                    <p className="font-medium mx-3 mt-4">Resi Number</p>
-                    <p style={{ color:"#0F930F" }} className="font-medium mx-1 mt-4">LDKV-6317328462</p>
-                </div> */}
             </div>
           </Card>
           <div className="flex mt-3">
@@ -245,12 +213,7 @@ const tabItems = [
         <a href="http://">
         <div className="list">
           <Card
-            style={{
-              width: 800,
-              height: 50,
-              borderRadius: "10px",
-              backgroundColor: "#fafafa",
-            }}
+           className="cardStatus"
           >
             <div className="flex">
               <div className="status1">
@@ -308,12 +271,7 @@ export default function ListOrder() {
   return (
     <div className="div">
       <Card
-        style={{
-          width: "53rem",
-          borderRadius: "20px",
-          marginLeft: "30px",
-          height: "56rem",
-        }}
+        className="CardOrder"
       >
         <div className="container mx-auto">
           <div>

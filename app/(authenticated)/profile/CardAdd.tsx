@@ -39,12 +39,7 @@ export default function CardAd() {
   return (
     <div className="div">
       <Card
-        style={{
-          width: "53rem",
-          borderRadius: "20px",
-          marginLeft: "30px",
-        }}
-        className="mt-12"
+        className="mt-12 CardIAdd"
       >
         <div className="container mx-auto">
           <div className="flex">
@@ -55,7 +50,7 @@ export default function CardAd() {
             </Button>
           </div>
           <br />
-          <hr style={{ alignContent: "center", width: "48rem" }} /> <br />
+          <hr className="hrProf" /> <br />
           <div className="scroll">
             {/* Address 1 */}
             <div className="addressprof ml-12">

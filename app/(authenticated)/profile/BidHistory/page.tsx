@@ -12,7 +12,7 @@ export default function BidList() {
       <br />
       <Card className="container mx-auto cardC">
         <div className="container mx-10 mt-10">
-          <h3 style={{ fontSize: "30px" }}>Order History</h3>
+          <h3 style={{ fontSize: "30px" }}>Bid History</h3>
           <div className="flex mt-8 mx-3">
             <NavProf />
             <ListBid/>

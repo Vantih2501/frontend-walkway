@@ -151,7 +151,7 @@ a:-webkit-any-link {
   height: 395px;
   padding: 0;
   position: absolute;
-  margin-left: 65rem;
+  margin-left: 72rem;
 }
 
 .text-footer{
@@ -170,7 +170,6 @@ a:-webkit-any-link {
 }
 
 .NavProf:active{
-  background-color: #4E7772 !important;
   color: white !important;
 }
 
@@ -280,4 +279,387 @@ a:-webkit-any-link {
 .list1::-webkit-scrollbar-thumb {
   background-color: rgba(0, 147, 96, 0.2); 
   border-radius: 4px;
+}
+
+.iconRight{
+  font-size: 30px;
+  margin-left: 28rem;
+}
+
+.priceC {
+  font-size: 20px;
+  margin-top: 25px;
+  width: 200px;
+  margin-left: 80px;
+}
+
+.textC{
+  font-size: 20px;
+  margin-top: 25px;
+}
+
+.cardInfo{
+  width: 60rem;
+  border-Radius: 20px;
+  margin-Left: 30px;
+  height: 23rem;
+}
+
+.cardProf{
+  width: 300;
+  border-Radius: 20px; 
+  height: 56rem;
+  margin-left: 70px;
+}
+
+
+.CardIAdd{
+  width: 60rem;
+  border-Radius: 20px;
+  margin-Left: 30px
+}
+
+
+.hrProf{
+  align-content: center;
+  width: 55rem;
+}
+
+.CardOrder{
+  width: 59rem;
+  border-Radius: 20px;
+  margin-Left: 30px;
+  height: 56rem;
+}
+
+.cardStatus{
+  width: 1000;
+  height: 50;
+  border-Radius: 10px;
+  background-Color: #fafafa;
+}
+
+.HBut{
+  margin-left: 450px;
+}
+
+.resi{
+  margin-left: 400px;
+}
+
+.hrOrder{
+width: 55rem;
+}
+
+.priceDetail{
+  color: gray;
+  margin-left: 600px;
+}
+
+.totalDetail{
+  margin-left: 670px;
+}
+
+.shipDetail{
+  color: gray;
+  margin-left: 710px;
+}
+
+.buttonDetail{
+  width: 900px;
+  margin-left: 25px;
+  margin-top: 180px;
+}
+
+.backDetail{
+  margin-top: 30px;
+  margin-left: 30rem;
+}
+
+.reffDetail{
+  margin-left: 700px;
+  color: #0F930F;
+}
+
+.chooseAdd{
+  margin-Left:200px;
+  font-Size:20px;
+  margin-Top:-20px;
+}
+
+@media screen and (max-width: 1440px) {
+  .cardI{
+    width: 41rem;
+  }
+
+  .butaddress{
+    margin-Left: 300px;
+    font-Size: 15px;
+    color: white;
+    background-color: #4E7772;
+  }
+
+  .CardT{
+    width: 33rem;
+  }
+
+  .colprice{
+    margin-left: 180px;
+  }
+  
+  .shipprice{
+    margin-left: 260px;
+  }
+  
+  .coltotal{
+    margin-left: 210px;
+  }
+
+  .iconRight{
+    font-size: 25px;
+    margin-left: 18rem;
+  }
+  
+  .priceC {
+    font-size: 18px;
+    margin-top: 25px;
+    width: 230px;
+    margin-left: 80px;
+  }
+
+  .textC{
+    font-size: 18px;
+    margin-top: 25px;
+  }
+
+  .menuNav{
+    margin-left: 40rem;
+    font-size: 15px;
+    font-weight: 600;
+    border-bottom: none; 
+  }
+
+  .img-bg-footer{
+    height: 395px;
+    padding: 0;
+    position: absolute;
+    margin-left: 65rem;
+  }
+
+  .avatarProf{
+    width: 7rem;
+    height: 7rem;
+  }
+  
+  .NavProf{
+    box-shadow: none !important; 
+    border: none !important; 
+    width: 13rem !important;
+  }
+  
+  .NavProf:active{
+    color: white !important;
+  }
+  
+  .editProf{
+    font-Size: 15px;
+    color: white;
+    background-color: #4E7772;
+    margin-top: 40px;
+  }
+  
+  .addressprof{
+    width: 27rem;
+  }
+  
+  .scroll{
+    max-height: 280px;
+    overflow-y: auto; 
+    padding-right: 10px; 
+  }
+  
+  .scroll::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 147, 96, 0.2); 
+    border-radius: 4px;
+  }
+  
+  .feTabs .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn{
+    background-color: #4E7772 !important;
+    color: white !important;
+    font-weight: 600;
+    width: 80px;
+    height: 40px;
+    border-radius: 5px;
+    padding: 0%;
+    line-height: 40px;
+    
+  }
+  
+  .ant-tabs-tab{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    height: 100%;
+    border-bottom: none !important;
+    box-shadow: none !important;
+    border: none !important;
+  }
+  
+  .ant-tabs-nav::before{
+    border: none !important;
+  }
+  
+  .ant-tabs-nav{
+    box-shadow: none !important;
+    border: none !important;
+  }
+  
+  .ant-tabs{
+    box-shadow: none !important;
+    border: none !important;
+  }
+  
+  .ant-tabs-content{
+    box-shadow: none !important;
+    border: none !important;
+  }
+  
+  .status1{
+    width: 90px;
+    height: 25px;
+    margin-top: 13px;
+    margin-left: 15px;
+    background-color: #E0FFE0;
+    text-align: center;
+    line-height: 25px;
+    color: #0F930F;
+  }
+  
+  .status2{
+    width: 90px;
+    height: 25px;
+    margin-top: 13px;
+    margin-left: 15px;
+    background-color: #FFEFDB;
+    text-align: center;
+    line-height: 25px;
+    color: #FF9407;
+  }
+  
+  .status3{
+    width: 90px;
+    height: 25px;
+    margin-top: 13px;
+    margin-left: 15px;
+    background-color: #FFE6EA;
+    text-align: center;
+    line-height: 25px;
+    color: #D80027;
+  }
+  
+  .list1{
+    max-height: 56rem;
+    overflow-y: auto; 
+    padding-right: 10px; 
+  }
+  
+  .list1::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 147, 96, 0.2); 
+    border-radius: 4px;
+  }
+
+  .cardInfo{
+    width: 53rem;
+    border-Radius: 20px;
+    margin-Left: 30px;
+    height: 23rem;
+  }
+
+  .cardProf{
+    width: 300;
+    border-Radius: 20px; 
+    height: 56rem;
+    margin-left: 0px;
+  }
+
+  .CardIAdd{
+    width: 53rem;
+    border-Radius: 20px;
+    margin-Left: 30px
+  }
+
+  .hrProf{
+    align-content: center;
+    width: 48rem;
+  }
+
+  .CardOrder{
+    width: 53rem;
+    border-Radius: 20px;
+    margin-Left: 30px;
+    height: 56rem;
+  }
+
+  .cardStatus{
+    width: 800;
+    height: 50;
+    border-Radius: 10px;
+    background-Color: #fafafa;
+  }
+
+  .HBut{
+    margin-left: 22rem;
+  }
+
+  .resi{
+    margin-left: 300px;
+  }
+
+  .hrOrder{
+    width: 50rem;
+    }
+
+  .priceDetail{
+  color: gray;
+  margin-left: 500px;
+}
+
+.shipDetail{
+  color: gray;
+  margin-left: 610px;
+}
+.totalDetail{
+  margin-left: 570px;
+}
+
+.buttonDetail{
+  width: 800px;
+  margin-left: 25px;
+  margin-top: 180px;
+}
+
+.backDetail{
+  margin-top: 30px;
+  margin-left: 25rem;
+}
+
+.reffDetail{
+  margin-left: 600px;
+  color: #0F930F;
+}
+
+.editadd{
+  margin-Left: 320px;
+  font-Size: 15px;
+  background-color: #ffffff !important;
+  border: 1px solid #4E7772 !important;
+}
+
+.chooseAdd{
+  margin-Left:50px;
+  font-Size:20px;
+  margin-Top:-20px;
+}
+
 }

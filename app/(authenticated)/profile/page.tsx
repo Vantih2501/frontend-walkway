@@ -5,6 +5,7 @@ import { Card } from "antd";
 import NavProf from "./NavProfile";
 import InfoPers from "./InfoPers";
 import CardAd from "./CardAdd";
+import { useRouter } from "next/router";
 
 export default function Profile(){
     

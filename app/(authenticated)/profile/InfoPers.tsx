@@ -40,12 +40,7 @@ export default function InfoPers() {
   return (
     <div className="div">
       <Card
-        style={{
-          width: "53rem",
-          borderRadius: "20px",
-          marginLeft: "30px",
-          height: "23rem",
-        }}
+        className="cardInfo"
       >
         <div className="container mx-auto">
           <div className="flex">
@@ -56,7 +51,7 @@ export default function InfoPers() {
             </Button>
           </div>
           <br />
-          <hr style={{ alignContent: "center", width: "48rem" }} /> <br />
+          <hr className="hrProf" /> <br />
           <div className="flex">
             <div className="name">
               <p className="font-medium ml-12" style={{ color: "grey" }}>

@@ -6,6 +6,7 @@ import {
   SettingOutlined,
 } from "@ant-design/icons";
 import { Avatar, Button, Card, FloatButton, Menu, MenuProps } from "antd";
+import { useRouter } from "next/navigation";
 
 type MenuItem = Required<MenuProps>["items"][number];
 
@@ -14,20 +15,33 @@ const items: MenuItem[] = [
     key: "grp",
     type: "group",
     children: [
-      { key: "13", label: "Profile" },
-      { key: "14", label: "Order History" },
-      { key: "15", label: "Bid History" },
+      { key: "profile", label: "Profile"},
+      { key: "order-history", label: "Order History" },
+      { key: "bid-history", label: "Bid History" },
     ],
   },
 ];
 
 export default function NavProf() {
-  const onClick: MenuProps["onClick"] = (e) => {
-    console.log("click ", e);
+
+  const router = useRouter();
+
+  // Peta key dengan halaman
+  const routes: Record<string, string> = {
+    "profile": "/profile",
+    "order-history": "/profile/OrderHistory",
+    "bid-history": "/profile/BidHistory",
+  };
+
+  const handleMenuClick = (e: any) => {
+    const route = routes[e.key]; // Cari rute berdasarkan key
+    if (route) {
+      router.push(route); // Navigasi ke halaman yang sesuai
+    }
   };
 
   return (
-    <Card style={{ width: 300, borderRadius: "20px", height:"56rem" }}>
+    <Card className="cardProf">
       <div className="container mx-auto">
         <Avatar
           src={<img src="/fotoprof.jpg" alt="avatar" />}
@@ -49,7 +63,7 @@ export default function NavProf() {
         <br />
         <div className="center mx-5 border-0 w-3/4">
           <Menu
-            onClick={onClick}
+            onClick={handleMenuClick}
             className="NavProf mx-6 decoration-black font-medium"
             defaultSelectedKeys={["13"]}
             defaultOpenKeys={["grp"]}

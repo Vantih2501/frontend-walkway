@@ -99,7 +99,7 @@ export default function Navbar() {
   return (
     <Layout>
       <Header
-        className="drop-shadow-md"
+        className="drop-shadow-md container mx-auto"
         style={{ backgroundColor: "white", height: "10rem" }}
       >
         <div className={"text-black bg-white flex mt-4 head1"}>

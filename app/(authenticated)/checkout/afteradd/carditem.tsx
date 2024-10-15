@@ -46,7 +46,7 @@ export default function CardItem() {
           <Image src="/product1.png" alt="product" width={230}></Image>
 
           <div className="nameP" style={{ width: "320px" }}>
-            <h3 style={{ fontSize: "20px", marginTop: "25px" }}>
+            <h3 className="textC">
               New Balance 1906R Silver Metallic Sea Salt
             </h3>
             <p style={{ fontSize: "15px", color: "#a1a1aa" }}>Size: 12</p>
@@ -73,12 +73,7 @@ export default function CardItem() {
           </div>
 
           <h3
-            style={{
-              fontSize: "20px",
-              marginTop: "25px",
-              width: "200px",
-              marginLeft: "80px",
-            }}
+           className="priceC"
           >
             IDR 2,500,000
           </h3>
@@ -129,7 +124,7 @@ export default function CardItem() {
             </p>
             <p className="font-medium">Rp 24,000</p>
           </div>
-          <CheckOutlined style={{ marginLeft:"200px", fontSize:"20px", marginTop:"-20px" }} />
+          <CheckOutlined className="chooseAdd" />
         </div>
       </Card>
 
