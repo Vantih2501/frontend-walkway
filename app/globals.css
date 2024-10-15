@@ -401,6 +401,15 @@ width: 55rem;
   font-size: 20px;
 }
 
+.imageModalNav{
+  margin-top: -20px;
+  margin-left: -30px;
+}
+
+.pricemodal{
+  margin-left: 210px;
+}
+
 @media screen and (max-width: 1440px) {
   .cardI{
     width: 41rem;
@@ -675,5 +684,10 @@ width: 55rem;
   font-Size:20px;
   margin-Top:-20px;
 }
+
+.head1{
+  margin-left: 100px;
+}
+
 
 }

@@ -74,7 +74,7 @@ export default function CardAd() {
                 Menteng, Kota Jakarta Pusat, DKI Jakarta 10310, Indonesia.
               </p>
               <div className="flex mb-10">
-                <Button type="primary">Used</Button>
+                <Button type="primary">Use</Button>
                 <Button className="mx-3">Edit Address</Button>
               </div>
             </div>

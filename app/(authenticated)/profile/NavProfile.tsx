@@ -13,7 +13,9 @@ import {
   Card,
   Flex,
   FloatButton,
+  Form,
   GetProp,
+  Input,
   Menu,
   MenuProps,
   message,
@@ -80,7 +82,7 @@ export default function NavProf() {
     }
   };
 
-  // OPEN MODAL
+  // OPEN MODAL UPLOAD IMAGE
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const showModal = () => {
@@ -93,6 +95,22 @@ export default function NavProf() {
 
   const handleCancel = () => {
     setIsModalOpen(false);
+  };
+
+  // MODAL CHANGE PASSWORD
+
+  const [isModalOpen2, setIsModalOpen2] = useState(false);
+
+  const showModal2 = () => {
+    setIsModalOpen2(true);
+  };
+
+  const handleOk2 = () => {
+    setIsModalOpen2(false);
+  };
+
+  const handleCancel2 = () => {
+    setIsModalOpen2(false);
   };
 
   // UPLOAD IMAGE
@@ -162,9 +180,9 @@ export default function NavProf() {
             }}
           />
           <br />
-          <a href="http://">
-            <h3 className="font-medium text-base ml-20">Change Password</h3>
-          </a>{" "}
+          <h3 className="font-medium text-base ml-20" onClick={showModal2}>
+            Change Password
+          </h3>
           <br />
           <a href="http://">
             <h3 className="font-medium text-base ml-20">Logout</h3>
@@ -172,30 +190,101 @@ export default function NavProf() {
           <br />
         </div>
       </Card>
-      <Modal open={isModalOpen} onOk={handleOk} onCancel={handleCancel} footer={null}>
+      <Modal
+        open={isModalOpen}
+        onOk={handleOk}
+        onCancel={handleCancel}
+        footer={null}
+      >
         <Title level={3}>Select Image</Title>
         <hr />
         <Flex gap="middle" wrap>
           <div className="upFoto mt-6">
-          <Upload
-            name="avatar"
-            className="avatar-uploader"
-            showUploadList={false}
-            action="https://660d2bd96ddfa2943b33731c.mockapi.io/api/upload"
-            beforeUpload={beforeUpload}
-            onChange={handleChange}
-          >
-            {imageUrl ? (
-              <img src={imageUrl} alt="avatar" style={{ width: "100%" }} />
-            ) : (
-              uploadButton
-            )}
-          </Upload>
+            <Upload
+              name="avatar"
+              className="avatar-uploader"
+              showUploadList={false}
+              action="https://660d2bd96ddfa2943b33731c.mockapi.io/api/upload"
+              beforeUpload={beforeUpload}
+              onChange={handleChange}
+            >
+              {imageUrl ? (
+                <img src={imageUrl} alt="avatar" style={{ width: "100%" }} />
+              ) : (
+                uploadButton
+              )}
+            </Upload>
           </div>
         </Flex>
         <br />
-        <Button className="mx-9 w-5/6 mt-2 mb-2" type="primary">Save</Button> 
+        <Button className="mx-9 w-5/6 mt-2 mb-2" type="primary">
+          Save
+        </Button>
         <br />
+      </Modal>
+
+      <Modal
+        open={isModalOpen2}
+        onOk={handleOk2}
+        onCancel={handleCancel2}
+        footer={null}
+      >
+        <Title level={3}>Change Password</Title>
+        <h4 style={{ color: "gray" }}>
+          update password for enhanced account security
+        </h4>
+        <hr />
+        <Form
+          name="basic"
+          style={{ maxWidth: 600 }}
+          initialValues={{ remember: true }}
+          // onFinish={onFinish}
+          // onFinishFailed={onFinishFailed}
+          autoComplete="off"
+          className="mt-4"
+        >
+          <Form.Item
+            name="passOld"
+            rules={[
+              {
+                required: true,
+                message: "Please input your Current Password!",
+              },
+            ]}
+          >
+            <label htmlFor="">Current Password</label>
+            <Input.Password placeholder="Enter current password..." />
+          </Form.Item>
+
+          <Form.Item
+            name="password"
+            rules={[
+              { required: true, message: "Please input your New Password!" },
+            ]}
+          >
+            <label htmlFor="">New Password</label>
+            <Input.Password placeholder="Enter new password..." />
+          </Form.Item>
+
+          <Form.Item
+            name="password2"
+            rules={[
+              {
+                required: true,
+                message: "Please input Confirm your New password!",
+              },
+            ]}
+          >
+            <label htmlFor="">Confirm New Password</label>
+            <Input.Password placeholder="confirm new password..." />
+          </Form.Item>
+
+          <Form.Item>
+            <Button block type="primary" htmlType="submit">
+              Apply Changes
+            </Button>
+          </Form.Item>
+        </Form>
       </Modal>
     </div>
   );

@@ -36,6 +36,20 @@ export default function CardItem() {
   const handleCancel = () => {
     setIsModalOpen(false);
   };
+
+  const [isModalOpen2, setIsModalOpen2] = useState(false);
+
+  const showModal2 = () => {
+    setIsModalOpen2(true);
+  };
+
+  const handleOk2 = () => {
+    setIsModalOpen2(false);
+  };
+
+  const handleCancel2 = () => {
+    setIsModalOpen2(false);
+  };
   return (
     <div>
       <Card className="cardI">
@@ -80,7 +94,7 @@ export default function CardItem() {
         <hr /> <br />
         <div className="flex">
           <h3 className="mx-10 text-lg">ADDRESS</h3>
-          <Button onClick={showModal} className="butaddress">
+          <Button onClick={showModal2} className="butaddress">
             Add Address
           </Button>
         </div>
@@ -89,10 +103,41 @@ export default function CardItem() {
         <br />
         <div className="flex">
           <h3 className="mx-10 text-lg">CHOOSE DELIVERY</h3>
-          <RightOutlined className="iconRight" />
+          <a href="http://"><RightOutlined className="iconRight" /></a>
         </div>
         <br />
       </Card>
+
+      {/* MODAL PILIH ADDRESS */}
+      <Modal open={isModalOpen2} onOk={handleOk2} onCancel={handleCancel2} footer={null}>
+      <Title level={3}>Address List</Title>
+      <hr />
+        {/* Address 1 */}
+        <div className="addressprof ml-3 mt-3">
+              <p className="font-medium">Gandara | +62 0895 0913 7208</p>
+              <p style={{ color: "grey" }}>
+                Jalan Kemuning Raya No. 15, Kelurahan Menteng, Kecamatan
+                Menteng, Kota Jakarta Pusat, DKI Jakarta 10310, Indonesia.
+              </p>
+              <div className="flex mb-8">
+                <Button>Used</Button>
+              </div>
+         </div>
+         <hr />
+         <div className="addressprof ml-3 mt-3">
+              <p className="font-medium">Farel | +62 0895 0913 7208</p>
+              <p style={{ color: "grey" }}>
+                Jalan Kemuning Raya No. 15, Kelurahan Menteng, Kecamatan
+                Menteng, Kota Jakarta Pusat, DKI Jakarta 10310, Indonesia.
+              </p>
+              <div className="flex mb-8">
+                <Button type="primary">Use</Button>
+              </div>
+         </div>
+         <hr /><br /><br />
+         <Button onClick={showModal} block type="primary"><PlusOutlined /> Add New Address</Button>
+      </Modal>
+
 
       {/* Modal Address */}
       <Modal
