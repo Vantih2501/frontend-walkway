@@ -1,16 +1,17 @@
-"use client"
+"use client";
 
 import React, { useState } from "react";
 import ProductImage from "./ui/ProductImage";
-import { Breadcrumb, Button, Modal } from "antd";
+import { Breadcrumb, Button, Flex, Form, Input, Modal, Space } from "antd";
 import { EyeOutlined } from "@ant-design/icons";
 import Image from "next/image";
+import BidUserDisplay from "./ui/BidUserDisplay";
 
 const sizes = [
 	4, 4.5, 5, 5.5, 6, 6.5, 7, 7.5, 8, 8.5, 9, 9.5, 10, 10.5, 11, 12, 13, 14,
 ];
 
-const DetailProduct = () => {
+const AuctionDetail = () => {
 	const [isModalOpen, setIsModalOpen] = useState(false);
 
 	const showModal = () => {
@@ -30,7 +31,7 @@ const DetailProduct = () => {
 				<div className="col-span-5">
 					<ProductImage />
 				</div>
-				<div className="col-span-7 flex flex-col space-y-8">
+				<div className="col-span-7 flex flex-col space-y-7">
 					<div className="flex flex-col space-y-4">
 						<Breadcrumb
 							items={[
@@ -46,9 +47,19 @@ const DetailProduct = () => {
 							New Balance 1906R Silver Metallic Sea Salt
 						</h1>
 					</div>
-					<div>
-						<div className="flex justify-between items-center mb-4">
-							<p>Select Size</p>
+					<div className="space-y-4">
+						<div>
+							<p className="text-zinc-400 text-sm mb-1">Current Highest Bid:</p>
+							<h1 className="text-2xl font-medium">Rp 2,500,000</h1>
+						</div>
+
+						<BidUserDisplay />
+
+						<div className="flex justify-between items-center pb-3 border-b border-zinc-300">
+							<div className="flex items-center gap-2">
+								<h1 className="text-xl font-semibold">12</h1>
+								<p>Shoe size</p>
+							</div>
 							<Button icon={<EyeOutlined />} type="text" onClick={showModal}>
 								Size Guide
 							</Button>
@@ -76,33 +87,33 @@ const DetailProduct = () => {
 								</div>
 							</Modal>
 						</div>
-						<div className="grid grid-cols-4 gap-3 mb-6 2xl:grid-cols-5">
-							{sizes.map((size, index) => (
-								<Button
-									key={index}
-									className="py-5 text-sm rounded-full border border-zinc-300"
-								>
-									{size}
+					</div>
+					<Form>
+						<div className="flex items-center justify-between gap-4 h-fit">
+							<Form.Item className="mb-0">
+								<div className="py-2 px-4 w-fit bg-zinc-100 my-auto rounded-xl">
+									<p className="text-xs text-zinc-600">Your bid</p>
+									<h1 className="truncate text-base font-medium">Rp. 1,500,000</h1>
+								</div>
+							</Form.Item>
+							<Form.Item className="w-full mb-0">
+								<Input
+									className="rounded-xl h-14"
+									placeholder="Post your bid"
+									variant="filled"
+								/>
+							</Form.Item>
+							<Form.Item className="mb-0">
+								<Button className="h-14 rounded-xl" block type="primary">
+									Bid Now
 								</Button>
-							))}
+							</Form.Item>
 						</div>
-						<div>
-							<p className="text-zinc-500">Available For:</p>
-							<h1 className="text-2xl font-medium">Rp 2,500,000</h1>
-						</div>
-					</div>
-					<div className="flex gap-4">
-						<Button className="h-14 rounded-xl" block>
-							Add To Cart
-						</Button>
-						<Button className="h-14 rounded-xl" block type="primary">
-							Checkout
-						</Button>
-					</div>
+					</Form>
 				</div>
 			</div>
 		</div>
 	);
 };
 
-export default DetailProduct;
+export default AuctionDetail;

@@ -4,8 +4,6 @@ import { Poppins, Montserrat } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
 import { Provider } from "./provider";
-import Footer from "#/components/Footer/page";
-import Navbar from "#/components/Navbar/Navbar";
 
 const poppins = Poppins({
 	subsets: ["latin"],
@@ -44,9 +42,7 @@ export default function RootLayout({
 				<>
 					<>
 						<Script src="/api/env" strategy={"beforeInteractive"}></Script>
-						<Navbar />
 						<Provider>{children}</Provider>
-						<Footer />
 					</>
 				</>
 			</body>

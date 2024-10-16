@@ -12,7 +12,8 @@ import {
 	ZoomInOutlined,
 	ZoomOutOutlined,
 } from "@ant-design/icons";
-import { Image, Space } from "antd";
+import { Empty, Image, Space } from "antd";
+import BidCountDown from "./BidCountDown";
 
 const imageList = [
 	"/mock/shoe-mock-1.png",
@@ -24,9 +25,6 @@ const imageList = [
 // you can download flipped and rotated image
 // https://codesandbox.io/s/zi-ding-yi-gong-ju-lan-antd-5-7-0-forked-c9jvmp
 const ProductImage = () => {
-	const image = imageList[0]
-	const images = imageList.slice(1)
-
 	const [current, setCurrent] = React.useState(0);
 
 	// or you can download flipped and rotated image
@@ -88,22 +86,39 @@ const ProductImage = () => {
 			}}
 		>
 			<div className="aspect-square w-full relative mb-3 overflow-hidden rounded-xl group">
-				<Image
-					src={image}
-					alt="Current Image"
-                    width={"100%"}
-					className="bg-primary-100 h-auto transition-transform duration-300 ease-in-out group-hover:scale-105"
-				/>
+				{imageList[0] ? (
+					<>
+						<BidCountDown />
+						<Image
+							src={imageList[0]}
+							alt="Current Image"
+							width={"100%"}
+							className="bg-primary-100 h-auto transition-transform duration-300 ease-in-out group-hover:scale-105"
+						/>
+					</>
+				) : (
+					<div className="flex justify-center items-center h-full w-full border border-zinc-300 rounded-xl">
+						<Empty description={"No images"} imageStyle={{ height: 200 }} />
+					</div>
+				)}
 			</div>
+
 			<div className="grid grid-cols-3 gap-3">
-				{images.map((item, index) => (
+				{imageList.slice(1, 4).map((item, index) => (
 					<div key={index} className="group aspect-square border border-zinc-300 rounded-xl flex justify-center items-center overflow-hidden">
 						<Image
 							src={item}
 							width={"100%"}
 							alt={`Image ${index}`}
 							className="aspect-square transition-transform duration-300 ease-in-out group-hover:scale-105"
+							loading="lazy"
 						/>
+					</div>
+				))}
+
+				{imageList.length < 4 && Array.from({ length: 3 - imageList.slice(1, 4).length }).map((_, index) => (
+					<div key={`empty-${index}`} className="aspect-square border border-zinc-300 rounded-xl flex justify-center items-center">
+						<Empty />
 					</div>
 				))}
 			</div>

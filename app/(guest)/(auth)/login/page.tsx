@@ -18,11 +18,11 @@ const Login = () => {
             className="flex items-center hover:opacity-70 no-underline text-zinc-900"
           >
             <HiMiniChevronLeft />
-            <p className="mb-0 text-sm 2xl:text-lg">Home</p>
+            <p className="mb-0 text-sm 2xl:text-base">Home</p>
           </Link>
           <Link
             href={"/register"}
-            className=" hover:opacity-70 text-sm 2xl:text-lg"
+            className=" hover:opacity-70 text-sm 2xl:text-base"
           >
             Create Account
           </Link>

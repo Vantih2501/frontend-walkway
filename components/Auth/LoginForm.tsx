@@ -35,7 +35,7 @@ const LoginForm = () => {
       </Form.Item>
 
       <div className="flex gap-2 items-center justify-center mt-6 text-sm">
-        <p className="text-zinc-500 font-medium text-">
+        <p className="text-zinc-500 text-">
           Don`t have an account ?
         </p>
         <Link className="hover:opacity-70 font-medium" href={"/register"}>
