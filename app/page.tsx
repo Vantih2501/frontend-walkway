@@ -1,3 +1,4 @@
+import Footer from "#/components/Footer/page";
 import {
   HeroSection,
   BidDisplay,
@@ -19,11 +20,13 @@ export default function Home() {
 
   return (
     <div>
+      <Navbar/>
       <HeroSection />
       <BrandBanner />
       <ProductDisplay />
       <BidDisplay />
       <OurCollection />
+      <Footer/>
     </div>
   );
 }

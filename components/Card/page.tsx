@@ -71,11 +71,7 @@ const ProductCard = ({
 					<p className="text-primary-100/80 text-sm mb-1">Current bid:</p>
 				)}
 
-				<h1
-					className={`montserrat.className ${
-						isLarge ? "text-2xl mb-4" : "text-xl mb-3"
-					} font-medium`}
-				>
+				<h1 className={`montserrat.className ${isLarge ? "text-xl mb-4" : "text-lg mb-3"} font-medium`}>
 					Rp. {price}
 				</h1>
 
