@@ -20,7 +20,9 @@ export default function AdminLayout({
 					<Sider />
 					<div className="flex flex-1 flex-col gap-6 p-8 2xl:gap-8 max-h-screen">
 						<Header />
-						<main className="h-full flex-1 overflow-y-auto">{children}</main>
+						<main className="h-full flex-1 overflow-y-auto">
+							{children}
+						</main>
 					</div>
 				</div>
 			</body>

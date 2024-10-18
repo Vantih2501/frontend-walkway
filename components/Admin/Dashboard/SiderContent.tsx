@@ -14,7 +14,7 @@ const SiderContent = () => {
 					<HiMiniChevronRight />
 				</Link>
 			</div>
-			<div className="h-[485px]  2xl:h-[550px] overflow-y-auto">
+			<div className="h-[585px]  2xl:h-[768px] overflow-y-auto">
 				<ul role="list" className="space-y-2">
 					{products.map((user, index) => (
 						<li key={index} className="p-3 bg-zinc-50 rounded-md">
@@ -28,7 +28,7 @@ const SiderContent = () => {
 								</div>
 								<div className="flex gap-3 2xl:gap-5">
 									<div className="flex-1 min-w-0 ms-4">
-										<p className="text-[10px] 2xl:text-xs font-medium text-gray-900 line-clamp-2 mb-1">
+										<p className="text-[10px] 2xl:text-xs font-medium text-gray-800 line-clamp-2 mb-1">
 											{user.name}
 										</p>
 										<p className="text-[10px] text-gray-400 truncate">

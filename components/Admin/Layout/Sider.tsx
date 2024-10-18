@@ -3,7 +3,6 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
-// import Logo from '@/public/walkway-logo.svg'
 import SideButton from "./ui/SiderButton";
 
 // import {

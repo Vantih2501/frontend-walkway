@@ -8,26 +8,23 @@ import Charts from "#/components/Admin/Dashboard/Charts";
 
 const page = () => {
 	return (
-			<div className="grid h-full grid-cols-12 gap-4">
-				<div className="col-span-8">
-					<div className="overflow-hidden gap-4 flex flex-col justify- h-full">
-						<ContainerInfo className="flex justify-between gap-4 h-fit"/>
+		<div className="grid h-full grid-cols-12 gap-4">
+			<div className="col-span-8">
+				<div className="gap-4 flex flex-col justify- h-full">
+					<ContainerInfo className="flex justify-between gap-4 h-fit" />
 
-						<div className="rounded-lg border border-zinc-300 h-full">
-							<Charts/>
-						</div>
+					<Charts />
 
-						<div className="h-fit">
-							<CarouselStock dataFetch={products} />
-						</div>
+					<div className="h-fit">
+						<CarouselStock dataFetch={products} />
 					</div>
 				</div>
+			</div>
 
-				<div className="col-span-4 rounded-lg border border-zinc-300">
-                    <SiderContent/>
-                </div>
+			<div className="h-full col-span-4 rounded-lg border border-zinc-300">
+				<SiderContent />
+			</div>
 		</div>
-
 	);
 };
 

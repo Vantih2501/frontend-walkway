@@ -1,41 +1,86 @@
-import React from "react";
+"use client";
 
-const Charts = () => {
+import { TrendingUp } from "lucide-react";
+import { Bar, BarChart, CartesianGrid, LabelList, XAxis } from "recharts";
+
+import {
+	Card,
+	CardContent,
+	CardDescription,
+	CardFooter,
+	CardHeader,
+	CardTitle,
+} from "#/components/ui/card";
+import {
+	ChartConfig,
+	ChartContainer,
+	ChartTooltip,
+	ChartTooltipContent,
+} from "#/components/ui/chart";
+
+export const description = "A bar chart with a label";
+
+const chartData = [
+	{ month: "January", desktop: 186 },
+	{ month: "February", desktop: 305 },
+	{ month: "March", desktop: 237 },
+	{ month: "April", desktop: 73 },
+	{ month: "May", desktop: 209 },
+	{ month: "June", desktop: 214 },
+	{ month: "July", desktop: 186 },
+	{ month: "August", desktop: 305 },
+	{ month: "September", desktop: 237 },
+	{ month: "October", desktop: 73 },
+	{ month: "November", desktop: 209 },
+	{ month: "December", desktop: 214 },
+];
+
+const chartConfig = {
+	desktop: {
+		label: "Desktop",
+		color: "hsl(var(--chart-1))",
+	},
+} satisfies ChartConfig;
+
+export default function Charts() {
 	return (
-		<>
-			<div className="h-full w-full bg-white rounded-lg shadow dark:bg-gray-800">
-				<div className="flex justify-between p-4 md:p-6 pb-0 md:pb-0">
-					<div>
-						<h5 className="leading-none text-3xl font-bold text-gray-900 dark:text-white pb-2">
-							$12,423
-						</h5>
-						<p className="text-base font-normal text-gray-500 dark:text-gray-400">
-							Sales this week
-						</p>
-					</div>
-					<div className="flex items-center px-2.5 py-0.5 text-base font-semibold text-green-500 dark:text-green-500 text-center">
-						23%
-						<svg
-							className="w-3 h-3 ms-1"
-							aria-hidden="true"
-							xmlns="http://www.w3.org/2000/svg"
-							fill="none"
-							viewBox="0 0 10 14"
-						>
-							<path
-								stroke="currentColor"
-								stroke-linecap="round"
-								stroke-linejoin="round"
-								stroke-width="2"
-								d="M5 13V1m0 0L1 5m4-4 4 4"
+		<Card className="border border-zinc-300 rounded-lg">
+			<CardHeader>
+				<CardTitle>Overview</CardTitle>
+				<CardDescription>January - Desember 2024</CardDescription>
+			</CardHeader>
+			<CardContent>
+				<ChartContainer config={chartConfig}>
+					<BarChart
+						accessibilityLayer
+						data={chartData}
+						margin={{
+							top: 20,
+						}}
+					>
+						<CartesianGrid vertical={false} />
+						<XAxis
+							dataKey="month"
+							tickLine={false}
+							tickMargin={10}
+							axisLine={false}
+							tickFormatter={(value) => value.slice(0, 3)}
+						/>
+						<ChartTooltip
+							cursor={false}
+							content={<ChartTooltipContent hideLabel />}
+						/>
+						<Bar dataKey="desktop" fill="var(--color-desktop)" radius={8}>
+							<LabelList
+								position="top"
+								offset={12}
+								className="fill-foreground"
+								fontSize={12}
 							/>
-						</svg>
-					</div>
-				</div>
-				<div id="labels-chart" className="px-2.5"></div>
-			</div>
-		</>
+						</Bar>
+					</BarChart>
+				</ChartContainer>
+			</CardContent>
+		</Card>
 	);
-};
-
-export default Charts;
+}

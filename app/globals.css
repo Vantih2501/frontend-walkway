@@ -188,3 +188,10 @@ a:-webkit-any-link {
     font-size: 1.2rem;
   }
 }
+
+@layer base {
+  :root {
+    --radius: 0.5rem;
+    --chart-1: 173 21% 39%;
+  }
+}
