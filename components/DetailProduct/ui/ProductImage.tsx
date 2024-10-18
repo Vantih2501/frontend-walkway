@@ -14,25 +14,21 @@ import {
 } from "@ant-design/icons";
 import { Image, Space } from "antd";
 
-const imageList = [
-	"/mock/shoe-mock-1.png",
-	"/mock/shoe-mock-2.png",
-	"/mock/shoe-mock-3.png",
-	"/mock/shoe-mock-4.png",
-];
-
+interface ImageProps {
+	imageUrl: string[]
+}
 // you can download flipped and rotated image
 // https://codesandbox.io/s/zi-ding-yi-gong-ju-lan-antd-5-7-0-forked-c9jvmp
-const ProductImage = () => {
-	const image = imageList[0]
-	const images = imageList.slice(1)
+const ProductImage = ({ imageUrl }: ImageProps) => {
+	const image = imageUrl[0]
+	const images = imageUrl.slice(1)
 
 	const [current, setCurrent] = React.useState(0);
 
 	// or you can download flipped and rotated image
 	// https://codesandbox.io/s/zi-ding-yi-gong-ju-lan-antd-5-7-0-forked-c9jvmp
 	const onDownload = () => {
-		const url = imageList[current];
+		const url = imageUrl[current];
 		const suffix = url.slice(url.lastIndexOf("."));
 		const filename = Date.now() + suffix;
 
@@ -87,22 +83,22 @@ const ProductImage = () => {
 				},
 			}}
 		>
-			<div className="aspect-square w-full relative mb-3 overflow-hidden rounded-xl group">
+			<div className="relative w-full mb-3 overflow-hidden aspect-square rounded-xl group">
 				<Image
 					src={image}
 					alt="Current Image"
                     width={"100%"}
-					className="bg-primary-100 h-auto transition-transform duration-300 ease-in-out group-hover:scale-105"
+					className="h-auto transition-transform duration-300 ease-in-out bg-primary-100 group-hover:scale-105"
 				/>
 			</div>
 			<div className="grid grid-cols-3 gap-3">
 				{images.map((item, index) => (
-					<div key={index} className="group aspect-square border border-zinc-300 rounded-xl flex justify-center items-center overflow-hidden">
+					<div key={index} className="flex items-center justify-center overflow-hidden border group aspect-square border-zinc-300 rounded-xl">
 						<Image
 							src={item}
 							width={"100%"}
 							alt={`Image ${index}`}
-							className="aspect-square transition-transform duration-300 ease-in-out group-hover:scale-105"
+							className="transition-transform duration-300 ease-in-out aspect-square group-hover:scale-105"
 						/>
 					</div>
 				))}

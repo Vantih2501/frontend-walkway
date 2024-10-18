@@ -63,7 +63,7 @@ export const http = {
 
     fetcher: async (url: string) => {
         let req = superagent.get(config.baseUrl + url)
-            .use(AuthIntercept)
+            // .use(AuthIntercept)
             .use(attachSuperagentLogger)
 
         if (TokenUtil.accessToken) {
@@ -71,6 +71,6 @@ export const http = {
         }
 
         const resp = await req
-        return resp.body;
+        return resp.body.data;
     },
 };
