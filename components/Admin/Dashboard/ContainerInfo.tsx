@@ -10,7 +10,7 @@ const ContainerInfo = ({className}: {className: string}) => {
 		<div className={`${className}`}>
 			<CardInfo
 				title={"Total Revenue"}
-				value={"Rp. 300,000K"}
+				value={"RP. 300,000K"}
 				Icon={LuDollarSign}
 			/>
 			<CardInfo title={"Total Sales"} value={"201"} Icon={PiWallet} />
