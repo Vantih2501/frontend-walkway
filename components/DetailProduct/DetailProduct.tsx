@@ -6,7 +6,7 @@ import { Breadcrumb, Button, Modal } from "antd";
 import { EyeOutlined } from "@ant-design/icons";
 import Image from "next/image";
 
-const DetailProduct = ({ product }: any) => {
+const DetailProduct = ({ product }: { product: Product | undefined }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedSize, setSelectedSize] = useState(0);
 

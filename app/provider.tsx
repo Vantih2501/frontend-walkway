@@ -2,8 +2,8 @@
 
 import React, { useEffect } from "react";
 import { ConfigProvider } from "antd";
-import { TokenUtil } from "#/utils/token";
 import { Montserrat, Poppins } from "next/font/google";
+import { getAccessToken } from "#/utils/token";
 
 const montserrat = Montserrat({
 	subsets: ["latin"],
@@ -17,7 +17,7 @@ const poppins = Poppins({
 	preload: false,
 });
 
-TokenUtil.loadToken();
+getAccessToken()
 export const Provider = ({ children }: any) => {
 	// useEffect(() => {
 	//   // @ts-ignore
