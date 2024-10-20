@@ -7,7 +7,7 @@ const url = {
   },
 
   register() {
-
+    return '/auth/register'
   },
 
   refreshToken(token: string) {
@@ -20,6 +20,9 @@ const hooks = {
     return fetcher.post(url.login(), { email, password });
   },
 
+  useRegister(name: string, email: string, phone_number: string, password: string): Promise<{ access_token: string }> {
+    return fetcher.post(url.register(), { name, email, phone_number, password });
+  }
 
   // useRefreshToken(token: string) {
   //   const { data, error, isLoading } = useSWR<{ access_token: string, refresh_token: string }>(url.refreshToken(token), fetcher.post);

@@ -12,42 +12,42 @@ export async function AuthMiddleware(req: NextRequest) {
   const unprotectedRoutes = [
     '/',
     '/login',
-    '/register/',
+    '/register',
   ];
 
-  if (accessToken && unprotectedRoutes.includes(req.nextUrl.pathname)) {
-    return NextResponse.redirect(new URL('/dashboard', req.url));
-  }
+  // if (accessToken && unprotectedRoutes.includes(req.nextUrl.pathname)) {
+  //   return NextResponse.redirect(new URL('/dashboard', req.url));
+  // }
 
-  if (!unprotectedRoutes.includes(req.nextUrl.pathname)) {
-    if (!accessToken) {
-      return NextResponse.redirect(new URL('/login', req.url));
-    } else {
-      const isTokenExpired = checkTokenExpiration(accessToken);
+  // if (!unprotectedRoutes.includes(req.nextUrl.pathname)) {
+  //   if (!accessToken) {
+  //     return NextResponse.redirect(new URL('/login', req.url));
+  //   } else {
+  //     const isTokenExpired = checkTokenExpiration(accessToken);
 
-      if (isTokenExpired && refreshToken) {
-        try {
-          // const { newTokens } = AuthService.hooks.useRefreshToken(refreshToken);
+  //     if (isTokenExpired && refreshToken) {
+  //       try {
+  //         const { newTokens } = AuthService.hooks.useRefreshToken(refreshToken);
 
-          // if (newTokens?.access_token && newTokens?.refresh_token) {
-          //   setTokens(newTokens.access_token, newTokens.refresh_token)
-          //   req.cookies.set('access_token', newTokens.access_token)
-          //   req.cookies.set('refresh_token', newTokens.refresh_token)
-          // } else {
-          //   removeTokens();
-          //   return NextResponse.redirect(new URL('/login', req.url));
-          // }
-        } catch (error) {
-          console.error('Error refreshing token:', error);
-          removeTokens();
-          return NextResponse.redirect(new URL('/login', req.url));
-        }
-      } else if (!refreshToken) {
-        removeTokens();
-        return NextResponse.redirect(new URL('/login', req.url));
-      }
-    }
-  }
+  //         if (newTokens?.access_token && newTokens?.refresh_token) {
+  //           setTokens(newTokens.access_token, newTokens.refresh_token)
+  //           req.cookies.set('access_token', newTokens.access_token)
+  //           req.cookies.set('refresh_token', newTokens.refresh_token)
+  //         } else {
+  //           removeTokens();
+  //           return NextResponse.redirect(new URL('/login', req.url));
+  //         }
+  //       } catch (error) {
+  //         console.error('Error refreshing token:', error);
+  //         removeTokens();
+  //         return NextResponse.redirect(new URL('/login', req.url));
+  //       }
+  //     } else if (!refreshToken) {
+  //       removeTokens();
+  //       return NextResponse.redirect(new URL('/login', req.url));
+  //     }
+  //   }
+  // }
 
   return NextResponse.next();
 }

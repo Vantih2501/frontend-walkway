@@ -1,13 +1,47 @@
+"use client"
+import { AuthService } from "#/services/auth";
 import { Button, Divider, Form, Input, Space } from "antd";
+import Cookies from "js-cookie";
 import Link from "next/link";
-import React from "react";
+import { useRouter } from "next/navigation";
+import React, { useState } from "react";
+
+interface RegisterFormValues {
+	name: string;
+	email: string;
+	phone_number: string;
+	password: string;
+}
 
 const inputStyle = "h-10 rounded-lg 2xl:h-14";
 const formStyle = "mb-4 2xl:mb-6";
 
 const RegisterForm = () => {
+
+	const [isloading, setIsLoading] = useState(false);
+
+	const router = useRouter()
+
+	const onFinish = async (values: RegisterFormValues) => {
+		try {
+			setIsLoading(true);
+			const response = await AuthService.hooks.useRegister(
+				values.name,
+				values.email,
+				values.phone_number,
+				values.password
+			);
+			Cookies.set("access_token", response.access_token, { expires: 1 });
+			// Cookies.set("refresh_token", refresh_token, { expires: 7 });
+			router.push("/");
+		} catch (error) {
+			console.error(error);
+		} finally {
+			setIsLoading(false);
+		}
+	};
 	return (
-		<Form layout="vertical">
+		<Form layout="vertical" onFinish={onFinish}>
 			<Form.Item
 				name={"name"}
 				label={"Name"}
@@ -30,11 +64,11 @@ const RegisterForm = () => {
 			</Form.Item>
 
 			<Form.Item
-				name={"phoneNumber"}
-				label={"Phone Number"}
+				name={"phone_number"}
+				label={"phone_number"}
 				rules={[
 					{ required: true, message: "Please input your phone number" },
-					{ type: "number", message: "Please enter a valid phone number" },
+					// { type: "number", message: "Please enter a valid phone number" },
 				]}
 				className={formStyle}
 			>
@@ -43,7 +77,7 @@ const RegisterForm = () => {
 
 			<Form.Item
 				name={"password"}
-				label={"Password"}
+				label={"password"}
 				rules={[{ required: true, message: "Please input your password!" }]}
 				className="m-0 2xl:text-lg"
 			>
@@ -56,7 +90,7 @@ const RegisterForm = () => {
 			<Divider className="my-6 2xl:my-7" />
 
 			<Form.Item>
-				<Button block type="primary" className={"h-11 rounded-lg 2xl:h-16"}>
+				<Button block type="primary" htmlType="submit" className={"h-11 rounded-lg 2xl:h-16"} loading={isloading}>
 					Sign Up
 				</Button>
 			</Form.Item>
