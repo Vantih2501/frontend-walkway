@@ -4,48 +4,52 @@ import { Poppins, Montserrat } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
 import { Provider } from "./provider";
+import Navbar from "#/components/Navbar/Navbar";
+import Footer from "#/components/Footer/page";
 
 const poppins = Poppins({
-	subsets: ["latin"],
-	weight: ["300", "400", "500", "600", "700"],
-	preload: false,
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700"],
+  preload: false,
 });
 
 const montserrat = Montserrat({
-	subsets: ["latin"],
-	weight: ["300", "400", "500", "600", "700"],
-	preload: false,
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700"],
+  preload: false,
 });
 
 export const metadata: Metadata = {
-	title: {
-		template: "%s - Walkway",
-		default: "Walkway",
-	},
+  title: {
+    template: "%s - Walkway",
+    default: "Walkway",
+  },
 };
 
 export default function RootLayout({
-	children,
+  children,
 }: {
-	children: React.ReactNode;
+  children: React.ReactNode;
 }) {
-	return (
-		<html lang="en">
-			{/* ugh */}
-			{/*
+  return (
+    <html lang="en">
+      {/* ugh */}
+      {/*
         <head /> will contain the components returned by the nearest parent
         head.tsx. Find out more at https://beta.nextjs.org/docs/api-reference/file-conventions/head
       */}
-			<head />
+      <head />
 
-			<body className={poppins.className}>
-				<>
-					<>
-						<Script src="/api/env" strategy={"beforeInteractive"}></Script>
-						<Provider>{children}</Provider>
-					</>
-				</>
-			</body>
-		</html>
-	);
+      <body className={poppins.className}>
+        <>
+          <>
+            <Script src="/api/env" strategy={"beforeInteractive"}></Script>
+            <Provider>
+              <main>{children}</main>
+            </Provider>
+          </>
+        </>
+      </body>
+    </html>
+  );
 }

@@ -5,25 +5,17 @@ import {
   OurCollection,
   ProductDisplay,
 } from "#/components/LandingPage/page";
-import Navbar from "#/components/Navbar/Navbar";
 import React from "react";
+import MainLayout from "./(guest)/(user)/layout";
 
 export default function Home() {
-  // const router = useRouter();
-
-  // useEffect(() => {
-  //   if(router) {
-  //     router.push('/home');
-  //   }
-  // }, [router]);
-
   return (
-    <div>
+    <MainLayout>
       <HeroSection />
       <BrandBanner />
       <ProductDisplay />
       <BidDisplay />
       <OurCollection />
-    </div>
+    </MainLayout>
   );
 }

@@ -11,6 +11,7 @@ export async function AuthMiddleware(req: NextRequest) {
 
   const unprotectedRoutes = [
     '/',
+    '/product',
     '/login',
     '/register',
   ];
@@ -27,16 +28,16 @@ export async function AuthMiddleware(req: NextRequest) {
 
   //     if (isTokenExpired && refreshToken) {
   //       try {
-  //         const { newTokens } = AuthService.hooks.useRefreshToken(refreshToken);
+  //         // const { newTokens } = AuthService.hooks.useRefreshToken(refreshToken);
 
-  //         if (newTokens?.access_token && newTokens?.refresh_token) {
-  //           setTokens(newTokens.access_token, newTokens.refresh_token)
-  //           req.cookies.set('access_token', newTokens.access_token)
-  //           req.cookies.set('refresh_token', newTokens.refresh_token)
-  //         } else {
-  //           removeTokens();
-  //           return NextResponse.redirect(new URL('/login', req.url));
-  //         }
+  //         // if (newTokens?.access_token && newTokens?.refresh_token) {
+  //         //   setTokens(newTokens.access_token, newTokens.refresh_token)
+  //         //   req.cookies.set('access_token', newTokens.access_token)
+  //         //   req.cookies.set('refresh_token', newTokens.refresh_token)
+  //         // } else {
+  //         //   removeTokens();
+  //         //   return NextResponse.redirect(new URL('/login', req.url));
+  //         // }
   //       } catch (error) {
   //         console.error('Error refreshing token:', error);
   //         removeTokens();
