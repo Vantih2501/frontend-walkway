@@ -1,15 +1,16 @@
 import React from "react";
 import Image from "next/image";
-import { Card } from "antd";
+import { Card, Collapse } from "antd";
 
 interface BidCardProps {
 	name: string;
 	price: string;
 	isStart: Date;
 	isEnd: Date;
+	handleEditClick: () => void;
 }
 
-const BidCard = ({ name, price, isStart, isEnd }: BidCardProps) => {
+const BidCard = ({ name, price, isStart, isEnd, handleEditClick }: BidCardProps) => {
 	const formattedStartDate = `${isStart.toLocaleDateString("id-ID", {
 		month: "long",
 		day: "numeric",
@@ -27,7 +28,7 @@ const BidCard = ({ name, price, isStart, isEnd }: BidCardProps) => {
 	})}`;
 
 	return (
-		<Card className="h-fit w-full border bg-white rounded-lg p-3 border-zinc-300 hover:border-zinc-900 group">
+		<Card onClick={handleEditClick} className="h-fit w-full border bg-white rounded-lg p-3 border-zinc-300 hover:border-primary group">
 			<div className="bg-zinc-50 rounded-md overflow-hidden mb-3">
 				<Image
 					src={"/mock/shoe-mock-1.png"}

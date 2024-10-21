@@ -5,7 +5,13 @@ import React from "react";
 import BidCard from "./ui/BidCard";
 import { products } from "#/mock-data/products";
 
-const BidAdminDisplay = () => {
+interface BidAdminDisplayProps {
+	collapsed: boolean;
+	handleEditClick: () => void;
+	handleAddClick: () => void;
+}
+
+const BidAdminDisplay = ({collapsed, handleEditClick, handleAddClick}: BidAdminDisplayProps) => {
 
 	const startDate = new Date(2024, 9,25)
 	const endDate = new Date(2024, 9,26)
@@ -36,19 +42,21 @@ const BidAdminDisplay = () => {
 					size="large"
 					type="primary"
 					icon={<PlusOutlined />}
+					onClick={handleAddClick}
 				>
 					Add Product
 				</Button>
 			</header>
-			<main className="h-[1000px] grid grid-cols-3 2xl:grid-cols-4 gap-4 overflow-y-scroll">
+			<main className={`h-[530px] 2xl:h-[673px] grid grid-cols-${collapsed ? '3' : '4'} 2xl:grid-cols-${collapsed ? '4' : '5'} gap-4 overflow-y-scroll`}>
 				{products.map((product) => (
 					<BidCard
 						key={product.id}
 						name={product.name}
-						price={product.price} 
-						isStart={startDate} 
-						isEnd={endDate}			
-					></BidCard>
+						price={product.price}
+						isStart={startDate}
+						isEnd={endDate} 
+						handleEditClick={handleEditClick}
+					/>
 				))}
 			</main>
 		</div>

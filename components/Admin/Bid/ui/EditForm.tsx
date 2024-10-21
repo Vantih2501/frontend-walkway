@@ -1,22 +1,10 @@
-"use client";
-
-import { products } from "#/mock-data/products";
-import { PlusOutlined } from "@ant-design/icons";
-import {
-	Form,
-	Select,
-	Input,
-	Space,
-	DatePicker,
-	Upload,
-	Button,
-	TimePicker,
-} from "antd";
+import { Form, Input, Select, Space, TimePicker } from "antd";
 import React from "react";
+import { products } from "#/mock-data/products";
 
-const AddForm = () => {
+const EditForm = () => {
 	return (
-		<Form className="flex flex-col justify-between">
+		<Form  className="flex flex-col justify-between">
 			<Space size={20} direction="vertical" style={{ display: "flex" }}>
 				<Form.Item label="Product" layout="vertical">
 					<Select placeholder="Select Product" style={{ height: "36px" }}>
@@ -46,9 +34,24 @@ const AddForm = () => {
 						<DatePicker style={{ width: "100%" }} placeholder="End" />
 					</div> */}
 				</Form.Item>
+				<Form.Item
+					layout="vertical"
+					label="Set Status"
+					name="SetStatus"
+					rules={[{ message: "Please input!" }]}
+				>
+					<Select placeholder="Select Product"  style={{ height: "36px" }}>
+							<Select.Option value="ongoing">
+								<p>Ongoing</p>
+							</Select.Option>
+							<Select.Option value="finish">
+								<p>Finish</p>
+							</Select.Option>
+					</Select>
+				</Form.Item>
 			</Space>
 		</Form>
 	);
 };
 
-export default AddForm;
+export default EditForm;

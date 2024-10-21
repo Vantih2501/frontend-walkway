@@ -16,11 +16,11 @@ export default function AdminLayout({
 	return (
 		<html lang="en">
 			<body className={poppins.className}>
-				<div className="flex max-h-screen">
+				<div className="flex max-h-screen overflow-hidden">
 					<Sider />
-					<div className="flex flex-1 flex-col gap-6 p-8 2xl:gap-8 max-h-screen">
+					<div className="w-full flex flex-col justify-between max-h-screen p-8 gap-6 2xl:gap-8">
 						<Header />
-						<main className="h-full flex-1 overflow-y-auto">
+						<main className="h-full">
 							{children}
 						</main>
 					</div>

@@ -14,7 +14,7 @@ const SiderContent = () => {
 					<HiMiniChevronRight />
 				</Link>
 			</div>
-			<div className="h-[585px]  2xl:h-[768px] overflow-y-auto">
+			<div className="h-[600px] 2xl:h-[858px] overflow-y-auto">
 				<ul role="list" className="space-y-2">
 					{products.map((user, index) => (
 						<li key={index} className="p-3 bg-zinc-50 rounded-md">
