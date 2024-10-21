@@ -2,12 +2,14 @@
 
 import Footer from "#/components/Footer";
 import { Card } from "antd";
-import NavProf from "#/app/(authenticated)/profile/NavProfile";
+import NavProf from "#/app/(authenticated)/(user)/profile/NavProfile";
 import ListBid from "./ListBid";
+import NavbarUser from "#/components/Navbar";
 
 export default function BidList() {
   return (
     <div>
+      <NavbarUser/>
       <br />
       <br />
       <Card className="container mx-auto cardC">

@@ -410,9 +410,178 @@ width: 55rem;
   margin-left: 210px;
 }
 
+.sidebarMenu{
+  padding: 10px;
+  margin-bottom: 20rem;
+  background-color: #f4f4f5;
+  height: 100vh;
+}
+
+.ContentAdmin{
+  margin-left: 21rem;
+}
+
+.sidebarMenu .ant-menu-item:hover{
+  background-color: #4E7772 !important;
+  color: white !important;
+}
+
+.img-sidebar{
+  margin-top: -150rem;
+  margin-left: 45px;
+}
+
+.hrSide{
+  margin-top: -30rem;
+  width: 15rem;
+  margin-left: 25px;
+}
+
+.logoutBar{
+  margin-top: 30px;
+  font-size: 25px;
+  margin-left: 40px;
+}
+
+.profAdmin{
+  margin-left: 74rem;
+}
+
+
+.product-layout {
+  display: flex;
+  justify-content: space-between;
+}
+
+.add-product-card {
+  width: 40%; 
+  margin-left: -320px;
+  margin-top: -30px;
+  border-radius: 20px;
+}
+
+.product-layout.with-card .product-list {
+  flex: 0 0 58%; /* Ketika card muncul, product list jadi lebih kecil */
+}
+
+.product-layout.with-card .product-card {
+  display: block; /* Tampilkan card */
+}
+
+.product-card {
+  display: none; /* Sembunyikan card secara default */
+  z-index: 10;
+  margin-top: 85px;
+  position: fixed;
+  margin-left: 95rem;
+}
+
+.editProduct{
+  z-index: 10;
+  margin-top: 85px;
+  position: fixed;
+  margin-left: 95rem;
+}
+
+.product-list{
+  height: auto;
+  overflow-y: auto; 
+  padding-right: 10px; 
+  z-index: 1;
+}
+
+.header-fix{
+  z-index: 10 !important;
+  background-color: white;
+  padding: 10px;
+  width: 120%;
+  margin-left: -33px;
+  margin-top: -32px;
+}
+
+.productData{
+  overflow-y: auto;
+  width: 90rem;
+}
+
+.buttonAddP .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn{
+  background-color: #4E7772 !important;
+  color: white !important;
+  font-weight: 600;
+  width: 100px;
+  height: 40px;
+  border-radius: 20px;
+  padding: 0%;
+  line-height: 40px;
+
+}
+
+.buttonAddP .ant-tabs-tab{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  height: 100%;
+  border-bottom: none !important;
+  box-shadow: none !important;
+  border: none !important;
+}
+
+.buttonAddP .ant-tabs-nav::before{
+  border: none !important;
+}
+
+.buttonAddP .ant-tabs-nav{
+  box-shadow: none !important;
+  border: none !important;
+}
+
+.buttonAddP .ant-tabs{
+  box-shadow: none !important;
+  border: none !important;
+}
+
+.buttonAddP .ant-tabs-content{
+  box-shadow: none !important;
+  border: none !important;
+}
+
+.fotoProduct{
+   width: 250px;
+   height: 150px;
+   padding: 30px;
+   border: 2px dashed #d9d9d9; 
+   border-radius: 8px;
+   margin-left: 0px;
+}
+
+.avatar-upload{
+  margin-left: 55px;
+  font-size: 20px;
+  margin-top: 15px;
+}
+
+.tagProduk{
+  height: 30px;
+  border-radius: 5px;
+  padding: 0%;
+  line-height: 30px;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  margin-bottom: 10px;
+  border-radius: 20px;
+  background-color: white;
+  display: inline-block;
+  padding: 0 15px;
+
+}
+
+
 @media screen and (max-width: 1440px) {
   .cardI{
     width: 41rem;
+    margin-left: -50rem;
   }
 
   .butaddress{
@@ -687,6 +856,174 @@ width: 55rem;
 
 .head1{
   margin-left: 100px;
+}
+
+.sidebarMenu{
+  padding: 10px;
+  margin-bottom: 20rem;
+  margin-top: -20px;
+  background-color: #f4f4f5;
+  height: 65rem;
+}
+
+.sidebarMenu .ant-menu-item:hover{
+  background-color: #4E7772 !important;
+  color: white !important;
+}
+
+.img-sidebar{
+  margin-top: -160rem;
+  margin-left: 45px;
+}
+
+.hrSide{
+  margin-top: -40rem;
+  width: 15rem;
+  margin-left: 25px;
+}
+
+.logoutBar{
+  margin-top: 20px;
+  font-size: 25px;
+  margin-left: 40px;
+}
+
+.profAdmin{
+  margin-left: 55rem;
+}
+
+.buttonAdd{
+  margin-left: -20rem;
+}
+
+.product-layout {
+  display: flex;
+  justify-content: space-between;
+}
+
+.add-product-card {
+  width: 40%; 
+  margin-left: -320px;
+  margin-top: -30px;
+  border-radius: 20px;
+}
+
+.product-layout.with-card .product-list {
+  flex: 0 0 58%; /* Ketika card muncul, product list jadi lebih kecil */
+}
+
+.product-layout.with-card .product-card {
+  display: block; /* Tampilkan card */
+}
+
+.product-card {
+  display: none; /* Sembunyikan card secara default */
+  z-index: 10;
+  margin-top: 85px;
+  position: fixed;
+  margin-left: 79rem;
+}
+
+.product-list{
+  height: auto;
+  overflow-y: auto; 
+  padding-right: 10px; 
+  z-index: 1;
+}
+
+.editProduct{
+  z-index: 10;
+  margin-top: 85px;
+  position: fixed;
+  margin-left: 79rem;
+}
+
+.header-fix{
+  z-index: 10 !important;
+  background-color: white;
+  padding: 10px;
+  width: 120%;
+  margin-left: -33px;
+  margin-top: -32px;
+}
+
+.productData{
+  overflow-y: auto;
+  width: 90rem;
+  margin-left: -30px;
+}
+
+.buttonAddP .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn{
+  background-color: #4E7772 !important;
+  color: white !important;
+  font-weight: 600;
+  width: 100px;
+  height: 40px;
+  border-radius: 20px;
+  padding: 0%;
+  line-height: 40px;
+
+}
+
+.buttonAddP .ant-tabs-tab{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  height: 100%;
+  border-bottom: none !important;
+  box-shadow: none !important;
+  border: none !important;
+}
+
+.buttonAddP .ant-tabs-nav::before{
+  border: none !important;
+}
+
+.buttonAddP .ant-tabs-nav{
+  box-shadow: none !important;
+  border: none !important;
+}
+
+.buttonAddP .ant-tabs{
+  box-shadow: none !important;
+  border: none !important;
+}
+
+.buttonAddP .ant-tabs-content{
+  box-shadow: none !important;
+  border: none !important;
+}
+
+.fotoProduct{
+   width: 250px;
+   height: 150px;
+   padding: 30px;
+   border: 2px dashed #d9d9d9; 
+   border-radius: 8px;
+   margin-left: 0px;
+}
+
+.avatar-upload{
+  margin-left: 55px;
+  font-size: 20px;
+  margin-top: 15px;
+}
+
+.tagProduk{
+  height: 30px;
+  border-radius: 5px;
+  padding: 0%;
+  line-height: 30px;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  margin-bottom: 10px;
+  border-radius: 20px;
+  background-color: white;
+  display: inline-block;
+  padding: 0 15px;
+
 }
 
 

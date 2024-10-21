@@ -59,13 +59,9 @@ const items2: MenuProps["items"] = [
   };
 });
 
-interface AuthenticatedLayoutProps {
-  children: React.ReactNode;
-}
 
-const AuthenticatedLayout: React.FC<AuthenticatedLayoutProps> = ({
-  children,
-}) => {
+
+export default function NavbarUser() {
   const router = useRouter();
 
   const {
@@ -162,9 +158,9 @@ const AuthenticatedLayout: React.FC<AuthenticatedLayoutProps> = ({
       </Header>
       <br />
       <Layout>
-        <Layout style={{ padding: "0 0px 0px", height: "calc(100vh - 64px)" }}>
+        {/* <Layout style={{ padding: "0 0px 0px", height: "calc(100vh - 64px)" }}>
           <Content style={{ backgroundColor: "white" }}>{children}</Content>
-        </Layout>
+        </Layout> */}
       </Layout>
 
       <Modal
@@ -215,4 +211,4 @@ const AuthenticatedLayout: React.FC<AuthenticatedLayoutProps> = ({
   );
 };
 
-export default AuthenticatedLayout;
+

@@ -5,6 +5,7 @@ import CardItem from "./carditem";
 import CardTotal from "./cardtotal";
 import Footer from "#/components/Footer";
 import Navbar from "#/components/Navbar";
+import NavbarUser from "#/components/Navbar";
 
 
 const { Title } = Typography;
@@ -12,6 +13,7 @@ const { Title } = Typography;
 export default function Checkout() {
   return (
     <div>
+      <NavbarUser/>
       <br /><br />
       <Card className=" container mx-auto cardC">
         <div className="container mx-10 mt-10">
