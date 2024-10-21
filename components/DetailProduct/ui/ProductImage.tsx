@@ -20,6 +20,8 @@ interface ImageProps {
 // you can download flipped and rotated image
 // https://codesandbox.io/s/zi-ding-yi-gong-ju-lan-antd-5-7-0-forked-c9jvmp
 const ProductImage = ({ imageUrl }: ImageProps) => {
+	const baseurl = 'http://localhost:3222/product/uploads/'
+
 	const image = imageUrl[0]
 	const images = imageUrl.slice(1)
 
@@ -85,7 +87,7 @@ const ProductImage = ({ imageUrl }: ImageProps) => {
 		>
 			<div className="relative w-full mb-3 overflow-hidden aspect-square rounded-xl group">
 				<Image
-					src={image}
+					src={baseurl+image}
 					alt="Current Image"
                     width={"100%"}
 					className="h-auto transition-transform duration-300 ease-in-out bg-primary-100 group-hover:scale-105"
@@ -93,7 +95,7 @@ const ProductImage = ({ imageUrl }: ImageProps) => {
 			</div>
 			<div className="grid grid-cols-3 gap-3">
 				{images.map((item, index) => (
-					<div key={index} className="flex items-center justify-center overflow-hidden border group aspect-square border-zinc-300 rounded-xl">
+					<div key={baseurl+index} className="flex items-center justify-center overflow-hidden border group aspect-square border-zinc-300 rounded-xl">
 						<Image
 							src={item}
 							width={"100%"}
