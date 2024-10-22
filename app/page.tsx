@@ -17,7 +17,7 @@ export default function Home() {
       <BrandBanner />
       <ProductDisplay />
       <BidDisplay />
-      {/* <OurCollection /> */}
+      <OurCollection />
     </MainLayout>
   );
 }

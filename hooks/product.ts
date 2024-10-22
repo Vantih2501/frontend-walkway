@@ -3,7 +3,7 @@ import { fetcher } from "#/utils/fetcher";
 
 export const useProduct = () => {
   const fetchProduct = () => {
-    const { data, error, isLoading } = useSWR<Product>(`/product`, fetcher.get)
+    const { data, error, isLoading } = useSWR<Product[]>(`/product`, fetcher.get)
     return {
       product: data,
       isError: error,

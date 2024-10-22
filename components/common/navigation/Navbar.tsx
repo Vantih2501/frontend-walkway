@@ -8,7 +8,7 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 import SignContainer from "./ui/SignContainer";
 import ProfileContainer from "./ui/ProfileContainer";
-import logo from "../../public/icons/logo.svg";
+import logo from "#/public/icons/logo.svg";
 
 export default function Navbar() {
   const router = useRouter();

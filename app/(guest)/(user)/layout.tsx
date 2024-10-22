@@ -1,5 +1,5 @@
 import Footer from "#/components/Footer/page";
-import Navbar from "#/components/Navbar/Navbar";
+import Navbar from "#/components/common/navigation/Navbar";
 import { Poppins } from "next/font/google";
 
 const poppins = Poppins({

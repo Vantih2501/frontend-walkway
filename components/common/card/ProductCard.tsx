@@ -41,20 +41,6 @@ const ProductCard = ({
       }
       // className={cardClasses}
     >
-      {/* {variant === "bid" && (
-        <div className="absolute top-0 z-10 flex items-center justify-center w-full h-14 bg-primary-300 rounded-t-xl">
-          <Countdown
-            valueStyle={{
-              color: "#ffffff",
-              fontSize: "18px",
-              letterSpacing: ".1em",
-            }}
-            value={deadline}
-            onFinish={onFinish}
-            format="HH  :  mm  :  ss"
-          />
-        </div>
-      )} */}
 
       <div className="overflow-hidden rounded-t-xl aspect-w-1 aspect-h-1">
         <Image
@@ -79,7 +65,7 @@ const ProductCard = ({
             isLarge ? "text-2xl mb-4" : "text-xl mb-3"
           } font-medium`}
         >
-          Rp. {price.toLocaleString("id")}
+          Rp {price.toLocaleString("en-US")}
         </h1>
 
         <p

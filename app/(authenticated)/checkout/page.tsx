@@ -4,7 +4,7 @@ import { Card, Layout, Typography } from "antd";
 import CardItem from "./carditem";
 import CardTotal from "./cardtotal";
 import Footer from "#/components/Footer/page";
-import Navbar from "#/components/Navbar/Navbar";
+import Navbar from "#/components/common/navigation/Navbar";
 
 const { Title } = Typography;
 

@@ -65,7 +65,7 @@ const BidCard = ({ bid, imageUrl, product }: CardProps) => {
       <div className="py-4 px-5 space-y-2">
         <div className="-space-y-1">
           <p className="font-light">Available from</p>
-          <h2 className="text-lg">Rp. {bid.start_price.toLocaleString('id')}</h2>
+          <h2 className="text-lg">Rp {bid.start_price.toLocaleString('en-US')}</h2>
         </div>
         <p className="text-primary-100 text-base line-clamp-2 mb-auto">
           {bid.productDetail.product.name}

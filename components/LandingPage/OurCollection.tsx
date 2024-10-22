@@ -1,9 +1,15 @@
+"use client"
 import React from "react";
 import Link from "next/link";
+import { useProduct } from "#/hooks/product";
+import ProductCard from "../common/card/ProductCard";
 // import ProductCard from "#/components/Card/page";
 // import { products } from "#/mock-data/products";
 
 const OurCollection = () => {
+  const { fetchNewestProduct } = useProduct()
+  const { product } = fetchNewestProduct()
+
   return (
     <div className="bg-primary-100">
       <div className="flex items-center px-8 py-12 mx-auto max-w-7xl">
@@ -20,6 +26,15 @@ const OurCollection = () => {
             </Link>
           </div>
           <div className="grid grid-cols-5 gap-4 2xl:grid-cols-6">
+            {product && product.map(product => (
+              <ProductCard
+                key={product.id}
+                price={product.price}
+                productName={product.name}
+                imageUrl={product.productPhotos.toString()}
+                size="md"
+              />
+            ))}
             {/* {products.map((product) => (
               <ProductCard
                 key={product.id}
