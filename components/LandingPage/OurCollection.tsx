@@ -1,7 +1,7 @@
 import React from "react";
 import Link from "next/link";
-import ProductCard from "#/components/Card/page";
-import { products } from "#/mock-data/products";
+// import ProductCard from "#/components/Card/page";
+// import { products } from "#/mock-data/products";
 
 const OurCollection = () => {
   return (
@@ -20,7 +20,7 @@ const OurCollection = () => {
             </Link>
           </div>
           <div className="grid grid-cols-5 gap-4 2xl:grid-cols-6">
-            {products.map((product) => (
+            {/* {products.map((product) => (
               <ProductCard
                 key={product.id}
                 price={product.price}
@@ -28,7 +28,7 @@ const OurCollection = () => {
                 imageUrl={product.image}
                 size="md"
               />
-            ))}
+            ))} */}
           </div>
         </div>
       </div>

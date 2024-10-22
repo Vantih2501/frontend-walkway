@@ -1,7 +1,7 @@
 
 import React from "react";
-import { products } from "#/mock-data/products";
-import CarouselUi from "../LandingPage/ui/Carousel";
+// import { products } from "#/mock-data/products";
+import ProductCarousel from "../common/carousel/Carousel";
 
 export const SimiliarProduct = () => {
 	return (
@@ -12,7 +12,7 @@ export const SimiliarProduct = () => {
 						SIMILIAR PRODUCT
 					</h1>
 				</div>
-				<CarouselUi dataFetch={products} variant={"default"} />
+				{/* <CarouselUi dataFetch={products} variant={"default"} /> */}
 			</div>
 		</div>
 	);

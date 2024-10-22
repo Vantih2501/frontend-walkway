@@ -1,10 +1,13 @@
+"use client";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
-import CarouselUi from "./ui/Carousel";
-import { products } from "#/mock-data/products";
+import { useProduct } from "#/hooks/product";
+import ProductCarousel from "../common/carousel/ProductCarousel";
 
 const ProductDisplay = () => {
+  const { fetchNewestProduct } = useProduct();
+  const { product, isLoading } = fetchNewestProduct();
   return (
     <div className="bg-primary-100">
       <div className="flex items-center px-8 py-12 mx-auto max-w-7xl">
@@ -21,14 +24,8 @@ const ProductDisplay = () => {
                 HOTTEST SNEAKER
               </h1>
             </div>
-            <Link
-              href={"#"}
-              className="text-sm font-medium font-montserrat text-zinc-500 hover:opacity-75"
-            >
-              VIEW ALL
-            </Link>
           </div>
-          <CarouselUi dataFetch={products} variant={"default"} />
+          {product && <ProductCarousel product={product} variant="default" />}
         </div>
       </div>
     </div>

@@ -26,9 +26,7 @@ const DetailProduct = ({ product }: { product: Product | undefined }) => {
     <div className="py-16 px-52 2xl:px-72">
       <div className="grid grid-cols-12 gap-8">
         <div className="col-span-5">
-          {product?.productImages && (
-            <ProductImage imageUrl={product?.productImages} />
-          )}
+          {product && <ProductImage imageUrl={product?.productPhotos} />}
         </div>
         <div className="flex flex-col col-span-7 space-y-8">
           <div className="flex flex-col space-y-4">

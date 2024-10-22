@@ -1,7 +1,7 @@
 "use client"
 
 import React from 'react'
-import { products } from '#/mock-data/products'
+// import { products } from '#/mock-data/products'
 import ProductCard from '../Card/page'
 import { Space, Tag } from 'antd';
 import { CloseOutlined } from '@ant-design/icons';
@@ -12,8 +12,8 @@ const DisplayProduct = () => {
   return (
 		<>
 			<div className="flex gap-9">
-				<div className="flex gap-3 items-center mb-6">
-					<span className="m-0 font-medium text-base">Categories:</span>
+				<div className="flex items-center gap-3 mb-6">
+					<span className="m-0 text-base font-medium">Categories:</span>
 					<Space size={8}>
 						<Tag
 							closeIcon={
@@ -35,8 +35,8 @@ const DisplayProduct = () => {
 						</Tag>
 					</Space>
 				</div>
-				<div className="flex gap-3 items-center mb-6">
-					<span className="font-medium text-base">Brands:</span>
+				<div className="flex items-center gap-3 mb-6">
+					<span className="text-base font-medium">Brands:</span>
 					<Space size={8}>
 						<Tag
 							closeIcon={
@@ -60,7 +60,7 @@ const DisplayProduct = () => {
 				</div>
 			</div>
 			<div className="grid grid-cols-3 gap-5 2xl:grid-cols-5">
-				{products.map((product) => (
+				{/* {products.map((product) => (
 					<ProductCard
 						key={product.id}
 						price={product.price}
@@ -69,7 +69,7 @@ const DisplayProduct = () => {
 						variant="categories"
 						size="md"
 					/>
-				))}
+				))} */}
 			</div>
 		</>
 	);
