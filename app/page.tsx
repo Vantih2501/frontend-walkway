@@ -1,9 +1,9 @@
 import {
   HeroSection,
-  BidDisplay,
   BrandBanner,
   OurCollection,
   ProductDisplay,
+  BidDisplay,
 } from "#/components/LandingPage/page";
 import React from "react";
 import MainLayout from "./(guest)/(user)/layout";

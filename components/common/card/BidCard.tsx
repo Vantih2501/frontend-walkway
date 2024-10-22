@@ -1,73 +1,76 @@
-import React from "react";
-import type { CountdownProps } from "antd";
+import React, { useEffect, useState } from "react";
+import dayjs from "dayjs";
+import duration from "dayjs/plugin/duration";
 import { Image } from "antd";
 
+dayjs.extend(duration);
+
+
 interface CardProps {
-  bid?: Bid;
-  imageUrl: string
-  product: Product
+  bid: Bid;
+  imageUrl: string;
+  product: Product;
 }
 
-const BidCard = ({ bid, imageUrl }: CardProps) => {
-  const deadline = Date.now() + 1000 * 60 * 60 * 24 * 2 + 1000 * 30;
+const BidCard = ({ bid, imageUrl, product }: CardProps) => {
+  const [timeRemaining, setTimeRemaining] = useState<string>("00:00:00");
+  const [status, setStatus] = useState<string>("Begins at");
 
-  const onFinish: CountdownProps["onFinish"] = () => {
-    console.log("finished!");
-  };
+  useEffect(() => {
+    const startDate = dayjs(bid.start_date);
+    const endDate = dayjs(bid.end_date);
+    const now = dayjs();
+
+    const isBeforeStart = now.isBefore(startDate);
+    const isAfterStart = now.isAfter(startDate) && now.isBefore(endDate);
+
+    let targetDate = isBeforeStart ? startDate : endDate;
+    let countdownType = isBeforeStart ? "Begins at" : "Ends in";
+
+    setStatus(countdownType);
+
+    const interval = setInterval(() => {
+      const now = dayjs();
+      const diff = targetDate.diff(now);
+      if (diff > 0) {
+        const time = dayjs.duration(diff);
+        setTimeRemaining(
+          `${String(time.hours()).padStart(2, "0")}:${String(time.minutes()).padStart(2, "0")}:${String(time.seconds()).padStart(2, "0")}`
+        );
+      } else {
+        clearInterval(interval);
+        setTimeRemaining("00:00:00");
+      }
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [bid.start_date, bid.end_date]);
 
   return (
-    <div
-      className={
-        "bg-primary-300 h-100vh cursor-pointer rounded-xl text-white border border-primary-300 transition-all duration-300 ease-in-out hover:border-primary-500 w-full group"
-      }
-    >
-      {/* {variant === "bid" && (
-        <div className="absolute top-0 z-10 flex items-center justify-center w-full h-14 bg-primary-300 rounded-t-xl">
-          <Countdown
-            valueStyle={{
-              color: "#ffffff",
-              fontSize: "18px",
-              letterSpacing: ".1em",
-            }}
-            value={deadline}
-            onFinish={onFinish}
-            format="HH  :  mm  :  ss"
-          />
-        </div>
-      )} */}
+    <div className="h-full relative cursor-pointer rounded-xl border border-transparent transition-all duration-300 ease-in-out hover:border-primary-500 w-full group bg-primary-300 border-primary-300 text-white">
+      <div className="py-2 flex flex-col justify-center items-center -space-y-1">
+        <p className="font-light">{status}</p>
+        <h2 className="text-xl">{timeRemaining}</h2>
+      </div>
 
-      <div className="overflow-hidden rounded-t-xl aspect-w-1 aspect-h-1">
+      <div className="overflow-hidden aspect-w-1 aspect-h-1">
         <Image
           src={imageUrl}
-          alt={imageUrl || "img"}
-          // width={isLarge ? 295 : 232}
-          // height={isLarge ? 295 : 232}
+          alt={bid.productDetail.product.name || "img"}
           preview={false}
-          className={`w-full h-full object-cover transition-transform duration-300 ease-in-out group-hover:scale-105 py-4 `}
+          className="w-full h-full object-cover transition-transform duration-300 ease-in-out group-hover:scale-105"
         />
       </div>
 
-      {/* <div className="h-32 p-4">
-        {variant === "bid" && (
-          <p className="mb-1 text-sm text-primary-100/80">Current bid:</p>
-        )}
-
-        <h1
-          className={`montserrat.className ${
-            isLarge ? "text-2xl mb-4" : "text-xl mb-3"
-          } font-medium`}
-        >
-          Rp. {price.toLocaleString("id")}
-        </h1>
-
-        <p
-          className={`text-${isTextColor ? "primary-100" : "zinc-500"} ${
-            isLarge ? "text-base" : "text-sm"
-          } line-clamp-2 mb-auto`}
-        >
-          {productName}
+      <div className="py-4 px-5 space-y-2">
+        <div className="-space-y-1">
+          <p className="font-light">Available from</p>
+          <h2 className="text-lg">Rp. {bid.start_price.toLocaleString('id')}</h2>
+        </div>
+        <p className="text-primary-100 text-base line-clamp-2 mb-auto">
+          {bid.productDetail.product.name}
         </p>
-      </div> */}
+      </div>
     </div>
   );
 };

@@ -1,19 +1,20 @@
 "use client";
 
 import React, { useRef } from "react";
+import ProductCard from "#/components/common/card/ProductCard";
 import { Carousel, Button } from "antd";
 import { HiArrowRight, HiArrowLeft } from "react-icons/hi2";
 import Link from "next/link";
+import { urlFormatter } from "#/utils/url-formatter";
 import BidCard from "../card/BidCard";
 
 interface CarouselProps {
   bids: Bid[];
-  variant: "default" | "bid";
 }
 
-const BidCarousel = ({ bids, variant = "bid" }: CarouselProps) => {
+const BidCarousel = ({ bids }: CarouselProps) => {
   const carouselRef = useRef<any>(null);
-
+  console.log(bids)
   const handleNext = () => {
     carouselRef.current.next();
   };
@@ -34,8 +35,8 @@ const BidCarousel = ({ bids, variant = "bid" }: CarouselProps) => {
       <Carousel
         ref={carouselRef}
         dots={false}
-        // autoplay={true}
-        // autoplaySpeed={5000}
+				// autoplay={true}
+				// autoplaySpeed={5000}
         slidesToShow={4}
         responsive={[
           { breakpoint: 2560, settings: { slidesToShow: 5 } },
@@ -45,25 +46,14 @@ const BidCarousel = ({ bids, variant = "bid" }: CarouselProps) => {
         ]}
       >
         {bids.map((bid) => (
-          <Link
-            href={`/product`}
-            key={bid.id}
-            className="px-1 hover:text-inherit"
-          >
-            <BidCard 
+          <Link href={`/`} key={bid.id} className="px-1 hover:text-inherit">
+            <BidCard
               bid={bid}
-              product={bid.productDetail.product}
               imageUrl={bid.productPhotos}
+              product={bid.productDetail.product}
             />
-            {/* <ProductCard
-              price={bid?.start_price}
-              productName={bid}
-              imageUrl={product?.productPhotos.toString()}
-              variant={variant}
-            /> */}
           </Link>
         ))}
-        asdasd
       </Carousel>
       <Button
         type="primary"

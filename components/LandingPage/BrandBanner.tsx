@@ -15,7 +15,7 @@ const BrandBanner = () => {
           {brand &&
             brand.map((brand, index) => (
               <Link key={index} href={`/product/${urlFormatter(brand.name)}`}>
-                <Image src={brand.image} alt={brand.name} preview={false} />
+                <Image src={brand.image} alt={brand.name} preview={false} className="max-w-32 mix-blend-screen"/>
               </Link>
             ))}
         </div>

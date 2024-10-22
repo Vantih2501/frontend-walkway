@@ -30,9 +30,9 @@ interface Bid {
   start_date: Date;
   start_price: number;
   end_date: Date;
-  productDetailId: string;
   productDetail: ProductDetail;
   productPhotos: string;
+  productName: string;
 }
 
 interface Brand {
