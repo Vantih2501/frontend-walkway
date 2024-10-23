@@ -232,8 +232,8 @@ export default function TableOrder() {
   return (
     <div>
       <div
-        className=" header-fix mt
-        -3"
+        className="header-fix mt
+        -3 container mx-auto"
       >
         <div className="flex">
           <Title level={2}>Orders</Title>

@@ -148,7 +148,7 @@ export default function CardProduct() {
 
   return (
     <div>
-      <div className="fixed header-fix">
+      <div className="fixed header-fix ">
         <div className="flex">
           <Title level={2}>Products</Title>
           <div className="profAdmin flex">
