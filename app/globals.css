@@ -577,6 +577,10 @@ width: 55rem;
 
 }
 
+th {
+  display: table-cell !important;
+}
+
 
 @media screen and (max-width: 1440px) {
   .cardI{

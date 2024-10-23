@@ -10,6 +10,13 @@ import {
 } from "antd";
 import { useState } from "react";
 
+const getStatusClass = (status: string) => {
+  if (status === 'Delivered') return 'status1';
+  if (status === 'Pending') return 'status2';
+  if (status === 'Cancelled') return 'status3';
+  return '';
+};
+
 const tabItems = [
   {
     label: `All`,
@@ -22,9 +29,7 @@ const tabItems = [
             className="cardStatus"
           >
             <div className="flex">
-              <div className="status1">
-                <p>Delivered</p>
-              </div>
+            {<span className={getStatusClass('Delivered')}>Delivered</span>}
               <p className="font-medium mx-3 mt-4">10 Oktober 2024</p>
               <div className="resi ml-72 flex">
                 <p className="font-medium mx-3 mt-4">Resi Number</p>
@@ -72,9 +77,7 @@ const tabItems = [
            className="cardStatus"
           >
             <div className="flex">
-              <div className="status2">
-                <p>Pending</p>
-              </div>
+            {<span className={getStatusClass('Pending')}>Pending</span>}
               <p className="font-medium mx-3 mt-4">11 Oktober 2024</p>
             </div>
           </Card>
@@ -120,9 +123,7 @@ const tabItems = [
             className="cardStatus"
           >
             <div className="flex">
-              <div className="status2">
-                <p>Pending</p>
-              </div>
+            {<span className={getStatusClass('Pending')}>Pending</span>}
               <p className="font-medium mx-3 mt-4">11 Oktober 2024</p>
             </div>
           </Card>
@@ -168,9 +169,7 @@ const tabItems = [
             className="cardStatus"
           >
             <div className="flex">
-              <div className="status3">
-                <p>Cancelled</p>
-              </div>
+            {<span className={getStatusClass('Cancelled')}>Cancelled</span>}
               <p className="font-medium mx-3 mt-4">09 Oktober 2024</p>
             </div>
           </Card>
@@ -216,9 +215,7 @@ const tabItems = [
            className="cardStatus"
           >
             <div className="flex">
-              <div className="status1">
-                <p>Delivered</p>
-              </div>
+            {<span className={getStatusClass('Delivered')}>Delivered</span>}
               <p className="font-medium mx-3 mt-4">10 Oktober 2024</p>
               <div className="resi ml-72 flex">
                 <p className="font-medium mx-3 mt-4">Resi Number</p>
