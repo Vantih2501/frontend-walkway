@@ -1,8 +1,7 @@
 "use client";
-import { useLogin } from "#/hooks/auth";
-import { AuthService } from "#/services/auth";
+import { useAuth } from "#/hooks/auth";
+import { setTokens } from "#/utils/token";
 import { Form, Input, Button, Divider } from "antd";
-import Cookies from "js-cookie";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -17,18 +16,14 @@ const inputStyle = "h-11 rounded-lg 2xl:h-14";
 
 const LoginForm = () => {
   const [isloading, setIsLoading] = useState(false);
-  // const { login } = useLogin()
-  const router = useRouter()
+  const { login } = useAuth();
+  const router = useRouter();
 
   const onFinish = async (values: LoginFormValues) => {
     try {
       setIsLoading(true);
-      const response = await AuthService.hooks.useLogin(
-        values.email,
-        values.password
-      );
-      Cookies.set("access_token", response.access_token, { expires: 1 });
-      // Cookies.set("refresh_token", refresh_token, { expires: 7 });
+      const response = await login(values.email, values.password);
+      setTokens(response.access_token);
       router.push("/");
     } catch (error) {
       console.error(error);
@@ -74,9 +69,9 @@ const LoginForm = () => {
         </Button>
       </Form.Item>
 
-      <div className="flex gap-2 items-center justify-center mt-6 text-sm">
+      <div className="flex items-center justify-center gap-2 mt-6 text-sm">
         <p className="text-zinc-500">Don`t have an account?</p>
-        <Link className="hover:opacity-70 font-medium" href={"/register"}>
+        <Link className="font-medium hover:opacity-70" href={"/register"}>
           Sign Up
         </Link>
       </div>

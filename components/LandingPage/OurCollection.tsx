@@ -1,14 +1,15 @@
-"use client"
+"use client";
 import React from "react";
 import Link from "next/link";
 import { useProduct } from "#/hooks/product";
 import ProductCard from "../common/card/ProductCard";
+import { urlFormatter } from "#/utils/url-formatter";
 // import ProductCard from "#/components/Card/page";
 // import { products } from "#/mock-data/products";
 
 const OurCollection = () => {
-  const { fetchNewestProduct } = useProduct()
-  const { product } = fetchNewestProduct()
+  const { fetchNewestProduct } = useProduct();
+  const { product } = fetchNewestProduct();
 
   return (
     <div className="bg-primary-100">
@@ -26,24 +27,18 @@ const OurCollection = () => {
             </Link>
           </div>
           <div className="grid grid-cols-5 gap-4 2xl:grid-cols-6">
-            {product && product.map(product => (
-              <ProductCard
-                key={product.id}
-                price={product.price}
-                productName={product.name}
-                imageUrl={product.productPhotos.toString()}
-                size="md"
-              />
-            ))}
-            {/* {products.map((product) => (
-              <ProductCard
-                key={product.id}
-                price={product.price}
-                productName={product.name}
-                imageUrl={product.image}
-                size="md"
-              />
-            ))} */}
+            {product &&
+              product.map((product) => (
+                <Link href={`/product/${urlFormatter(product.brand.name)}/${urlFormatter(product.name)}`}>
+                  <ProductCard
+                    key={product.id}
+                    price={product.price}
+                    productName={product.name}
+                    imageUrl={product.productPhotos.toString()}
+                    size="md"
+                  />
+                </Link>
+              ))}
           </div>
         </div>
       </div>

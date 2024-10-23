@@ -10,15 +10,15 @@ import RegisterForm from "#/components/Auth/RegisterForm";
 
 const Register = () => {
   return (
-    <div className="w-full h-full flex fixed">
-      <div className="w-1/2 bg-red-200 relative h-full">
+    <div className="fixed flex w-full h-full">
+      <div className="relative hidden w-1/2 h-full bg-red-200 xl:block">
         <AuthHero />
       </div>
-      <div className="w-1/2 h-full py-9 px-20 2xl:py-14 2xl:px-36 overflow-y-auto">
+      <div className="w-full h-full px-20 overflow-y-auto xl:w-1/2 py-9 2xl:py-14 2xl:px-36">
         <div>
           <Link
             href={"/login"}
-            className="flex items-center hover:opacity-70 text-sm 2xl:text-lg no-underline text-zinc-900"
+            className="flex items-center text-sm no-underline hover:opacity-70 2xl:text-lg text-zinc-900"
           >
             <HiMiniChevronLeft />
             <p className="mb-0">Sign In</p>
@@ -26,7 +26,7 @@ const Register = () => {
         </div>
         <div className="mt-11 2xl:mt-28">
           <div className="mb-10 2xl:mb-16">
-            <h1 className="text-3xl 2xl:text-5xl font-medium mb-2 text-zinc-800">
+            <h1 className="mb-2 text-3xl font-medium 2xl:text-5xl text-zinc-800">
               Join With Us
             </h1>
             <p className="text-sm 2xl:xl text-zinc-500">

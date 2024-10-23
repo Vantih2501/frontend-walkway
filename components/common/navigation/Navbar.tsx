@@ -3,19 +3,16 @@
 import React, { useState } from "react";
 import { SearchOutlined } from "@ant-design/icons";
 import Link from "next/link";
-import { Menu, theme, Input, message, Button } from "antd";
+import { Menu, theme, Input, message, Button, Avatar } from "antd";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import SignContainer from "./ui/SignContainer";
 import ProfileContainer from "./ui/ProfileContainer";
 import logo from "#/public/icons/logo.svg";
+import { useAuth } from "#/hooks/auth";
+import { HiOutlineShoppingBag } from "react-icons/hi2";
 
-export default function Navbar() {
-  const router = useRouter();
-  const {
-    token: { colorBgContainer },
-  } = theme.useToken();
-
+export default function Navbar({ user }: { user?: User }) {
   const menus = [
     {
       key: "Sneakers",
@@ -37,8 +34,6 @@ export default function Navbar() {
 
   const [value, setValue] = useState("");
 
-  const user = false;
-
   const onSearch = (value: string) => {
     message.info(`Searching for: ${value}`);
   };
@@ -50,7 +45,9 @@ export default function Navbar() {
   return (
     <div className="sticky top-0 flex flex-col w-screen gap-6 py-6 bg-white shadow-lg z-[100] px-14">
       <div className="flex items-center justify-between gap-6">
-        <Image src={logo} alt="logo" className="" />
+        <Link href="/">
+          <Image src={logo} alt="logo" className="" />
+        </Link>
 
         <Input
           onFocus={() => console.log("click")}
@@ -61,13 +58,19 @@ export default function Navbar() {
 
         <div className="flex items-center gap-4">
           {user ? (
-            "user btn here"
+            <>
+              <HiOutlineShoppingBag size={32} />
+              <Avatar>{user.name}</Avatar>
+            </>
           ) : (
             <>
-              <Button className="bg-green-600 rounded-full text-zinc-50">
+              <Button
+                href="/register"
+                className="bg-green-600 rounded-full text-zinc-50"
+              >
                 Sign Up
               </Button>
-              <Button type="text" className="rounded-full">
+              <Button href="/login" type="text" className="rounded-full">
                 Sign In
               </Button>
             </>

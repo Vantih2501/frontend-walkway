@@ -1,3 +1,4 @@
+"use client"
 import {
   HeroSection,
   BrandBanner,
@@ -7,12 +8,18 @@ import {
 } from "#/components/LandingPage/page";
 import React from "react";
 import MainLayout from "./(guest)/(user)/layout";
-import { useProduct } from "#/hooks/product";
+import { useAuth } from "#/hooks/auth";
+import { getAccessToken } from "#/utils/token";
 
 export default function Home() {
-  
+  const { getUser } = useAuth();
+
+  const token = getAccessToken();
+
+  const { user } = getUser(token || '');
+  console.log(user)
   return (
-    <MainLayout>
+    <MainLayout user={user}>
       <HeroSection />
       <BrandBanner />
       <ProductDisplay />

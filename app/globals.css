@@ -11,6 +11,16 @@ body {
   overflow-x: hidden;
 }
 
+@layer base {
+  input[type='number']::-webkit-outer-spin-button,
+  input[type='number']::-webkit-inner-spin-button,
+  input[type='number'] {
+    -webkit-appearance: none;
+    margin: 0;
+    -moz-appearance: textfield !important;
+  }
+}
+
 p, h1 {
   margin: 0;
 }
@@ -187,4 +197,11 @@ a:-webkit-any-link {
     margin: 0 8px;
     font-size: 1.2rem;
   }
+}
+
+
+.hide-arrow[type="number"]::-webkit-inner-spin-button,
+.hide-arrow[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }

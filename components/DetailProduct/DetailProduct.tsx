@@ -95,7 +95,7 @@ const DetailProduct = ({ product }: { product: Product | undefined }) => {
             </div>
             <div>
               <p className="text-zinc-500">Available For:</p>
-              <h1 className="text-2xl font-medium">Rp 2,500,000</h1>
+              <h1 className="text-2xl font-medium">Rp {product?.price.toLocaleString('en-US')}</h1>
             </div>
           </div>
           <div className="flex gap-4">

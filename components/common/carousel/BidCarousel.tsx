@@ -14,7 +14,7 @@ interface CarouselProps {
 
 const BidCarousel = ({ bids }: CarouselProps) => {
   const carouselRef = useRef<any>(null);
-  console.log(bids)
+
   const handleNext = () => {
     carouselRef.current.next();
   };

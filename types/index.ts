@@ -1,3 +1,12 @@
+
+
+interface User {
+  id: string;
+  name: string;
+  email: string;
+  phone_number: string;
+}
+
 interface ProductImage {
   id: string;
   image: string;
@@ -14,7 +23,7 @@ interface Product {
   productDetails: {
     size: number;
   }[];
-  createdAt: Date
+  createdAt: Date;
 }
 
 interface ProductDetail {

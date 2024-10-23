@@ -9,7 +9,6 @@ import BidCarousel from "../common/carousel/BidCarousel";
 const BidDisplay = () => {
   const { fetchBids } = useBid()
   const { bids } = fetchBids()
-  console.log(bids)
   return (
     <div className="mx-auto max-w-7xl">
       <div className="flex items-center h-full px-8 py-12">

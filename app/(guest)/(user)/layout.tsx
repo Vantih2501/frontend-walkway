@@ -8,10 +8,10 @@ const poppins = Poppins({
 	preload: false,
 });
 
-export default function MainLayout({ children }: { children: React.ReactNode }) {
+export default function MainLayout({ children, user }: { children: React.ReactNode, user?: User }) {
 	return (
 		<>
-			<Navbar />
+			<Navbar user={user} />
 			<main className="">{children}</main>
 			<Footer />
 		</>

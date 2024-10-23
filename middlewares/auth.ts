@@ -1,57 +1,6 @@
-import { NextResponse } from 'next/server';
-import type { NextRequest } from 'next/server';
-// import { refreshToken as refreshTokenEndpoint } from '@/endpoints/auth';
-import { jwtDecode } from 'jwt-decode';
-import { removeTokens, setTokens } from '#/utils/token';
-import { AuthService } from '#/services/auth';
-
-export async function AuthMiddleware(req: NextRequest) {
-  const accessToken = req.cookies.get('access_token')?.value;
-  const refreshToken = req.cookies.get('refresh_token')?.value;
-
-  const unprotectedRoutes = [
-    '/',
-    '/product',
-    '/login',
-    '/register',
-  ];
-
-  // if (accessToken && unprotectedRoutes.includes(req.nextUrl.pathname)) {
-  //   return NextResponse.redirect(new URL('/dashboard', req.url));
-  // }
-
-  // if (!unprotectedRoutes.includes(req.nextUrl.pathname)) {
-  //   if (!accessToken) {
-  //     return NextResponse.redirect(new URL('/login', req.url));
-  //   } else {
-  //     const isTokenExpired = checkTokenExpiration(accessToken);
-
-  //     if (isTokenExpired && refreshToken) {
-  //       try {
-  //         // const { newTokens } = AuthService.hooks.useRefreshToken(refreshToken);
-
-  //         // if (newTokens?.access_token && newTokens?.refresh_token) {
-  //         //   setTokens(newTokens.access_token, newTokens.refresh_token)
-  //         //   req.cookies.set('access_token', newTokens.access_token)
-  //         //   req.cookies.set('refresh_token', newTokens.refresh_token)
-  //         // } else {
-  //         //   removeTokens();
-  //         //   return NextResponse.redirect(new URL('/login', req.url));
-  //         // }
-  //       } catch (error) {
-  //         console.error('Error refreshing token:', error);
-  //         removeTokens();
-  //         return NextResponse.redirect(new URL('/login', req.url));
-  //       }
-  //     } else if (!refreshToken) {
-  //       removeTokens();
-  //       return NextResponse.redirect(new URL('/login', req.url));
-  //     }
-  //   }
-  // }
-
-  return NextResponse.next();
-}
+import { NextResponse } from "next/server";
+import type { NextRequest } from "next/server";
+import { jwtDecode } from "jwt-decode";
 
 function checkTokenExpiration(token: string): boolean {
   try {
@@ -59,7 +8,59 @@ function checkTokenExpiration(token: string): boolean {
     const currentTime = Math.floor(Date.now() / 1000);
     return decodedToken.exp < currentTime;
   } catch (error) {
-    console.error('Error decoding token:', error);
+    console.error("Error decoding token:", error);
     return true;
   }
+}
+
+export async function AuthMiddleware(req: NextRequest) {
+  // const accessToken = req.cookies.get("access_token")?.value;
+
+  // const guestRoutes = ["/", "/product"];
+  // const userRoutes = ["/profile"];
+  // const superAdminRoutes = ["/dashboard"];
+  // const authRoutes = ["/login", "/register"];
+
+  // if (!accessToken) {
+  //   if (
+  //     authRoutes.includes(req.nextUrl.pathname) ||
+  //     guestRoutes.includes(req.nextUrl.pathname)
+  //   ) {
+  //     return NextResponse.next();
+  //   } else {
+  //     return NextResponse.redirect(new URL("/login", req.url));
+  //   }
+  // }
+
+  // const decodedToken: {
+  //   id: string;
+  //   role: string;
+  //   name: string;
+  //   email: string;
+  // } = jwtDecode(accessToken);
+  // const isTokenExpired = checkTokenExpiration(accessToken);
+
+  // if (isTokenExpired) {
+  //   return NextResponse.redirect(new URL("/login", req.url));
+  // }
+
+  // if (authRoutes.includes(req.nextUrl.pathname)) {
+  //   return NextResponse.redirect(new URL("/", req.url));
+  // }
+
+  // if (decodedToken.role === "superadmin") {
+  //   if (!superAdminRoutes.includes(req.nextUrl.pathname)) {
+  //     return NextResponse.redirect(new URL("/dashboard", req.url));
+  //   }
+  // } else if (decodedToken.role === "user") {
+  //   if (![...guestRoutes, ...userRoutes].includes(req.nextUrl.pathname)) {
+  //     return NextResponse.redirect(new URL("/", req.url));
+  //   }
+  // } else {
+  //   if (!guestRoutes.includes(req.nextUrl.pathname)) {
+  //     return NextResponse.redirect(new URL("/login", req.url));
+  //   }
+  // }
+
+  return NextResponse.next();
 }

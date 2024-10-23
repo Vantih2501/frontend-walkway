@@ -1,17 +1,31 @@
 import { fetcher } from "#/utils/fetcher";
+import Cookies from "js-cookie";
+import { jwtDecode } from "jwt-decode";
+import useSWR from "swr";
 
-export const useLogin = () => {
-  const login = async (email: string, password: string): Promise<{ access_token: string }> => {
-    return fetcher.post('/auth/login', { email, password });
+export const useAuth = () => {
+  const getUser = (token: string) => {
+    const { data, error, isLoading } = useSWR<User>(`/auth/user/${token}`, fetcher.get);
+    return {
+      user: data,
+      isError: error,
+      isLoading,
+    };
   };
 
-  return login;
-};
-
-export const useRegister = () => {
-  const register = async (name: string, email: string, phone_number: string, password: string): Promise<{ access_token: string }> => {
-    return fetcher.post('/auth/login', { name, email, phone_number, password });
+  const login = async ( email: string, password: string ): Promise<{ access_token: string }> => {
+    return await fetcher.post("/auth/login", { email, password });
   };
 
-  return register;
+  const register = async ( name: string, email: string, phone_number: string, password: string ): Promise<{ access_token: string }> => {
+    return await fetcher.post("/auth/register", {
+      name,
+      email,
+      phone_number,
+      password,
+    });
+  };
+
+
+  return { login, register, getUser };
 };

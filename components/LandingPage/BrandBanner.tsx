@@ -10,7 +10,7 @@ const BrandBanner = () => {
   const { brand, isError, isLoading } = fetchRecentBrand();
   return (
     <div className="text-white bg-primary-400">
-      <div className="px-6 py-10 mx-auto max-w-7xl">
+      <div className="px-6 py-8 mx-auto max-w-7xl">
         <div className="flex flex-wrap items-center w-full justify-evenly gap-x-24">
           {brand &&
             brand.map((brand, index) => (
