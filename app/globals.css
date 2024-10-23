@@ -1,14 +1,14 @@
 /* Google Font */
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100..900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@100..900&display=swap");
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 body {
-  @apply font-poppins text-zinc-900;
-  overflow-x: hidden;
+	@apply font-poppins text-zinc-900;
+	overflow-x: hidden;
 }
 
 @layer base {
@@ -21,182 +21,208 @@ body {
   }
 }
 
-p, h1 {
-  margin: 0;
+@layer base {
+  input[type='number']::-webkit-outer-spin-button,
+  input[type='number']::-webkit-inner-spin-button,
+  input[type='number'] {
+    -webkit-appearance: none;
+    margin: 0;
+    -moz-appearance: textfield !important;
+  }
+}
+
+p,
+h1 {
+	margin: 0;
 }
 
 ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
+	list-style: none;
+	padding: 0;
+	margin: 0;
 }
 
 a:-webkit-any-link {
-    cursor: pointer;
-    text-decoration: none;
+	cursor: pointer;
+	text-decoration: none;
+}
+
+.ant-table-thead > tr > th {
+	@apply bg-zinc-100 text-xs 2xl:text-sm !font-normal
+}
+
+.ant-table-tbody > tr > td {
+	@apply text-xs 2xl:text-sm
 }
 
 /* Button Components */
 .ant-btn-color-primary {
-  box-shadow: none;
+	box-shadow: none;
 }
 
 /* Card Components */
 .ant-card .ant-card-body {
-    padding: 0px;
-    border-radius: 0px;
+	padding: 0px;
+	border-radius: 0px;
 }
 
 .gradient-image {
-  position: absolute;
-  background: linear-gradient(180deg, #000, #e0e0e0, #000); /* Gradient warna */
-  height: 38rem;
-  width: 28rem;
-  margin-Left:-25px;
-  margin-top: -608px;
-  opacity: 0.3;
+	position: absolute;
+	background: linear-gradient(180deg, #000, #e0e0e0, #000); /* Gradient warna */
+	height: 38rem;
+	width: 28rem;
+	margin-left: -25px;
+	margin-top: -608px;
+	opacity: 0.3;
 }
 
-.textW{
-  position: absolute;
-  margin-top: -580px;
+.textW {
+	position: absolute;
+	margin-top: -580px;
 }
 
-.text2{
-  margin-top: 420px;
-  color: white;
-  font-size: small;
-  width: 25rem;
+.text2 {
+	margin-top: 420px;
+	color: white;
+	font-size: small;
+	width: 25rem;
 }
 
-.headernav{
-  height: 10rem !important;
-  background-color: #f4f4f5;
-  width: 120rem !important;
-  display: block !important;
+.headernav {
+	height: 10rem !important;
+	background-color: #f4f4f5;
+	width: 120rem !important;
+	display: block !important;
 }
 
-.searcbar{
-  margin-left: 30px;
-  width: 75rem;
+.searcbar {
+	margin-left: 30px;
+	width: 75rem;
 }
 
-.head1{
-  margin-left: 140px;
+.head1 {
+	margin-left: 140px;
 }
 
-.fotoprof{
-  margin-left: 70px;
-  margin-top: -22px;
+.fotoprof {
+	margin-left: 70px;
+	margin-top: -22px;
 }
 
-.menuNav{
-  margin-left: 45rem;
-  font-size: 15px;
-  font-weight: 600;
-  border-bottom: none; 
+.menuNav {
+	margin-left: 45rem;
+	font-size: 15px;
+	font-weight: 600;
+	border-bottom: none;
 }
 
-.cardC{
-  width: 95rem;
-  background-color: #e4e4e7;
- 
-  margin-top: 100px;
+.cardC {
+	width: 95rem;
+	background-color: #e4e4e7;
+
+	margin-top: 100px;
 }
 
-.cardI{
-  width: 52rem;
-  
+.cardI {
+	width: 52rem;
 }
 
-.CardT{
-  width: 36rem;
-  
+.CardT {
+	width: 36rem;
 }
 
-.butaddress{
-  margin-Left: 470px;
-  font-Size: 15px;
-  color: white;
-  background-color: #4E7772;
+.butaddress {
+	margin-left: 470px;
+	font-size: 15px;
+	color: white;
+	background-color: #4e7772;
 }
 
-.svaddress{
-  font-Size: 15px;
-  color: white;
-  background-color: #4E7772;
+.svaddress {
+	font-size: 15px;
+	color: white;
+	background-color: #4e7772;
 }
 
-.svaddress:hover{
-  font-Size: 15px;
-  color: #4E7772 !important;
-  background-color: #ffffff !important;
-  border: 1px solid #4E7772 !important;
+.svaddress:hover {
+	font-size: 15px;
+	color: #4e7772 !important;
+	background-color: #ffffff !important;
+	border: 1px solid #4e7772 !important;
 }
 
-.colprice{
-  margin-left: 230px;
+.colprice {
+	margin-left: 230px;
 }
 
-.shipprice{
-  margin-left: 310px;
+.shipprice {
+	margin-left: 310px;
 }
 
-.coltotal{
-  margin-left: 250px;
+.coltotal {
+	margin-left: 250px;
 }
 
-.nameaddress{
-  margin-left: -20px;
-  width: 27rem;
+.nameaddress {
+	margin-left: -20px;
+	width: 27rem;
 }
 
-.editadd{
-  margin-Left: 470px;
-  font-Size: 15px;
-  background-color: #ffffff !important;
-  border: 1px solid #4E7772 !important;
+.editadd {
+	margin-left: 470px;
+	font-size: 15px;
+	background-color: #ffffff !important;
+	border: 1px solid #4e7772 !important;
 }
 
-.cardFooter{
-  background-color: #29362C !important;
-  width: auto;
-  height: 400px;
-  padding: 0;
+.cardFooter {
+	background-color: #29362c !important;
+	width: auto;
+	height: 400px;
+	padding: 0;
 }
 
-
-.img-bg-footer{
-  height: 395px;
-  padding: 0;
-  position: absolute;
-  margin-left: 73rem;
+.img-bg-footer {
+	height: 395px;
+	padding: 0;
+	position: absolute;
+	margin-left: 73rem;
 }
 
 .text-footer {
-  margin-top: 100px;
+	margin-top: 100px;
 }
 
 /* Search Components */
 .ant-input css-dev-only-do-not-override-fau614 {
-  margin-left: 16px;
+	margin-left: 16px;
 }
 
-
 /* Navbar Search Component */
-.navbar-search{
-  margin: 0 4px;
+.navbar-search {
+	margin: 0 4px;
 }
 
 .ant-card-meta-description {
-  font-size: 18px;
+	font-size: 18px;
+}
+
+.ant-layout-sider {
+	height: 100%;
 }
 
 @media (min-width: 1536px) {
-  .navbar-search{
-    margin: 0 8px;
-    font-size: 1.2rem;
-  }
+	.navbar-search {
+		margin: 0 8px;
+		font-size: 1.2rem;
+	}
+}
+
+@layer base {
+	:root {
+		--radius: 0.5rem;
+		--chart-1: 173 21% 39%;
+	}
 }
 
 
