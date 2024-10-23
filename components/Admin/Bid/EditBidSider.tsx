@@ -7,7 +7,7 @@ const EditBidSider = ({ handleDiscard }: {handleDiscard: () => void }) => {
 	return (
 		<div className="h-full flex flex-col border border-zinc-300 rounded-2xl p-4 space-y-5">
 			<header>
-				<h1 className="text-xl font-medium">Add Bid</h1>
+				<h1 className="text-xl font-medium">Edit Bid</h1>
 			</header>
 			<main className=" flex-grow flex flex-col gap-4">
 				<div className="flex gap-3">

@@ -2,15 +2,14 @@
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
-
 import SideButton from "./ui/SiderButton";
 
-// import {
-// 	Bid,
-// 	BidOutline,
-// 	Product,
-// 	ProductOutline,
-// } from "@/components/svg/page";
+import {
+	Bid,
+	BidOutline,
+	Product,
+	ProductOutline,
+} from "#/components/Icons/Icons";
 
 import {
 	HiOutlineSquares2X2,
@@ -51,29 +50,29 @@ const Sidebar = () => {
 							IconHover={HiUser}
 							href="/profile"
 						/>
-						{/* <SideButton
+						<SideButton
 							title="Product"
 							IconDefault={ProductOutline}
 							IconHover={Product}
 							href="/product"
-						/> */}
+						/>
 						<SideButton
 							title="Category & Brand"
 							IconDefault={HiOutlineTag}
 							IconHover={HiTag}
 							href="/category-brand"
 						/>
-						{/* <SideButton
+						<SideButton
 							title="Bid"
 							IconDefault={BidOutline}
 							IconHover={Bid}
 							href="/bid"
-						/> */}
+						/>
 						<SideButton
-							title="Orders"
+							title="Bid Orders"
 							IconDefault={HiOutlineShoppingBag}
 							IconHover={HiShoppingBag}
-							href="/orders"
+							href="/orders-bid"
 						/>
 					</ul>
 					{/* Siderbar bagian bawah */}
