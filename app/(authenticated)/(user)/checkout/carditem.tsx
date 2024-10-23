@@ -13,9 +13,7 @@ import {
   Typography,
 } from "antd";
 import {
-    CheckOutlined,
   CloseOutlined,
-  FormOutlined,
   MinusOutlined,
   PlusOutlined,
   RightOutlined,
@@ -38,6 +36,20 @@ export default function CardItem() {
   const handleCancel = () => {
     setIsModalOpen(false);
   };
+
+  const [isModalOpen2, setIsModalOpen2] = useState(false);
+
+  const showModal2 = () => {
+    setIsModalOpen2(true);
+  };
+
+  const handleOk2 = () => {
+    setIsModalOpen2(false);
+  };
+
+  const handleCancel2 = () => {
+    setIsModalOpen2(false);
+  };
   return (
     <div>
       <Card className="cardI">
@@ -46,7 +58,7 @@ export default function CardItem() {
           <Image src="/product1.png" alt="product" width={230}></Image>
 
           <div className="nameP" style={{ width: "320px" }}>
-            <h3 style={{ fontSize: "20px", marginTop: "25px" }}>
+            <h3 className="textC">
               New Balance 1906R Silver Metallic Sea Salt
             </h3>
             <p style={{ fontSize: "15px", color: "#a1a1aa" }}>Size: 12</p>
@@ -73,12 +85,7 @@ export default function CardItem() {
           </div>
 
           <h3
-            style={{
-              fontSize: "20px",
-              marginTop: "25px",
-              width: "200px",
-              marginLeft: "80px",
-            }}
+            className="priceC"
           >
             IDR 2,500,000
           </h3>
@@ -87,51 +94,50 @@ export default function CardItem() {
         <hr /> <br />
         <div className="flex">
           <h3 className="mx-10 text-lg">ADDRESS</h3>
-          <Button onClick={showModal} className="editadd">
-            <FormOutlined />
-            Edit Address
+          <Button onClick={showModal2} className="butaddress">
+            Add Address
           </Button>
         </div>
-        <div className="flex">
-          <img
-            src="/maps-logo.png"
-            alt="mapslogo"
-            width={40}
-            height={40}
-            className="mx-10"
-          />
-          <div className="nameaddress">
-            <p className="font-medium">Gandara | +62 0895 0913 7208</p>
-            <p style={{ color: "grey" }}>
-              Jalan Kemuning Raya No. 15, Kelurahan Menteng, Kecamatan Menteng,
-              Kota Jakarta Pusat, DKI Jakarta 10310, Indonesia.
-            </p>
-          </div>
-        </div>
+        <br />
         <hr />
         <br />
         <div className="flex">
           <h3 className="mx-10 text-lg">CHOOSE DELIVERY</h3>
+          <a href="http://"><RightOutlined className="iconRight" /></a>
         </div>
-        <div className="flex">
-          <img
-            src="/logo-delivery.png"
-            alt="logodelivery"
-            width={40}
-            height={40}
-            className="mx-10"
-          />
-          <div className="nameaddress">
-            <p className="font-medium">JNE Regular <span style={{ color:"gray" }}>| Estimation 3 - 6 Sep</span></p>
-            <p style={{ color: "grey" }}>
-              Jalan Kemuning Raya No. 15, Kelurahan Menteng, Kecamatan Menteng,
-              Kota Jakarta Pusat, DKI Jakarta 10310, Indonesia.
-            </p>
-            <p className="font-medium">Rp 24,000</p>
-          </div>
-          <CheckOutlined style={{ marginLeft:"200px", fontSize:"20px", marginTop:"-20px" }} />
-        </div>
+        <br />
       </Card>
+
+      {/* MODAL PILIH ADDRESS */}
+      <Modal open={isModalOpen2} onOk={handleOk2} onCancel={handleCancel2} footer={null}>
+      <Title level={3}>Address List</Title>
+      <hr />
+        {/* Address 1 */}
+        <div className="addressprof ml-3 mt-3">
+              <p className="font-medium">Gandara | +62 0895 0913 7208</p>
+              <p style={{ color: "grey" }}>
+                Jalan Kemuning Raya No. 15, Kelurahan Menteng, Kecamatan
+                Menteng, Kota Jakarta Pusat, DKI Jakarta 10310, Indonesia.
+              </p>
+              <div className="flex mb-8">
+                <Button>Used</Button>
+              </div>
+         </div>
+         <hr />
+         <div className="addressprof ml-3 mt-3">
+              <p className="font-medium">Farel | +62 0895 0913 7208</p>
+              <p style={{ color: "grey" }}>
+                Jalan Kemuning Raya No. 15, Kelurahan Menteng, Kecamatan
+                Menteng, Kota Jakarta Pusat, DKI Jakarta 10310, Indonesia.
+              </p>
+              <div className="flex mb-8">
+                <Button type="primary">Use</Button>
+              </div>
+         </div>
+         <hr /><br /><br />
+         <Button onClick={showModal} block type="primary"><PlusOutlined /> Add New Address</Button>
+      </Modal>
+
 
       {/* Modal Address */}
       <Modal
@@ -140,7 +146,7 @@ export default function CardItem() {
         onCancel={handleCancel}
         footer={null}
       >
-        <Title level={3}>Edit Address</Title>
+        <Title level={3}>Add New Address</Title>
         <hr />
         <Form
           name="complex-form"
@@ -258,9 +264,7 @@ export default function CardItem() {
           </Form.Item>
         </Form>
       </Modal>
-      <br />
-      <br />
-      <br />
+      <br /><br /><br />
     </div>
   );
 }

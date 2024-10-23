@@ -794,24 +794,18 @@ ansi-styles@^6.1.0:
   resolved "https://registry.yarnpkg.com/ansi-styles/-/ansi-styles-6.2.1.tgz#0e62320cf99c21afff3b3012192546aacbfb05c5"
   integrity sha512-bN798gFfQX+viw3R7yrGWRqnrN2oRkEkUjjl4JNn4E8GxxbjtG3FbrEIIY3l8/hrwUwIeCZvi4QuOTP4MErVug==
 
-antd-style@^3.7.0:
-  version "3.7.1"
-  resolved "https://registry.yarnpkg.com/antd-style/-/antd-style-3.7.1.tgz#59f35e04c6b4b0082774f9de748d3e946188ba87"
-  integrity sha512-CQOfddVp4aOvBfCepa+Kj2e7ap+2XBINg1Kn2osdE3oQvrD7KJu/K0sfnLcFLkgCJygbxmuazYdWLKb+drPDYA==
+antd-img-crop@^4.23.0:
+  version "4.23.0"
+  resolved "https://registry.npmjs.org/antd-img-crop/-/antd-img-crop-4.23.0.tgz"
+  integrity sha512-JtQoUmR3GqXoG+hsYXRxCBC60AgUKbbvArbnd8/5UmmuyVcQzBnumfoQTdC9wczWQuxRIpkPwsdOge6CCeepqg==
   dependencies:
-    "@ant-design/cssinjs" "^1.21.1"
-    "@babel/runtime" "^7.24.1"
-    "@emotion/cache" "^11.11.0"
-    "@emotion/css" "^11.11.2"
-    "@emotion/react" "^11.11.4"
-    "@emotion/serialize" "^1.1.3"
-    "@emotion/utils" "^1.2.1"
-    use-merge-value "^1.2.0"
+    react-easy-crop "^5.0.8"
+    tslib "^2.6.3"
 
-antd@^5.21.2:
-  version "5.21.4"
-  resolved "https://registry.yarnpkg.com/antd/-/antd-5.21.4.tgz#c17a732fa26a4af1b21c72d08a92bc01c8f3e4d1"
-  integrity sha512-yMpwam1A4/RIIemJK0V3SpMAfgbBEM47OFzEYcEQPDP+B4ZAeviKOLaFFxUt/sxRCMeoALnJEK6Hb6qOqL0hbA==
+antd@^5.21.2, antd@>=4.0.0:
+  version "5.21.2"
+  resolved "https://registry.npmjs.org/antd/-/antd-5.21.2.tgz"
+  integrity sha512-ZcyykH58xRkNp5oxFqn255VxrjLj6qG6czHJQPoDHqRdR9roSfWQGTiqYVb4Omg77WZHNgu17QrWzvL4Hp6/FA==
   dependencies:
     "@ant-design/colors" "^7.1.0"
     "@ant-design/cssinjs" "^1.21.1"
@@ -2836,6 +2830,11 @@ normalize-range@^0.1.2:
   resolved "https://registry.yarnpkg.com/normalize-range/-/normalize-range-0.1.2.tgz#2d10c06bdfd312ea9777695a4d28439456b75942"
   integrity sha512-bdok/XvKII3nUpklnV6P2hxtMNrCboOjAcyBuQnWEhO665FwrSNRxU+AqpsyvO6LgGYPspN+lu5CLtw4jPRKNA==
 
+normalize-wheel@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.npmjs.org/normalize-wheel/-/normalize-wheel-1.0.1.tgz"
+  integrity sha512-1OnlAPZ3zgrk8B91HyRj+eVv+kS5u+Z0SCsak6Xil/kmgEia50ga7zfkumayonZrImffAxPU/5WcyGhzetHNPA==
+
 object-assign@^4.0.1, object-assign@^4.1.1:
   version "4.1.1"
   resolved "https://registry.yarnpkg.com/object-assign/-/object-assign-4.1.1.tgz#2109adc7965887cfc05cbbd442cac8bfbb360863"
@@ -3489,20 +3488,21 @@ rc-virtual-list@^3.14.2, rc-virtual-list@^3.5.1, rc-virtual-list@^3.5.2:
     rc-resize-observer "^1.0.0"
     rc-util "^5.36.0"
 
-react-countup@^6.5.3:
-  version "6.5.3"
-  resolved "https://registry.yarnpkg.com/react-countup/-/react-countup-6.5.3.tgz#e892aa3eab2d6ba9c3cdba30bf4ed6764826d848"
-  integrity sha512-udnqVQitxC7QWADSPDOxVWULkLvKUWrDapn5i53HE4DPRVgs+Y5rr4bo25qEl8jSh+0l2cToJgGMx+clxPM3+w==
-  dependencies:
-    countup.js "^2.8.0"
-
-react-dom@^18.3.1:
+react-dom@*, react-dom@^18.2.0, react-dom@^18.3.1, react-dom@>=16.0.0, react-dom@>=16.11.0, react-dom@>=16.4.0, react-dom@>=16.8.0, react-dom@>=16.9.0:
   version "18.3.1"
   resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-18.3.1.tgz#c2265d79511b57d479b3dd3fdfa51536494c5cb4"
   integrity sha512-5m4nQKp+rZRb09LNH59GM4BxTh9251/ylbKIbpe7TpGxfJ+9kv6BLkLBXIjjspbgbnIBNqlI23tRnTWT0snUIw==
   dependencies:
     loose-envify "^1.1.0"
     scheduler "^0.23.2"
+
+react-easy-crop@^5.0.8:
+  version "5.1.0"
+  resolved "https://registry.npmjs.org/react-easy-crop/-/react-easy-crop-5.1.0.tgz"
+  integrity sha512-UsYeF/N7zoqtfOSD+2xSt1nRaoBYCI2YLkzmq+hi+aVepS4/bAMhbrLwJtDAP60jsVzWRiQCX7JG+ZtfWcHsiw==
+  dependencies:
+    normalize-wheel "^1.0.1"
+    tslib "^2.0.1"
 
 react-icons@^5.3.0:
   version "5.3.0"
@@ -3519,26 +3519,7 @@ react-is@^18.2.0, react-is@^18.3.1:
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-18.3.1.tgz#e83557dc12eae63a99e003a46388b1dcbb44db7e"
   integrity sha512-/LLMVyas0ljjAtoYiPqYiL8VWXzUUdThrmU5+n20DZv+a+ClRoevUzw5JxU+Ieh5/c87ytoTBV9G1FiKfNJdmg==
 
-react-smooth@^4.0.0:
-  version "4.0.1"
-  resolved "https://registry.yarnpkg.com/react-smooth/-/react-smooth-4.0.1.tgz#6200d8699bfe051ae40ba187988323b1449eab1a"
-  integrity sha512-OE4hm7XqR0jNOq3Qmk9mFLyd6p2+j6bvbPJ7qlB7+oo0eNcL2l7WQzG6MBnT3EXY6xzkLMUBec3AfewJdA0J8w==
-  dependencies:
-    fast-equals "^5.0.1"
-    prop-types "^15.8.1"
-    react-transition-group "^4.4.5"
-
-react-transition-group@^4.4.5:
-  version "4.4.5"
-  resolved "https://registry.yarnpkg.com/react-transition-group/-/react-transition-group-4.4.5.tgz#e53d4e3f3344da8521489fbef8f2581d42becdd1"
-  integrity sha512-pZcd1MCJoiKiBR2NRxeCRg13uCXbydPnmB4EOeRrY7480qNWO8IIgQG6zlDkm6uRMsURXPuKq0GWtiM59a5Q6g==
-  dependencies:
-    "@babel/runtime" "^7.5.5"
-    dom-helpers "^5.0.1"
-    loose-envify "^1.4.0"
-    prop-types "^15.6.2"
-
-react@^18.3.1:
+react@*, "react@^16.11.0 || ^17.0.0 || ^18.0.0", "react@^16.8.0 || ^17 || ^18", "react@^16.8.0 || ^17.0.0 || ^18.0.0", react@^18.2.0, react@^18.3.1, "react@>= 16.8.0 || 17.x.x || ^18.0.0-0", react@>=16.0.0, react@>=16.11.0, react@>=16.4.0, react@>=16.8.0, react@>=16.9.0:
   version "18.3.1"
   resolved "https://registry.yarnpkg.com/react/-/react-18.3.1.tgz#49ab892009c53933625bd16b2533fc754cab2891"
   integrity sha512-wS+hAgJShR0KhEvPJArfuPVN1+Hz1t0Y6n5jLrGQbkb4urgPE/0Rve+1kMB1v/oWgHgm4WIcV+i7F2pTVj+2iQ==
@@ -4098,10 +4079,10 @@ tslib@^1.8.1:
   resolved "https://registry.yarnpkg.com/tslib/-/tslib-1.14.1.tgz#cf2d38bdc34a134bcaf1091c41f6619e2f672d00"
   integrity sha512-Xni35NKzjgMrwevysHTCArtLDpPvye8zV/0E4EyYn43P7/7qvQwPh9BGkHewbMulVntbigmcT7rdX3BNo9wRJg==
 
-tslib@^2.4.0:
-  version "2.8.0"
-  resolved "https://registry.yarnpkg.com/tslib/-/tslib-2.8.0.tgz#d124c86c3c05a40a91e6fdea4021bd31d377971b"
-  integrity sha512-jWVzBLplnCmoaTr13V9dYbiQ99wvZRd0vNWaDRg+aVYRcjDF3nDksxFDE/+fkXnKhpnUUkmx5pK/v8mCtLVqZA==
+tslib@^2.0.1, tslib@^2.4.0, tslib@^2.6.3:
+  version "2.7.0"
+  resolved "https://registry.npmjs.org/tslib/-/tslib-2.7.0.tgz"
+  integrity sha512-gLXCKdN1/j47AiHiOkJN69hJmcbGTHI0ImLmbYLHykhgeN0jVGola9yVjFgzCUklsZQMW55o+dW7IXv3RCXDzA==
 
 tsutils@^3.21.0:
   version "3.21.0"
