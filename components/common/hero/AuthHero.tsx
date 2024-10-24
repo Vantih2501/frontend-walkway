@@ -1,7 +1,7 @@
 import React from "react";
 import Image from "next/image";
-import img from "../../public/image/card-image.png";
-import logo from "../../public/walkway-logo.svg";
+import img from "#/public/card-iamge.png";
+import logo from "#/public/walkway-logo.svg";
 
 const AuthHero = () => {
   return (
