@@ -4,13 +4,11 @@ import { Avatar } from "antd";
 const Header = () => {
 	return (
 		<header>
-			<div className="flex items-end justify-between border-b pb-6 2xl:pb-8">
-				{/* buat h1 satu menjadi otomatis sesuai dengan url */}
+			<div className="flex items-end justify-between pb-6 border-b 2xl:pb-8">
 				<div>
-					<h1 className="text-2xl mb-1 font-medium tracking-tight">
+					<h1 className="mb-1 text-2xl font-medium tracking-tight">
 						Dashboard
 					</h1>
-					<p className="text-sm text-zinc-400">Minggu, 24 Januari 2025</p>
 				</div>
 				<div className="flex items-center gap-3">
 					<Avatar size={43} src="/fotoprof.jpg" />

@@ -3,13 +3,9 @@
 import React, { useState } from "react";
 import { SearchOutlined } from "@ant-design/icons";
 import Link from "next/link";
-import { Menu, theme, Input, message, Button, Avatar } from "antd";
-import { useRouter } from "next/navigation";
+import { Input, message, Button, Avatar } from "antd";
 import Image from "next/image";
-import SignContainer from "./ui/SignContainer";
-import ProfileContainer from "./ui/ProfileContainer";
 import logo from "#/public/icons/logo.svg";
-import { useAuth } from "#/hooks/auth";
 import { HiOutlineShoppingBag } from "react-icons/hi2";
 
 export default function Navbar({ user }: { user?: User }) {

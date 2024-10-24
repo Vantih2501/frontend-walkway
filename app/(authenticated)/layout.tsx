@@ -1,162 +1,58 @@
 "use client";
 
-import React, { useState } from "react";
-import {
-  CloseOutlined,
-  HomeFilled,
-  InfoCircleFilled,
-  LaptopOutlined,
-  NotificationOutlined,
-  ShoppingOutlined,
-  UserOutlined,
-} from "@ant-design/icons";
-import Link from "next/link";
-import {
-  Breadcrumb,
-  Layout,
-  Menu,
-  theme,
-  Input,
-  message,
-  MenuProps,
-  Modal,
-  Typography,
-  Button,
-} from "antd";
-import { useRouter } from "next/navigation";
-import Image from "next/image";
-import Footer from "#/components/Footer";
+import Sider from "#/components/Admin/Layout/Sider";
+import Header from "#/components/Admin/Layout/Header";
+import { Poppins } from "next/font/google";
+import Sidebar from "#/components/common/navigation/Sidebar";
+import { Avatar } from "antd";
+import { usePathname } from "next/navigation";
 
-const { Title } = Typography;
-
-const { Search } = Input;
-
-const { Header, Content, Sider } = Layout;
-
-const items1: MenuProps["items"] = ["1", "2", "3"].map((key) => ({
-  key,
-  label: `nav ${key}`,
-}));
-
-const items2: MenuProps["items"] = [
-  UserOutlined,
-  LaptopOutlined,
-  NotificationOutlined,
-].map((icon, index) => {
-  const key = String(index + 1);
-
-  return {
-    key: `sub${key}`,
-    icon: React.createElement(icon),
-    label: `subnav ${key}`,
-
-    children: new Array(4).fill(null).map((_, j) => {
-      const subKey = index * 4 + j + 1;
-      return {
-        key: subKey,
-        label: `option${subKey}`,
-      };
-    }),
-  };
+const poppins = Poppins({
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700"],
+  preload: false,
 });
 
-interface AuthenticatedLayoutProps {
+interface LayoutProps {
   children: React.ReactNode;
 }
 
-const AuthenticatedLayout: React.FC<AuthenticatedLayoutProps> = ({
-  children,
-}) => {
-  const router = useRouter();
+export default function AdminLayout({ children }: LayoutProps) {
+  const pathname = usePathname();
 
-  const {
-    token: { colorBgContainer },
-  } = theme.useToken();
+  const getTitle = () => {
+    if (pathname === "/dashboard") return "Dashboard";
+    if (pathname === "/dashboard/order") return "Order";
+    if (pathname === "/dashboard/account") return "Account";
+    if (pathname === "/dashboard/product") return "Product";
+    if (pathname === "/dashboard/category") return "Category & Brand";
+    if (pathname === "/dashboard/bid") return "Bid";
 
-  const menu: MenuProps["items"] = [
-    {
-      key: `Sneakers`,
-      label: (      
-      <Link href="/">
-        Sneakers
-      </Link>),
-    },
-    {
-      key: `Casual`,
-      label: (      
-        <Link href="/">
-         Casual
-        </Link>),
-    },
-    {
-      key: `Sport`,
-      label: (      
-        <Link href="/">
-         Sport
-        </Link>),
-    },
-    {
-      key: `Auction`,
-      label: (      
-        <Link href="/">
-         Auction
-        </Link>),
-    },
-  ];
-
-  const [value, setValue] = useState('');
-
-  const onSearch = (value: string) => {
-    // Logika pencarian ketika pengguna menekan tombol "Enter" atau klik ikon pencarian
-    message.info(`Searching for: ${value}`);
-  };
-
-  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setValue(e.target.value);
+		return "Dashboard"; 
   };
 
   return (
-    <Layout>
-      <Header
-        className="drop-shadow-md"
-        style={{ backgroundColor: "white", height: "10rem" }}
-      >
-        <div className={"text-black bg-white flex mt-4 head1"}>
-          <Image src="/logo-black.png" alt="logo" width={150} height={40} />
-          <Search
-            placeholder="Search for sneakers..."
-            size="large"
-            value={value}
-            onChange={onChange}
-            onSearch={onSearch}
-            className="searcbar"
-          />
-          <div className="flex prof-bag"> 
-            <ShoppingOutlined style={{ position:"absolute", marginTop: '5px', marginLeft:'30px', fontSize:'30px' }} /> 
-            <a href="http://"> <Image src="/fotoprof.jpg" alt="Profile" className="rounded-full fotoprof" width={40} height={40}/> </a>
+    <div className={"flex " + poppins.className}>
+      <Sidebar />
+      <div className="w-full h-screen px-4 overflow-y-auto">
+        <div className="sticky top-0 py-7 border-b bg-white z-[100] flex justify-between items-center">
+          <h1 className="mb-1 text-2xl font-medium tracking-tight">
+            {getTitle()}
+          </h1>
+
+          <div className="flex items-center gap-2">
+            <Avatar size={43} src="/fotoprof.jpg" />
+            <div className="-space-y-1">
+              <h2 className="text-base font-medium leading-6">
+                Farel Widianto
+              </h2>
+              <p className="text-xs text-zinc-400">example@gmail.com</p>
+            </div>
           </div>
         </div>
-        <Menu
-          mode="horizontal"
-          defaultSelectedKeys={[]}
-          items={menu}
-          className={"flex-1 menuNav"}
-        />
-      </Header>
-      <br />
-      <Layout>
-        <Layout
-          style={{ padding: "0 0px 0px", height: "calc(100vh - 64px)" }}
-        >
-          <Content
-            style={{ backgroundColor:'white' }}
-          >
-            {children}
-          </Content>
-        </Layout>
-      </Layout>
-    </Layout>
-  );
-};
 
-export default AuthenticatedLayout;
+        <div className="py-7">{children}</div>
+      </div>
+    </div>
+  );
+}
