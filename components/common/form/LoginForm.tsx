@@ -6,13 +6,10 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
-// Define an interface for the form values
 interface LoginFormValues {
   email: string;
   password: string;
 }
-
-const inputStyle = "h-11 rounded-lg 2xl:h-14";
 
 const LoginForm = () => {
   const [isloading, setIsLoading] = useState(false);
@@ -33,16 +30,20 @@ const LoginForm = () => {
   };
 
   return (
-    <Form layout="vertical" onFinish={onFinish}>
+    <Form layout="vertical" onFinish={onFinish} className="w-full">
       <Form.Item
         name="email"
         label="Email Address"
         rules={[
-          { type: "email", message: "Please enter a valid email address." },
+          {
+            type: "email",
+            message: "Please enter a valid email address.",
+            required: true,
+          },
         ]}
         initialValue="gandara@example.com"
       >
-        <Input placeholder="Email Address" className={inputStyle} />
+        <Input placeholder="Email Address" className="py-2 rounded-lg" />
       </Form.Item>
 
       <Form.Item
@@ -52,17 +53,17 @@ const LoginForm = () => {
         className="m-0 2xl:text-lg"
         initialValue="superadmin"
       >
-        <Input.Password placeholder="Password" className={inputStyle} />
+        <Input.Password placeholder="Password" className="py-2 rounded-lg" />
       </Form.Item>
 
-      <Divider className="my-6 2xl:my-7" />
+      <Divider className="my-6" />
 
       <Form.Item>
         <Button
           block
           type="primary"
           htmlType="submit"
-          className={"h-11 rounded-lg 2xl:h-16"}
+          className="py-5 rounded-lg"
           loading={isloading}
         >
           Sign In
@@ -71,7 +72,7 @@ const LoginForm = () => {
 
       <div className="flex items-center justify-center gap-2 mt-6 text-sm">
         <p className="text-zinc-500">Don`t have an account?</p>
-        <Link className="font-medium hover:opacity-70" href={"/register"}>
+        <Link className="font-medium hover:opacity-70" href="/register">
           Sign Up
         </Link>
       </div>
