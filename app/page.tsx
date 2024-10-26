@@ -7,19 +7,11 @@ import {
   BidDisplay,
 } from "#/components/LandingPage/page";
 import React from "react";
-import MainLayout from "./(guest)/(user)/layout";
-import { useAuth } from "#/hooks/auth";
-import { getAccessToken } from "#/utils/token";
+import MainLayout from "./(main)/layout";
 
 export default function Home() {
-  const { getUser } = useAuth();
-
-  const token = getAccessToken();
-
-  const { user } = getUser(token || '');
-  console.log(user)
   return (
-    <MainLayout user={user}>
+    <MainLayout>
       <HeroSection />
       <BrandBanner />
       <ProductDisplay />

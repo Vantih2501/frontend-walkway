@@ -3,12 +3,16 @@
 import React, { useState } from "react";
 import { SearchOutlined } from "@ant-design/icons";
 import Link from "next/link";
-import { Input, message, Button, Avatar } from "antd";
+import { Input, message, Button, Avatar, Dropdown, MenuProps } from "antd";
 import Image from "next/image";
 import logo from "#/public/icons/logo.svg";
 import { HiOutlineShoppingBag } from "react-icons/hi2";
+import { removeTokens } from "#/utils/token";
+import { useRouter } from "next/navigation";
 
 export default function Navbar({ user }: { user?: User }) {
+  const router = useRouter()
+
   const menus = [
     {
       key: "Sneakers",
@@ -28,6 +32,25 @@ export default function Navbar({ user }: { user?: User }) {
     },
   ];
 
+  const items: MenuProps['items'] = [
+    {
+      key: 1,
+      label: user?.name,
+      className: "pointer-events-none"
+    },
+    {
+      type: 'divider'
+    },
+    {
+      key: 2,
+      label: <Link href="/profiles">Profile</Link>
+    },
+    {
+      key: 3,
+      label: <button onClick={() => {removeTokens(); router.refresh()}}>Logout</button>
+    }
+  ]
+
   const [value, setValue] = useState("");
 
   const onSearch = (value: string) => {
@@ -39,7 +62,7 @@ export default function Navbar({ user }: { user?: User }) {
   };
 
   return (
-    <div className="sticky top-0 flex flex-col w-screen gap-6 py-6 bg-white shadow-lg z-[100] px-14">
+    <div className="sticky top-0 flex flex-col w-screen gap-6 py-5 bg-white shadow-lg z-[100] px-14">
       <div className="flex items-center justify-between gap-6">
         <Link href="/">
           <Image src={logo} alt="logo" className="" />
@@ -56,7 +79,9 @@ export default function Navbar({ user }: { user?: User }) {
           {user ? (
             <>
               <HiOutlineShoppingBag size={32} />
-              <Avatar>{user.name}</Avatar>
+              <Dropdown menu={{ items }} placement="bottomRight" className="cursor-pointer">
+                <Avatar>{user.name}</Avatar>
+              </Dropdown>
             </>
           ) : (
             <>

@@ -7,27 +7,23 @@ import {
   DeleteOutlined,
   EditOutlined,
   ExclamationCircleFilled,
+  PlusOutlined,
 } from "@ant-design/icons";
 import { createStyles } from "antd-style";
-import AddModal from "#/components/Admin/Account/AddModal";
-import EditModal from "#/components/Admin/Account/EditModal";
+import AccountModalForm from "#/components/common/modal/AccountModal";
+import { useUser } from "#/hooks/user";
+import { useRole } from "#/hooks/role";
 
 const { confirm } = Modal;
 
-interface Values {
-  name?: string;
-  email?: string;
-  phoneNumber?: string;
-  password?: string;
-  status?: boolean;
-}
-
-interface DataType {
-  key: string;
+interface FormValues {
+  userId: string;
   name: string;
   email: string;
-  phoneNumber: string;
-  tags: string[];
+  phone_number: string;
+  password: string;
+  role: string;
+  status: string;
 }
 
 const AccountTable = () => {
@@ -42,18 +38,26 @@ const AccountTable = () => {
               scrollbar-color: #eaeaea transparent;
               scrollbar-gutter: stable;
             }
-          }
-        }
-      `,
+            }
+            }
+            `,
     };
   });
+  const { fetchUser, postUser, patchUser, deleteUser } = useUser()
+  const { fetchRole } = useRole()
+  const [form] = Form.useForm();
+  const { styles } = useStyle();
 
-  const columns: TableProps<DataType>["columns"] = [
+  const [openModal, setOpenModal] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
+  const [editUserData, setEditUserData] = useState<User>();
+
+  const columns: TableProps<User>["columns"] = [
     {
       title: "Name",
       dataIndex: "name",
       key: "name",
-      render: (text) => text,
     },
     {
       title: "Email",
@@ -62,35 +66,16 @@ const AccountTable = () => {
     },
     {
       title: "Phone Number",
-      dataIndex: "phoneNumber",
-      key: "phoneNumber",
+      dataIndex: "phone_number",
+      key: "phone_number",
     },
     {
       title: "Status",
-      key: "tags",
-      dataIndex: "tags",
+      key: "status",
+      dataIndex: "status",
       align: "center",
-      render: (_, { tags }) => (
-        <>
-          {tags.map((tag) => {
-            let color = tag === "Active" ? "green" : "red";
-
-            return (
-              <Tag
-                color={color}
-                style={{
-                  borderRadius: "30px",
-                  borderColor: "transparent",
-                  fontWeight: "500",
-                  margin: 0,
-                }}
-                key={tag}
-              >
-                {tag}
-              </Tag>
-            );
-          })}
-        </>
+      render: (status) => (
+        <Tag color={status === "active" ? "green" : "red"}>{status}</Tag>
       ),
     },
     {
@@ -98,67 +83,27 @@ const AccountTable = () => {
       key: "action",
       align: "center",
       render: (_, record) => (
-        <Space direction="horizontal" size={4}>
+        <Space size="middle">
           <Button
-            icon={<EditOutlined className="text-zinc-700" />}
+            icon={<EditOutlined />}
             type="default"
-            onClick={showEditModal}
+            onClick={() => {
+              setIsEditing(true);
+              setOpenModal(true);
+              setEditUserData(record);
+            }}
           />
           <Button
-            icon={<DeleteOutlined className="text-zinc-700" />}
+            icon={<DeleteOutlined />}
             type="default"
-            onClick={showDeleteConfirm}
+            onClick={() => confirmDelete(record.id)}
           />
         </Space>
       ),
     },
   ];
 
-  const data: DataType[] = [
-    {
-      key: "1",
-      name: "Farel Widianto",
-      email: "farel@gmail.com",
-      phoneNumber: "+62 895-0991-4782",
-      tags: ["Active"],
-    },
-    {
-      key: "2",
-      name: "Nadin",
-      email: "nadin@gmail.com",
-      phoneNumber: "+62 895-0991-4782",
-      tags: ["Active"],
-    },
-    {
-      key: "3",
-      name: "Gandara",
-      email: "gandara@gmail.com",
-      phoneNumber: "+62 895-0991-4782",
-      tags: ["Active"],
-    },
-    {
-      key: "4",
-      name: "Aril",
-      email: "aril@gmail.com",
-      phoneNumber: "+62 895-0991-4782",
-      tags: ["Active"],
-    },
-    {
-      key: "5",
-      name: "rizky Widianto",
-      email: "rizky@gmail.com",
-      phoneNumber: "+62 895-0991-4782",
-      tags: ["Active"],
-    },
-  ];
-
-  const { styles } = useStyle();
-  const [form] = Form.useForm();
-  const [formValues, setFormValues] = useState<Values>();
-  const [openModalAdd, setOpenModalAdd] = useState(false);
-  const [openModalEdit, setOpenModalEdit] = useState(false);
-
-  const showDeleteConfirm = () => {
+  const confirmDelete = (userId: string) => {
     confirm({
       title: "Are you sure delete this task?",
       icon: <ExclamationCircleFilled />,
@@ -166,66 +111,86 @@ const AccountTable = () => {
       okText: "Yes",
       okType: "danger",
       cancelText: "No",
-      onOk() {
-        console.log("OK");
-      },
-      onCancel() {
-        console.log("Cancel");
+      onOk: async () => {
+        await deleteUser(userId)
       },
     });
   };
 
-  const handleChange = (value: string) => {
-    console.log(`selected ${value}`);
+  const onFinish = async (values: FormValues) => {
+    try {
+      setLoading(true)
+      if (isEditing) {
+        await patchUser(
+          values.userId,
+          values.name,
+          values.phone_number,
+          values.status
+        )
+      } else {
+        await postUser(
+          values.name,
+          values.email,
+          values.phone_number,
+          values.password,
+          values.role
+        )
+      }
+    } catch (error) {
+      console.error(error)
+    } finally {
+      setOpenModal(false)
+      setLoading(false)
+      form.resetFields()
+    }
   };
 
-  const showAddModal = () => {
-    setOpenModalAdd(true);
-  };
+  const { user, isLoading: isUserLoading } = fetchUser()
+  const { role, isLoading: isRoleLoading } = fetchRole()
 
-  const showEditModal = () => {
-    setOpenModalEdit(true);
-  };
-
-  const onCreate = (values: Values) => {
-    console.log("Received values of form: ", values);
-    setFormValues(values);
-    setOpenModalAdd(false);
-    setOpenModalEdit(false);
-  };
+  if (isUserLoading || isRoleLoading) {
+    return <div>loading...</div>
+  }
 
   return (
     <div className="space-y-5">
       <Button
         type={"primary"}
         className="rounded-md text-xs h-[33px]"
-        onClick={showAddModal}
+        onClick={() => {
+          setOpenModal(true),
+            setIsEditing(false),
+            setEditUserData(undefined)
+        }}
+        icon={<PlusOutlined />}
       >
-        + Admin
+        Account
       </Button>
 
-      <AddModal
-        openModalAdd={openModalAdd}
-        setOpenModalAdd={setOpenModalAdd}
-        onCreate={onCreate}
+      <AccountModalForm
+        open={openModal}
+        onFinish={onFinish}
+        onCancel={() => {
+          setOpenModal(false),
+            setEditUserData(undefined)
+          setIsEditing(false)
+        }}
         form={form}
+        roles={role}
+        userData={editUserData}
+        loading={loading}
+        isEditing={isEditing}
       />
 
-      <EditModal
-        openModalEdit={openModalEdit}
-        setOpenModalEdit={setOpenModalEdit}
-        onCreate={onCreate}
-        form={form}
-        handleChange={handleChange}
-      />
-
-      <Table<DataType>
-        className={styles.customTable}
-        columns={columns}
-        dataSource={data}
-        scroll={{ y: 120 * 5 }}
-        pagination={false}
-      />
+      {user && (
+        <Table<User>
+          className={styles.customTable}
+          columns={columns}
+          dataSource={user}
+          scroll={{ y: 60 * 5 }}
+          pagination={false}
+        />
+      )}
     </div>
   );
 };

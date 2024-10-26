@@ -4,7 +4,14 @@ interface User {
   id: string;
   name: string;
   email: string;
+  roleId: string;
   phone_number: string;
+  status: string;
+}
+
+interface Role {
+  id: string;
+  name: string;
 }
 
 interface ProductImage {

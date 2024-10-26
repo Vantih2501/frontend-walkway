@@ -11,7 +11,7 @@ const setAuthorizationHeader = (request: SuperAgentRequest) => {
 		: request;
 };
 
-const createRequest = (method: 'get' | 'post' | 'put' | 'del', url: string) => {
+const createRequest = (method: 'get' | 'post' | 'patch' | 'del', url: string) => {
 	const request = superagent[method](config.baseUrl + url)
 		// .use(Interceptor)
 		// .use(Logger);
@@ -30,8 +30,8 @@ export const fetcher = {
 		return response.body.data;
 	},
 
-	put: async (url: string, opts: {}) => {
-		const response = await createRequest('put', url).send(opts);
+	patch: async (url: string, opts: {}) => {
+		const response = await createRequest('patch', url).send(opts);
 		return response.body.data;
 	},
 

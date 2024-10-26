@@ -12,18 +12,20 @@ body {
 }
 
 @layer base {
-
-  input[type='number']::-webkit-outer-spin-button,
-  input[type='number']::-webkit-inner-spin-button,
-  input[type='number'] {
+  input[type="number"]::-webkit-outer-spin-button,
+  input[type="number"]::-webkit-inner-spin-button,
+  input[type="number"] {
     -webkit-appearance: none;
     margin: 0;
     -moz-appearance: textfield !important;
-
   }
 }
 
-.phone-input .ant-input-group >.ant-input:last-child{
+.delivery-select.ant-collapse > .ant-collapse-item > .ant-collapse-header {
+  padding: 0px !important;
+}
+
+.phone-input .ant-input-group > .ant-input:last-child {
   padding: 8px;
 }
 
@@ -43,12 +45,12 @@ a:-webkit-any-link {
   text-decoration: none;
 }
 
-.ant-table-thead>tr>th {
-  @apply bg-zinc-100 text-xs 2xl:text-sm !font-normal
+.ant-table-thead > tr > th {
+  @apply bg-zinc-100 text-xs 2xl:text-sm !font-normal;
 }
 
-.ant-table-tbody>tr>td {
-  @apply text-xs 2xl:text-sm
+.ant-table-tbody > tr > td {
+  @apply text-xs 2xl:text-sm;
 }
 
 /* Button Components */
@@ -206,9 +208,9 @@ a:-webkit-any-link {
 }
 
 .editProf {
-  font-Size: 15px;
+  font-size: 15px;
   color: white;
-  background-color: #4E7772;
+  background-color: #4e7772;
   margin-top: 40px;
 }
 
@@ -228,7 +230,7 @@ a:-webkit-any-link {
 }
 
 .feTabs .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
-  background-color: #4E7772 !important;
+  background-color: #4e7772 !important;
   color: white !important;
   font-weight: 600;
   width: 80px;
@@ -236,7 +238,6 @@ a:-webkit-any-link {
   border-radius: 5px;
   padding: 0%;
   line-height: 40px;
-
 }
 
 .ant-tabs-tab {
@@ -274,10 +275,10 @@ a:-webkit-any-link {
   height: 25px;
   margin-top: 13px;
   margin-left: 15px;
-  background-color: #E0FFE0;
+  background-color: #e0ffe0;
   text-align: center;
   line-height: 25px;
-  color: #0F930F;
+  color: #0f930f;
 }
 
 .status2 {
@@ -285,10 +286,10 @@ a:-webkit-any-link {
   height: 25px;
   margin-top: 13px;
   margin-left: 15px;
-  background-color: #FFEFDB;
+  background-color: #ffefdb;
   text-align: center;
   line-height: 25px;
-  color: #FF9407;
+  color: #ff9407;
 }
 
 .status3 {
@@ -296,10 +297,10 @@ a:-webkit-any-link {
   height: 25px;
   margin-top: 13px;
   margin-left: 15px;
-  background-color: #FFE6EA;
+  background-color: #ffe6ea;
   text-align: center;
   line-height: 25px;
-  color: #D80027;
+  color: #d80027;
 }
 
 .list1 {
@@ -332,25 +333,23 @@ a:-webkit-any-link {
 
 .cardInfo {
   width: 60rem;
-  border-Radius: 20px;
-  margin-Left: 30px;
+  border-radius: 20px;
+  margin-left: 30px;
   height: 23rem;
 }
 
 .cardProf {
   width: 300;
-  border-Radius: 20px;
+  border-radius: 20px;
   height: 56rem;
   margin-left: 70px;
 }
 
-
 .CardIAdd {
   width: 60rem;
-  border-Radius: 20px;
-  margin-Left: 30px
+  border-radius: 20px;
+  margin-left: 30px;
 }
-
 
 .hrProf {
   align-content: center;
@@ -359,16 +358,16 @@ a:-webkit-any-link {
 
 .CardOrder {
   width: 59rem;
-  border-Radius: 20px;
-  margin-Left: 30px;
+  border-radius: 20px;
+  margin-left: 30px;
   height: 56rem;
 }
 
 .cardStatus {
   width: 1000;
   height: 50;
-  border-Radius: 10px;
-  background-Color: #fafafa;
+  border-radius: 10px;
+  background-color: #fafafa;
 }
 
 .HBut {
@@ -410,13 +409,13 @@ a:-webkit-any-link {
 
 .reffDetail {
   margin-left: 700px;
-  color: #0F930F;
+  color: #0f930f;
 }
 
 .chooseAdd {
-  margin-Left: 200px;
-  font-Size: 20px;
-  margin-Top: -20px;
+  margin-left: 200px;
+  font-size: 20px;
+  margin-top: -20px;
 }
 
 .upFoto {
@@ -454,7 +453,7 @@ a:-webkit-any-link {
 }
 
 .sidebarMenu .ant-menu-item:hover {
-  background-color: #4E7772 !important;
+  background-color: #4e7772 !important;
   color: white !important;
 }
 
@@ -478,7 +477,6 @@ a:-webkit-any-link {
 .profAdmin {
   margin-left: 74rem;
 }
-
 
 .product-layout {
   display: flex;
@@ -540,7 +538,7 @@ a:-webkit-any-link {
 }
 
 .buttonAddP .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
-  background-color: #4E7772 !important;
+  background-color: #4e7772 !important;
   color: white !important;
   font-weight: 600;
   width: 100px;
@@ -548,7 +546,6 @@ a:-webkit-any-link {
   border-radius: 20px;
   padding: 0%;
   line-height: 40px;
-
 }
 
 .buttonAddP .ant-tabs-tab {
@@ -624,7 +621,6 @@ a:-webkit-any-link {
   background-color: white;
   display: inline-block;
   padding: 0 15px;
-
 }
 
 th {
@@ -651,7 +647,6 @@ th {
   margin-left: 60rem;
 }
 
-
 @media screen and (max-width: 1440px) {
   .cardI {
     width: 41rem;
@@ -659,10 +654,10 @@ th {
   }
 
   .butaddress {
-    margin-Left: 300px;
-    font-Size: 15px;
+    margin-left: 300px;
+    font-size: 15px;
     color: white;
-    background-color: #4E7772;
+    background-color: #4e7772;
   }
 
   .CardT {
@@ -728,9 +723,9 @@ th {
   }
 
   .editProf {
-    font-Size: 15px;
+    font-size: 15px;
     color: white;
-    background-color: #4E7772;
+    background-color: #4e7772;
     margin-top: 40px;
   }
 
@@ -750,7 +745,7 @@ th {
   }
 
   .feTabs .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
-    background-color: #4E7772 !important;
+    background-color: #4e7772 !important;
     color: white !important;
     font-weight: 600;
     width: 80px;
@@ -758,7 +753,6 @@ th {
     border-radius: 5px;
     padding: 0%;
     line-height: 40px;
-
   }
 
   .ant-tabs-tab {
@@ -796,10 +790,10 @@ th {
     height: 25px;
     margin-top: 13px;
     margin-left: 15px;
-    background-color: #E0FFE0;
+    background-color: #e0ffe0;
     text-align: center;
     line-height: 25px;
-    color: #0F930F;
+    color: #0f930f;
   }
 
   .status2 {
@@ -807,10 +801,10 @@ th {
     height: 25px;
     margin-top: 13px;
     margin-left: 15px;
-    background-color: #FFEFDB;
+    background-color: #ffefdb;
     text-align: center;
     line-height: 25px;
-    color: #FF9407;
+    color: #ff9407;
   }
 
   .status3 {
@@ -818,10 +812,10 @@ th {
     height: 25px;
     margin-top: 13px;
     margin-left: 15px;
-    background-color: #FFE6EA;
+    background-color: #ffe6ea;
     text-align: center;
     line-height: 25px;
-    color: #D80027;
+    color: #d80027;
   }
 
   .list1 {
@@ -837,22 +831,22 @@ th {
 
   .cardInfo {
     width: 53rem;
-    border-Radius: 20px;
-    margin-Left: 30px;
+    border-radius: 20px;
+    margin-left: 30px;
     height: 23rem;
   }
 
   .cardProf {
     width: 300;
-    border-Radius: 20px;
+    border-radius: 20px;
     height: 56rem;
     margin-left: 0px;
   }
 
   .CardIAdd {
     width: 53rem;
-    border-Radius: 20px;
-    margin-Left: 30px
+    border-radius: 20px;
+    margin-left: 30px;
   }
 
   .hrProf {
@@ -862,16 +856,16 @@ th {
 
   .CardOrder {
     width: 53rem;
-    border-Radius: 20px;
-    margin-Left: 30px;
+    border-radius: 20px;
+    margin-left: 30px;
     height: 56rem;
   }
 
   .cardStatus {
     width: 800;
     height: 50;
-    border-Radius: 10px;
-    background-Color: #fafafa;
+    border-radius: 10px;
+    background-color: #fafafa;
   }
 
   .HBut {
@@ -913,20 +907,20 @@ th {
 
   .reffDetail {
     margin-left: 600px;
-    color: #0F930F;
+    color: #0f930f;
   }
 
   .editadd {
-    margin-Left: 320px;
-    font-Size: 15px;
+    margin-left: 320px;
+    font-size: 15px;
     background-color: #ffffff !important;
-    border: 1px solid #4E7772 !important;
+    border: 1px solid #4e7772 !important;
   }
 
   .chooseAdd {
-    margin-Left: 50px;
-    font-Size: 20px;
-    margin-Top: -20px;
+    margin-left: 50px;
+    font-size: 20px;
+    margin-top: -20px;
   }
 
   .head1 {
@@ -942,7 +936,7 @@ th {
   }
 
   .sidebarMenu .ant-menu-item:hover {
-    background-color: #4E7772 !important;
+    background-color: #4e7772 !important;
     color: white !important;
   }
 
@@ -1037,7 +1031,7 @@ th {
   }
 
   .buttonAddP .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
-    background-color: #4E7772 !important;
+    background-color: #4e7772 !important;
     color: white !important;
     font-weight: 600;
     width: 100px;
@@ -1045,7 +1039,6 @@ th {
     border-radius: 20px;
     padding: 0%;
     line-height: 40px;
-
   }
 
   .buttonAddP .ant-tabs-tab {
@@ -1106,7 +1099,6 @@ th {
     background-color: white;
     display: inline-block;
     padding: 0 15px;
-
   }
 
   .CardProfA {
@@ -1125,13 +1117,10 @@ th {
     margin-right: 40px;
   }
 
-
   .editPAdmin {
     margin-left: 30rem;
   }
-
 }
-
 
 /* Search Components */
 .ant-input css-dev-only-do-not-override-fau614 {
@@ -1164,7 +1153,6 @@ th {
     --chart-1: 173 21% 39%;
   }
 }
-
 
 .hide-arrow[type="number"]::-webkit-inner-spin-button,
 .hide-arrow[type="number"]::-webkit-outer-spin-button {

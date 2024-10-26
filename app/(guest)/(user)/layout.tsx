@@ -1,13 +1,19 @@
-import Footer from "#/components/Footer/page";
+import Footer from "#/components/common/footer/Footer";
 import Navbar from "#/components/common/navigation/Navbar";
-import { Poppins } from "next/font/google";
+import { useAuth } from "#/hooks/auth";
+import { getAccessToken } from "#/utils/token";
 
-export default function MainLayout({ children, user }: { children: React.ReactNode, user?: User }) {
+export default function MainLayouts({ children }: { children: React.ReactNode }) {
+	const { getUser } = useAuth();
+	const token = getAccessToken();
+
+	const { user } = getUser(token || 'guest');
+	console.log(user)
 	return (
-		<>
+		<main>
 			<Navbar user={user} />
 			<main className="">{children}</main>
 			<Footer />
-		</>
+		</main>
 	);
 }

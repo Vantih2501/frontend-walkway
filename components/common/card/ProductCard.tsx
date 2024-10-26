@@ -8,13 +8,16 @@ interface CardProps {
   price: number;
   productName: string;
   imageUrl?: string;
-  size?: "md" | "lg";
-  variant?: "default" | "bid" | "categories";
 }
 
-const ProductCard = ({
-  size = "lg",
-  variant = "default",
+interface AdminCardProps {
+  productName: string;
+  price: number;
+  totalStock?: number;
+  sold?: number;
+}
+
+export const ProductCard = ({
   price,
   productName,
   imageUrl,
@@ -25,53 +28,33 @@ const ProductCard = ({
     console.log("finished!");
   };
 
-  const isLarge = size === "lg";
-  const isTextColor = variant === "bid";
-
-  const cardClasses = `h-[100%] relative cursor-pointer rounded-xl border border-transparent transition-all duration-300 ease-in-out hover:border-primary-500 w-full group ${
-    variant === "bid"
-      ? "bg-primary-300 border-primary-300 text-white"
-      : "bg-white"
-  }`;
-
   return (
     <div
       className={
         "bg-white h-100vh cursor-pointer rounded-xl border border-transparent transition-all duration-300 ease-in-out hover:border-primary-500 w-full group"
       }
-      // className={cardClasses}
     >
 
       <div className="overflow-hidden rounded-t-xl aspect-w-1 aspect-h-1">
         <Image
           src={imageUrl}
           alt={imageUrl || "img"}
-          // width={isLarge ? 295 : 232}
-          // height={isLarge ? 295 : 232}
           preview={false}
-          className={`w-full h-full object-cover transition-transform duration-300 ease-in-out group-hover:scale-105 py-4 ${
-            variant === "categories" ? "bg-[#F7F8F7]" : "bg-white"
-          }`}
+          className={`w-full h-full object-cover transition-transform duration-300 ease-in-out group-hover:scale-105 py-4 bg-white`}
         />
       </div>
 
       <div className="h-32 p-4">
-        {variant === "bid" && (
-          <p className="mb-1 text-sm text-primary-100/80">Current bid:</p>
-        )}
+
 
         <h1
-          className={`montserrat.className ${
-            isLarge ? "text-2xl mb-4" : "text-xl mb-3"
-          } font-medium`}
+          className={`montserrat.className text-xl mb-3 font-medium`}
         >
           Rp {price.toLocaleString("en-US")}
         </h1>
 
         <p
-          className={`text-${isTextColor ? "primary-100" : "zinc-500"} ${
-            isLarge ? "text-base" : "text-sm"
-          } line-clamp-2 mb-auto`}
+          className={`text-zinc-500 text-sm line-clamp-2 mb-auto`}
         >
           {productName}
         </p>
@@ -80,4 +63,25 @@ const ProductCard = ({
   );
 };
 
-export default ProductCard;
+export const ProductCardAdmin = ({ price, productName }: AdminCardProps) => {
+  return (
+    <div className="rounded-md border bg-white px-4 py-3 space-y-3">
+      <div className="space-y-1">
+        <Image
+          src={"http://localhost:3222/product/uploads/1729612974756.png"}
+          alt="product"
+          preview={false}
+          className="object-contain border-black aspect-video border"
+        />
+        <div className="-space-y-1">
+          <h2 className="font-medium">{productName}</h2>
+          <p className="text-green-600">Rp {price.toLocaleString('en-US')}</p>
+        </div>
+      </div>
+      <div className="flex justify-between items-center">
+        <p>Total Stock <span className="font-bold">214</span></p>
+        <p>Sold <span className="font-bold">214</span></p>
+      </div>
+    </div>
+  )
+}

@@ -28,7 +28,7 @@ const HeroSection = () => {
           <Image
             src={hero}
             alt="hero img"
-            layout="intrinsic"
+            // layout="intrinsic"
 						className="w-full"
           />
         </div>

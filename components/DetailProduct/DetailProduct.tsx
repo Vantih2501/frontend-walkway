@@ -6,11 +6,11 @@ import { Breadcrumb, Button, Modal } from "antd";
 import { EyeOutlined } from "@ant-design/icons";
 import Image from "next/image";
 import { SimiliarProduct } from "./SimiliarProduct";
+import Link from "next/link";
 
 const DetailProduct = ({ product }: { product: Product | undefined }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedSize, setSelectedSize] = useState(0);
-
+  const [selectedSize, setSelectedSize] = useState();
   const showModal = () => {
     setIsModalOpen(true);
   };
@@ -61,7 +61,7 @@ const DetailProduct = ({ product }: { product: Product | undefined }) => {
                 >
                   <div className="mt-4 border rounded-xl border-zinc-300">
                     <div className="p-5 text-sm font-semibold border-b border-zinc-300">
-                      Adidas Men`s
+                      {product?.brand.name} Size Chart
                     </div>
                     <div className="overflow-y-auto h-[500px] ">
                       <Image
@@ -78,16 +78,15 @@ const DetailProduct = ({ product }: { product: Product | undefined }) => {
               </div>
               <div className="grid grid-cols-4 gap-3 mb-6 2xl:grid-cols-5">
                 {product?.productDetails &&
-                product?.productDetails.length > 0 ? (
+                  product?.productDetails.length > 0 ? (
                   product?.productDetails.map((detail: any, index: number) => (
                     <Button
                       key={index}
-                      onClick={() => setSelectedSize(detail.size)}
-                      className={`py-5 text-sm border rounded-full border-zinc-300 ${
-                        selectedSize == detail.size
-                          ? "bg-green-700 !hover:bg-green-800 text-zinc-50"
-                          : ""
-                      }`}
+                      onClick={() => setSelectedSize(detail.id)}
+                      className={`py-5 text-sm border rounded-full border-zinc-300 ${selectedSize == detail.size
+                        ? "bg-green-700 !hover:bg-green-800 text-zinc-50"
+                        : ""
+                        }`}
                     >
                       {detail.size}
                     </Button>
@@ -104,12 +103,14 @@ const DetailProduct = ({ product }: { product: Product | undefined }) => {
               </div>
             </div>
             <div className="flex gap-4">
-              <Button className="h-14 rounded-xl" block>
+              <Button className="h-14 rounded-xl flex-1">
                 Add To Cart
               </Button>
-              <Button className="h-14 rounded-xl" block type="primary">
-                Checkout
-              </Button>
+              <Link href="/checkout" className="flex-1">
+                <Button className="h-14 rounded-xl" block type="primary" disabled={selectedSize == null} onClick={() => console.log(selectedSize)}>
+                  Buy Now
+                </Button>
+              </Link>
             </div>
           </div>
         </div>

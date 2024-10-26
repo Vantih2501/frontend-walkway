@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useRef } from "react";
-import ProductCard from "#/components/common/card/ProductCard";
+import { ProductCard } from "#/components/common/card/ProductCard";
 import { Carousel, Button } from "antd";
 import { HiArrowRight, HiArrowLeft } from "react-icons/hi2";
 import Link from "next/link";
@@ -9,10 +9,9 @@ import { urlFormatter } from "#/utils/url-formatter";
 
 interface CarouselProps {
   product: Product[];
-  variant: "default" | "bid";
 }
 
-const ProductCarousel = ({ product, variant = "bid" }: CarouselProps) => {
+const ProductCarousel = ({ product }: CarouselProps) => {
   const carouselRef = useRef<any>(null);
 
   const handleNext = () => {
@@ -51,7 +50,6 @@ const ProductCarousel = ({ product, variant = "bid" }: CarouselProps) => {
               price={product?.price}
               productName={product.name}
               imageUrl={product?.productPhotos.toString()}
-              variant={variant}
             />
           </Link>
         ))}

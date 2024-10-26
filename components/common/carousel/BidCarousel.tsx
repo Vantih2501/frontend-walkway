@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useRef } from "react";
-import ProductCard from "#/components/common/card/ProductCard";
+import { ProductCard } from "#/components/common/card/ProductCard";
 import { Carousel, Button } from "antd";
 import { HiArrowRight, HiArrowLeft } from "react-icons/hi2";
 import Link from "next/link";
@@ -35,8 +35,8 @@ const BidCarousel = ({ bids }: CarouselProps) => {
       <Carousel
         ref={carouselRef}
         dots={false}
-				// autoplay={true}
-				// autoplaySpeed={5000}
+        // autoplay={true}
+        // autoplaySpeed={5000}
         slidesToShow={4}
         responsive={[
           { breakpoint: 2560, settings: { slidesToShow: 5 } },

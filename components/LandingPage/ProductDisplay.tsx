@@ -25,7 +25,7 @@ const ProductDisplay = () => {
               </h1>
             </div>
           </div>
-          {product && <ProductCarousel product={product} variant="default" />}
+          {product && <ProductCarousel product={product} />}
         </div>
       </div>
     </div>

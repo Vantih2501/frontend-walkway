@@ -13,7 +13,9 @@ import {
   Typography,
 } from "antd";
 import {
+  CheckOutlined,
   CloseOutlined,
+  FormOutlined,
   MinusOutlined,
   PlusOutlined,
   RightOutlined,
@@ -22,7 +24,7 @@ import TextArea from "antd/es/input/TextArea";
 
 const { Title } = Typography;
 
-export default function CardItem() {
+export default function OrderItem() {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const showModal = () => {
@@ -36,23 +38,45 @@ export default function CardItem() {
   const handleCancel = () => {
     setIsModalOpen(false);
   };
-
-  const [isModalOpen2, setIsModalOpen2] = useState(false);
-
-  const showModal2 = () => {
-    setIsModalOpen2(true);
-  };
-
-  const handleOk2 = () => {
-    setIsModalOpen2(false);
-  };
-
-  const handleCancel2 = () => {
-    setIsModalOpen2(false);
-  };
   return (
-    <div>
-      <Card className="cardI">
+    <>
+      <div className="flex flex-col gap-6 w-full">
+        <div className="flex justify-between items-start">
+          <div className="flex gap-6 w-3/5">
+            <div className="bg-white max-w-24 shadow-md">
+              <Image
+                src={"http://localhost:3222/product/uploads/1729612974756.png"}
+                alt="product"
+                preview={false}
+                className="aspect-square object-contain"
+              />
+            </div>
+            <div className="-space-y-0.5">
+              <h2 className="text-lg font-medium line-clamp-2">New Balance 1906R Silver Metallic Sea Salt</h2>
+              <p className="text-sm text-gray-500">Size: 12</p>
+            </div>
+          </div>
+          <h2 className="text-xl font-medium">Rp {Number(1000000).toLocaleString('en-Us')}</h2>
+        </div>
+        <div className="flex justify-between items-start">
+          <div className="flex gap-6 w-3/5">
+            <div className="bg-white max-w-24 shadow-md">
+              <Image
+                src={"http://localhost:3222/product/uploads/1729612974756.png"}
+                alt="product"
+                preview={false}
+                className="aspect-square object-contain"
+              />
+            </div>
+            <div className="-space-y-0.5">
+              <h2 className="text-lg font-medium line-clamp-2">New Balance 1906R Silver Metallic Sea Salt</h2>
+              <p className="text-sm text-gray-500">Size: 12</p>
+            </div>
+          </div>
+          <h2 className="text-xl font-medium">Rp {Number(1000000).toLocaleString('en-Us')}</h2>
+        </div>
+      </div>
+      {/* <Card className="cardI">
         <div className="flex mx-10">
           <CloseOutlined style={{ fontSize: "25px", color: "#a3a3a3" }} />
           <Image src="/product1.png" alt="product" width={230}></Image>
@@ -94,59 +118,59 @@ export default function CardItem() {
         <hr /> <br />
         <div className="flex">
           <h3 className="mx-10 text-lg">ADDRESS</h3>
-          <Button onClick={showModal2} className="butaddress">
-            Add Address
+          <Button onClick={showModal} className="editadd">
+            <FormOutlined />
+            Edit Address
           </Button>
         </div>
-        <br />
+        <div className="flex">
+          <img
+            src="/maps-logo.png"
+            alt="mapslogo"
+            width={40}
+            height={40}
+            className="mx-10"
+          />
+          <div className="nameaddress">
+            <p className="font-medium">Gandara | +62 0895 0913 7208</p>
+            <p style={{ color: "grey" }}>
+              Jalan Kemuning Raya No. 15, Kelurahan Menteng, Kecamatan Menteng,
+              Kota Jakarta Pusat, DKI Jakarta 10310, Indonesia.
+            </p>
+          </div>
+        </div>
         <hr />
         <br />
         <div className="flex">
           <h3 className="mx-10 text-lg">CHOOSE DELIVERY</h3>
-          <a href="http://"><RightOutlined className="iconRight" /></a>
         </div>
-        <br />
-      </Card>
+        <div className="flex">
+          <img
+            src="/logo-delivery.png"
+            alt="logodelivery"
+            width={40}
+            height={40}
+            className="mx-10"
+          />
+          <div className="nameaddress">
+            <p className="font-medium">JNE Regular <span style={{ color: "gray" }}>| Estimation 3 - 6 Sep</span></p>
+            <p style={{ color: "grey" }}>
+              Jalan Kemuning Raya No. 15, Kelurahan Menteng, Kecamatan Menteng,
+              Kota Jakarta Pusat, DKI Jakarta 10310, Indonesia.
+            </p>
+            <p className="font-medium">Rp 24,000</p>
+          </div>
+          <CheckOutlined className="chooseAdd" />
+        </div>
+      </Card> */}
 
-      {/* MODAL PILIH ADDRESS */}
-      <Modal open={isModalOpen2} onOk={handleOk2} onCancel={handleCancel2} footer={null}>
-      <Title level={3}>Address List</Title>
-      <hr />
-        {/* Address 1 */}
-        <div className="addressprof ml-3 mt-3">
-              <p className="font-medium">Gandara | +62 0895 0913 7208</p>
-              <p style={{ color: "grey" }}>
-                Jalan Kemuning Raya No. 15, Kelurahan Menteng, Kecamatan
-                Menteng, Kota Jakarta Pusat, DKI Jakarta 10310, Indonesia.
-              </p>
-              <div className="flex mb-8">
-                <Button>Used</Button>
-              </div>
-         </div>
-         <hr />
-         <div className="addressprof ml-3 mt-3">
-              <p className="font-medium">Farel | +62 0895 0913 7208</p>
-              <p style={{ color: "grey" }}>
-                Jalan Kemuning Raya No. 15, Kelurahan Menteng, Kecamatan
-                Menteng, Kota Jakarta Pusat, DKI Jakarta 10310, Indonesia.
-              </p>
-              <div className="flex mb-8">
-                <Button type="primary">Use</Button>
-              </div>
-         </div>
-         <hr /><br /><br />
-         <Button onClick={showModal} block type="primary"><PlusOutlined /> Add New Address</Button>
-      </Modal>
-
-
-      {/* Modal Address */}
       <Modal
         open={isModalOpen}
         onOk={handleOk}
         onCancel={handleCancel}
         footer={null}
       >
-        <Title level={3}>Add New Address</Title>
+        <Title level={3}>Edit Address</Title>
         <hr />
         <Form
           name="complex-form"
@@ -225,7 +249,7 @@ export default function CardItem() {
             </Form.Item>
             <Form.Item
               name="z_Code"
-              rules={[{ required: true, message: 'Please input your Zip Code!'  }]}
+              rules={[{ required: true, message: 'Please input your Zip Code!' }]}
               style={{
                 display: "inline-block",
                 width: "calc(50% - 8px)",
@@ -264,7 +288,6 @@ export default function CardItem() {
           </Form.Item>
         </Form>
       </Modal>
-      <br /><br /><br />
-    </div>
+    </>
   );
 }

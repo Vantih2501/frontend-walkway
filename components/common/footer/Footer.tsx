@@ -8,6 +8,8 @@ import {
 } from "@ant-design/icons";
 import Image from "next/image";
 import Link from "next/link";
+import FooterImage from "#/public/background-footer.png"
+import Logo from "#/public/icons/logo-white.svg"
 
 export default function Footer() {
   return (
@@ -15,9 +17,8 @@ export default function Footer() {
       <div className="mx-auto max-w-7xl">
         <div className="absolute top-0 right-0 h-full w-[487px] 2xl:w-[752px] z-0">
           <Image
-            src={"/image/footer-image.png"}
-            alt={"Login Background"}
-            fill
+            src={FooterImage}
+            alt={"Footer"}
             className="object-cover"
           />
         </div>
@@ -25,7 +26,7 @@ export default function Footer() {
           <div className="flex items-start gap-24 2xl:gap-40">
             <div>
               <Image
-                src={"/icons/logo-white.svg"}
+                src={Logo}
                 alt={"logo walkway"}
                 width={305}
                 height={76}
