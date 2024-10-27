@@ -19,6 +19,13 @@ body {
     margin: 0;
     -moz-appearance: textfield !important;
   }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
 }
 
 .delivery-select.ant-collapse > .ant-collapse-item > .ant-collapse-header {

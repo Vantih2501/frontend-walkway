@@ -26,10 +26,9 @@ interface Product {
     name: string;
   };
   productPhotos: string[];
+  frontImage: string;
   price: number;
-  productDetails: {
-    size: number;
-  }[];
+  productDetails: ProductDetail[];
   createdAt: Date;
 }
 
@@ -55,6 +54,11 @@ interface Brand {
   id: string;
   name: string;
   image: string;
+}
+
+interface Category {
+  id: string;
+  name: string;
 }
 
 interface RefreshToken {

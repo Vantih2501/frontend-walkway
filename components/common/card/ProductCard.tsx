@@ -13,8 +13,10 @@ interface CardProps {
 interface AdminCardProps {
   productName: string;
   price: number;
-  totalStock?: number;
-  sold?: number;
+  frontImage: string;
+  totalStock: number;
+  sold: number;
+  onClick: () => void;
 }
 
 export const ProductCard = ({
@@ -63,24 +65,24 @@ export const ProductCard = ({
   );
 };
 
-export const ProductCardAdmin = ({ price, productName }: AdminCardProps) => {
+export const ProductCardAdmin = ({ price, productName, frontImage, sold, totalStock, onClick }: AdminCardProps) => {
   return (
-    <div className="rounded-md border bg-white px-4 py-3 space-y-3">
-      <div className="space-y-1">
+    <div onClick={onClick} className="rounded-md border bg-white px-4 py-3 flex flex-col justify-between gap-5 cursor-pointer">
+      <div className="space-y-3">
         <Image
-          src={"http://localhost:3222/product/uploads/1729612974756.png"}
+          src={frontImage}
           alt="product"
           preview={false}
           className="object-contain border-black aspect-video border"
         />
-        <div className="-space-y-1">
-          <h2 className="font-medium">{productName}</h2>
-          <p className="text-green-600">Rp {price.toLocaleString('en-US')}</p>
+        <div className="">
+          <h2 className="font-semibold line-clamp-1">{productName}</h2>
+          <p className="text-green-600 font-medium">Rp {price.toLocaleString('en-US')}</p>
         </div>
       </div>
       <div className="flex justify-between items-center">
-        <p>Total Stock <span className="font-bold">214</span></p>
-        <p>Sold <span className="font-bold">214</span></p>
+        <p>Total Stock <span className="font-bold">{totalStock}</span></p>
+        <p>Sold <span className="font-bold">{sold}</span></p>
       </div>
     </div>
   )
