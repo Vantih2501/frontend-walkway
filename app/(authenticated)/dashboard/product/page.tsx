@@ -2,7 +2,7 @@
 import { ProductCardAdmin } from "#/components/common/card/ProductCard";
 import { InboxOutlined, MinusCircleOutlined, PlusOutlined } from "@ant-design/icons";
 import { Button, Checkbox, Form, Input, Select, Space, Upload, UploadFile } from "antd";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import classNames from "classnames";
 import { useProduct } from "#/hooks/product";
 import { useBrand } from "#/hooks/brand";
@@ -15,6 +15,7 @@ interface CategorySelectorProps {
 }
 
 interface FormValues {
+  productId: string;
   name: string;
   price: number;
   weight: number;
@@ -35,9 +36,8 @@ export default function Product() {
   const [loading, setLoading] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
 
+  const [editData, setEditData] = useState<Product | undefined>()
   const [form] = Form.useForm();
-
-
   const [photos, setPhotos] = useState({
     front: "",
     side: ["", ""],
@@ -46,8 +46,11 @@ export default function Product() {
 
   function CategorySelector({ value = [], onChange }: CategorySelectorProps) {
     const handleCategoryChange = (category: Category) => {
-      if (value.includes(category)) {
-        onChange(value.filter((item) => item !== category));
+      const isSelected = value.some(item => item.id === category.id);
+
+      if (isSelected) {
+        const newValue = value.filter(item => item.id !== category.id);
+        onChange(newValue);
       } else {
         onChange([...value, category]);
       }
@@ -55,22 +58,27 @@ export default function Product() {
 
     return (
       <div className="flex flex-wrap gap-2">
-        {category && category.map((category) => (
-          <button
-            key={category.id}
-            type="button"
-            className={`px-4 py-2 rounded-full transition-colors duration-300 ${value.includes(category)
-              ? "bg-primary-200 border border-primary-200 text-white"
-              : "border border-gray-200 text-gray-900"
-              }`}
-            onClick={() => handleCategoryChange(category)}
-          >
-            {category.name}
-          </button>
-        ))}
+        {category && category.map((category) => {
+          const isSelected = value.some(item => item.id === category.id);
+
+          return (
+            <button
+              key={category.id}
+              type="button"
+              className={`px-4 py-2 rounded-full transition-colors duration-300 ${isSelected
+                ? "bg-primary-200 border border-primary-200 text-white"
+                : "border border-gray-200 text-gray-900"
+                }`}
+              onClick={() => handleCategoryChange(category)}
+            >
+              {category.name}
+            </button>
+          );
+        })}
       </div>
     );
   }
+
 
   const handleUpload = async (file: UploadFile, fileList: UploadFile[]) => {
     const response = await uploadImage(file);
@@ -97,7 +105,41 @@ export default function Product() {
     return false;
   };
 
-  const { fetchProduct, uploadImage, postProduct } = useProduct();
+
+  useEffect(() => {
+    if (editData && isEditing) {
+      const productNameWithoutBrand = editData.name.replace(editData.brand.name, '').trim();
+
+      const selectedCategories = editData.categories.map(cat => ({
+        id: cat.id,
+        name: cat.name
+      }));
+
+      const stockDetails = editData.productDetails?.map(detail => ({
+        size: detail.size.toString(),
+        stock: detail.stock.toString()
+      })) || [];
+
+      form.setFieldsValue({
+        productId: editData.id,
+        name: productNameWithoutBrand,
+        brand: editData.brand.id,
+        categories: selectedCategories,
+        price: editData.price,
+        status: 'active',
+        stock: stockDetails
+      });
+    } else {
+      form.resetFields();
+      setPhotos({
+        front: '',
+        side: ['', ''],
+        bottom: ''
+      });
+    }
+  }, [editData, isEditing, form]);
+
+  const { fetchProduct, uploadImage, postProduct, patchProduct } = useProduct();
   const { fetchBrand } = useBrand();
   const { fetchCategory } = useCategory();
 
@@ -112,23 +154,23 @@ export default function Product() {
   const onFinish = async (values: FormValues) => {
     try {
       setLoading(true)
+      const categoryIds = values.categories.map((category: Category) => category.id);
+      const productDetails = values.stock.map((detail: ProductDetail) => ({
+        size: Number(detail.size),
+        stock: Number(detail.stock),
+      }));
+      const payload = {
+        brandId: values.brand,
+        categoryId: categoryIds,
+        name: values.name,
+        price: Number(values.price),
+        productDetails: productDetails,
+        productPhotos: photos,
+        weight: 400,
+      };
       if (isEditing) {
+        await patchProduct(values.productId, payload)
       } else {
-        const categoryIds = values.categories.map((category: Category) => category.id);
-        const productDetails = values.stock.map((detail: ProductDetail) => ({
-          size: Number(detail.size),
-          stock: Number(detail.stock),
-        }));
-        const payload = {
-          brandId: values.brand,
-          categoryId: categoryIds,
-          name: values.name,
-          price: Number(values.price),
-          productDetails: productDetails,
-          productPhotos: photos,
-          weight: 400,
-        };
-
         await postProduct(payload);
       }
     } catch (error) {
@@ -136,6 +178,8 @@ export default function Product() {
     } finally {
       setShowForm(false)
       setLoading(false)
+      setIsEditing(false)
+      setEditData(undefined)
       setPhotos({
         front: "",
         side: ["", ""],
@@ -144,6 +188,7 @@ export default function Product() {
       form.resetFields()
     }
   }
+
 
   return (
     <div className="flex gap-x-3 max-h-screen">
@@ -177,7 +222,26 @@ export default function Product() {
           <Button
             type="primary"
             icon={<PlusOutlined />}
-            onClick={() => setShowForm((prev) => !prev)}
+            onClick={() => {
+              if (!showForm && !isEditing) {
+                setShowForm(true)
+              }
+              if (showForm && !isEditing) {
+                setShowForm(false);
+                setTimeout(() => {
+                  form.resetFields()
+                }, 500);
+              }
+              if (showForm && isEditing) {
+                setShowForm(false)
+                setTimeout(() => {
+                  setIsEditing(false)
+                  setEditData(undefined)
+                  form.resetFields()
+                  setShowForm(true)
+                }, 500);
+              }
+            }}
             className="rounded-full"
           >
             Add New Product
@@ -195,13 +259,34 @@ export default function Product() {
         >
           {product && product.map((product) => (
             <ProductCardAdmin
+              product={product}
               key={product.id}
-              price={product.price}
-              productName={product.name}
               frontImage={product.frontImage}
               sold={0}
-              onClick={() => setIsEditing((prev) => !prev)}
-              totalStock={product.productDetails.reduce((total, detail) => total + detail.stock, 0)}
+              onClick={(product) => {
+                if (!showForm && !isEditing) {
+                  setIsEditing(true)
+                  setEditData(product)
+                  setShowForm(true)
+                }
+                if (showForm && !isEditing) {
+                  setShowForm(false);
+                  setTimeout(() => {
+                    setIsEditing(true)
+                    setEditData(product)
+                    form.resetFields()
+                    setShowForm(true)
+                  }, 500);
+                }
+                if (showForm && isEditing) {
+                  setShowForm(false)
+                  setTimeout(() => {
+                    setIsEditing(false)
+                    setEditData(undefined)
+                    form.resetFields()
+                  }, 500);
+                }
+              }}
             />
           ))}
         </div>
@@ -216,7 +301,7 @@ export default function Product() {
           }
         )}
       >
-        <Form form={form} onFinish={(values) => onFinish(values)} className="p-5 flex flex-col justify-between h-full gap-4" layout="vertical" requiredMark={false}>
+        <Form form={form} onFinish={(values) => onFinish(values)} className="w-80 py-6 px-2 mx-auto flex flex-col justify-between h-full gap-4" layout="vertical" requiredMark={false}>
           <div className="space-y-3">
             <h2 className="font-medium tracking-wide text-lg">
               {isEditing ? "Edit Product" : "Add Product"}
@@ -239,29 +324,41 @@ export default function Product() {
             </div>
 
             <div className={tab == 'description' ? "block space-y-2.5" : 'hidden'}>
-              <Form.Item rules={[{ required: true, message: "Please upload at least 1 image" }]}>
-                <Dragger
-                  beforeUpload={() => false}
-                  multiple={true}
-                  maxCount={4}
-                  onChange={(info) => {
-                    handleUpload(info.file, info.fileList);
-                  }}
-                  accept="image/*"
-                  listType="picture"
-                  className="upload-list-inline"
+              {!isEditing ? (
+                <Form.Item rules={[{ required: true, message: "Please upload at least 1 image" }]}>
+                  <Dragger
+                    beforeUpload={() => false}
+                    multiple={true}
+                    maxCount={4}
+                    onChange={(info) => {
+                      handleUpload(info.file, info.fileList);
+                    }}
+                    accept="image/*"
+                    listType="picture"
+                    className="upload-list-inline"
+                  >
+                    <p className="ant-upload-drag-icon">
+                      <InboxOutlined />
+                    </p>
+                    <p className="ant-upload-text">
+                      Click or drag images to upload
+                    </p>
+                    <p className="ant-upload-hint">
+                      Upload in the order: Front, Side 1 & 2, Bottom
+                    </p>
+                  </Dragger>
+                </Form.Item>
+              ) : (
+                <Form.Item
+                  hidden
+                  name="productId"
                 >
-                  <p className="ant-upload-drag-icon">
-                    <InboxOutlined />
-                  </p>
-                  <p className="ant-upload-text">
-                    Click or drag images to upload
-                  </p>
-                  <p className="ant-upload-hint">
-                    Upload in the order: Front, Side 1 & 2, Bottom
-                  </p>
-                </Dragger>
-              </Form.Item>
+                  <Input
+                    type="text"
+                    hidden
+                  />
+                </Form.Item>
+              )}
 
               <Form.Item label="Product Name" required>
                 <Space.Compact block>
@@ -384,7 +481,7 @@ export default function Product() {
               className="flex-1 py-4"
               type="primary"
               htmlType="submit"
-            // loading={loading}
+              loading={loading}
             >
               Save Changes
             </Button>

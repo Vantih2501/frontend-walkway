@@ -22,14 +22,13 @@ interface ProductImage {
 interface Product {
   id: string;
   name: string;
-  brand: {
-    name: string;
-  };
+  brand: Brand;
   productPhotos: string[];
   frontImage: string;
   price: number;
   productDetails: ProductDetail[];
   createdAt: Date;
+  categories: Category[]
 }
 
 interface ProductDetail {

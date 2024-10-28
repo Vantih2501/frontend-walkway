@@ -67,5 +67,17 @@ export const useProduct = () => {
     mutate(`/product`);
   };
 
-  return { fetchProduct, fetchNewestProduct, fetchProductName, uploadImage, postProduct }
+  const patchProduct = async (productId: string, { brandId, name, categoryId, price, productDetails }: ProductDto) => {
+    await fetcher.patch(`/product/${productId}`, {
+      brandId,
+      name,
+      categoryId,
+      price,
+      productDetails,
+      weight: 400
+    });
+    mutate(`/product`);
+  };
+
+  return { fetchProduct, fetchNewestProduct, fetchProductName, uploadImage, postProduct, patchProduct }
 };

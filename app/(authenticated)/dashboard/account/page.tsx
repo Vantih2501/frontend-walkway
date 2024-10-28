@@ -171,9 +171,9 @@ const AccountTable = () => {
         open={openModal}
         onFinish={onFinish}
         onCancel={() => {
-          setOpenModal(false),
-            setEditUserData(undefined)
-          setIsEditing(false)
+          setOpenModal(false);
+          setEditUserData(undefined);
+          setIsEditing(false);
         }}
         form={form}
         roles={role}

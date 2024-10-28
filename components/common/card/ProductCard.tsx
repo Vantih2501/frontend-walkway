@@ -10,15 +10,6 @@ interface CardProps {
   imageUrl?: string;
 }
 
-interface AdminCardProps {
-  productName: string;
-  price: number;
-  frontImage: string;
-  totalStock: number;
-  sold: number;
-  onClick: () => void;
-}
-
 export const ProductCard = ({
   price,
   productName,
@@ -65,9 +56,17 @@ export const ProductCard = ({
   );
 };
 
-export const ProductCardAdmin = ({ price, productName, frontImage, sold, totalStock, onClick }: AdminCardProps) => {
+interface AdminCardProps {
+  frontImage: string;
+  sold: number;
+  product: Product,
+  onClick: (value: any) => void;
+}
+
+
+export const ProductCardAdmin = ({ product, frontImage, sold, onClick }: AdminCardProps) => {
   return (
-    <div onClick={onClick} className="rounded-md border bg-white px-4 py-3 flex flex-col justify-between gap-5 cursor-pointer">
+    <div onClick={() => onClick(product)} className="rounded-md border bg-white px-4 py-3 flex flex-col justify-between gap-5 cursor-pointer">
       <div className="space-y-3">
         <Image
           src={frontImage}
@@ -76,12 +75,12 @@ export const ProductCardAdmin = ({ price, productName, frontImage, sold, totalSt
           className="object-contain border-black aspect-video border"
         />
         <div className="">
-          <h2 className="font-semibold line-clamp-1">{productName}</h2>
-          <p className="text-green-600 font-medium">Rp {price.toLocaleString('en-US')}</p>
+          <h2 className="font-semibold line-clamp-1">{product.name}</h2>
+          <p className="text-green-600 font-medium">Rp {product.price.toLocaleString('en-US')}</p>
         </div>
       </div>
       <div className="flex justify-between items-center">
-        <p>Total Stock <span className="font-bold">{totalStock}</span></p>
+        <p>Total Stock <span className="font-bold">{product.productDetails.reduce((total, detail) => total + detail.stock, 0)}</span></p>
         <p>Sold <span className="font-bold">{sold}</span></p>
       </div>
     </div>
