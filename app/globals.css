@@ -889,260 +889,260 @@ th {
   .priceDetail{
   color: gray;
   margin-left: 500px;
-}
+  }
 
-.shipDetail{
-  color: gray;
-  margin-left: 610px;
-}
-.totalDetail{
-  margin-left: 570px;
-}
+  .shipDetail{
+    color: gray;
+    margin-left: 610px;
+  }
+  .totalDetail{
+    margin-left: 570px;
+  }
 
-.buttonDetail{
-  width: 800px;
-  margin-left: 25px;
-  margin-top: 180px;
-}
+  .buttonDetail{
+    width: 800px;
+    margin-left: 25px;
+    margin-top: 180px;
+  }
 
-.backDetail{
-  margin-top: 30px;
-  margin-left: 25rem;
-}
+  .backDetail{
+    margin-top: 30px;
+    margin-left: 25rem;
+  }
 
-.reffDetail{
-  margin-left: 600px;
-  color: #0F930F;
-}
+  .reffDetail{
+    margin-left: 600px;
+    color: #0F930F;
+  }
 
-.editadd{
-  margin-Left: 320px;
-  font-Size: 15px;
-  background-color: #ffffff !important;
-  border: 1px solid #4E7772 !important;
-}
+  .editadd{
+    margin-Left: 320px;
+    font-Size: 15px;
+    background-color: #ffffff !important;
+    border: 1px solid #4E7772 !important;
+  }
 
-.chooseAdd{
-  margin-Left:50px;
-  font-Size:20px;
-  margin-Top:-20px;
-}
+  .chooseAdd{
+    margin-Left:50px;
+    font-Size:20px;
+    margin-Top:-20px;
+  }
 
-.head1{
-  margin-left: 100px;
-}
+  .head1{
+    margin-left: 100px;
+  }
 
-.sidebarMenu{
-  padding: 10px;
-  margin-bottom: 20rem;
-  margin-top: -30px;
-  background-color: #f4f4f5;
-  height: 65rem;
-}
+  .sidebarMenu{
+    padding: 10px;
+    margin-bottom: 20rem;
+    margin-top: -30px;
+    background-color: #f4f4f5;
+    height: 65rem;
+  }
 
-.sidebarMenu .ant-menu-item:hover{
-  background-color: #4E7772 !important;
-  color: white !important;
-}
+  .sidebarMenu .ant-menu-item:hover{
+    background-color: #4E7772 !important;
+    color: white !important;
+  }
 
-.img-sidebar{
-  margin-top: -160rem;
-  margin-left: 45px;
-}
+  .img-sidebar{
+    margin-top: -160rem;
+    margin-left: 45px;
+  }
 
-.hrSide{
-  margin-top: -40rem;
-  width: 15rem;
-  margin-left: 25px;
-}
+  .hrSide{
+    margin-top: -40rem;
+    width: 15rem;
+    margin-left: 25px;
+  }
 
-.hradmin{
-  width: 60rem;
-  margin-left: 10px;
-}
-
-
-.logoutBar{
-  margin-top: 20px;
-  font-size: 25px;
-  margin-left: 40px;
-}
-
-.profAdmin{
-  margin-left: 40rem;
-}
-
-.buttonAdd{
-  margin-left: -20rem;
-}
-
-.product-layout {
-  display: flex;
-  justify-content: space-between;
-}
-
-.add-product-card {
-  width: 40%; 
-  margin-left: -320px;
-  margin-top: -30px;
-  border-radius: 20px;
-}
-
-.product-layout.with-card .product-list {
-  flex: 0 0 58%; /* Ketika card muncul, product list jadi lebih kecil */
-}
-
-.product-layout.with-card .product-card {
-  display: block; /* Tampilkan card */
-}
-
-.product-card {
-  display: none; /* Sembunyikan card secara default */
-  z-index: 10;
-  margin-top: 85px;
-  position: fixed;
-  margin-left: 79rem;
-}
-
-.product-list{
-  height: auto;
-  overflow-y: auto; 
-  padding-right: 10px; 
-  z-index: 1;
-}
-
-.editProduct{
-  z-index: 10;
-  margin-top: 85px;
-  position: fixed;
-  margin-left: 79rem;
-}
-
-.header-fix{
-  z-index: 10 !important;
-  background-color: white;
-  padding: 10px;
-  width: 120%;
-  margin-left: -33px;
-  margin-top: -32px;
-}
-
-.productData{
-  overflow-y: auto;
-  width: 90rem;
-  margin-left: -30px;
-}
-
-.buttonAddP .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn{
-  background-color: #4E7772 !important;
-  color: white !important;
-  font-weight: 600;
-  width: 100px;
-  height: 40px;
-  border-radius: 20px;
-  padding: 0%;
-  line-height: 40px;
-
-}
-
-.buttonAddP .ant-tabs-tab{
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  height: 100%;
-  border-bottom: none !important;
-  box-shadow: none !important;
-  border: none !important;
-}
-
-.buttonAddP .ant-tabs-nav::before{
-  border: none !important;
-}
-
-.buttonAddP .ant-tabs-nav{
-  box-shadow: none !important;
-  border: none !important;
-}
-
-.buttonAddP .ant-tabs{
-  box-shadow: none !important;
-  border: none !important;
-}
-
-.buttonAddP .ant-tabs-content{
-  box-shadow: none !important;
-  border: none !important;
-}
-
-.fotoProduct{
-   width: 250px;
-   height: 150px;
-   padding: 30px;
-   border: 2px dashed #d9d9d9; 
-   border-radius: 8px;
-   margin-left: 0px;
-}
-
-.avatar-upload{
-  margin-left: 55px;
-  font-size: 20px;
-  margin-top: 15px;
-}
-
-.tagProduk{
-  height: 30px;
-  border-radius: 5px;
-  padding: 0%;
-  line-height: 30px;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  margin-bottom: 10px;
-  border-radius: 20px;
-  background-color: white;
-  display: inline-block;
-  padding: 0 15px;
-
-}
-
-.CardProfA{
-  width: 900px;
-  border-radius: 20px;
-  height: 45rem;
-}
-
-.AdminFoto{
-  width: 60px;
-  height: 60px;
-}
-
-.contentProfile{
-  margin-left: 40px;
-  margin-right: 40px;
-}
+  .hradmin{
+    width: 60rem;
+    margin-left: 10px;
+  }
 
 
-.editPAdmin{
-  margin-left: 30rem;
-}
+  .logoutBar{
+    margin-top: 20px;
+    font-size: 25px;
+    margin-left: 40px;
+  }
 
-.profAdminCB{
-  margin-left: 30rem;
-}
+  .profAdmin{
+    margin-left: 40rem;
+  }
 
-.tebleOrderP{
-  width:58rem;
-  margin-left: -15px;
-}
+  .buttonAdd{
+    margin-left: -20rem;
+  }
 
-.CardB{
-  width: 32rem;
-  margin-left: -5px;
-}
-.CardC{
-  width: 27rem;
-  margin-left: -20px;
-}
+  .product-layout {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .add-product-card {
+    width: 40%; 
+    margin-left: -320px;
+    margin-top: -30px;
+    border-radius: 20px;
+  }
+
+  .product-layout.with-card .product-list {
+    flex: 0 0 58%; /* Ketika card muncul, product list jadi lebih kecil */
+  }
+
+  .product-layout.with-card .product-card {
+    display: block; /* Tampilkan card */
+  }
+
+  .product-card {
+    display: none; /* Sembunyikan card secara default */
+    z-index: 10;
+    margin-top: 85px;
+    position: fixed;
+    margin-left: 79rem;
+  }
+
+  .product-list{
+    height: auto;
+    overflow-y: auto; 
+    padding-right: 10px; 
+    z-index: 1;
+  }
+
+  .editProduct{
+    z-index: 10;
+    margin-top: 85px;
+    position: fixed;
+    margin-left: 79rem;
+  }
+
+  .header-fix{
+    z-index: 10 !important;
+    background-color: white;
+    padding: 10px;
+    width: 120%;
+    margin-left: -33px;
+    margin-top: -32px;
+  }
+
+  .productData{
+    overflow-y: auto;
+    width: 90rem;
+    margin-left: -30px;
+  }
+
+  .buttonAddP .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn{
+    background-color: #4E7772 !important;
+    color: white !important;
+    font-weight: 600;
+    width: 100px;
+    height: 40px;
+    border-radius: 20px;
+    padding: 0%;
+    line-height: 40px;
+
+  }
+
+  .buttonAddP .ant-tabs-tab{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    height: 100%;
+    border-bottom: none !important;
+    box-shadow: none !important;
+    border: none !important;
+  }
+
+  .buttonAddP .ant-tabs-nav::before{
+    border: none !important;
+  }
+
+  .buttonAddP .ant-tabs-nav{
+    box-shadow: none !important;
+    border: none !important;
+  }
+
+  .buttonAddP .ant-tabs{
+    box-shadow: none !important;
+    border: none !important;
+  }
+
+  .buttonAddP .ant-tabs-content{
+    box-shadow: none !important;
+    border: none !important;
+  }
+
+  .fotoProduct{
+    width: 250px;
+    height: 150px;
+    padding: 30px;
+    border: 2px dashed #d9d9d9; 
+    border-radius: 8px;
+    margin-left: 0px;
+  }
+
+  .avatar-upload{
+    margin-left: 55px;
+    font-size: 20px;
+    margin-top: 15px;
+  }
+
+  .tagProduk{
+    height: 30px;
+    border-radius: 5px;
+    padding: 0%;
+    line-height: 30px;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    margin-bottom: 10px;
+    border-radius: 20px;
+    background-color: white;
+    display: inline-block;
+    padding: 0 15px;
+
+  }
+
+  .CardProfA{
+    width: 900px;
+    border-radius: 20px;
+    height: 45rem;
+  }
+
+  .AdminFoto{
+    width: 60px;
+    height: 60px;
+  }
+
+  .contentProfile{
+    margin-left: 40px;
+    margin-right: 40px;
+  }
+
+
+  .editPAdmin{
+    margin-left: 30rem;
+  }
+
+  .profAdminCB{
+    margin-left: 30rem;
+  }
+
+  .tebleOrderP{
+    width:58rem;
+    margin-left: -15px;
+  }
+
+  .CardB{
+    width: 32rem;
+    margin-left: -5px;
+  }
+  .CardC{
+    width: 27rem;
+    margin-left: -20px;
+  }
 
 }
