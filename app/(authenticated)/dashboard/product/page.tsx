@@ -35,6 +35,7 @@ export default function Product() {
   const [tab, setTab] = useState("description");
   const [loading, setLoading] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
+  const [fileList, setFileList] = useState<UploadFile[]>([]);
 
   const [editData, setEditData] = useState<Product | undefined>()
   const [form] = Form.useForm();
@@ -102,8 +103,10 @@ export default function Product() {
       return updatedPhotos;
     });
 
+    setFileList(fileList);
     return false;
   };
+
 
 
   useEffect(() => {
@@ -176,16 +179,19 @@ export default function Product() {
     } catch (error) {
       console.error(error)
     } finally {
-      setShowForm(false)
-      setLoading(false)
-      setIsEditing(false)
-      setEditData(undefined)
+      setShowForm(false);
+      setLoading(false);
       setPhotos({
         front: "",
         side: ["", ""],
         bottom: "",
-      })
-      form.resetFields()
+      });
+      setFileList([]);
+      form.resetFields();
+      if (isEditing) {
+        setIsEditing(false);
+        setEditData(undefined);
+      }
     }
   }
 
@@ -473,7 +479,13 @@ export default function Product() {
             <Button
               className="flex-1 py-4"
               variant="filled"
-              onClick={() => setShowForm(false)}
+              onClick={() => {
+                setShowForm(false);
+                setEditData(undefined);
+                setIsEditing(false);
+                setFileList([]);
+                form.resetFields()
+              }}
             >
               Discard
             </Button>
