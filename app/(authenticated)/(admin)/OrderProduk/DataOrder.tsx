@@ -209,6 +209,7 @@ export default function TableOrder() {
       dataIndex: "action",
       render: () => (
         <div>
+          <div className="flex">
           <Dropdown menu={{ items }} className="decoration-black">
             <a onClick={(e) => e.preventDefault()}>
               <Space>
@@ -219,11 +220,12 @@ export default function TableOrder() {
           <Button
             type="text"
             onClick={showModal}
-            className="mx-3"
+            className="mx-3 -mt-1"
             style={{ color: "#29362C" }}
           >
             View Detail
           </Button>
+          </div>
         </div>
       ),
     },
@@ -269,7 +271,7 @@ export default function TableOrder() {
         columns={columns}
         dataSource={data}
         onChange={handleChange}
-        className="mt-10"
+        className="mt-10 tebleOrderP"
       />
 
       <Modal

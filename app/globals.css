@@ -485,6 +485,11 @@ a:-webkit-any-link {
   margin-left: 74rem;
 }
 
+.profAdminCB{
+  margin-left: 60rem;
+}
+
+
 .product-layout {
   display: flex;
   justify-content: space-between;
@@ -603,6 +608,36 @@ a:-webkit-any-link {
   margin-left: 0px;
 }
 
+.LogoB{
+  width: 350px;
+  height: 150px;
+  padding: 30px;
+  border: 2px dashed #d9d9d9; 
+  border-radius: 8px;
+  margin-left: 0px;
+}
+
+.LogoB-upload{
+  margin-left: 100px;
+  font-size: 20px;
+  margin-top: 20px;
+}
+
+.LogoB{
+  width: 350px;
+  height: 150px;
+  padding: 30px;
+  border: 2px dashed #d9d9d9; 
+  border-radius: 8px;
+  margin-left: 0px;
+}
+
+.LogoB-upload{
+  margin-left: 100px;
+  font-size: 20px;
+  margin-top: 20px;
+}
+
 .avatar-upload {
   margin-left: 55px;
   font-size: 20px;
@@ -654,8 +689,26 @@ th {
   margin-left: 60rem;
 }
 
+.tebleOrderP{
+  width:90rem;
+  margin-left: 20px;
+}
+
+.CardB{
+  width: 50rem;
+}
+.CardC{
+  width: 40rem;
+}
+
+
 @media screen and (max-width: 1440px) {
-  .cardI {
+
+  .CardCat{
+    width: 35rem;
+  }
+  
+  .cardI{
     width: 41rem;
     margin-left: -50rem;
   }
@@ -1165,4 +1218,22 @@ th {
 .hide-arrow[type="number"]::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
+.profAdminCB{
+  margin-left: 30rem;
+}
+
+.tebleOrderP{
+  width:58rem;
+  margin-left: -15px;
+}
+
+.CardB{
+  width: 32rem;
+  margin-left: -5px;
+}
+.CardC{
+  width: 27rem;
+  margin-left: -20px;
+}
+
 }
