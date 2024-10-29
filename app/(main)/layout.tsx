@@ -14,13 +14,13 @@ export default function MainLayout({ children }: LayoutProps) {
 	const { user, isLoading, isError } = getUser(token);
 
   if (isLoading) {
-    return <>loading...</>
+    return <h1>loading...</h1>
   }
 
   return (
     <main>
       <Navbar user={user} />
-      <div className="min-h-[80vh]">{children}</div>
+      <div>{children}</div>
       <Footer />
     </main>
   )

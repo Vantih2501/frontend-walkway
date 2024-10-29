@@ -7,6 +7,7 @@ interface User {
   roleId: string;
   phone_number: string;
   status: string;
+  address: Address[];
 }
 
 interface Role {
@@ -66,4 +67,17 @@ interface Category {
 interface RefreshToken {
   access_token: string;
   refresh_token: string;
+}
+
+interface Address {
+  id: string;
+  userId: string;
+  contact_name: string;
+  contact_number: string;
+  province: string;
+  city: string;
+  district: string;
+  zipcode: number;
+  address: string;
+  note: string
 }

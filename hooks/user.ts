@@ -13,6 +13,26 @@ export const useUser = () => {
     }
   };
 
+  const fetchAddress = (email?: string) => {
+    const { data, error, isLoading } = useSWR<Address[]>(`/user/address/${email}`, fetcher.get)
+    return {
+      address: data,
+      isError: error,
+      isLoading
+    }
+  };
+
+  const postAddress = async (name: string, email: string, phone_number: string, password: string, roleId: string) => {
+    await fetcher.post("/user", {
+      name,
+      email,
+      phone_number,
+      password,
+      roleId,
+    });
+    mutate(`/user/admins`);
+  };
+
   const postUser = async (name: string, email: string, phone_number: string, password: string, roleId: string) => {
     await fetcher.post("/user", {
       name,
@@ -40,5 +60,5 @@ export const useUser = () => {
     mutate(`/user/admins`);
   };
 
-  return { fetchUser, postUser, patchUser, deleteUser }
+  return { fetchUser, postUser, patchUser, deleteUser, fetchAddress }
 };
