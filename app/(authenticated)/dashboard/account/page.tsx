@@ -93,11 +93,11 @@ const AccountTable = () => {
               setEditUserData(record);
             }}
           />
-          <Button
+          {/* <Button
             icon={<DeleteOutlined />}
             type="default"
             onClick={() => confirmDelete(record.id)}
-          />
+          /> */}
         </Space>
       ),
     },

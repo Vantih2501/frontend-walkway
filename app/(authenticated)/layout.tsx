@@ -25,7 +25,7 @@ export default function AdminLayout({ children }: LayoutProps) {
     if (pathname === "/dashboard/order") return "Order";
     if (pathname === "/dashboard/account") return "Account";
     if (pathname === "/dashboard/product") return "Product";
-    if (pathname === "/dashboard/category") return "Category & Brand";
+    if (pathname === "/dashboard/categories") return "Category & Brand";
     if (pathname === "/dashboard/bid") return "Bid";
 
 		return "Dashboard"; 

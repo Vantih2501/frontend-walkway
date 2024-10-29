@@ -17,13 +17,14 @@ interface Role {
 interface ProductImage {
   id: string;
   image: string;
+  photoType: string;
 }
 
 interface Product {
   id: string;
   name: string;
   brand: Brand;
-  productPhotos: string[];
+  productPhotos: any[];
   frontImage: string;
   price: number;
   productDetails: ProductDetail[];
@@ -53,11 +54,13 @@ interface Brand {
   id: string;
   name: string;
   image: string;
+  status: string;
 }
 
 interface Category {
   id: string;
   name: string;
+  status: string;
 }
 
 interface RefreshToken {

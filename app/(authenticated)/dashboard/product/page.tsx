@@ -307,7 +307,7 @@ export default function Product() {
           }
         )}
       >
-        <Form form={form} onFinish={(values) => onFinish(values)} className="w-80 py-6 px-2 mx-auto flex flex-col justify-between h-full gap-4" layout="vertical" requiredMark={false}>
+        <Form form={form} onFinish={(values) => onFinish(values)} className="w-96 py-6 px-2 mx-auto flex flex-col justify-between h-full gap-4" layout="vertical" requiredMark={false}>
           <div className="space-y-3">
             <h2 className="font-medium tracking-wide text-lg">
               {isEditing ? "Edit Product" : "Add Product"}

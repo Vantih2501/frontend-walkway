@@ -29,7 +29,7 @@ export default function Sidebar() {
     },
     {
       label: "Category & Brand",
-      path: "/dashboard/category",
+      path: "/dashboard/categories",
       icon: <HiOutlineTag />,
     },
     { label: "Bid", path: "/dashboard/bid", icon: pathname === "/dashboard/bid" ? <Bid /> : <BidOutline /> },

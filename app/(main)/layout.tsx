@@ -11,8 +11,12 @@ interface LayoutProps {
 export default function MainLayout({ children }: LayoutProps) {
   const { getUser } = useAuth();
 	const token = getAccessToken();
+	const { user, isLoading, isError } = getUser(token);
 
-	const { user } = getUser(token || 'guest');
+  if (isLoading) {
+    return <>loading...</>
+  }
+
   return (
     <main>
       <Navbar user={user} />

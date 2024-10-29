@@ -4,7 +4,9 @@ import { jwtDecode } from "jwt-decode";
 import useSWR from "swr";
 
 export const useAuth = () => {
-  const getUser = (token: string) => {
+  const getUser = (token?: string) => {
+    if (!token) return {}
+
     const { data, error, isLoading } = useSWR<User>(`/auth/user/${token}`, fetcher.get);
     return {
       user: data,
@@ -13,11 +15,11 @@ export const useAuth = () => {
     };
   };
 
-  const login = async ( email: string, password: string ): Promise<{ access_token: string }> => {
+  const login = async (email: string, password: string): Promise<{ access_token: string }> => {
     return await fetcher.post("/auth/login", { email, password });
   };
 
-  const register = async ( name: string, email: string, phone_number: string, password: string ): Promise<{ access_token: string }> => {
+  const register = async (name: string, email: string, phone_number: string, password: string): Promise<{ access_token: string }> => {
     return await fetcher.post("/auth/register", {
       name,
       email,

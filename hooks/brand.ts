@@ -1,5 +1,11 @@
-import useSWR from "swr";
+import useSWR, { mutate } from "swr";
 import { fetcher } from "#/utils/fetcher";
+
+interface BrandDto {
+  name: string;
+  image: string;
+  status?: string;
+}
 
 export const useBrand = () => {
   const fetchBrand = () => {
@@ -29,5 +35,28 @@ export const useBrand = () => {
     }
   };
 
-  return { fetchBrand, fetchRecentBrand, fetchBrandName }
+  const uploadImage = async (img: any): Promise<{ imageUrl: string }> => {
+    const formData = new FormData();
+    formData.append('image', img);
+
+    return await fetcher.upload("/brand/upload", formData);
+  };
+
+  const postBrand = async ({ name, image }: BrandDto) => {
+    await fetcher.post("/brand", {
+      name,
+      image
+    });
+    mutate(`/brand`);
+  };
+
+  const patchBrand = async (brandId: string, { name, status }: BrandDto) => {
+    await fetcher.patch(`/brand/${brandId}`, {
+      name,
+      status
+    });
+    mutate(`/brand`);
+  };
+
+  return { fetchBrand, fetchRecentBrand, fetchBrandName, uploadImage, postBrand, patchBrand }
 };

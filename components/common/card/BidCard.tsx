@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import dayjs from "dayjs";
 import duration from "dayjs/plugin/duration";
-import { Image } from "antd";
+import { Image, Timeline } from "antd";
+import { FlagFilled } from "@ant-design/icons";
 
 dayjs.extend(duration);
 
@@ -12,7 +13,7 @@ interface CardProps {
   product: Product;
 }
 
-const BidCard = ({ bid, imageUrl, product }: CardProps) => {
+export const BidCard = ({ bid, imageUrl, product }: CardProps) => {
   const [timeRemaining, setTimeRemaining] = useState<string>("00:00:00");
   const [status, setStatus] = useState<string>("Begins at");
 
@@ -67,7 +68,7 @@ const BidCard = ({ bid, imageUrl, product }: CardProps) => {
           <p className="font-light">Available from</p>
           <h2 className="text-lg">Rp {bid.start_price.toLocaleString('en-US')}</h2>
         </div>
-        <p className="text-primary-100 text-base line-clamp-2 mb-auto">
+        <p className="text-primary-100 text-base line-clamp-1 mb-auto">
           {bid.productDetail.product.name}
         </p>
       </div>
@@ -75,4 +76,42 @@ const BidCard = ({ bid, imageUrl, product }: CardProps) => {
   );
 };
 
-export default BidCard;
+interface AdminCardProps {
+  // frontImage: string;
+  // sold: number;
+  bid: Bid,
+  // onClick: (value: any) => void;
+}
+
+export const BidCardAdmin = ({ bid }: AdminCardProps) => {
+  return (
+    <div onClick={() => { }} className="rounded-md border bg-white px-4 py-3 flex flex-col justify-between gap-1 cursor-pointer">
+      <div className="space-y-3">
+        <Image
+          src={bid.productPhotos}
+          alt="product"
+          preview={false}
+          className="object-contain border-black aspect-video border"
+        />
+        <h2 className="font-semibold line-clamp-1">{bid.productDetail.product.name}</h2>
+        <Timeline className=""
+          items={[
+            {
+              children: <p><span className="text-gray-400">Start : </span>{dayjs(bid.start_date).format("DD MMM YYYY, HH:mm")}</p>,
+            },
+            {
+              children: <p><span className="text-gray-400">End : </span>{dayjs(bid.end_date).format("DD MMM YYYY, HH:mm")}</p>,
+              dot: <FlagFilled />,
+              className: "!pb-0"
+            },
+          ]}
+        />
+      </div>
+      <hr className="h-px my-1 bg-gray-200 border-0 dark:bg-gray-700" />
+      <div className="flex justify-between items-center">
+        <p>Starting Price:</p>
+        <p className="text-green-600 font-medium">Rp {bid.start_price.toLocaleString('en-US')}</p>
+      </div>
+    </div>
+  )
+}

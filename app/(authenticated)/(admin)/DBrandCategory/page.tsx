@@ -1,6 +1,5 @@
 "use client"
 
-import Sidebar from "#/components/Sidebar"
 import { Avatar, Typography } from "antd"
 import BrandData from "./DataBrand";
 import CategoryData from "./DataCategory";
@@ -11,7 +10,7 @@ export default function DataCB(){
   return(
     <div>
       <div className="fixed">
-        <Sidebar />
+        {/* <Sidebar /> */}
       </div>
 
       <div className="mt-8 container ContentAdmin">

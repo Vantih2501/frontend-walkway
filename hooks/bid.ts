@@ -1,5 +1,6 @@
-import useSWR from "swr";
+import useSWR, { mutate } from "swr";
 import { fetcher } from "#/utils/fetcher";
+
 
 export const useBid = () => {
   const fetchBids = () => {
@@ -11,5 +12,15 @@ export const useBid = () => {
     }
   };
 
-  return { fetchBids }
+  const postBid = async ({ productDetailId, start_date, end_date, start_price }: any) => {
+    await fetcher.post("/product/add-to-bid", {
+      productDetailId,
+      start_date,
+      end_date,
+      start_price
+    });
+    mutate(`/product/bids`);
+  };
+
+  return { fetchBids, postBid }
 };

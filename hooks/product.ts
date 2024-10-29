@@ -79,5 +79,20 @@ export const useProduct = () => {
     mutate(`/product`);
   };
 
-  return { fetchProduct, fetchNewestProduct, fetchProductName, uploadImage, postProduct, patchProduct }
+  const genCheckoutToken = async (data: ProductDetail): Promise<{ checkout_token: string }> => {
+    return await fetcher.post("/product/checkout-token", { data });
+  };
+
+  const getCheckoutData = (token?: string) => {
+    if (!token) undefined
+
+    const { data, error, isLoading } = useSWR<any>(`/product/checkout/${token}`, fetcher.get);
+    return {
+      product: data,
+      isError: error,
+      isLoading,
+    };
+  };
+
+  return { fetchProduct, fetchNewestProduct, fetchProductName, uploadImage, postProduct, patchProduct, genCheckoutToken, getCheckoutData }
 };

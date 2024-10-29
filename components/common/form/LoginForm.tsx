@@ -1,6 +1,6 @@
 "use client";
 import { useAuth } from "#/hooks/auth";
-import { setTokens } from "#/utils/token";
+import { setAccessToken } from "#/utils/token";
 import { Form, Input, Button, Divider } from "antd";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -20,7 +20,7 @@ const LoginForm = () => {
     try {
       setIsLoading(true);
       const response = await login(values.email, values.password);
-      setTokens(response.access_token);
+      setAccessToken(response.access_token);
       router.push("/");
     } catch (error) {
       console.error(error);

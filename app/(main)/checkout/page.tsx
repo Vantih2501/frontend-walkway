@@ -1,13 +1,23 @@
 "use client";
 import React, { useState } from "react";
 import { Button, Card, Collapse, CollapseProps, Image } from "antd";
-import CardItem from "./carditem";
-import CardTotal from "./cardtotal";
 import OrderItem from "#/components/Checkout/OrderItem";
-import { PlusOutlined } from "@ant-design/icons";
 import AddressList from "#/components/Checkout/AddressList";
+import { getCheckoutToken } from "#/utils/token";
+import { useProduct } from "#/hooks/product";
 
 export default function Checkout() {
+  const token = getCheckoutToken()
+
+  const { getCheckoutData } = useProduct()
+  const { product, isLoading, isError } = getCheckoutData(token)
+  
+  if (isLoading) {
+    return <>loading...</>
+  }
+
+  console.log(product)
+
   const items: CollapseProps['items'] = [
     {
       key: '1',
@@ -24,7 +34,7 @@ export default function Checkout() {
         <h2 className="text-2xl font-medium tracking-wide">Your Items</h2>
         <div className="flex justify-between gap-2">
           <div className="w-4/6 p-6 space-y-8 bg-white rounded-lg">
-            <OrderItem />
+            <OrderItem data={product} />
 
             <hr className="h-px my-8 bg-gray-200 border-0 dark:bg-gray-700" />
 

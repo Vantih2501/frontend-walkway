@@ -7,21 +7,43 @@ import { EyeOutlined } from "@ant-design/icons";
 import Image from "next/image";
 import { SimiliarProduct } from "./SimiliarProduct";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useProduct } from "#/hooks/product";
+import { getAccessToken, setCheckoutToken } from "#/utils/token";
+import { useAuth } from "#/hooks/auth";
 
 const DetailProduct = ({ product }: { product: Product | undefined }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedSize, setSelectedSize] = useState();
-  const showModal = () => {
-    setIsModalOpen(true);
-  };
+  const [selectedSize, setSelectedSize] = useState<ProductDetail>();
+  const [loading, setLoading] = useState(false);
+  const router = useRouter()
 
-  const handleOk = () => {
-    setIsModalOpen(false);
-  };
+  const { genCheckoutToken } = useProduct()
 
-  const handleCancel = () => {
-    setIsModalOpen(false);
-  };
+  const { getUser } = useAuth();
+  const token = getAccessToken();
+  const { user, isLoading, isError } = getUser(token);
+
+  if (isLoading) {
+    return <>loading...</>
+  }
+
+  const handleCheckout = async (data: ProductDetail) => {
+    if (!user) {
+      return router.push('/login')
+    }
+    
+    try {
+      setLoading(true)
+      const response = await genCheckoutToken(data)
+      setCheckoutToken(response.checkout_token)
+    } catch (error) {
+      throw error
+    } finally {
+      router.push('/checkout')
+      setLoading(false)
+    }
+  }
 
   return (
     <div>
@@ -49,14 +71,14 @@ const DetailProduct = ({ product }: { product: Product | undefined }) => {
             <div>
               <div className="flex items-center justify-between mb-4">
                 <p>Select Size</p>
-                <Button icon={<EyeOutlined />} type="text" onClick={showModal}>
+                <Button icon={<EyeOutlined />} type="text" onClick={() => setIsModalOpen(true)}>
                   Size Guide
                 </Button>
                 <Modal
                   title={"SIZE GUIDE"}
                   open={isModalOpen}
-                  onOk={handleOk}
-                  onCancel={handleCancel}
+                  onOk={() => setIsModalOpen(false)}
+                  onCancel={() => setIsModalOpen(false)}
                   footer={null}
                 >
                   <div className="mt-4 border rounded-xl border-zinc-300">
@@ -81,12 +103,11 @@ const DetailProduct = ({ product }: { product: Product | undefined }) => {
                   product?.productDetails.length > 0 ? (
                   product?.productDetails.map((detail: any, index: number) => (
                     <Button
+                      disabled={loading}
                       key={index}
-                      onClick={() => setSelectedSize(detail.id)}
-                      className={`py-5 text-sm border rounded-full border-zinc-300 ${selectedSize == detail.size
-                        ? "bg-green-700 !hover:bg-green-800 text-zinc-50"
-                        : ""
-                        }`}
+                      type={selectedSize && selectedSize.size == detail.size ? "primary" : "default"}
+                      onClick={() => setSelectedSize(detail)}
+                      className="py-5 text-sm border rounded-full border-zinc-300"
                     >
                       {detail.size}
                     </Button>
@@ -106,11 +127,16 @@ const DetailProduct = ({ product }: { product: Product | undefined }) => {
               <Button className="h-14 rounded-xl flex-1">
                 Add To Cart
               </Button>
-              <Link href="/checkout" className="flex-1">
-                <Button className="h-14 rounded-xl" block type="primary" disabled={selectedSize == null} onClick={() => console.log(selectedSize)}>
-                  Buy Now
-                </Button>
-              </Link>
+              <Button
+                block
+                className="h-14 rounded-xl flex-1"
+                type="primary"
+                loading={loading}
+                disabled={selectedSize == null}
+                onClick={() => selectedSize && (handleCheckout(selectedSize))}
+              >
+                Buy Now
+              </Button>
             </div>
           </div>
         </div>

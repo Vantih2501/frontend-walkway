@@ -36,6 +36,10 @@ body {
   padding: 8px;
 }
 
+:where(.css-dev-only-do-not-override-zjyjzs).ant-timeline .ant-timeline-item-last >.ant-timeline-item-content {
+  min-height: 0px;
+}
+
 p,
 h1 {
   margin: 0;

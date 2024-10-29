@@ -1,6 +1,6 @@
 "use client";
 import { useAuth } from "#/hooks/auth";
-import { setTokens } from "#/utils/token";
+import { setAccessToken } from "#/utils/token";
 import { Button, Divider, Form, Input } from "antd";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -27,7 +27,7 @@ const RegisterForm = () => {
         "+62" + values.phone_number,
         values.password
       );
-      setTokens(response.access_token);
+      setAccessToken(response.access_token);
     } catch (error) {
       console.error(error);
     } finally {

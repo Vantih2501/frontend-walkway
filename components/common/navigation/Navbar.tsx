@@ -51,16 +51,6 @@ export default function Navbar({ user }: { user?: User }) {
     }
   ]
 
-  const [value, setValue] = useState("");
-
-  const onSearch = (value: string) => {
-    message.info(`Searching for: ${value}`);
-  };
-
-  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setValue(e.target.value);
-  };
-
   return (
     <div className="sticky top-0 flex flex-col w-screen gap-6 py-5 bg-white shadow-lg z-[100] px-14">
       <div className="flex items-center justify-between gap-6">
