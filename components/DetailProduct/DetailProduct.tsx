@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import ProductImage from "./ui/ProductImage";
-import { Breadcrumb, Button, Modal } from "antd";
+import { Breadcrumb, Button, Modal, Spin } from "antd";
 import { EyeOutlined } from "@ant-design/icons";
 import Image from "next/image";
 import { SimiliarProduct } from "./SimiliarProduct";
@@ -25,7 +25,7 @@ const DetailProduct = ({ product }: { product: Product | undefined }) => {
   const { user, isLoading, isError } = getUser(token);
 
   if (isLoading) {
-    return <>loading...</>
+    return <Spin size="large" />
   }
 
   const handleCheckout = async (data: ProductDetail) => {

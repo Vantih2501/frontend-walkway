@@ -4,6 +4,7 @@ import { Poppins, Montserrat } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
 import { Provider } from "./provider";
+import { config } from "#/config/app";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -24,6 +25,12 @@ export const metadata: Metadata = {
   },
 };
 
+declare global {
+  interface Window {
+    snap: any
+  }
+}
+
 export default function RootLayout({
   children,
 }: {
@@ -41,7 +48,7 @@ export default function RootLayout({
       <body className={poppins.className}>
         <>
           <>
-            <Script src="/api/env" strategy={"beforeInteractive"}></Script>
+            <Script src={config.sandboxUrl} strategy={"beforeInteractive"} data-client-key={config.clientKey}></Script>
             <Provider>
               <main>{children}</main>
             </Provider>

@@ -4,7 +4,7 @@ import { useAuth } from "#/hooks/auth";
 import { useUser } from "#/hooks/user";
 import { getAccessToken } from "#/utils/token";
 import { EditOutlined, PlusOutlined } from "@ant-design/icons";
-import { Avatar, Badge, Button, Divider } from "antd";
+import { Avatar, Badge, Button, Divider, Spin } from "antd";
 import { useState } from "react";
 import { HiArrowLeftOnRectangle } from "react-icons/hi2";
 
@@ -14,7 +14,7 @@ export default function Profile() {
   const token = getAccessToken();
   const { user, isLoading } = getUser(token);
   if (isLoading) {
-    return <>loading...</>
+    return <Spin size="large" />
   }
 
   const { address } = fetchAddress(user?.email)

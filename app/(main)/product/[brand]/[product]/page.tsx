@@ -1,6 +1,7 @@
 "use client";
 import DetailProduct from "#/components/DetailProduct/DetailProduct";
 import { useProduct } from "#/hooks/product";
+import { Spin } from "antd";
 
 const ProductDetail = ({
   params,
@@ -11,7 +12,7 @@ const ProductDetail = ({
   const { product, isLoading } = fetchProductName(params.product);
 
   if (isLoading) {
-    return <p>loading...</p>;
+    return <Spin size="large" />
   }
 
   return <DetailProduct product={product} />;

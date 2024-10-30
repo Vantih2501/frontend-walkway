@@ -1,7 +1,7 @@
 "use client"
 import { ProductCardAdmin } from "#/components/common/card/ProductCard";
 import { InboxOutlined, MinusCircleOutlined, PlusOutlined } from "@ant-design/icons";
-import { Button, Checkbox, DatePicker, Form, Input, Select, Space, Upload, UploadFile } from "antd";
+import { Button, Checkbox, DatePicker, Form, Input, Select, Space, Spin, Upload, UploadFile } from "antd";
 import { useEffect, useState } from "react";
 import classNames from "classnames";
 import { useProduct } from "#/hooks/product";
@@ -72,7 +72,9 @@ export default function Bid() {
   const { bids, isLoading, isError } = fetchBids()
   const { product } = fetchProduct()
 
-  if (isLoading) <>loading...</>
+  if (isLoading) {
+    <Spin size="large" />
+  }
 
   const handleDateChange = (dates: any) => {
     if (dates && dates.length === 2) {

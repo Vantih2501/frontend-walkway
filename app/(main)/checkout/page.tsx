@@ -1,29 +1,85 @@
 "use client";
-import React, { useState } from "react";
-import { Button, Card, Collapse, CollapseProps, Image } from "antd";
+import React, { useEffect, useState } from "react";
+import { Button, Card, Collapse, CollapseProps, Image, Spin } from "antd";
 import OrderItem from "#/components/Checkout/OrderItem";
 import AddressList from "#/components/Checkout/AddressList";
-import { getCheckoutToken } from "#/utils/token";
+import { getAccessToken, getCheckoutToken } from "#/utils/token";
 import { useProduct } from "#/hooks/product";
+import { useOrder } from "#/hooks/order";
+import { useAuth } from "#/hooks/auth";
 
 export default function Checkout() {
   const token = getCheckoutToken()
-  const { getCheckoutData } = useProduct()
+  const { getCheckoutData, getCourierRate } = useProduct()
+
+  const { getUser } = useAuth();
+  const auth_token = getAccessToken();
+  const { user } = getUser(auth_token);
+
+  const { postProduct } = useOrder()
   const { product, isLoading, isError } = getCheckoutData(token)
-  
+  const [rate, setRate] = useState<any>([])
+  useEffect(() => {
+    const getRate = async () => {
+      try {
+        const rate = await getCourierRate({ zipcode: 17713 }, product)
+        console.log(rate.pricing)
+        setRate(rate.pricing)
+      } catch (error) {
+        console.log(error)
+      }
+    }
+
+    getRate()
+  }, [product])
+
+  const [delivery, setDelivery] = useState<{ courier: string; price: number } | null>(null);
+
   if (isLoading) {
-    return <>loading...</>
+    return <Spin size="large" />
   }
 
   const items: CollapseProps['items'] = [
     {
       key: '1',
-      label: <h2 className="text-xl">Choose Delivery</h2>,
-      children: (<div className="flex items-start">
-        <Image src="/logo-delivery.png" />
-      </div>),
+      label: (
+        <h2 className="text-xl flex justify-between items-center">
+          <p>Choose Delivery: </p>
+          <p>{delivery ? `${delivery.courier}` : ""}</p>
+        </h2>
+      ),
+      children: (
+        <div className="flex items-start flex-col gap-2">
+          {rate.map((data: any) => (
+            <Button
+              block
+              key={data.company}
+              onClick={() => setDelivery({ courier: data.courier_name, price: data.price })}
+              className="flex justify-between"
+            >
+              <p className="font-medium">{data.courier_name} <span className="text-gray-400">({data.courier_service_name})</span></p>
+              <p className="flex gap-5"><span className="text-gray-400">{data.duration}</span><span className="text-green-700">Rp {data.price.toLocaleString('en-US')}</span></p>
+            </Button>
+          ))}
+        </div>
+      ),
     }
   ];
+
+  const handleCheckout = async () => {
+    if (!product || !delivery) {
+      return 'failed'
+    }
+
+    const response = await postProduct({
+      orderTotal: product.reduce((acc, val) => acc + val.product.price, 0) + delivery.price,
+      orderShip: delivery.price,
+      orderItems: product,
+      customer: user
+    })
+
+    window.snap.pay(response.token)
+  }
 
   return (
     <div className="py-6 px-56">
@@ -31,7 +87,9 @@ export default function Checkout() {
         <h2 className="text-2xl font-medium tracking-wide">Your Items</h2>
         <div className="flex justify-between gap-2">
           <div className="w-4/6 p-6 space-y-8 bg-white rounded-lg">
-            <OrderItem data={product} />
+            {product && product.map((product) => (
+              <OrderItem data={product} />
+            ))}
 
             <hr className="h-px my-8 bg-gray-200 border-0 dark:bg-gray-700" />
 
@@ -47,19 +105,19 @@ export default function Checkout() {
             <div className="space-y-2">
               <div className="flex justify-between">
                 <h3 className="text-base text-gray-500">Order Subtotal</h3>
-                <p className="text-gray-500 font-medium">Rp 5,000,000</p>
+                <p className="text-gray-500 font-medium">Rp {product?.reduce((acc, val) => acc + val.product.price, 0).toLocaleString('en-US')}</p>
               </div>
               <div className="flex justify-between">
                 <h3 className="text-base text-gray-500">Shipping</h3>
-                <p className="text-gray-500 font-medium">Rp 5,000,000</p>
+                <p className="text-gray-500 font-medium">Rp {delivery?.price ? delivery?.price.toLocaleString('en-US') : "-"}</p>
               </div>
             </div>
             <hr className="h-px my-8 bg-gray-200 border-0 dark:bg-gray-700" />
             <div className="flex justify-between">
               <h3 className="text-base  font-medium">Order Total</h3>
-              <p className=" font-medium">Rp 5,000,000</p>
+              <p className=" font-medium">Rp {product && delivery?.price ? (product?.reduce((acc, val) => acc + val.product.price, 0) + delivery?.price).toLocaleString('en-US') : '-'}</p>
             </div>
-            <Button block type="primary" size="large">Proceed to Payment</Button>
+            <Button block type="primary" size="large" disabled={!delivery?.price} onClick={handleCheckout}>Proceed to Payment</Button>
           </div>
         </div>
       </div>

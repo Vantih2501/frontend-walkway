@@ -13,7 +13,7 @@ import Logo from "#/public/icons/logo-white.svg"
 
 export default function Footer() {
   return (
-    <footer className="relative bg-primary-400 py-[77px]">
+    <footer className="relative bg-primary-400 py-[77px] overflow-hidden">
       <div className="mx-auto max-w-7xl">
         <div className="absolute top-0 right-0 h-full w-[487px] 2xl:w-[752px] z-0">
           <Image

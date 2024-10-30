@@ -84,9 +84,9 @@ export const useProduct = () => {
   };
 
   const getCheckoutData = (token?: string) => {
-    if (!token) undefined
+    if (!token) { }
 
-    const { data, error, isLoading } = useSWR<any>(`/product/checkout/${token}`, fetcher.get);
+    const { data, error, isLoading } = useSWR<ProductDetail[] | undefined>(`/product/checkout/${token}`, fetcher.get);
     return {
       product: data,
       isError: error,
@@ -94,5 +94,19 @@ export const useProduct = () => {
     };
   };
 
-  return { fetchProduct, fetchNewestProduct, fetchProductName, uploadImage, postProduct, patchProduct, genCheckoutToken, getCheckoutData }
+  const getCourierRate = async (address: Address | any, product: ProductDetail[] | any): Promise<{ pricing: any[] }> => {
+    if (!address || !product) {
+      return { pricing: [] }; // Return empty pricing array if no address or product
+    }
+
+    const response = await fetcher.post("/order/rates", {
+      address,
+      product
+    });
+
+    return { pricing: response.pricing }; // Access pricing directly
+  };
+
+
+  return { fetchProduct, fetchNewestProduct, fetchProductName, uploadImage, postProduct, patchProduct, genCheckoutToken, getCheckoutData, getCourierRate }
 };

@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { Button, Form, Input, Modal, Select, Space, Table, Tag } from "antd";
+import { Button, Form, Input, Modal, Select, Space, Spin, Table, Tag } from "antd";
 import type { TableProps } from "antd";
 import {
   DeleteOutlined,
@@ -149,7 +149,7 @@ const AccountTable = () => {
   const { role, isLoading: isRoleLoading } = fetchRole()
 
   if (isUserLoading || isRoleLoading) {
-    return <div>loading...</div>
+    return <Spin size="large" />
   }
 
   return (
