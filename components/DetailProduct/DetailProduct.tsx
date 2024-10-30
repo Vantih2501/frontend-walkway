@@ -9,7 +9,7 @@ import { SimiliarProduct } from "./SimiliarProduct";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useProduct } from "#/hooks/product";
-import { getAccessToken, setCheckoutToken } from "#/utils/token";
+import { getAccessToken, getCheckoutToken, removeCheckoutToken, setCheckoutToken } from "#/utils/token";
 import { useAuth } from "#/hooks/auth";
 
 const DetailProduct = ({ product }: { product: Product | undefined }) => {
@@ -32,6 +32,11 @@ const DetailProduct = ({ product }: { product: Product | undefined }) => {
     if (!user) {
       return router.push('/login')
     }
+
+    const token = getCheckoutToken()
+    if (token) {
+      removeCheckoutToken()
+    }
     
     try {
       setLoading(true)
@@ -41,7 +46,6 @@ const DetailProduct = ({ product }: { product: Product | undefined }) => {
       throw error
     } finally {
       router.push('/checkout')
-      setLoading(false)
     }
   }
 

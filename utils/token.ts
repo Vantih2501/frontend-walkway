@@ -11,4 +11,8 @@ export function setCheckoutToken(payload: any) {
 export function removeTokens() {
   Cookies.remove('access_token');
   Cookies.remove('checkout_token');
+  
+}
+export function removeCheckoutToken() {
+  Cookies.remove('checkout_token');
 }

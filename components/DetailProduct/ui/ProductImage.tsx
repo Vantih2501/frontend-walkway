@@ -22,6 +22,8 @@ interface ImageProps {
 const ProductImage = ({ imageUrl }: ImageProps) => {
   const baseurl = "http://localhost:3222/product/uploads/";
 
+  // console.log(imageUrl)
+
   const image = imageUrl[0];
   const images = imageUrl.slice(1);
 

@@ -8,15 +8,12 @@ import { useProduct } from "#/hooks/product";
 
 export default function Checkout() {
   const token = getCheckoutToken()
-
   const { getCheckoutData } = useProduct()
   const { product, isLoading, isError } = getCheckoutData(token)
   
   if (isLoading) {
     return <>loading...</>
   }
-
-  console.log(product)
 
   const items: CollapseProps['items'] = [
     {

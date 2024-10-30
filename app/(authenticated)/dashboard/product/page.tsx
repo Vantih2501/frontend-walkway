@@ -331,7 +331,7 @@ export default function Product() {
 
             <div className={tab == 'description' ? "block space-y-2.5" : 'hidden'}>
               {!isEditing ? (
-                <Form.Item rules={[{ required: true, message: "Please upload at least 1 image" }]}>
+                <Form.Item name="productPhotos" rules={[{ required: true, message: "Please upload at least 1 image" }]}>
                   <Dragger
                     beforeUpload={() => false}
                     multiple={true}
