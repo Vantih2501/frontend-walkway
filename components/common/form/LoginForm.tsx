@@ -1,7 +1,7 @@
 "use client";
 import { useAuth } from "#/hooks/auth";
 import { setAccessToken } from "#/utils/token";
-import { Form, Input, Button, Divider } from "antd";
+import { Form, Input, Button, Divider, message } from "antd";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -24,6 +24,7 @@ const LoginForm = () => {
       router.push("/");
     } catch (error) {
       console.error(error);
+      message.error("Login Gagal")
       setIsLoading(false);
     }
   };

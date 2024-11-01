@@ -2,8 +2,8 @@
 
 import React, { useState } from "react";
 import ProductImage from "./ui/ProductImage";
-import { Breadcrumb, Button, Modal, Spin } from "antd";
-import { EyeOutlined } from "@ant-design/icons";
+import { Breadcrumb, Button, message, Modal, Spin } from "antd";
+import { ExclamationCircleOutlined, EyeOutlined } from "@ant-design/icons";
 import Image from "next/image";
 import { SimiliarProduct } from "./SimiliarProduct";
 import Link from "next/link";
@@ -11,40 +11,52 @@ import { useRouter } from "next/navigation";
 import { useProduct } from "#/hooks/product";
 import { getAccessToken, getCheckoutToken, removeCheckoutToken, setCheckoutToken } from "#/utils/token";
 import { useAuth } from "#/hooks/auth";
+import Title from "antd/es/typography/Title";
 
 const DetailProduct = ({ product }: { product: Product | undefined }) => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false); // untuk modal Size Guide
   const [selectedSize, setSelectedSize] = useState<ProductDetail>();
   const [loading, setLoading] = useState(false);
-  const router = useRouter()
+  const router = useRouter();
+  const [isLoginModalVisible, setIsLoginModalVisible] = useState(false); // untuk modal login
 
-  const { genCheckoutToken } = useProduct()
+  const { genCheckoutToken } = useProduct();
 
   const { getUser } = useAuth();
   const token = getAccessToken();
   const { user, isLoading, isError } = getUser(token);
 
   const handleCheckout = async (data: ProductDetail) => {
-    const token = getCheckoutToken()
+    const token = getCheckoutToken();
+
     if (token) {
-      removeCheckoutToken()
+      removeCheckoutToken();
     }
 
     try {
-      setLoading(true)
+      setLoading(true);
 
       if (!user) {
-        return router.push('/login')
-      }  
+        setIsLoginModalVisible(true);
+        return;
+      }
 
-      const response = await genCheckoutToken(data)
-      setCheckoutToken(response.checkout_token)
+      const response = await genCheckoutToken(data);
+      setCheckoutToken(response.checkout_token);
+      
+      router.push('/checkout');
     } catch (error) {
-      throw error
+      message.error("Error saat proses checkout");
+      console.error(error);
     } finally {
-      router.push('/checkout')
+      setLoading(false);
     }
-  }
+  };
+
+  const handleLoginRedirect = () => {
+    setIsLoginModalVisible(false);
+    router.push('/login'); // Redirect ke halaman login
+  };
 
   return (
     <div>
@@ -89,7 +101,7 @@ const DetailProduct = ({ product }: { product: Product | undefined }) => {
                     <div className="overflow-y-auto h-[500px] ">
                       <Image
                         src={"/image/size-guide.png"}
-                        alt={"size guize"}
+                        alt={"size guide"}
                         width={500}
                         height={1000}
                         quality={100}
@@ -134,7 +146,7 @@ const DetailProduct = ({ product }: { product: Product | undefined }) => {
                 type="primary"
                 loading={loading}
                 disabled={selectedSize == null}
-                onClick={() => selectedSize && (handleCheckout(selectedSize))}
+                onClick={() => selectedSize && handleCheckout(selectedSize)}
               >
                 Buy Now
               </Button>
@@ -143,6 +155,21 @@ const DetailProduct = ({ product }: { product: Product | undefined }) => {
         </div>
       </div>
       <SimiliarProduct />
+
+      {/* Modal untuk login */}
+      <Modal
+        open={isLoginModalVisible}
+        onOk={handleLoginRedirect}
+        onCancel={() => setIsLoginModalVisible(false)}
+        okText="Login"
+        cancelText="Cancel"
+        closable={false}
+      >
+        <div className="flex ">
+        <ExclamationCircleOutlined className="text-6xl" style={{ color:'#b91c1c' }}/> 
+          <Title level={4} className="mx-4 mt-4">Login first to checkout.</Title>
+        </div>
+      </Modal>
     </div>
   );
 };
