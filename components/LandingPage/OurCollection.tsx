@@ -3,7 +3,7 @@ import React from "react";
 import Link from "next/link";
 import { useProduct } from "#/hooks/product";
 import { ProductCard } from "../common/card/ProductCard";
-import { urlFormatter } from "#/utils/url-formatter";
+import { urlFormatter } from "#/utils/formatter";
 
 const OurCollection = () => {
   const { fetchNewestProduct } = useProduct();

@@ -1,18 +1,42 @@
-"use client"
+"use client";
 import { Button, Form, Input, Modal, Select } from "antd";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import PhoneNumberInput from "../input/PhoneNumberInput";
+import TextArea from "antd/es/input/TextArea";
+import { useArea } from "#/hooks/area";
 
 interface ModalProps {
   open: boolean;
-  onFinish?: (value: any) => void;
+  onFinish: (value: any) => void;
   onCancel: () => void;
   loading?: boolean;
   isEditing?: boolean;
   address?: Address;
 }
 
-const AddressModalForm = ({ open, onFinish, onCancel, loading, address, isEditing }: ModalProps) => {
-  const [form] = Form.useForm()
+const AddressModalForm = ({
+  open,
+  onFinish,
+  onCancel,
+  loading,
+  address,
+  isEditing,
+}: ModalProps) => {
+  const [form] = Form.useForm();
+
+  const [selectedProvince, setSelectedProvince] = useState("");
+  const [selectedCity, setSelectedCity] = useState("");
+  const [selectedSubDistrict, setSelectedSubDistrict] = useState("");
+  const [selectedZipCode, setSelectedZipCode] = useState("");
+
+  const { fetchProvince, fetchCity, fetchSubDistrict, fetchZipCode } =
+    useArea();
+  const { province, isLoading: provinceLoading } = fetchProvince();
+  const { city, isLoading: cityLoading } = fetchCity(selectedProvince);
+  const { subDistrict, isLoading: subDistrictLoading } =
+    fetchSubDistrict(selectedCity);
+  const { zipCode, isLoading: zipCodeLoading } =
+    fetchZipCode(selectedSubDistrict);
 
   useEffect(() => {
     if (address && isEditing) {
@@ -25,13 +49,12 @@ const AddressModalForm = ({ open, onFinish, onCancel, loading, address, isEditin
         district: address.district,
         zipcode: address.zipcode,
         address: address.address,
-        note: address.note
+        note: address.note,
       });
     } else {
       form.resetFields();
     }
   }, [address, isEditing, form]);
-
 
   return (
     <Modal
@@ -49,6 +72,11 @@ const AddressModalForm = ({ open, onFinish, onCancel, loading, address, isEditin
       open={open}
       title={isEditing ? "Edit Address Data" : "Add Address Data"}
       onCancel={() => {
+        form.resetFields();
+        setSelectedProvince("");
+        setSelectedCity("");
+        setSelectedSubDistrict("");
+        setSelectedZipCode("");
         onCancel();
       }}
       destroyOnClose
@@ -59,41 +87,162 @@ const AddressModalForm = ({ open, onFinish, onCancel, loading, address, isEditin
           name="form_in_modal"
           requiredMark="optional"
           onFinish={(values) => {
-
+            const formattedValues = {
+              ...values,
+              contact_number: "+62" + values.contact_number.replace(/-/g, ""),
+              zipcode: Number(values.zipcode),
+            };
+            onFinish(formattedValues);
+            setSelectedProvince("");
+            setSelectedCity("");
+            setSelectedSubDistrict("");
+            setSelectedZipCode("");
+            // form.resetFields();
           }}
         >
           {dom}
         </Form>
       )}
     >
-      <div className="grid grid-cols-2 gap-2">
+      <div className="flex flex-col gap-5 ">
         {isEditing && (
-          <Form.Item
-            name="id"
-            hidden
-          >
+          <Form.Item name="id" hidden>
             <Input hidden />
           </Form.Item>
         )}
-        <Form.Item
-          name="contact_name"
-          label="Contact Info"
-          rules={[{ required: true, message: "Please input contact name!" }]}
-        >
-          <Input className="h-10" placeholder="Enter contact name" />
-        </Form.Item>
-        <Form.Item
-          name="phone_number"
-          label
-          rules={[{ required: true, message: "Please input your phone number" }]}
-        >
-          <Input
-            type="number"
-            addonBefore="+62"
-            placeholder="Enter your Phone Number"
-            className="phone-input"
+
+        <div className="grid items-start grid-cols-2 gap-x-2 gap-y-2 ">
+          <label htmlFor="" className="col-span-2">
+            Contact Info
+          </label>
+          <Form.Item
+            name="contact_name"
+            rules={[{ required: true, message: "Please input contact name!" }]}
+          >
+            <Input className="h-10" placeholder="Enter contact name" />
+          </Form.Item>
+
+          <PhoneNumberInput
+            name="contact_number"
+            required
+            label=""
+            placeholder="Enter contact phone number"
           />
-        </Form.Item>
+        </div>
+
+        <div className="grid items-end grid-cols-2 gap-x-2 gap-y-2">
+          <label htmlFor="" className="col-span-2">
+            Delivery Address
+          </label>
+
+          <Form.Item
+            name="province"
+            rules={[{ required: true, message: "Please select a province" }]}
+          >
+            <Select
+              placeholder="Select province"
+              className="h-10"
+              loading={provinceLoading}
+              onChange={(value) => {
+                setSelectedProvince(value);
+                form.setFieldValue("city", null);
+                setSelectedCity("");
+                form.setFieldValue("district", null);
+                setSelectedSubDistrict("");
+                form.setFieldValue("zipCode", null);
+              }}
+              options={province?.map((province: any) => ({
+                value: province,
+                label: province,
+              }))}
+            />
+          </Form.Item>
+
+          <Form.Item
+            name="city"
+            rules={[{ required: true, message: "Please select a city" }]}
+          >
+            <Select
+              placeholder="Select city"
+              className="h-10"
+              loading={cityLoading}
+              onChange={(value) => {
+                setSelectedCity(value);
+                form.setFieldValue("district", null);
+                setSelectedSubDistrict("");
+                form.setFieldValue("zipCode", null);
+              }}
+              options={city?.map((city: any) => ({
+                value: city,
+                label: city,
+              }))}
+              disabled={!selectedProvince}
+            />
+          </Form.Item>
+
+          <Form.Item
+            name="district"
+            rules={[
+              { required: true, message: "Please select a sub discrict" },
+            ]}
+          >
+            <Select
+              placeholder="Select sub discrict"
+              className="h-10"
+              loading={subDistrictLoading}
+              onChange={(value) => {
+                setSelectedSubDistrict(value);
+                form.setFieldValue("zipCode", null);
+              }}
+              options={subDistrict?.map((subDistrict: any) => ({
+                value: subDistrict,
+                label: subDistrict,
+              }))}
+              disabled={!selectedCity}
+            />
+          </Form.Item>
+
+          <Form.Item
+            name="zipcode"
+            rules={[{ required: true, message: "Please select a zip code" }]}
+          >
+            <Select
+              placeholder="Select zip code"
+              className="h-10"
+              loading={zipCodeLoading}
+              onChange={(value) => setSelectedZipCode(value)}
+              options={zipCode?.map((zipCode: any) => ({
+                value: zipCode,
+                label: zipCode,
+              }))}
+              disabled={!selectedSubDistrict}
+            />
+          </Form.Item>
+
+          <Form.Item
+            name="address"
+            className="col-span-2"
+            rules={[{ required: true, message: "Please enter address detail" }]}
+          >
+            <TextArea
+              rows={3}
+              placeholder="Street Name, Building, House Number, etc."
+              style={{ resize: "none" }}
+            />
+          </Form.Item>
+
+          <Form.Item
+            name="note"
+            className="col-span-2"
+            rules={[{ required: false, message: "Please select a province" }]}
+          >
+            <TextArea
+              rows={2}
+              placeholder="Additional Details (Block/Unit Number, Landmarks) *OPTIONAL"
+              style={{ resize: "none" }}
+            />
+          </Form.Item>
+        </div>
       </div>
     </Modal>
   );

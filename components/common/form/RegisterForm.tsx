@@ -5,6 +5,7 @@ import { Button, Divider, Form, Input } from "antd";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
+import PhoneNumberInput from "../input/PhoneNumberInput";
 
 interface RegisterFormValues {
   name: string;
@@ -21,20 +22,18 @@ const RegisterForm = () => {
   const onFinish = async (values: RegisterFormValues) => {
     try {
       setIsLoading(true);
-
-
       const response = await register(
         values.name,
         values.email,
-        "+62" + values.phone_number,
+        "+62" + values.phone_number.replace(/-/g, ""),
         values.password
       );
       setAccessToken(response.access_token);
     } catch (error) {
       console.error(error);
+      setIsLoading(false);
     } finally {
       router.push("/");
-      setIsLoading(false);
     }
   };
   return (
@@ -58,7 +57,14 @@ const RegisterForm = () => {
         <Input placeholder="Email Address" className="py-2 rounded-lg" />
       </Form.Item>
 
-      <Form.Item
+      <PhoneNumberInput
+        label="Phone Number"
+        placeholder="Enter your Phone Number"
+        name="phone_number"
+        required
+      />
+
+      {/* <Form.Item
         name="phone_number"
         label="Phone Number"
         rules={[{ required: true, message: "Please input your phone number" }]}
@@ -69,15 +75,13 @@ const RegisterForm = () => {
           placeholder="Enter your Phone Number"
           className="phone-input"
         />
-      </Form.Item>
+      </Form.Item> */}
 
       <div className="flex gap-2">
         <Form.Item
           name="password"
           label="Password"
-          rules={[
-            { required: true, message: "Please input your password!" },
-          ]}
+          rules={[{ required: true, message: "Please input your password!" }]}
         >
           <Input.Password placeholder="Password" className="py-2 rounded-lg" />
         </Form.Item>
@@ -85,15 +89,15 @@ const RegisterForm = () => {
         <Form.Item
           name="confirmPassword"
           label="Confirm Password"
-          dependencies={['password']}
+          dependencies={["password"]}
           rules={[
             { required: true, message: "Please confirm your password!" },
             ({ getFieldValue }) => ({
               validator(_, value) {
-                if (!value || getFieldValue('password') === value) {
+                if (!value || getFieldValue("password") === value) {
                   return Promise.resolve();
                 }
-                return Promise.reject(new Error('The passwords do not match!'));
+                return Promise.reject(new Error("The passwords do not match!"));
               },
             }),
           ]}

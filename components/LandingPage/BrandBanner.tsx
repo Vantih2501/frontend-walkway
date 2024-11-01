@@ -3,7 +3,7 @@ import React from "react";
 import { useBrand } from "#/hooks/brand";
 import { Image } from "antd";
 import Link from "next/link";
-import { urlFormatter } from "#/utils/url-formatter";
+import { urlFormatter } from "#/utils/formatter";
 
 const BrandBanner = () => {
   const { fetchRecentBrand } = useBrand();

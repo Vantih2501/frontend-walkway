@@ -27,7 +27,9 @@ body {
     scrollbar-width: none;
   }
 }
-
+.ant-form-item {
+  margin-bottom: 0;
+}
 .delivery-select.ant-collapse > .ant-collapse-item > .ant-collapse-header {
   padding: 0px !important;
 }

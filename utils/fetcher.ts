@@ -25,6 +25,11 @@ export const fetcher = {
 		return response.body.data;
 	},
 
+	fetch: async (url: string, opts = {}) => {
+		const response = await createRequest('get', url);
+		return response.body;
+	},
+
 	post: async (url: string, opts: {}) => {
 		const response = await createRequest('post', url).send(opts);
 		return response.body.data;

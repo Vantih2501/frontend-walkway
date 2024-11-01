@@ -9,6 +9,7 @@ import logo from "#/public/icons/logo.svg";
 import { HiOutlineShoppingBag } from "react-icons/hi2";
 import { removeTokens } from "#/utils/token";
 import { useRouter } from "next/navigation";
+import { User } from "lucide-react";
 
 export default function Navbar({ user }: { user?: User }) {
   const router = useRouter()
@@ -85,7 +86,7 @@ export default function Navbar({ user }: { user?: User }) {
             <>
               <HiOutlineShoppingBag size={32} />
               <Dropdown menu={{ items }} placement="bottomRight" className="cursor-pointer">
-                <Avatar>{user.name}</Avatar>
+                <Avatar icon={<User />}>{user.name}</Avatar>
               </Dropdown>
             </>
           ) : (
