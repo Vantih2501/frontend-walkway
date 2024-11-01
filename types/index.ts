@@ -8,6 +8,7 @@ interface User {
   phone_number: string;
   status: string;
   address: Address[];
+  role: Role | string;
 }
 
 interface Role {

@@ -73,7 +73,11 @@ export default function Bid() {
   const { product } = fetchProduct()
 
   if (isLoading) {
-    <Spin size="large" />
+    return (
+      <div className="w-full h-[80vh] flex items-center justify-center">
+        <Spin size="large" />
+      </div>
+    )
   }
 
   const handleDateChange = (dates: any) => {
@@ -205,7 +209,7 @@ export default function Bid() {
           }
         )}
       >
-        <Form form={form} onFinish={(values) => onFinish(values)} className="w-96 py-6 px-2 mx-auto flex flex-col justify-between h-full gap-4" layout="vertical" requiredMark={false}>
+        <Form form={form} onFinish={(values) => onFinish(values)} className="py-6 px-2 mx-auto flex flex-col justify-between h-full gap-4" layout="vertical" requiredMark={false}>
           <div className="space-y-3">
             <h2 className="font-medium tracking-wide text-lg">
               {isEditing ? "Edit Bid" : "Add Bid"}
@@ -222,6 +226,7 @@ export default function Bid() {
                 className="flex-1"
                 type={tab == "stock" ? "primary" : "text"}
                 onClick={() => setTab("stock")}
+                disabled
               >
                 Participant
               </Button>

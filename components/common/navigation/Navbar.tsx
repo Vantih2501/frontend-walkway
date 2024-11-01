@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import { SearchOutlined } from "@ant-design/icons";
 import Link from "next/link";
 import { Input, message, Button, Avatar, Dropdown, MenuProps } from "antd";
@@ -12,6 +12,21 @@ import { useRouter } from "next/navigation";
 
 export default function Navbar({ user }: { user?: User }) {
   const router = useRouter()
+
+  const [messageApi, contextHolder] = message.useMessage();
+
+  const handleLogout = useCallback(async () => {
+    try {
+      removeTokens();
+
+      messageApi.success("Logged out successfully");
+
+      window.location.href = "/";
+    } catch (error) {
+      messageApi.error("Failed to logout. Please try again.");
+      console.error("Logout error:", error);
+    }
+  }, [messageApi]);
 
   const menus = [
     {
@@ -47,7 +62,7 @@ export default function Navbar({ user }: { user?: User }) {
     },
     {
       key: 3,
-      label: <button onClick={() => {removeTokens(); router.refresh()}}>Logout</button>
+      label: <button onClick={handleLogout}>Logout</button>
     }
   ]
 
@@ -77,7 +92,8 @@ export default function Navbar({ user }: { user?: User }) {
             <>
               <Button
                 href="/register"
-                className="bg-green-600 rounded-full text-zinc-50"
+                className="rounded-full"
+                type="primary"
               >
                 Sign Up
               </Button>

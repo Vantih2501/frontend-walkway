@@ -21,6 +21,8 @@ const RegisterForm = () => {
   const onFinish = async (values: RegisterFormValues) => {
     try {
       setIsLoading(true);
+
+
       const response = await register(
         values.name,
         values.email,
@@ -69,19 +71,39 @@ const RegisterForm = () => {
         />
       </Form.Item>
 
-      <Form.Item
-        name="password"
-        label="Password"
-        rules={[{ required: true, message: "Please input your password!" }]}
-      >
-        <div className="flex gap-2">
+      <div className="flex gap-2">
+        <Form.Item
+          name="password"
+          label="Password"
+          rules={[
+            { required: true, message: "Please input your password!" },
+          ]}
+        >
           <Input.Password placeholder="Password" className="py-2 rounded-lg" />
+        </Form.Item>
+
+        <Form.Item
+          name="confirmPassword"
+          label="Confirm Password"
+          dependencies={['password']}
+          rules={[
+            { required: true, message: "Please confirm your password!" },
+            ({ getFieldValue }) => ({
+              validator(_, value) {
+                if (!value || getFieldValue('password') === value) {
+                  return Promise.resolve();
+                }
+                return Promise.reject(new Error('The passwords do not match!'));
+              },
+            }),
+          ]}
+        >
           <Input.Password
             placeholder="Re-enter Your Password"
             className="py-2 rounded-lg"
           />
-        </div>
-      </Form.Item>
+        </Form.Item>
+      </div>
 
       <Divider className="my-6 2xl:my-7" />
 

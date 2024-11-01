@@ -5,6 +5,7 @@ import Script from "next/script";
 import "./globals.css";
 import { Provider } from "./provider";
 import { config } from "#/config/app";
+import NextTopLoader from "nextjs-toploader";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -49,6 +50,16 @@ export default function RootLayout({
         <>
           <>
             <Script src={config.sandboxUrl} strategy={"beforeInteractive"} data-client-key={config.clientKey}></Script>
+            <NextTopLoader
+              color="#4E7772"
+              initialPosition={0.08}
+              crawlSpeed={200}
+              height={3}
+              showSpinner={false}
+              easing="ease"
+              speed={200}
+              shadow="0 0 10px #4E7772,0 0 5px #4E7772"
+            />
             <Provider>
               <main>{children}</main>
             </Provider>

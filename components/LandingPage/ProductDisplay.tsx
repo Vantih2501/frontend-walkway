@@ -4,6 +4,7 @@ import Link from "next/link";
 import React from "react";
 import { useProduct } from "#/hooks/product";
 import ProductCarousel from "../common/carousel/ProductCarousel";
+import menyala from '#/public/icons/fire-icon.svg'
 
 const ProductDisplay = () => {
   const { fetchNewestProduct } = useProduct();
@@ -15,7 +16,7 @@ const ProductDisplay = () => {
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
               <Image
-                src="/icons/fire-icon.svg"
+                src={menyala}
                 alt="fire icon"
                 width={27}
                 height={32}

@@ -21,9 +21,9 @@ const Dashboard = () => {
         </div>
       </div>
 
-      <div className="h-full col-span-4 border rounded-lg border-zinc-300">
-        {/* <SiderContent /> */}
-      </div>
+      {/* <div className="h-full col-span-4 border rounded-lg border-zinc-300">
+        <SiderContent />
+      </div> */}
     </div>
   );
 };

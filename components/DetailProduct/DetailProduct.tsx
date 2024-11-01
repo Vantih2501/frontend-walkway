@@ -24,22 +24,19 @@ const DetailProduct = ({ product }: { product: Product | undefined }) => {
   const token = getAccessToken();
   const { user, isLoading, isError } = getUser(token);
 
-  if (isLoading) {
-    return <Spin size="large" />
-  }
-
   const handleCheckout = async (data: ProductDetail) => {
-    if (!user) {
-      return router.push('/login')
-    }
-
     const token = getCheckoutToken()
     if (token) {
       removeCheckoutToken()
     }
-    
+
     try {
       setLoading(true)
+
+      if (!user) {
+        return router.push('/login')
+      }  
+
       const response = await genCheckoutToken(data)
       setCheckoutToken(response.checkout_token)
     } catch (error) {

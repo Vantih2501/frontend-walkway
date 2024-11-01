@@ -24,7 +24,6 @@ const LoginForm = () => {
       router.push("/");
     } catch (error) {
       console.error(error);
-    } finally {
       setIsLoading(false);
     }
   };
@@ -41,7 +40,6 @@ const LoginForm = () => {
             required: true,
           },
         ]}
-        initialValue="gandara@example.com"
       >
         <Input placeholder="Email Address" className="py-2 rounded-lg" />
       </Form.Item>
@@ -51,7 +49,6 @@ const LoginForm = () => {
         label="Password"
         rules={[{ required: true, message: "Please input your password!" }]}
         className="m-0 2xl:text-lg"
-        initialValue="superadmin"
       >
         <Input.Password placeholder="Password" className="py-2 rounded-lg" />
       </Form.Item>

@@ -13,9 +13,6 @@ export default function Profile() {
   const { fetchAddress } = useUser();
   const token = getAccessToken();
   const { user, isLoading } = getUser(token);
-  if (isLoading) {
-    return <Spin size="large" />
-  }
 
   const { address } = fetchAddress(user?.email)
   const [currentMenu, setCurrentMenu] = useState('Profile')

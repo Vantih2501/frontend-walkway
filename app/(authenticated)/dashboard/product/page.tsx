@@ -1,7 +1,7 @@
 "use client"
 import { ProductCardAdmin } from "#/components/common/card/ProductCard";
 import { InboxOutlined, MinusCircleOutlined, PlusOutlined } from "@ant-design/icons";
-import { Button, Checkbox, Form, Input, Select, Space, Upload, UploadFile } from "antd";
+import { Button, Checkbox, Form, Input, Select, Space, Spin, Upload, UploadFile } from "antd";
 import { useEffect, useState } from "react";
 import classNames from "classnames";
 import { useProduct } from "#/hooks/product";
@@ -151,7 +151,11 @@ export default function Product() {
   const { category, isLoading: categoryLoading } = fetchCategory();
 
   if (productLoading || brandLoading || categoryLoading) {
-    return <div>loading..</div>
+    return (
+      <div className="w-full h-[80vh] flex items-center justify-center">
+        <Spin size="large" />
+      </div>
+    )
   }
 
   const onFinish = async (values: FormValues) => {
@@ -307,7 +311,7 @@ export default function Product() {
           }
         )}
       >
-        <Form form={form} onFinish={(values) => onFinish(values)} className="w-96 py-6 px-2 mx-auto flex flex-col justify-between h-full gap-4" layout="vertical" requiredMark={false}>
+        <Form form={form} onFinish={(values) => onFinish(values)} className="py-6 px-2 mx-auto flex flex-col justify-between h-full gap-4" layout="vertical" requiredMark={false}>
           <div className="space-y-3">
             <h2 className="font-medium tracking-wide text-lg">
               {isEditing ? "Edit Product" : "Add Product"}
@@ -349,9 +353,9 @@ export default function Product() {
                     <p className="ant-upload-text">
                       Click or drag images to upload
                     </p>
-                    <p className="ant-upload-hint">
+                    {/* <p className="ant-upload-hint">
                       Upload in the order: Front, Side 1 & 2, Bottom
-                    </p>
+                    </p> */}
                   </Dragger>
                 </Form.Item>
               ) : (

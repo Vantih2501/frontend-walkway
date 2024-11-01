@@ -16,6 +16,7 @@ interface CardProps {
 export const BidCard = ({ bid, imageUrl, product }: CardProps) => {
   const [timeRemaining, setTimeRemaining] = useState<string>("00:00:00");
   const [status, setStatus] = useState<string>("Begins at");
+  const [ended, setEnded] = useState(false);
 
   useEffect(() => {
     const startDate = dayjs(bid.start_date);
@@ -24,6 +25,9 @@ export const BidCard = ({ bid, imageUrl, product }: CardProps) => {
 
     const isBeforeStart = now.isBefore(startDate);
     const isAfterStart = now.isAfter(startDate) && now.isBefore(endDate);
+
+    const isEnded = now.isAfter(startDate) && now.isAfter(endDate);
+    setEnded(isEnded)
 
     let targetDate = isBeforeStart ? startDate : endDate;
     let countdownType = isBeforeStart ? "Begins at" : "Ends in";
@@ -49,9 +53,14 @@ export const BidCard = ({ bid, imageUrl, product }: CardProps) => {
 
   return (
     <div className="h-full relative cursor-pointer rounded-xl border border-transparent transition-all duration-300 ease-in-out hover:border-primary-500 w-full group bg-primary-300 border-primary-300 text-white">
-      <div className="py-2 flex flex-col justify-center items-center -space-y-1">
-        <p className="font-light">{status}</p>
-        <h2 className="text-xl">{timeRemaining}</h2>
+      <div className="h-14 flex flex-col justify-center items-center -space-y-1">
+        {ended ?
+          <h2 className="text-xl">Ended</h2> :
+          <>
+            <p className="font-light">{status}</p>
+            <h2 className="text-xl">{timeRemaining}</h2>
+          </>
+        }
       </div>
 
       <div className="overflow-hidden aspect-w-1 aspect-h-1">
@@ -59,7 +68,7 @@ export const BidCard = ({ bid, imageUrl, product }: CardProps) => {
           src={imageUrl}
           alt={bid.productDetail.product.name || "img"}
           preview={false}
-          className="w-full h-full object-cover transition-transform duration-300 ease-in-out group-hover:scale-105"
+          className="bg-white w-full h-full object-cover transition-transform duration-300 ease-in-out group-hover:scale-105"
         />
       </div>
 

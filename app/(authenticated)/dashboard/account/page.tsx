@@ -149,7 +149,11 @@ const AccountTable = () => {
   const { role, isLoading: isRoleLoading } = fetchRole()
 
   if (isUserLoading || isRoleLoading) {
-    return <Spin size="large" />
+    return (
+      <div className="w-full h-[80vh] flex items-center justify-center">
+        <Spin size="large" />
+      </div>
+    )
   }
 
   return (

@@ -12,7 +12,11 @@ const ProductDetail = ({
   const { product, isLoading } = fetchProductName(params.product);
 
   if (isLoading) {
-    return <Spin size="large" />
+    return (
+      <div className="w-screen h-[86vh] flex items-center justify-center">
+        <Spin size="large" />
+      </div>
+    )
   }
 
   return <DetailProduct product={product} />;

@@ -1,11 +1,11 @@
 "use client";
-
-import Sider from "#/components/Admin/Layout/Sider";
-import Header from "#/components/Admin/Layout/Header";
 import { Poppins } from "next/font/google";
 import Sidebar from "#/components/common/navigation/Sidebar";
 import { Avatar } from "antd";
 import { usePathname } from "next/navigation";
+import { useAuth } from "#/hooks/auth";
+import { getAccessToken } from "#/utils/token";
+import { useEffect, useState } from "react";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -28,12 +28,25 @@ export default function AdminLayout({ children }: LayoutProps) {
     if (pathname === "/dashboard/categories") return "Category & Brand";
     if (pathname === "/dashboard/bid") return "Bid";
 
-		return "Dashboard"; 
+    return "Dashboard";
   };
+
+  const [isMounted, setIsMounted] = useState(false)
+  const { getUser } = useAuth()
+  const token = getAccessToken()
+  const { user, isLoading, isError } = getUser(token)
+
+  useEffect(() => {
+    setIsMounted(true)
+  }, [])
+
+  if (!isMounted || isLoading) {
+    return null
+  }
 
   return (
     <div className={"flex " + poppins.className}>
-      <Sidebar />
+      <Sidebar role={user?.role} />
       <div className="w-full h-screen px-4 overflow-y-auto">
         <div className="sticky top-0 py-7 border-b bg-white z-[100] flex justify-between items-center">
           <h1 className="mb-1 text-2xl font-medium tracking-tight">
@@ -44,9 +57,9 @@ export default function AdminLayout({ children }: LayoutProps) {
             <Avatar size={43} src="/fotoprof.jpg" />
             <div className="-space-y-1">
               <h2 className="text-base font-medium leading-6">
-                Farel Widianto
+                {user?.name}
               </h2>
-              <p className="text-xs text-zinc-400">example@gmail.com</p>
+              <p className="text-xs text-zinc-400">{user?.email}</p>
             </div>
           </div>
         </div>
