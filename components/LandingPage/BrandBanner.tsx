@@ -4,6 +4,7 @@ import { useBrand } from "#/hooks/brand";
 import { Image } from "antd";
 import Link from "next/link";
 import { urlFormatter } from "#/utils/formatter";
+import { config } from "#/config/app";
 
 const BrandBanner = () => {
   const { fetchRecentBrand } = useBrand();
@@ -15,7 +16,7 @@ const BrandBanner = () => {
           {brand &&
             brand.map((brand, index) => (
               <Link key={index} href={`/product/${urlFormatter(brand.name)}`}>
-                <Image src={brand.image} alt={brand.name} preview={false} className="max-w-32 mix-blend-screen"/>
+                <Image src={`${config.apiUrl}/brand/uploads/${brand.image}`} alt={brand.name} preview={false} className="max-w-32 mix-blend-screen"/>
               </Link>
             ))}
         </div>

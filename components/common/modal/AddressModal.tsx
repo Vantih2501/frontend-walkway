@@ -93,10 +93,10 @@ const AddressModalForm = ({
               zipcode: Number(values.zipcode),
             };
             onFinish(formattedValues);
-            setSelectedProvince("");
-            setSelectedCity("");
-            setSelectedSubDistrict("");
-            setSelectedZipCode("");
+            // setSelectedProvince("");
+            // setSelectedCity("");
+            // setSelectedSubDistrict("");
+            // setSelectedZipCode("");
             // form.resetFields();
           }}
         >
@@ -143,6 +143,17 @@ const AddressModalForm = ({
               placeholder="Select province"
               className="h-10"
               loading={provinceLoading}
+              showSearch
+              filterOption={(input, option) =>
+                (option?.label ?? "")
+                  .toLowerCase()
+                  .includes(input.toLowerCase())
+              }
+              filterSort={(optionA, optionB) =>
+                (optionA?.label ?? "")
+                  .toLowerCase()
+                  .localeCompare((optionB?.label ?? "").toLowerCase())
+              }
               onChange={(value) => {
                 setSelectedProvince(value);
                 form.setFieldValue("city", null);
@@ -166,6 +177,17 @@ const AddressModalForm = ({
               placeholder="Select city"
               className="h-10"
               loading={cityLoading}
+              showSearch
+              filterOption={(input, option) =>
+                (option?.label ?? "")
+                  .toLowerCase()
+                  .includes(input.toLowerCase())
+              }
+              filterSort={(optionA, optionB) =>
+                (optionA?.label ?? "")
+                  .toLowerCase()
+                  .localeCompare((optionB?.label ?? "").toLowerCase())
+              }
               onChange={(value) => {
                 setSelectedCity(value);
                 form.setFieldValue("district", null);
@@ -190,6 +212,17 @@ const AddressModalForm = ({
               placeholder="Select sub discrict"
               className="h-10"
               loading={subDistrictLoading}
+              showSearch
+              filterOption={(input, option) =>
+                (option?.label ?? "")
+                  .toLowerCase()
+                  .includes(input.toLowerCase())
+              }
+              filterSort={(optionA, optionB) =>
+                (optionA?.label ?? "")
+                  .toLowerCase()
+                  .localeCompare((optionB?.label ?? "").toLowerCase())
+              }
               onChange={(value) => {
                 setSelectedSubDistrict(value);
                 form.setFieldValue("zipCode", null);

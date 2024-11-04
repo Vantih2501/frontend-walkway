@@ -11,7 +11,7 @@ import { HiArrowLeftOnRectangle } from "react-icons/hi2";
 
 export default function Profile() {
   const { getUser } = useAuth();
-  const { fetchAddress, postAddress } = useUser();
+  const { fetchAddress, postAddress, setDefaultAddress } = useUser();
   const token = getAccessToken();
   const { user, isLoading } = getUser(token);
 
@@ -23,13 +23,21 @@ export default function Profile() {
 
   const handleAddressFinish = async (values: any) => {
     try {
-      await postAddress({...values, email: user?.email})
+      await postAddress({ ...values, email: user?.email });
     } catch (error) {
-      console.log(error)
+      console.log(error);
     } finally {
-      setOpenAddress(false)
+      setOpenAddress(false);
     }
-  }
+  };
+
+  const handleChangeAddress = async (id: any) => {
+    try {
+      await setDefaultAddress(user?.email, id, token);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <>
@@ -141,13 +149,22 @@ export default function Profile() {
                         address.map((data) => (
                           <div className="py-3 space-y-1" key={data.id}>
                             <h2 className="text-base">
-                              {data.contact_name} | {formatPhoneNumber(data.contact_number)}
+                              {data.contact_name} |{" "}
+                              {formatPhoneNumber(data.contact_number)}
                             </h2>
                             <p className="w-3/5 text-gray-400">
                               {data.address}
                             </p>
                             <div className="flex items-center gap-2">
-                              <Button type="primary">Use</Button>
+                              <Button
+                                type="primary"
+                                disabled={data.id === user?.defaultAddress}
+                                onClick={() => handleChangeAddress(data.id)}
+                              >
+                                {data.id === user?.defaultAddress
+                                  ? "Default"
+                                  : "Set as Default"}
+                              </Button>
                               <Button type="default">Edit Address</Button>
                             </div>
                           </div>

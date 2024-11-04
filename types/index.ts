@@ -9,6 +9,7 @@ interface User {
   status: string;
   address: Address[];
   role: Role | string;
+  defaultAddress: string;
 }
 
 interface Role {

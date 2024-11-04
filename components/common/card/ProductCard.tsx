@@ -1,6 +1,7 @@
 import React from "react";
 import type { CountdownProps } from "antd";
 import { Image, Statistic } from "antd";
+import { config } from "#/config/app";
 
 const { Countdown } = Statistic;
 
@@ -30,7 +31,7 @@ export const ProductCard = ({
 
       <div className="overflow-hidden rounded-t-xl aspect-w-1 aspect-h-1">
         <Image
-          src={imageUrl}
+          src={`${config.apiUrl}/product/uploads/${imageUrl}`}
           alt={imageUrl || "img"}
           preview={false}
           className={`w-full h-full object-cover transition-transform duration-300 ease-in-out group-hover:scale-105 py-4 bg-white`}
@@ -66,20 +67,20 @@ interface AdminCardProps {
 
 export const ProductCardAdmin = ({ product, frontImage, sold, onClick }: AdminCardProps) => {
   return (
-    <div onClick={() => onClick(product)} className="rounded-md border bg-white px-4 py-3 flex flex-col justify-between gap-5 cursor-pointer">
+    <div onClick={() => onClick(product)} className="flex flex-col justify-between gap-5 px-4 py-3 bg-white border rounded-md cursor-pointer">
       <div className="space-y-3">
         <Image
           src={frontImage}
           alt="product"
           preview={false}
-          className="object-contain border-black aspect-video border"
+          className="object-contain border border-black aspect-video"
         />
         <div className="">
           <h2 className="font-semibold line-clamp-1">{product.name}</h2>
-          <p className="text-green-600 font-medium">Rp {product.price.toLocaleString('en-US')}</p>
+          <p className="font-medium text-green-600">Rp {product.price.toLocaleString('en-US')}</p>
         </div>
       </div>
-      <div className="flex justify-between items-center">
+      <div className="flex items-center justify-between">
         <p>Total Stock <span className="font-bold">{product.productDetails.reduce((total, detail) => total + detail.stock, 0)}</span></p>
         <p>Sold <span className="font-bold">{sold}</span></p>
       </div>

@@ -65,6 +65,31 @@ export const useUser = () => {
     mutate(`/user/address/${email}`);
   };
 
+  const setDefaultAddress = async (
+    email?: string,
+    addressId?: string,
+    token?: string
+  ) => {
+    await fetcher.patch(`/user/set-address`, {
+      email,
+      addressId
+    });
+
+    mutate(`/auth/user/${token}`);
+  };
+
+  const getAddress = (id?: string) => {
+    const { data, error, isLoading } = useSWR<Address>(
+      `/user/get-address/${id}`,
+      fetcher.get
+    );
+    return {
+      address: data,
+      isError: error,
+      isLoading,
+    };
+  };
+
   const postUser = async (
     name: string,
     email: string,
@@ -103,5 +128,14 @@ export const useUser = () => {
     mutate(`/user/admins`);
   };
 
-  return { fetchUser, postUser, patchUser, deleteUser, fetchAddress, postAddress };
+  return {
+    fetchUser,
+    postUser,
+    patchUser,
+    deleteUser,
+    fetchAddress,
+    postAddress,
+    setDefaultAddress,
+    getAddress
+  };
 };

@@ -48,7 +48,6 @@ const DetailProduct = ({ product }: { product: Product | undefined }) => {
     } catch (error) {
       message.error("Error saat proses checkout");
       console.error(error);
-    } finally {
       setLoading(false);
     }
   };
@@ -137,12 +136,12 @@ const DetailProduct = ({ product }: { product: Product | undefined }) => {
               </div>
             </div>
             <div className="flex gap-4">
-              <Button className="h-14 rounded-xl flex-1">
+              <Button className="flex-1 h-14 rounded-xl">
                 Add To Cart
               </Button>
               <Button
                 block
-                className="h-14 rounded-xl flex-1"
+                className="flex-1 h-14 rounded-xl"
                 type="primary"
                 loading={loading}
                 disabled={selectedSize == null}

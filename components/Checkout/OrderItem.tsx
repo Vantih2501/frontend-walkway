@@ -21,11 +21,12 @@ import {
   RightOutlined,
 } from "@ant-design/icons";
 import TextArea from "antd/es/input/TextArea";
+import { config } from "#/config/app";
 
 const { Title } = Typography;
 
 interface OrderItemProps {
-  data: ProductDetail
+  data: ProductDetail;
 }
 
 export default function OrderItem({ data }: OrderItemProps) {
@@ -45,25 +46,33 @@ export default function OrderItem({ data }: OrderItemProps) {
 
   return (
     <>
-      <div className="flex flex-col gap-6 w-full">
-        <div className="flex justify-between items-start">
-          <div className="flex gap-6 w-3/5">
-            <div className="bg-white max-w-24 shadow-md">
+      <div className="flex flex-col w-full gap-6">
+        <div className="flex items-start justify-between">
+          <div className="flex w-3/5 gap-6">
+            <div className="bg-white shadow-md max-w-24">
               {data && (
                 <Image
-                  src={`http://localhost:3222/product/uploads/${data.product.productPhotos.find((photo: ProductImage) => photo.photoType === 'front')?.image || ''}`}
+                  src={`${config.apiUrl}/product/uploads/${
+                    data.product.productPhotos.find(
+                      (photo: ProductImage) => photo.photoType === "front"
+                    )?.image || ""
+                  }`}
                   alt="product"
                   preview={false}
-                  className="aspect-square object-contain"
+                  className="object-contain aspect-square"
                 />
               )}
             </div>
             <div className="-space-y-0.5">
-              <h2 className="text-lg font-medium line-clamp-2">{data.product.name}</h2>
+              <h2 className="text-lg font-medium line-clamp-2">
+                {data.product.name}
+              </h2>
               <p className="text-sm text-gray-500">Size: {data.size}</p>
             </div>
           </div>
-          <h2 className="text-xl font-medium">Rp {data.product.price.toLocaleString('en-Us')}</h2>
+          <h2 className="text-xl font-medium">
+            Rp {data.product.price.toLocaleString("en-Us")}
+          </h2>
         </div>
       </div>
 
@@ -92,14 +101,16 @@ export default function OrderItem({ data }: OrderItemProps) {
           >
             <Form.Item
               name="name"
-              rules={[{ required: true, message: 'Please input your Name!' }]}
+              rules={[{ required: true, message: "Please input your Name!" }]}
               style={{ display: "inline-block", width: "calc(50% - 8px)" }}
             >
               <Input placeholder="Name" />
             </Form.Item>
             <Form.Item
               name="no_telf"
-              rules={[{ required: true, message: 'Please input your Phone Number!' }]}
+              rules={[
+                { required: true, message: "Please input your Phone Number!" },
+              ]}
               style={{
                 display: "inline-block",
                 width: "calc(50% - 8px)",
@@ -118,7 +129,9 @@ export default function OrderItem({ data }: OrderItemProps) {
           <Form.Item style={{ marginBottom: 0 }} className="mt-2">
             <Form.Item
               name="province"
-              rules={[{ required: true, message: 'Please input your Province!' }]}
+              rules={[
+                { required: true, message: "Please input your Province!" },
+              ]}
               style={{ display: "inline-block", width: "calc(50% - 8px)" }}
             >
               <Select placeholder="Province">
@@ -127,7 +140,7 @@ export default function OrderItem({ data }: OrderItemProps) {
             </Form.Item>
             <Form.Item
               name="city"
-              rules={[{ required: true, message: 'Please input your City!' }]}
+              rules={[{ required: true, message: "Please input your City!" }]}
               style={{
                 display: "inline-block",
                 width: "calc(50% - 8px)",
@@ -143,7 +156,9 @@ export default function OrderItem({ data }: OrderItemProps) {
           <Form.Item style={{ marginBottom: 0 }}>
             <Form.Item
               name="subdistrict"
-              rules={[{ required: true, message: 'Please input your Subdistrict!' }]}
+              rules={[
+                { required: true, message: "Please input your Subdistrict!" },
+              ]}
               style={{ display: "inline-block", width: "calc(50% - 8px)" }}
             >
               <Select placeholder="Subdistrict">
@@ -152,7 +167,9 @@ export default function OrderItem({ data }: OrderItemProps) {
             </Form.Item>
             <Form.Item
               name="z_Code"
-              rules={[{ required: true, message: 'Please input your Zip Code!' }]}
+              rules={[
+                { required: true, message: "Please input your Zip Code!" },
+              ]}
               style={{
                 display: "inline-block",
                 width: "calc(50% - 8px)",
@@ -166,14 +183,16 @@ export default function OrderItem({ data }: OrderItemProps) {
           </Form.Item>
 
           <Form.Item>
-            <TextArea required
+            <TextArea
+              required
               placeholder="Street Name, Building, House Number, etc."
               rows={4}
             />
           </Form.Item>
 
           <Form.Item>
-            <TextArea required
+            <TextArea
+              required
               placeholder="Additional Details (Block/Unit Number, Landmarks)"
               rows={4}
             />
