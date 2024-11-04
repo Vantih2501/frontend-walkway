@@ -12,7 +12,7 @@ const setAuthorizationHeader = (request: SuperAgentRequest) => {
 };
 
 const createRequest = (method: 'get' | 'post' | 'patch' | 'del', url: string) => {
-	const request = superagent[method](config.baseUrl + url)
+	const request = superagent[method](config.apiUrl + url)
 	// .use(Interceptor)
 	// .use(Logger);
 

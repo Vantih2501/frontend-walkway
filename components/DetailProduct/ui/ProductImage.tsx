@@ -13,6 +13,7 @@ import {
   ZoomOutOutlined,
 } from "@ant-design/icons";
 import { Image, Space } from "antd";
+import { config } from "#/config/app";
 
 interface ImageProps {
   imageUrl: ProductImage[];
@@ -20,7 +21,7 @@ interface ImageProps {
 // you can download flipped and rotated image
 // https://codesandbox.io/s/zi-ding-yi-gong-ju-lan-antd-5-7-0-forked-c9jvmp
 const ProductImage = ({ imageUrl }: ImageProps) => {
-  const baseurl = "http://http://172.17.0.230:3222//product/uploads/";
+  const baseurl = `${config.apiUrl}/product/uploads/`;
 
   console.log(imageUrl)
   const front = imageUrl.find((image) => image.photoType == 'front');
