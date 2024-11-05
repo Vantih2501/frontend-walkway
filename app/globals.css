@@ -12,6 +12,7 @@ body {
 }
 
 @layer base {
+
   input[type="number"]::-webkit-outer-spin-button,
   input[type="number"]::-webkit-inner-spin-button,
   input[type="number"] {
@@ -19,28 +20,41 @@ body {
     margin: 0;
     -moz-appearance: textfield !important;
   }
+
   .no-scrollbar::-webkit-scrollbar {
     display: none;
   }
+
   .no-scrollbar {
     -ms-overflow-style: none;
     scrollbar-width: none;
   }
 }
+
 .ant-form-item {
   margin-bottom: 0;
 }
-.delivery-select.ant-collapse > .ant-collapse-item > .ant-collapse-header {
+
+.delivery-select.ant-collapse>.ant-collapse-item>.ant-collapse-header {
   padding: 0px !important;
 }
 
-.phone-input .ant-input-group > .ant-input:last-child {
+.phone-input .ant-input-group>.ant-input:last-child {
   padding: 8px;
 }
 
-:where(.css-dev-only-do-not-override-zjyjzs).ant-timeline .ant-timeline-item-last >.ant-timeline-item-content {
+:where(.css-dev-only-do-not-override-zjyjzs).ant-timeline .ant-timeline-item-last>.ant-timeline-item-content {
   min-height: 0px;
 }
+
+.bid-input :where(.css-dev-only-do-not-override-zjyjzs).ant-input-group {
+  height: 100%;
+}
+
+.bid-input :where(.css-dev-only-do-not-override-zjyjzs).ant-input-group .ant-input {
+  height: 100%;
+}
+
 
 p,
 h1 {
@@ -58,11 +72,11 @@ a:-webkit-any-link {
   text-decoration: none;
 }
 
-.ant-table-thead > tr > th {
+.ant-table-thead>tr>th {
   @apply bg-zinc-100 text-xs 2xl:text-sm !font-normal;
 }
 
-.ant-table-tbody > tr > td {
+.ant-table-tbody>tr>td {
   @apply text-xs 2xl:text-sm;
 }
 
@@ -491,7 +505,7 @@ a:-webkit-any-link {
   margin-left: 74rem;
 }
 
-.profAdminCB{
+.profAdminCB {
   margin-left: 60rem;
 }
 
@@ -614,31 +628,31 @@ a:-webkit-any-link {
   margin-left: 0px;
 }
 
-.LogoB{
+.LogoB {
   width: 350px;
   height: 150px;
   padding: 30px;
-  border: 2px dashed #d9d9d9; 
+  border: 2px dashed #d9d9d9;
   border-radius: 8px;
   margin-left: 0px;
 }
 
-.LogoB-upload{
+.LogoB-upload {
   margin-left: 100px;
   font-size: 20px;
   margin-top: 20px;
 }
 
-.LogoB{
+.LogoB {
   width: 350px;
   height: 150px;
   padding: 30px;
-  border: 2px dashed #d9d9d9; 
+  border: 2px dashed #d9d9d9;
   border-radius: 8px;
   margin-left: 0px;
 }
 
-.LogoB-upload{
+.LogoB-upload {
   margin-left: 100px;
   font-size: 20px;
   margin-top: 20px;
@@ -695,26 +709,27 @@ th {
   margin-left: 60rem;
 }
 
-.tebleOrderP{
-  width:90rem;
+.tebleOrderP {
+  width: 90rem;
   margin-left: 20px;
 }
 
-.CardB{
+.CardB {
   width: 50rem;
 }
-.CardC{
+
+.CardC {
   width: 40rem;
 }
 
 
 @media screen and (max-width: 1440px) {
 
-  .CardCat{
+  .CardCat {
     width: 35rem;
   }
-  
-  .cardI{
+
+  .cardI {
     width: 41rem;
     margin-left: -50rem;
   }
@@ -1224,22 +1239,24 @@ th {
 .hide-arrow[type="number"]::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
-.profAdminCB{
-  margin-left: 30rem;
-}
 
-.tebleOrderP{
-  width:58rem;
-  margin-left: -15px;
-}
+  .profAdminCB {
+    margin-left: 30rem;
+  }
 
-.CardB{
-  width: 32rem;
-  margin-left: -5px;
-}
-.CardC{
-  width: 27rem;
-  margin-left: -20px;
-}
+  .tebleOrderP {
+    width: 58rem;
+    margin-left: -15px;
+  }
+
+  .CardB {
+    width: 32rem;
+    margin-left: -5px;
+  }
+
+  .CardC {
+    width: 27rem;
+    margin-left: -20px;
+  }
 
 }

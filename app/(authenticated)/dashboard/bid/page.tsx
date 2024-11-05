@@ -1,7 +1,22 @@
-"use client"
+"use client";
 import { ProductCardAdmin } from "#/components/common/card/ProductCard";
-import { InboxOutlined, MinusCircleOutlined, PlusOutlined } from "@ant-design/icons";
-import { Button, Checkbox, DatePicker, Form, Input, Select, Space, Spin, Upload, UploadFile } from "antd";
+import {
+  InboxOutlined,
+  MinusCircleOutlined,
+  PlusOutlined,
+} from "@ant-design/icons";
+import {
+  Button,
+  Checkbox,
+  DatePicker,
+  Form,
+  Input,
+  Select,
+  Space,
+  Spin,
+  Upload,
+  UploadFile,
+} from "antd";
 import { useEffect, useState } from "react";
 import classNames from "classnames";
 import { useProduct } from "#/hooks/product";
@@ -10,6 +25,7 @@ import { useCategory } from "#/hooks/category";
 import { useBid } from "#/hooks/bid";
 import { BidCardAdmin } from "#/components/common/card/BidCard";
 import dayjs from "dayjs";
+import PriceInput from "#/components/common/input/PriceInput";
 const { Dragger } = Upload;
 
 // interface FormValues {
@@ -27,31 +43,27 @@ const { Dragger } = Upload;
 //   };
 // }
 
-
 export default function Bid() {
   const [showForm, setShowForm] = useState(false);
   const [tab, setTab] = useState("description");
   const [loading, setLoading] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
 
-  const [selectedId, setSelectedId] = useState<string | undefined>()
-  const [editData, setEditData] = useState<Bid | undefined>()
+  const [selectedId, setSelectedId] = useState<string | undefined>();
+  const [editData, setEditData] = useState<Bid | undefined>();
   const [form] = Form.useForm();
 
   useEffect(() => {
     if (editData && isEditing) {
       // const productNameWithoutBrand = editData.name.replace(editData.brand.name, '').trim();
-
       // const selectedCategories = editData.categories.map(cat => ({
       //   id: cat.id,
       //   name: cat.name
       // }));
-
       // const stockDetails = editData.productDetails?.map(detail => ({
       //   size: detail.size.toString(),
       //   stock: detail.stock.toString()
       // })) || [];
-
       // form.setFieldsValue({
       //   productId: editData.id,
       //   name: productNameWithoutBrand,
@@ -66,18 +78,18 @@ export default function Bid() {
     }
   }, [editData, isEditing, form]);
 
-  const { fetchBids, postBid } = useBid()
-  const { fetchProduct } = useProduct()
+  const { fetchBids, postBid } = useBid();
+  const { fetchProduct } = useProduct();
 
-  const { bids, isLoading, isError } = fetchBids()
-  const { product } = fetchProduct()
+  const { bids, isLoading, isError } = fetchBids();
+  const { product } = fetchProduct();
 
   if (isLoading) {
     return (
       <div className="w-full h-[80vh] flex items-center justify-center">
         <Spin size="large" />
       </div>
-    )
+    );
   }
 
   const handleDateChange = (dates: any) => {
@@ -97,42 +109,41 @@ export default function Bid() {
 
   const onFinish = async (values: any) => {
     try {
-      setLoading(true)
+      setLoading(true);
       const payload = {
         productDetailId: values.size,
         start_date: dayjs(values.start_date).format(),
         end_date: dayjs(values.end_date).format(),
-        start_price: Number(values.price)
-      }
+        start_price: Number(values.price.toString().replace(/,/g, "")),
+      };
       if (isEditing) {
         // await patchProduct(values.productId, values)
       } else {
-        await postBid(payload)
+        await postBid(payload);
       }
     } catch (error) {
-      console.error(error)
+      console.error(error);
     } finally {
       setShowForm(false);
       setLoading(false);
-      setSelectedId(undefined)
+      setSelectedId(undefined);
       form.resetFields();
       if (isEditing) {
         setIsEditing(false);
         setEditData(undefined);
       }
     }
-  }
-
+  };
 
   return (
-    <div className="flex gap-x-3 max-h-screen">
+    <div className="flex max-h-screen gap-x-3">
       <div
         className={classNames(
           "space-y-4 transition-all duration-300 ease-in-out",
           { "w-3/4": showForm, "w-full": !showForm }
         )}
       >
-        <div className="flex justify-between items-center">
+        <div className="flex items-center justify-between">
           <div className="space-x-3">
             <Select
               defaultValue="all"
@@ -158,21 +169,21 @@ export default function Bid() {
             icon={<PlusOutlined />}
             onClick={() => {
               if (!showForm && !isEditing) {
-                setShowForm(true)
+                setShowForm(true);
               }
               if (showForm && !isEditing) {
                 setShowForm(false);
                 setTimeout(() => {
-                  form.resetFields()
+                  form.resetFields();
                 }, 500);
               }
               if (showForm && isEditing) {
-                setShowForm(false)
+                setShowForm(false);
                 setTimeout(() => {
-                  setIsEditing(false)
-                  setEditData(undefined)
-                  form.resetFields()
-                  setShowForm(true)
+                  setIsEditing(false);
+                  setEditData(undefined);
+                  form.resetFields();
+                  setShowForm(true);
                 }, 500);
               }
             }}
@@ -191,12 +202,7 @@ export default function Bid() {
             }
           )}
         >
-          {bids && bids.map((bid) => (
-            <BidCardAdmin
-              bid={bid}
-              key={bid.id}
-            />
-          ))}
+          {bids && bids.map((bid) => <BidCardAdmin bid={bid} key={bid.id} />)}
         </div>
       </div>
 
@@ -209,9 +215,15 @@ export default function Bid() {
           }
         )}
       >
-        <Form form={form} onFinish={(values) => onFinish(values)} className="py-6 px-2 mx-auto flex flex-col justify-between h-full gap-4" layout="vertical" requiredMark={false}>
+        <Form
+          form={form}
+          onFinish={(values) => onFinish(values)}
+          className="flex flex-col justify-between h-full gap-4 px-2 py-6 mx-auto"
+          layout="vertical"
+          requiredMark={false}
+        >
           <div className="space-y-3">
-            <h2 className="font-medium tracking-wide text-lg">
+            <h2 className="text-lg font-medium tracking-wide">
               {isEditing ? "Edit Bid" : "Add Bid"}
             </h2>
             <div className="flex items-center">
@@ -232,16 +244,12 @@ export default function Bid() {
               </Button>
             </div>
 
-            <div className={tab == 'description' ? "block space-y-2.5" : 'hidden'}>
+            <div
+              className={tab == "description" ? "block space-y-2.5" : "hidden"}
+            >
               {isEditing && (
-                <Form.Item
-                  hidden
-                  name="productId"
-                >
-                  <Input
-                    type="text"
-                    hidden
-                  />
+                <Form.Item hidden name="productId">
+                  <Input type="text" hidden />
                 </Form.Item>
               )}
 
@@ -254,12 +262,22 @@ export default function Bid() {
                   placeholder="Select a product"
                   showSearch
                   filterOption={(input, option) =>
-                    (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
+                    (option?.label ?? "")
+                      .toLowerCase()
+                      .includes(input.toLowerCase())
                   }
                   filterSort={(optionA, optionB) =>
-                    (optionA?.label ?? '').toLowerCase().localeCompare((optionB?.label ?? '').toLowerCase())
+                    (optionA?.label ?? "")
+                      .toLowerCase()
+                      .localeCompare((optionB?.label ?? "").toLowerCase())
                   }
-                  options={product && product.map((data) => ({ value: data.id, label: data.name }))}
+                  options={
+                    product &&
+                    product.map((data) => ({
+                      value: data.id,
+                      label: data.name,
+                    }))
+                  }
                   onChange={(data) => setSelectedId(data)}
                 />
               </Form.Item>
@@ -272,13 +290,22 @@ export default function Bid() {
                 >
                   <Select
                     placeholder="Select a size"
-                    options={product && product.find((p) => p.id == selectedId)?.productDetails.sort((a, b) => a.size - b.size).map((data) => ({ value: data.id, label: data.size, disabled: data.stock <= 0 }))}
+                    options={
+                      product &&
+                      product
+                        .find((p) => p.id == selectedId)
+                        ?.productDetails.sort((a, b) => a.size - b.size)
+                        .map((data) => ({
+                          value: data.id,
+                          label: data.size,
+                          disabled: data.stock <= 0,
+                        }))
+                    }
                   />
                 </Form.Item>
               )}
 
-
-              <Form.Item
+              {/* <Form.Item
                 name="price"
                 label="Price"
                 rules={[{ required: true, message: "Please input product price" }]}
@@ -289,7 +316,15 @@ export default function Bid() {
                   placeholder="Enter your product price"
                   className="price-input"
                 />
-              </Form.Item>
+              </Form.Item> */}
+
+              <PriceInput
+                currencyPrefix="Rp"
+                label="Price"
+                name="price"
+                placeholder="Enter bid starting price"
+                required
+              />
 
               <Form.Item
                 name="date-range"
@@ -320,7 +355,7 @@ export default function Bid() {
                 setShowForm(false);
                 setEditData(undefined);
                 setIsEditing(false);
-                form.resetFields()
+                form.resetFields();
               }}
             >
               Discard

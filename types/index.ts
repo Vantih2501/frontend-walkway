@@ -1,5 +1,3 @@
-
-
 interface User {
   id: string;
   name: string;
@@ -27,12 +25,12 @@ interface Product {
   id: string;
   name: string;
   brand: Brand;
-  productPhotos: any[];
+  productPhotos: ProductImage[];
   frontImage: string;
   price: number;
   productDetails: ProductDetail[];
   createdAt: Date;
-  categories: Category[]
+  categories: Category[];
 }
 
 interface ProductDetail {
@@ -51,6 +49,17 @@ interface Bid {
   productDetail: ProductDetail;
   productPhotos: string;
   productName: string;
+  bidParticipants: BidParticipant[];
+}
+
+interface BidParticipant {
+  id: string;
+  amount: number;
+  bid_product_id: string;
+  user_id: string;
+  payment_id?: string;
+  updatedAt: Date;
+  user: User;
 }
 
 interface Brand {
@@ -81,5 +90,5 @@ interface Address {
   district: string;
   zipcode: number;
   address: string;
-  note: string
+  note: string;
 }

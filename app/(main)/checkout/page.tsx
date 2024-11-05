@@ -37,9 +37,10 @@ export default function Checkout() {
     user?.email
   );
 
-  const { postProduct } = useOrder();
-  const { product, isLoading, isError } = getCheckoutData(token);
+  const { postToken } = useOrder();
+  const { product, isLoading: productLoading, isError } = getCheckoutData(token);
   const [rate, setRate] = useState<any>([]);
+  const [isLoading, setIsLoading] = useState(false);
   const [loading, setLoading] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
 
@@ -52,7 +53,7 @@ export default function Checkout() {
     const getRate = async () => {
       if (address && product) {
         try {
-          setLoading(true);
+          setIsLoading(true);
           setRate([]);
           setDelivery(null);
           const rateResponse = await getCourierRate(address, product);
@@ -60,7 +61,7 @@ export default function Checkout() {
         } catch (error) {
           console.error(error);
         } finally {
-          setLoading(false);
+          setIsLoading(false);
         }
       }
     };
@@ -68,7 +69,7 @@ export default function Checkout() {
     getRate();
   }, [address, product]);
 
-  if (isLoading) {
+  if (productLoading) {
     return (
       <div className="w-screen h-[86vh] flex items-center justify-center">
         <Spin size="large" />
@@ -85,7 +86,7 @@ export default function Checkout() {
           <p>{delivery ? `${delivery.courier}` : ""}</p>
         </h2>
       ),
-      children: loading ? (
+      children: isLoading ? (
         <div className="flex items-center justify-center w-full h-56">
           <Spin size="large" />
         </div>
@@ -126,7 +127,7 @@ export default function Checkout() {
 
     try {
       setLoading(true);
-      const response = await postProduct({
+      const response = await postToken({
         orderTotal:
           product.reduce((acc, val) => acc + val.product.price, 0) +
           delivery.price,
