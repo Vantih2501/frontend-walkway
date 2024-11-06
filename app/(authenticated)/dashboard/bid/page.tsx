@@ -103,6 +103,15 @@ export default function Bid() {
 				<p>{dayjs(record.end_date).format("DD MMM YYYY: HH:mm")}</p>
 			),
 		},
+		// {
+		// 	title: "Status",
+		// 	key: "status",
+		// 	dataIndex: "status",
+		// 	align: "center",
+		// 	render: (status) => (
+		// 		<Tag color={status === "available" ? "green" : "red"}>{status}</Tag>
+		// 	),
+		// },
 		{
 			title: "Action",
 			key: "action",

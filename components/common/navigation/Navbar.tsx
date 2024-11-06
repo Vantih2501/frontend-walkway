@@ -32,19 +32,19 @@ export default function Navbar({ user }: { user?: User }) {
   const menus = [
     {
       key: "Sneakers",
-      label: <Link href="/">Sneakers</Link>,
+      label: <Link className="hover:text-primary/80" href="/">Sneakers</Link>,
     },
     {
       key: "Casual",
-      label: <Link href="/">Casual</Link>,
+      label: <Link className="hover:text-primary/80" href="/">Casual</Link>,
     },
     {
       key: "Sport",
-      label: <Link href="/">Sport</Link>,
+      label: <Link className="hover:text-primary/80" href="/">Sport</Link>,
     },
     {
       key: "Auction",
-      label: <Link href="/">Auction</Link>,
+      label: <Link className="hover:text-primary/80" href="/">Auction</Link>,
     },
   ];
 

@@ -1,6 +1,7 @@
 import { Button, Form, Input, Select, DatePicker, Modal } from "antd";
 import React, { useState, useEffect } from "react";
 import dayjs from "dayjs";
+import PriceInput from "../input/PriceInput";
 
 interface ModalProps {
 	open: boolean;
@@ -186,7 +187,7 @@ const BidModal = ({ open, onCancel, product, postBid, isEditing, setIsEditing, s
 						</Form.Item>
 					)}
 
-					<Form.Item
+					{/* <Form.Item
 						name="price"
 						label="Price"
 						initialValue={0}
@@ -199,14 +200,22 @@ const BidModal = ({ open, onCancel, product, postBid, isEditing, setIsEditing, s
 							placeholder="Enter your product price"
 							className="price-input"
 						/>
-					</Form.Item>
+					</Form.Item> */}
+
+					<PriceInput
+						currencyPrefix="Rp"
+						label="Price"
+						name="price"
+						placeholder="Enter your product price"
+						required
+					/>
 
 					<Form.Item
 						name="date_range"
 						label="Select Date & Time Range"
 						rules={[{ required: true, message: "Please select date" }]}
 					>
-						<DatePicker.RangePicker					
+						<DatePicker.RangePicker
 							showTime
 							format="YYYY-MM-DD HH:mm"
 							onChange={handleDateChange}
@@ -220,6 +229,24 @@ const BidModal = ({ open, onCancel, product, postBid, isEditing, setIsEditing, s
 					<Form.Item name="end_date" hidden>
 						<input type="hidden" />
 					</Form.Item>
+
+					{/* <Form.Item
+						name="status"
+						label="Status"
+						rules={[
+							{ required: true, message: "Please select product status" },
+						]}
+					>
+						<Select
+							placeholder="Set bid status"
+							className="h-9"
+							defaultValue={"available"}
+							options={[
+								{ value: "available", label: "Available" },
+								{ value: "cancelled", label: "Cancelled" },
+							]}
+						/>
+					</Form.Item> */}
 				</div>
 			</div>
 		</Modal>
