@@ -17,6 +17,7 @@ import {
 } from "#/utils/token";
 import { useAuth } from "#/hooks/auth";
 import Title from "antd/es/typography/Title";
+import { useCart } from "#/hooks/cart";
 
 const DetailProduct = ({ product }: { product: Product | undefined }) => {
   const [isModalOpen, setIsModalOpen] = useState(false); // untuk modal Size Guide
@@ -26,7 +27,7 @@ const DetailProduct = ({ product }: { product: Product | undefined }) => {
   const [isLoginModalVisible, setIsLoginModalVisible] = useState(false); // untuk modal login
 
   const { genCheckoutToken } = useProduct();
-
+  const { addToCart } = useCart()
   const { getUser } = useAuth();
   const token = getAccessToken();
   const { user, isLoading, isError } = getUser(token);
@@ -65,15 +66,13 @@ const DetailProduct = ({ product }: { product: Product | undefined }) => {
 
     try {
       setLoading(true);
-
-      const response = await genCheckoutToken(data);
-      setCheckoutToken(response.checkout_token);
-
-      router.push("/checkout");
+      await addToCart({ productDetailId: data.id, cartId: user.cartId });
     } catch (error) {
       message.error("Error saat proses checkout");
       console.error(error);
       setLoading(false);
+    } finally {
+      setLoading(false)
     }
   };
 
@@ -141,10 +140,10 @@ const DetailProduct = ({ product }: { product: Product | undefined }) => {
               </div>
               <div className="grid grid-cols-4 gap-3 mb-6 2xl:grid-cols-5">
                 {product?.productDetails &&
-                product?.productDetails.length > 0 ? (
+                  product?.productDetails.length > 0 ? (
                   product?.productDetails.map((detail: any, index: number) => (
                     <Button
-                      disabled={loading}
+                      disabled={loading || detail.stock <= 0}
                       key={index}
                       type={
                         selectedSize && selectedSize.size == detail.size
@@ -173,7 +172,7 @@ const DetailProduct = ({ product }: { product: Product | undefined }) => {
                 className="flex-1 h-14 rounded-xl"
                 loading={loading}
                 disabled={!selectedSize}
-                onClick={() => selectedSize && handleCheckout(selectedSize)}
+                onClick={() => selectedSize && handleCart(selectedSize)}
               >
                 Add To Cart
               </Button>

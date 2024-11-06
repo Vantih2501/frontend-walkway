@@ -8,6 +8,7 @@ interface User {
   address: Address[];
   role: Role | string;
   defaultAddress: string;
+  cartId: string
 }
 
 interface Role {
