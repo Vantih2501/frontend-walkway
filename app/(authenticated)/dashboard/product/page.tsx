@@ -532,9 +532,9 @@ export default function Product() {
                           <Input placeholder="Quantity" type="number" />
                         </Form.Item>
 
-                        <MinusCircleOutlined onClick={() => remove(name)} />
-                      </Space>
-                    ))}
+												<MinusCircleOutlined onClick={() => remove(name)} />
+											</Space>
+										))}
 
                     <Form.Item>
                       <Button

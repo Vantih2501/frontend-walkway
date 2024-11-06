@@ -723,6 +723,24 @@ th {
   width: 40rem;
 }
 
+.price-input .ant-input-group-addon {
+  height: 36px;
+}
+
+.price-input .ant-input {
+  height: 36px;
+}
+
+.select-bid .ant-select-selector{
+  border-radius: 50px !important;
+  font-size: 12px;
+}
+
+.select-product .ant-select-selector{
+  border-radius: 50px !important;
+  font-size: px;
+}
+
 
 @media screen and (max-width: 1440px) {
 
