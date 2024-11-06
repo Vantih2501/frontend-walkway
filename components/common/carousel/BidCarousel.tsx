@@ -5,7 +5,7 @@ import { ProductCard } from "#/components/common/card/ProductCard";
 import { Carousel, Button } from "antd";
 import { HiArrowRight, HiArrowLeft } from "react-icons/hi2";
 import Link from "next/link";
-import { urlFormatter } from "#/utils/url-formatter";
+import { urlFormatter } from "#/utils/formatter";
 import { BidCard } from "../card/BidCard";
 
 interface CarouselProps {
@@ -46,7 +46,11 @@ const BidCarousel = ({ bids }: CarouselProps) => {
         ]}
       >
         {bids.map((bid) => (
-          <Link href={`/`} key={bid.id} className="px-1 hover:text-inherit">
+          <Link
+            href={`/product/bid/${bid.id}`}
+            key={bid.id}
+            className="px-1 hover:text-inherit"
+          >
             <BidCard
               bid={bid}
               imageUrl={bid.productPhotos}

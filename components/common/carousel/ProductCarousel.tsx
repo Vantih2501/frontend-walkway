@@ -5,7 +5,7 @@ import { ProductCard } from "#/components/common/card/ProductCard";
 import { Carousel, Button } from "antd";
 import { HiArrowRight, HiArrowLeft } from "react-icons/hi2";
 import Link from "next/link";
-import { urlFormatter } from "#/utils/url-formatter";
+import { urlFormatter } from "#/utils/formatter";
 
 interface CarouselProps {
   product: Product[];

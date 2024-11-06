@@ -12,7 +12,7 @@ const setAuthorizationHeader = (request: SuperAgentRequest) => {
 };
 
 const createRequest = (method: 'get' | 'post' | 'patch' | 'del', url: string) => {
-	const request = superagent[method](config.baseUrl + url)
+	const request = superagent[method](config.apiUrl + url)
 	// .use(Interceptor)
 	// .use(Logger);
 
@@ -23,6 +23,11 @@ export const fetcher = {
 	get: async (url: string, opts = {}) => {
 		const response = await createRequest('get', url);
 		return response.body.data;
+	},
+
+	fetch: async (url: string, opts = {}) => {
+		const response = await createRequest('get', url);
+		return response.body;
 	},
 
 	post: async (url: string, opts: {}) => {

@@ -1,12 +1,27 @@
-"use client"
+"use client";
 import { ProductCardAdmin } from "#/components/common/card/ProductCard";
-import { InboxOutlined, MinusCircleOutlined, PlusOutlined } from "@ant-design/icons";
-import { Button, Checkbox, Form, Input, Select, Space, Spin, Upload, UploadFile } from "antd";
+import {
+  InboxOutlined,
+  MinusCircleOutlined,
+  PlusOutlined,
+} from "@ant-design/icons";
+import {
+  Button,
+  Checkbox,
+  Form,
+  Input,
+  Select,
+  Space,
+  Spin,
+  Upload,
+  UploadFile,
+} from "antd";
 import { useEffect, useState } from "react";
 import classNames from "classnames";
 import { useProduct } from "#/hooks/product";
 import { useBrand } from "#/hooks/brand";
 import { useCategory } from "#/hooks/category";
+import PriceInput from "#/components/common/input/PriceInput";
 const { Dragger } = Upload;
 
 interface CategorySelectorProps {
@@ -29,7 +44,6 @@ interface FormValues {
   };
 }
 
-
 export default function Product() {
   const [showForm, setShowForm] = useState(false);
   const [tab, setTab] = useState("description");
@@ -37,7 +51,7 @@ export default function Product() {
   const [isEditing, setIsEditing] = useState(false);
   const [fileList, setFileList] = useState<UploadFile[]>([]);
 
-  const [editData, setEditData] = useState<Product | undefined>()
+  const [editData, setEditData] = useState<Product | undefined>();
   const [form] = Form.useForm();
   const [photos, setPhotos] = useState({
     front: "",
@@ -47,10 +61,10 @@ export default function Product() {
 
   function CategorySelector({ value = [], onChange }: CategorySelectorProps) {
     const handleCategoryChange = (category: Category) => {
-      const isSelected = value.some(item => item.id === category.id);
+      const isSelected = value.some((item) => item.id === category.id);
 
       if (isSelected) {
-        const newValue = value.filter(item => item.id !== category.id);
+        const newValue = value.filter((item) => item.id !== category.id);
         onChange(newValue);
       } else {
         onChange([...value, category]);
@@ -59,27 +73,28 @@ export default function Product() {
 
     return (
       <div className="flex flex-wrap gap-2">
-        {category && category.map((category) => {
-          const isSelected = value.some(item => item.id === category.id);
+        {category &&
+          category.map((category) => {
+            const isSelected = value.some((item) => item.id === category.id);
 
-          return (
-            <button
-              key={category.id}
-              type="button"
-              className={`px-4 py-2 rounded-full transition-colors duration-300 ${isSelected
-                ? "bg-primary-200 border border-primary-200 text-white"
-                : "border border-gray-200 text-gray-900"
+            return (
+              <button
+                key={category.id}
+                type="button"
+                className={`px-4 py-2 rounded-full transition-colors duration-300 ${
+                  isSelected
+                    ? "bg-primary-200 border border-primary-200 text-white"
+                    : "border border-gray-200 text-gray-900"
                 }`}
-              onClick={() => handleCategoryChange(category)}
-            >
-              {category.name}
-            </button>
-          );
-        })}
+                onClick={() => handleCategoryChange(category)}
+              >
+                {category.name}
+              </button>
+            );
+          })}
       </div>
     );
   }
-
 
   const handleUpload = async (file: UploadFile, fileList: UploadFile[]) => {
     const response = await uploadImage(file);
@@ -107,21 +122,22 @@ export default function Product() {
     return false;
   };
 
-
-
   useEffect(() => {
     if (editData && isEditing) {
-      const productNameWithoutBrand = editData.name.replace(editData.brand.name, '').trim();
+      const productNameWithoutBrand = editData.name
+        .replace(editData.brand.name, "")
+        .trim();
 
-      const selectedCategories = editData.categories.map(cat => ({
+      const selectedCategories = editData.categories.map((cat) => ({
         id: cat.id,
-        name: cat.name
+        name: cat.name,
       }));
 
-      const stockDetails = editData.productDetails?.map(detail => ({
-        size: detail.size.toString(),
-        stock: detail.stock.toString()
-      })) || [];
+      const stockDetails =
+        editData.productDetails?.map((detail) => ({
+          size: detail.size.toString(),
+          stock: detail.stock.toString(),
+        })) || [];
 
       form.setFieldsValue({
         productId: editData.id,
@@ -129,15 +145,15 @@ export default function Product() {
         brand: editData.brand.id,
         categories: selectedCategories,
         price: editData.price,
-        status: 'active',
-        stock: stockDetails
+        status: "active",
+        stock: stockDetails,
       });
     } else {
       form.resetFields();
       setPhotos({
-        front: '',
-        side: ['', ''],
-        bottom: ''
+        front: "",
+        side: ["", ""],
+        bottom: "",
       });
     }
   }, [editData, isEditing, form]);
@@ -155,33 +171,39 @@ export default function Product() {
       <div className="w-full h-[80vh] flex items-center justify-center">
         <Spin size="large" />
       </div>
-    )
+    );
   }
 
   const onFinish = async (values: FormValues) => {
     try {
-      setLoading(true)
-      const categoryIds = values.categories.map((category: Category) => category.id);
+      setLoading(true);
+      const categoryIds = values.categories.map(
+        (category: Category) => category.id
+      );
       const productDetails = values.stock.map((detail: ProductDetail) => ({
         size: Number(detail.size),
         stock: Number(detail.stock),
       }));
+
+      const formattedPrice = Number(values.price.toString().replace(/,/g, ""));
+
       const payload = {
         brandId: values.brand,
         categoryId: categoryIds,
         name: values.name,
-        price: Number(values.price),
+        price: formattedPrice, 
         productDetails: productDetails,
         productPhotos: photos,
         weight: 400,
       };
+
       if (isEditing) {
-        await patchProduct(values.productId, payload)
+        await patchProduct(values.productId, payload);
       } else {
         await postProduct(payload);
       }
     } catch (error) {
-      console.error(error)
+      console.error(error);
     } finally {
       setShowForm(false);
       setLoading(false);
@@ -197,18 +219,17 @@ export default function Product() {
         setEditData(undefined);
       }
     }
-  }
-
+  };
 
   return (
-    <div className="flex gap-x-3 max-h-screen">
+    <div className="flex max-h-screen gap-x-3">
       <div
         className={classNames(
           "space-y-4 transition-all duration-300 ease-in-out",
           { "w-3/4": showForm, "w-full": !showForm }
         )}
       >
-        <div className="flex justify-between items-center">
+        <div className="flex items-center justify-between">
           <div className="space-x-3">
             <Select
               defaultValue="all"
@@ -234,21 +255,21 @@ export default function Product() {
             icon={<PlusOutlined />}
             onClick={() => {
               if (!showForm && !isEditing) {
-                setShowForm(true)
+                setShowForm(true);
               }
               if (showForm && !isEditing) {
                 setShowForm(false);
                 setTimeout(() => {
-                  form.resetFields()
+                  form.resetFields();
                 }, 500);
               }
               if (showForm && isEditing) {
-                setShowForm(false)
+                setShowForm(false);
                 setTimeout(() => {
-                  setIsEditing(false)
-                  setEditData(undefined)
-                  form.resetFields()
-                  setShowForm(true)
+                  setIsEditing(false);
+                  setEditData(undefined);
+                  form.resetFields();
+                  setShowForm(true);
                 }, 500);
               }
             }}
@@ -267,38 +288,39 @@ export default function Product() {
             }
           )}
         >
-          {product && product.map((product) => (
-            <ProductCardAdmin
-              product={product}
-              key={product.id}
-              frontImage={product.frontImage}
-              sold={0}
-              onClick={(product) => {
-                if (!showForm && !isEditing) {
-                  setIsEditing(true)
-                  setEditData(product)
-                  setShowForm(true)
-                }
-                if (showForm && !isEditing) {
-                  setShowForm(false);
-                  setTimeout(() => {
-                    setIsEditing(true)
-                    setEditData(product)
-                    form.resetFields()
-                    setShowForm(true)
-                  }, 500);
-                }
-                if (showForm && isEditing) {
-                  setShowForm(false)
-                  setTimeout(() => {
-                    setIsEditing(false)
-                    setEditData(undefined)
-                    form.resetFields()
-                  }, 500);
-                }
-              }}
-            />
-          ))}
+          {product &&
+            product.map((product) => (
+              <ProductCardAdmin
+                product={product}
+                key={product.id}
+                frontImage={product.frontImage}
+                sold={0}
+                onClick={(product) => {
+                  if (!showForm && !isEditing) {
+                    setIsEditing(true);
+                    setEditData(product);
+                    setShowForm(true);
+                  }
+                  if (showForm && !isEditing) {
+                    setShowForm(false);
+                    setTimeout(() => {
+                      setIsEditing(true);
+                      setEditData(product);
+                      form.resetFields();
+                      setShowForm(true);
+                    }, 500);
+                  }
+                  if (showForm && isEditing) {
+                    setShowForm(false);
+                    setTimeout(() => {
+                      setIsEditing(false);
+                      setEditData(undefined);
+                      form.resetFields();
+                    }, 500);
+                  }
+                }}
+              />
+            ))}
         </div>
       </div>
 
@@ -311,9 +333,15 @@ export default function Product() {
           }
         )}
       >
-        <Form form={form} onFinish={(values) => onFinish(values)} className="py-6 px-2 mx-auto flex flex-col justify-between h-full gap-4" layout="vertical" requiredMark={false}>
+        <Form
+          form={form}
+          onFinish={(values) => onFinish(values)}
+          className="flex flex-col justify-between h-full gap-4 px-2 py-6 mx-auto"
+          layout="vertical"
+          requiredMark={false}
+        >
           <div className="space-y-3">
-            <h2 className="font-medium tracking-wide text-lg">
+            <h2 className="text-lg font-medium tracking-wide">
               {isEditing ? "Edit Product" : "Add Product"}
             </h2>
             <div className="flex items-center">
@@ -333,9 +361,19 @@ export default function Product() {
               </Button>
             </div>
 
-            <div className={tab == 'description' ? "block space-y-2.5" : 'hidden'}>
+            <div
+              className={tab == "description" ? "block space-y-2.5" : "hidden"}
+            >
               {!isEditing ? (
-                <Form.Item name="productPhotos" rules={[{ required: true, message: "Please upload at least 1 image" }]}>
+                <Form.Item
+                  name="productPhotos"
+                  rules={[
+                    {
+                      required: true,
+                      message: "Please upload at least 1 image",
+                    },
+                  ]}
+                >
                   <Dragger
                     beforeUpload={() => false}
                     multiple={true}
@@ -359,14 +397,8 @@ export default function Product() {
                   </Dragger>
                 </Form.Item>
               ) : (
-                <Form.Item
-                  hidden
-                  name="productId"
-                >
-                  <Input
-                    type="text"
-                    hidden
-                  />
+                <Form.Item hidden name="productId">
+                  <Input type="text" hidden />
                 </Form.Item>
               )}
 
@@ -375,13 +407,18 @@ export default function Product() {
                   <Form.Item
                     name="brand"
                     noStyle
-                    rules={[{ required: true, message: "Please select product brand" }]}
+                    rules={[
+                      {
+                        required: true,
+                        message: "Please select product brand",
+                      },
+                    ]}
                   >
                     <Select
                       placeholder="Brand"
                       options={brand?.map((brand) => ({
                         value: brand?.id,
-                        label: brand?.name
+                        label: brand?.name,
                       }))}
                       style={{ width: "30%" }}
                     />
@@ -390,7 +427,9 @@ export default function Product() {
                   <Form.Item
                     name="name"
                     noStyle
-                    rules={[{ required: true, message: "Please enter product name" }]}
+                    rules={[
+                      { required: true, message: "Please enter product name" },
+                    ]}
                   >
                     <Input
                       placeholder="Product Name"
@@ -404,11 +443,17 @@ export default function Product() {
               <Form.Item
                 name="categories"
                 label="Product Category"
-                rules={[{ required: true, message: "Please select at least one category" }]}
+                rules={[
+                  {
+                    required: true,
+                    message: "Please select at least one category",
+                  },
+                ]}
               >
-                <CategorySelector onChange={() => { }} />
+                <CategorySelector onChange={() => {}} />
               </Form.Item>
 
+              {/* 
               <Form.Item
                 name="price"
                 label="Price"
@@ -420,33 +465,55 @@ export default function Product() {
                   placeholder="Enter your product price"
                   className="price-input"
                 />
-              </Form.Item>
+              </Form.Item> */}
+
+              <PriceInput
+                currencyPrefix="Rp"
+                label="Price"
+                name="price"
+                placeholder="Enter product price"
+                required
+              />
 
               <Form.Item
                 name="status"
                 label="Status"
                 className="col-span-2"
-                rules={[{ required: true, message: "Please select product status" }]}
+                rules={[
+                  { required: true, message: "Please select product status" },
+                ]}
               >
                 <Select
                   placeholder="Select account status"
                   className="h-10"
-                  options={[{ value: 'active', label: 'Active' }, { value: 'inactive', label: 'Inactive' }]}
+                  options={[
+                    { value: "active", label: "Active" },
+                    { value: "inactive", label: "Inactive" },
+                  ]}
                 />
               </Form.Item>
             </div>
 
-            <div className={tab == 'stock' ? "block space-y-2" : 'hidden'}>
+            <div className={tab == "stock" ? "block space-y-2" : "hidden"}>
               <Form.List name="stock">
                 {(fields, { add, remove }) => (
                   <>
                     {fields.map(({ key, name, ...restField }) => (
-                      <Space key={key} style={{ display: "flex", marginBottom: 8 }} align="baseline">
+                      <Space
+                        key={key}
+                        style={{ display: "flex", marginBottom: 8 }}
+                        align="baseline"
+                      >
                         <Form.Item
                           {...restField}
                           name={[name, "size"]}
                           label="Size"
-                          rules={[{ required: true, message: "Please input the size" }]}
+                          rules={[
+                            {
+                              required: true,
+                              message: "Please input the size",
+                            },
+                          ]}
                         >
                           <Input placeholder="Size" />
                         </Form.Item>
@@ -455,7 +522,12 @@ export default function Product() {
                           {...restField}
                           name={[name, "stock"]}
                           label="Quantity"
-                          rules={[{ required: true, message: "Please input the quantity" }]}
+                          rules={[
+                            {
+                              required: true,
+                              message: "Please input the quantity",
+                            },
+                          ]}
                         >
                           <Input placeholder="Quantity" type="number" />
                         </Form.Item>
@@ -488,7 +560,7 @@ export default function Product() {
                 setEditData(undefined);
                 setIsEditing(false);
                 setFileList([]);
-                form.resetFields()
+                form.resetFields();
               }}
             >
               Discard

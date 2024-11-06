@@ -2,7 +2,7 @@ import useSWR, { mutate } from "swr";
 import { fetcher } from "#/utils/fetcher";
 
 export const useOrder = () => {
-  const postProduct = async ({orderTotal, orderItems, orderShip, customer}: any): Promise<{ token: string, redirect_url: string }> => {
+  const postToken = async ({orderTotal, orderItems, orderShip, customer}: any): Promise<{ token: string, redirect_url: string }> => {
     const response = await fetcher.post("/order/generate-token", {
       orderTotal,
       orderShip,
@@ -18,5 +18,5 @@ export const useOrder = () => {
     }
   };
 
-  return { postProduct }
+  return { postToken }
 };
