@@ -1,6 +1,6 @@
 import React from "react";
 // import { products } from "#/mock-data/products";
-import ProductCarousel from "../common/carousel/Carousel";
+// import ProductCarousel from "../common/carousel/Carousel";
 
 export const CurrentAuction = () => {
 	return (
