@@ -38,7 +38,11 @@ export default function Checkout() {
   );
 
   const { postToken } = useOrder();
-  const { product, isLoading: productLoading, isError } = getCheckoutData(token);
+  const {
+    product,
+    isLoading: productLoading,
+    isError,
+  } = getCheckoutData(token);
   const [rate, setRate] = useState<any>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -129,7 +133,7 @@ export default function Checkout() {
       setLoading(true);
       const response = await postToken({
         orderTotal:
-          product.reduce((acc, val) => acc + val.product.price, 0) +
+          product.reduce((acc: any, val: any) => acc + val.product.price, 0) +
           delivery.price,
         orderShip: delivery.price,
         orderItems: product,
@@ -144,13 +148,16 @@ export default function Checkout() {
     }
   };
 
+  console.log(product);
+
   return (
     <div className="max-w-7xl flex items-center min-h-[86vh] mx-auto py-3">
       <div className="w-full p-6 space-y-2 rounded-lg bg-zinc-50">
         <h2 className="text-2xl font-medium tracking-wide">Your Items</h2>
         <div className="flex justify-between gap-2">
           <div className="w-4/6 p-6 space-y-8 bg-white rounded-lg">
-            {product && product.map((product) => <OrderItem data={product} />)}
+            {product &&
+              product.map((product: any) => <OrderItem data={product} />)}
 
             <hr className="h-px my-8 bg-gray-200 border-0 dark:bg-gray-700" />
 
@@ -199,7 +206,10 @@ export default function Checkout() {
                 <p className="font-medium text-gray-500">
                   Rp{" "}
                   {product
-                    ?.reduce((acc, val) => acc + val.product.price, 0)
+                    ?.reduce(
+                      (acc: any, val: any) => acc + val.product?.price,
+                      0
+                    )
                     .toLocaleString("en-US")}
                 </p>
               </div>
@@ -221,7 +231,7 @@ export default function Checkout() {
                 {product && delivery?.price
                   ? (
                       product?.reduce(
-                        (acc, val) => acc + val.product.price,
+                        (acc: any, val: any) => acc + val.product?.price,
                         0
                       ) + delivery?.price
                     ).toLocaleString("en-US")

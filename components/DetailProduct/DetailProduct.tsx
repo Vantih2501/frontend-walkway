@@ -32,7 +32,7 @@ const DetailProduct = ({ product }: { product: Product | undefined }) => {
   const token = getAccessToken();
   const { user, isLoading, isError } = getUser(token);
 
-  const handleCheckout = async (data: ProductDetail) => {
+  const handleCheckout = async (data: ProductDetail[]) => {
     const token = getCheckoutToken();
 
     if (token) {
@@ -182,7 +182,7 @@ const DetailProduct = ({ product }: { product: Product | undefined }) => {
                 type="primary"
                 loading={loading}
                 disabled={selectedSize == null}
-                onClick={() => selectedSize && handleCheckout(selectedSize)}
+                onClick={() => selectedSize && handleCheckout([selectedSize])}
               >
                 Buy Now
               </Button>

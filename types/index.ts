@@ -8,7 +8,7 @@ interface User {
   address: Address[];
   role: Role | string;
   defaultAddress: string;
-  cartId: string
+  cartId: string;
 }
 
 interface Role {
@@ -92,4 +92,20 @@ interface Address {
   zipcode: number;
   address: string;
   note: string;
+}
+
+interface Cart {
+  id: string;
+  user: User;
+  userId: string;
+  cartItems: CartItem[];
+}
+
+interface CartItem {
+  id: string;
+  cart: Cart;
+  cartId: string;
+  productDetail: ProductDetail;
+  productDetailId: string;
+  quantity: number;
 }

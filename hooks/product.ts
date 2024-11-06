@@ -79,16 +79,16 @@ export const useProduct = () => {
     mutate(`/product`);
   };
 
-  const genCheckoutToken = async (data: ProductDetail): Promise<{ checkout_token: string }> => {
+  const genCheckoutToken = async (data: ProductDetail[]): Promise<{ checkout_token: string }> => {
     return await fetcher.post("/product/checkout-token", { data });
   };
 
-  const getCheckoutData = (token?: string) => {
+  const getCheckoutData = (token?: string | null) => {
     if (!token) { }
 
-    const { data, error, isLoading } = useSWR<ProductDetail[] | undefined>(`/product/checkout/${token}`, fetcher.get);
+    const { data, error, isLoading } = useSWR<ProductDetail | ProductDetail[] | any>(`/product/checkout/${token}`, fetcher.get);
     return {
-      product: data,
+      product: data?.[0] || [],
       isError: error,
       isLoading,
     };

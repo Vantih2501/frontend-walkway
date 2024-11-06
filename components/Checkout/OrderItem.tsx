@@ -53,7 +53,7 @@ export default function OrderItem({ data }: OrderItemProps) {
               {data && (
                 <Image
                   src={`${config.apiUrl}/product/uploads/${
-                    data.product.productPhotos.find(
+                    data.product?.productPhotos.find(
                       (photo: ProductImage) => photo.photoType === "front"
                     )?.image || ""
                   }`}
@@ -65,13 +65,13 @@ export default function OrderItem({ data }: OrderItemProps) {
             </div>
             <div className="-space-y-0.5">
               <h2 className="text-lg font-medium line-clamp-2">
-                {data.product.name}
+                {data.product?.name}
               </h2>
               <p className="text-sm text-gray-500">Size: {data.size}</p>
             </div>
           </div>
           <h2 className="text-xl font-medium">
-            Rp {data.product.price.toLocaleString("en-Us")}
+            Rp {data.product?.price.toLocaleString("en-Us")}
           </h2>
         </div>
       </div>
