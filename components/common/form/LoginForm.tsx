@@ -21,16 +21,17 @@ const LoginForm = () => {
       setIsLoading(true);
       const response = await login(values.email, values.password);
       setAccessToken(response.access_token);
+      message.success('Login successful.');
       router.push("/");
-    } catch (error) {
-      console.error(error);
-      message.error("Login Gagal")
+    } catch (error: any) {
+      message.error(`Invalid Credentials: ${error.response.body.message}`);
       setIsLoading(false);
     }
+
   };
 
   return (
-    <Form layout="vertical" onFinish={onFinish} className="w-full">
+    <Form layout="vertical" onFinish={onFinish} className="w-full space-y-5">
       <Form.Item
         name="email"
         label="Email Address"

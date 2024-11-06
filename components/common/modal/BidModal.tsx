@@ -55,11 +55,14 @@ const BidModal = ({ open, onCancel, product, postBid, isEditing, setIsEditing, s
 	const onFinish = async (values: any) => {
 		try {
 			setLoading(true);
+
+			const formattedPrice = Number(values.price.toString().replace(/,/g, ""));
+
 			const payload = {
 				productDetailId: values.size,
 				start_date: dayjs(values.start_date).format(),
 				end_date: dayjs(values.end_date).format(),
-				start_price: Number(values.price),
+				start_price: formattedPrice,
 			};
 			if (isEditing) {
 				console.log(values.productId, values)
@@ -187,26 +190,11 @@ const BidModal = ({ open, onCancel, product, postBid, isEditing, setIsEditing, s
 						</Form.Item>
 					)}
 
-					{/* <Form.Item
-						name="price"
-						label="Price"
-						initialValue={0}
-						rules={[{ required: true, message: "Please input product price" }]}
-					>
-						<Input
-							style={{ height: "40px" }}
-							type="number"
-							addonBefore="Rp"
-							placeholder="Enter your product price"
-							className="price-input"
-						/>
-					</Form.Item> */}
-
 					<PriceInput
 						currencyPrefix="Rp"
-						label="Price"
+						label="Start Price"
 						name="price"
-						placeholder="Enter your product price"
+						placeholder="Enter start price"
 						required
 					/>
 

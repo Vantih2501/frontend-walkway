@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 import { useAuth } from "#/hooks/auth";
 import { getAccessToken } from "#/utils/token";
 import { useEffect, useState } from "react";
+import Link from "next/link";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -22,6 +23,7 @@ export default function AdminLayout({ children }: LayoutProps) {
 
   const getTitle = () => {
     if (pathname === "/dashboard") return "Dashboard";
+    if (pathname === "/dashboard/profile") return "Profile";
     if (pathname === "/dashboard/order") return "Order";
     if (pathname === "/dashboard/account") return "Account";
     if (pathname === "/dashboard/product") return "Product";
@@ -53,7 +55,7 @@ export default function AdminLayout({ children }: LayoutProps) {
             {getTitle()}
           </h1>
 
-          <div className="flex items-center gap-2">
+          <Link href="/dashboard/profile" className="flex items-center gap-2">
             <Avatar size={43} src="/fotoprof.jpg" />
             <div className="-space-y-1">
               <h2 className="text-base font-medium leading-6">
@@ -61,7 +63,7 @@ export default function AdminLayout({ children }: LayoutProps) {
               </h2>
               <p className="text-xs text-zinc-400">{user?.email}</p>
             </div>
-          </div>
+          </Link>
         </div>
 
         <div className="py-7">{children}</div>

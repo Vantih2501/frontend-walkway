@@ -37,7 +37,7 @@ const RegisterForm = () => {
     }
   };
   return (
-    <Form layout="vertical" onFinish={onFinish} className="w-full">
+    <Form layout="vertical" onFinish={onFinish} className="w-full space-y-5">
       <Form.Item
         name="name"
         label="Name"

@@ -8,6 +8,7 @@ import {
 import {
   Button,
   Checkbox,
+  Empty,
   Form,
   Input,
   Select,
@@ -81,11 +82,10 @@ export default function Product() {
               <button
                 key={category.id}
                 type="button"
-                className={`px-4 py-2 rounded-full transition-colors duration-300 ${
-                  isSelected
-                    ? "bg-primary-200 border border-primary-200 text-white"
-                    : "border border-gray-200 text-gray-900"
-                }`}
+                className={`px-4 py-2 rounded-full transition-colors duration-300 ${isSelected
+                  ? "bg-primary-200 border border-primary-200 text-white"
+                  : "border border-gray-200 text-gray-900"
+                  }`}
                 onClick={() => handleCategoryChange(category)}
               >
                 {category.name}
@@ -191,7 +191,7 @@ export default function Product() {
         brandId: values.brand,
         categoryId: categoryIds,
         name: values.name,
-        price: formattedPrice, 
+        price: formattedPrice,
         productDetails: productDetails,
         productPhotos: photos,
         weight: 400,
@@ -288,39 +288,40 @@ export default function Product() {
             }
           )}
         >
-          {product &&
-            product.map((product) => (
-              <ProductCardAdmin
-                product={product}
-                key={product.id}
-                frontImage={product.frontImage}
-                sold={0}
-                onClick={(product) => {
-                  if (!showForm && !isEditing) {
+          {product && product.length > 0 ? product.map((product) => (
+            <ProductCardAdmin
+              product={product}
+              key={product.id}
+              frontImage={product.frontImage}
+              sold={0}
+              onClick={(product) => {
+                if (!showForm && !isEditing) {
+                  setIsEditing(true);
+                  setEditData(product);
+                  setShowForm(true);
+                }
+                if (showForm && !isEditing) {
+                  setShowForm(false);
+                  setTimeout(() => {
                     setIsEditing(true);
                     setEditData(product);
+                    form.resetFields();
                     setShowForm(true);
-                  }
-                  if (showForm && !isEditing) {
-                    setShowForm(false);
-                    setTimeout(() => {
-                      setIsEditing(true);
-                      setEditData(product);
-                      form.resetFields();
-                      setShowForm(true);
-                    }, 500);
-                  }
-                  if (showForm && isEditing) {
-                    setShowForm(false);
-                    setTimeout(() => {
-                      setIsEditing(false);
-                      setEditData(undefined);
-                      form.resetFields();
-                    }, 500);
-                  }
-                }}
-              />
-            ))}
+                  }, 500);
+                }
+                if (showForm && isEditing) {
+                  setShowForm(false);
+                  setTimeout(() => {
+                    setIsEditing(false);
+                    setEditData(undefined);
+                    form.resetFields();
+                  }, 500);
+                }
+              }}
+            />
+          )) : <div className="col-span-4 py-10 flex items-center justify-center h-full w-full">
+            <Empty />
+          </div>}
         </div>
       </div>
 
@@ -336,7 +337,7 @@ export default function Product() {
         <Form
           form={form}
           onFinish={(values) => onFinish(values)}
-          className="flex flex-col justify-between h-full gap-4 px-2 py-6 mx-auto"
+          className="flex flex-col w-72 justify-between h-full gap-4 px-2 py-6 mx-auto"
           layout="vertical"
           requiredMark={false}
         >
@@ -450,7 +451,7 @@ export default function Product() {
                   },
                 ]}
               >
-                <CategorySelector onChange={() => {}} />
+                <CategorySelector onChange={() => { }} />
               </Form.Item>
 
               {/* 
@@ -532,9 +533,9 @@ export default function Product() {
                           <Input placeholder="Quantity" type="number" />
                         </Form.Item>
 
-												<MinusCircleOutlined onClick={() => remove(name)} />
-											</Space>
-										))}
+                        <MinusCircleOutlined onClick={() => remove(name)} />
+                      </Space>
+                    ))}
 
                     <Form.Item>
                       <Button

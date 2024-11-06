@@ -43,7 +43,7 @@ const Bid = ({ params }: { params: { id: string } }) => {
   const { getUser } = useAuth();
   const { user } = getUser(token);
 
-  const { postToken } = useOrder();
+  const { postBidToken } = useOrder();
 
   useEffect(() => {
     if (bid) {
@@ -92,23 +92,22 @@ const Bid = ({ params }: { params: { id: string } }) => {
   }
 
   const onFinish = async (values: any) => {
-    const handleCheckout = async () => {
-      try {
-        setLoading(true);
-        const response = await postToken({
-          orderTotal: bid && Math.max(...bid.bidParticipants.map((bid) => bid.amount)),
-          // orderShip: delivery.price,
-          orderItems: bid?.productDetail.product,
-          customer: user,
-        });
-
-        window.snap.pay(response.token);
-      } catch (error) {
-        console.error(error);
-      } finally {
-        setLoading(false);
-      }
-    };
+    try {
+      const formattedPrice = Number(values.price.toString().replace(/,/g, ""));
+      setLoading(true);
+      const response = await postBidToken({
+        orderTotal: formattedPrice,
+        orderItems: bid,
+        customer: user,
+        // orderTotal: bid && Math.max(...bid.bidParticipants.map((bid) => bid.amount)),
+        // // orderShip: delivery.price,
+      });
+      window.snap.pay(response.token);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -161,10 +160,10 @@ const Bid = ({ params }: { params: { id: string } }) => {
                 </p>
                 <h1 className="text-2xl font-medium">
                   Rp{" "}
-                  {bid &&
+                  {bid && bid.bidParticipants.length < 0 ?
                     Math.max(
                       ...bid.bidParticipants.map((bid) => bid.amount)
-                    ).toLocaleString("en-Us")}
+                    ).toLocaleString("en-Us") : 0}
                 </h1>
               </div>
             )}
@@ -217,12 +216,12 @@ const Bid = ({ params }: { params: { id: string } }) => {
                   <h1 className="text-base font-medium truncate">
                     Rp{" "}
                     {bid &&
-                    bid.bidParticipants.find(
-                      (bid) => bid.user.email == user?.email
-                    )
+                      bid.bidParticipants.find(
+                        (bid) => bid.user.email == user?.email
+                      )
                       ? bid.bidParticipants
-                          .find((bid) => bid.user.email == user?.email)
-                          ?.amount.toLocaleString("en-US")
+                        .find((bid) => bid.user.email == user?.email)
+                        ?.amount.toLocaleString("en-US")
                       : 0}
                   </h1>
                 </div>
@@ -245,13 +244,13 @@ const Bid = ({ params }: { params: { id: string } }) => {
               <BidInput
                 placeholder={
                   bid &&
-                  bid.bidParticipants.find(
-                    (bid) => bid.user.email == user?.email
-                  )
+                    bid.bidParticipants.find(
+                      (bid) => bid.user.email == user?.email
+                    )
                     ? "Add your Bid"
                     : "Post your Bid"
                 }
-                // required={false}
+              // required={false}
               />
 
               <Form.Item className="mb-0">

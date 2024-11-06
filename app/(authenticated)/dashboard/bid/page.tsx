@@ -4,6 +4,7 @@ import {
 	Avatar,
 	Button,
 	Form,
+	Image,
 	Input,
 	Modal,
 	Select,
@@ -22,6 +23,7 @@ import dayjs from "dayjs";
 
 import { createStyles } from "antd-style";
 import BidModal from "#/components/common/modal/BidModal";
+import { config } from "#/config/app";
 const { Dragger } = Upload;
 
 export default function Bid() {
@@ -57,10 +59,10 @@ export default function Bid() {
 			render: (_, record) => (
 				<div className="flex items-center">
 					<div className="rounded-md size-16 aspect-square bg-zinc-50">
-						<Avatar
+						<Image
 							className="size-full"
-							src={record.productPhotos}
-							shape="square"
+							preview={false}
+							src={`${config.apiUrl}/product/uploads/${record.productDetail.product.productPhotos.find((p) => p.photoType == 'front')?.image}`}
 						/>
 					</div>
 					<div className="flex gap-3 2xl:gap-5">
@@ -80,7 +82,7 @@ export default function Bid() {
 			title: "Starting Price",
 			dataIndex: "start_price",
 			key: "start_price",
-			align: "center",
+			align: "left",
 			render: (_, record) => (
 				<p>Rp. {record.start_price.toLocaleString("id-ID")}</p>
 			),
