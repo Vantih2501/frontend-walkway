@@ -3,6 +3,7 @@ import dayjs from "dayjs";
 import duration from "dayjs/plugin/duration";
 import { Image, Timeline } from "antd";
 import { FlagFilled } from "@ant-design/icons";
+import { config } from "#/config/app";
 
 dayjs.extend(duration);
 
@@ -52,8 +53,8 @@ export const BidCard = ({ bid, imageUrl, product }: CardProps) => {
   }, [bid.start_date, bid.end_date]);
 
   return (
-    <div className="h-full relative cursor-pointer rounded-xl border border-transparent transition-all duration-300 ease-in-out hover:border-primary-500 w-full group bg-primary-300 border-primary-300 text-white">
-      <div className="h-14 flex flex-col justify-center items-center -space-y-1">
+    <div className="relative w-full h-full text-white transition-all duration-300 ease-in-out border border-transparent cursor-pointer rounded-xl hover:border-primary-500 group bg-primary-300 border-primary-300">
+      <div className="flex flex-col items-center justify-center -space-y-1 h-14">
         {ended ?
           <h2 className="text-xl">Ended</h2> :
           <>
@@ -65,19 +66,19 @@ export const BidCard = ({ bid, imageUrl, product }: CardProps) => {
 
       <div className="overflow-hidden aspect-w-1 aspect-h-1">
         <Image
-          src={imageUrl}
+          src={`${config.apiUrl}/product/uploads/${imageUrl}`}
           alt={bid.productDetail.product.name || "img"}
           preview={false}
-          className="bg-white w-full h-full object-cover transition-transform duration-300 ease-in-out group-hover:scale-105"
+          className="object-cover w-full h-full transition-transform duration-300 ease-in-out bg-white group-hover:scale-105"
         />
       </div>
 
-      <div className="py-4 px-5 space-y-2">
+      <div className="px-5 py-4 space-y-2">
         <div className="-space-y-1">
           <p className="font-light">Available from</p>
           <h2 className="text-lg">Rp {bid.start_price.toLocaleString('en-US')}</h2>
         </div>
-        <p className="text-primary-100 text-base line-clamp-1 mb-auto">
+        <p className="mb-auto text-base text-primary-100 line-clamp-1">
           {bid.productDetail.product.name}
         </p>
       </div>
@@ -94,15 +95,15 @@ interface AdminCardProps {
 
 export const BidCardAdmin = ({ bid }: AdminCardProps) => {
   return (
-    <div onClick={() => { }} className="rounded-md border bg-white px-4 py-3 flex flex-col justify-between gap-1 cursor-pointer">
+    <div onClick={() => { }} className="flex flex-col justify-between gap-1 px-4 py-3 bg-white border rounded-md cursor-pointer">
       <div className="space-y-3">
         <Image
-          src={bid.productPhotos}
+          src={`${config.apiUrl}/product/uploads/${bid.productPhotos}`}
           alt="product"
           preview={false}
-          className="object-contain border-black aspect-video border"
+          className="object-contain border border-black aspect-video"
         />
-        <h2 className="font-semibold line-clamp-1">{bid.productDetail.product.name}</h2>
+        <h2 className="font-semibold line-clamp-1">{bid.productName}</h2>
         <Timeline className=""
           items={[
             {
@@ -117,9 +118,9 @@ export const BidCardAdmin = ({ bid }: AdminCardProps) => {
         />
       </div>
       <hr className="h-px my-1 bg-gray-200 border-0 dark:bg-gray-700" />
-      <div className="flex justify-between items-center">
+      <div className="flex items-center justify-between">
         <p>Starting Price:</p>
-        <p className="text-green-600 font-medium">Rp {bid.start_price.toLocaleString('en-US')}</p>
+        <p className="font-medium text-green-600">Rp {bid.start_price.toLocaleString('en-US')}</p>
       </div>
     </div>
   )

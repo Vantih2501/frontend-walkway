@@ -1,26 +1,45 @@
 import useSWR, { mutate } from "swr";
 import { fetcher } from "#/utils/fetcher";
 
-
 export const useBid = () => {
   const fetchBids = () => {
-    const { data, error, isLoading } = useSWR<Bid[]>(`/product/bids`, fetcher.get)
+    const { data, error, isLoading } = useSWR<Bid[]>(
+      `/product/bids`,
+      fetcher.get
+    );
     return {
       bids: data,
       isError: error,
-      isLoading
-    }
+      isLoading,
+    };
   };
 
-  const postBid = async ({ productDetailId, start_date, end_date, start_price }: any) => {
+  const fetchBid = (id: string) => {
+    const { data, error, isLoading } = useSWR<Bid>(
+      `/product/bid/${id}`,
+      fetcher.get
+    );
+    return {
+      bid: data,
+      isError: error,
+      isLoading,
+    };
+  };
+
+  const postBid = async ({
+    productDetailId,
+    start_date,
+    end_date,
+    start_price,
+  }: any) => {
     await fetcher.post("/product/add-to-bid", {
       productDetailId,
       start_date,
       end_date,
-      start_price
+      start_price,
     });
     mutate(`/product/bids`);
   };
 
-  return { fetchBids, postBid }
+  return { fetchBids, postBid, fetchBid };
 };

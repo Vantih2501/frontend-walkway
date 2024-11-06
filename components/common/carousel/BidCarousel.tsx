@@ -46,7 +46,11 @@ const BidCarousel = ({ bids }: CarouselProps) => {
         ]}
       >
         {bids.map((bid) => (
-          <Link href={`/`} key={bid.id} className="px-1 hover:text-inherit">
+          <Link
+            href={`/product/bid/${bid.id}`}
+            key={bid.id}
+            className="px-1 hover:text-inherit"
+          >
             <BidCard
               bid={bid}
               imageUrl={bid.productPhotos}

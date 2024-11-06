@@ -23,10 +23,9 @@ interface ImageProps {
 const ProductImage = ({ imageUrl }: ImageProps) => {
   const baseurl = `${config.apiUrl}/product/uploads/`;
 
-  console.log(imageUrl)
   const front = imageUrl.find((image) => image.photoType == 'front');
   const sides = imageUrl.filter((image) => image.photoType !== 'front');
-  console.log(front, sides)
+  
   const [current, setCurrent] = React.useState(0);
 
   // or you can download flipped and rotated image

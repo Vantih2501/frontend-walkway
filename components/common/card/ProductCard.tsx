@@ -70,7 +70,7 @@ export const ProductCardAdmin = ({ product, frontImage, sold, onClick }: AdminCa
     <div onClick={() => onClick(product)} className="flex flex-col justify-between gap-5 px-4 py-3 bg-white border rounded-md cursor-pointer">
       <div className="space-y-3">
         <Image
-          src={frontImage}
+          src={`${config.apiUrl}/product/uploads/${frontImage}`}
           alt="product"
           preview={false}
           className="object-contain border border-black aspect-video"
