@@ -102,7 +102,7 @@ export const useUser = () => {
       email,
       phone_number,
       password,
-      roleId,
+      roleId,                                                                                                                              
     });
     mutate(`/user/admins`);
   };

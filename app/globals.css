@@ -693,6 +693,7 @@ th {
   width: 90rem;
   border-radius: 20px;
   height: 45rem;
+  margin-left: -20rem;
 }
 
 .AdminFoto {

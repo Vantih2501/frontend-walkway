@@ -1,6 +1,6 @@
 "use client";
 
-import Sidebar from "#/components/Sidebar";
+import Sidebar from "#/components/Admin/Layout/Sider";
 import {
   Avatar,
   Button,
@@ -17,9 +17,9 @@ export default function ListProduct() {
   return (
     <div>
       <div className="flex">
-        <div className="fixed">
+        {/* <div className="fixed">
         <Sidebar />
-        </div>
+        </div> */}
 
         <div className="mt-8 container ContentAdmin">
           <CardProduct />
