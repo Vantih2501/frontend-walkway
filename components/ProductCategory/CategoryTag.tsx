@@ -1,48 +1,78 @@
-import { Button, Divider, Tag } from 'antd'
-import React from 'react'
+import React, { useState, useEffect } from "react";
+import { Button, Divider } from "antd";
 
-const TagStyle = "m-0 py-4 px-5 rounded-full bg-white text-zinc-900 border-zinc-300 hover:border-primary hover:text-primary active:bg-primary active:text-white text-xs";
-const fetchCategories = [
-	"Electronics",
-	"Clothing",
-	"Accessories",
-	"Footwear",
-	"Sneakers",
-	"Pria",
-	"Wanita",
-	"Running Shoe",
-];
-
-const CategoryTag = () => {
-
-  return (
-		<div className="p-6 border border-zinc-300 rounded-2xl">
-			<div>
-				<p className="mb-4">Category</p>
-				<div className="flex flex-wrap gap-2">
-					{fetchCategories.map((category) => (
-						<Button key={category} className={TagStyle}>
-							{category}
-						</Button>
-					))}
-				</div>
-			</div>
-
-			<Divider />
-
-			<div>
-				<p className="mb-4">Brands</p>
-				<div className="flex flex-wrap gap-2">
-					{fetchCategories.map((category) => (
-						<Button key={category} className={TagStyle}>
-							{category}
-						</Button>
-					))}
-				</div>
-			</div>
-		</div>
-	);
+interface CategoryTagProps {
+  brand?: Brand[];
+  category?: Category[];
+  onFilterChange?: (selectedCategories: string[], selectedBrands: string[]) => void;
 }
 
-export default CategoryTag
+const TagStyle =
+  "m-0 py-4 px-5 rounded-full text-xs border-zinc-300 hover:border-primary hover:text-primary active:bg-primary active:text-white";
 
+const CategoryTag = ({
+  brand,
+  category,
+  onFilterChange,
+}: CategoryTagProps) => {
+  const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+  const [selectedBrands, setSelectedBrands] = useState<string[]>([]);
+
+  const toggleSelection = (
+    name: string,
+    list: string[],
+    setList: React.Dispatch<React.SetStateAction<string[]>>
+  ) => {
+    setList((prevList) =>
+      prevList.includes(name) ? prevList.filter((item) => item !== name) : [...prevList, name]
+    );
+  };
+
+  useEffect(() => {
+    if (onFilterChange) {
+      onFilterChange(selectedCategories, selectedBrands);
+    }
+  }, [selectedCategories, selectedBrands, onFilterChange]);
+
+  return (
+    <div className="p-6 border border-zinc-300 rounded-2xl">
+      <div>
+        <p className="mb-4">Category</p>
+        <div className="flex flex-wrap gap-2">
+          {category &&
+            category.map((cat) => (
+              <Button
+                key={cat.id}
+                type={selectedCategories.includes(cat.name) ? "primary" : "default"}
+                className={`${TagStyle} ${selectedCategories.includes(cat.name) ? "text-white" : "text-zinc-900 bg-white"}`}
+                onClick={() => toggleSelection(cat.name, selectedCategories, setSelectedCategories)}
+              >
+                {cat.name}
+              </Button>
+            ))}
+        </div>
+      </div>
+
+      <Divider />
+
+      <div>
+        <p className="mb-4">Brands</p>
+        <div className="flex flex-wrap gap-2">
+          {brand &&
+            brand.map((br) => (
+              <Button
+                key={br.id}
+                type={selectedBrands.includes(br.name) ? "primary" : "default"}
+                className={`${TagStyle} ${selectedBrands.includes(br.name) ? "text-white" : "text-zinc-900 bg-white"}`}
+                onClick={() => toggleSelection(br.name, selectedBrands, setSelectedBrands)}
+              >
+                {br.name}
+              </Button>
+            ))}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default CategoryTag;
