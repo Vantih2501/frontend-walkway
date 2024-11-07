@@ -1,6 +1,6 @@
 "use client"
 import { EditOutlined, PlusOutlined } from "@ant-design/icons";
-import { Button, Form, Space, Table, TableProps, Tag } from "antd";
+import { Button, Form, message, Space, Table, TableProps, Tag } from "antd";
 import { useState } from "react";
 import { createStyles } from "antd-style";
 import { useBrand } from "#/hooks/brand";
@@ -83,8 +83,10 @@ export default function CategoryTable({ category }: CategoryTableProps) {
       setLoading(true)
       if (editing) {
         await patchCategory(values.id, values)
+        message.success("Category updated successfully")
       } else {
         await postCategory(values)
+        message.success("Category created successfully")
       }
 
     } catch (error) {
