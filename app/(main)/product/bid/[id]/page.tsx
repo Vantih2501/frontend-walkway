@@ -160,7 +160,7 @@ const Bid = ({ params }: { params: { id: string } }) => {
                 </p>
                 <h1 className="text-2xl font-medium">
                   Rp{" "}
-                  {bid && bid.bidParticipants.length < 0 ?
+                  {bid && bid.bidParticipants.length >= 0 ?
                     Math.max(
                       ...bid.bidParticipants.map((bid) => bid.amount)
                     ).toLocaleString("en-Us") : 0}
