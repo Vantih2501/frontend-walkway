@@ -27,7 +27,7 @@ const DetailProduct = ({ product }: { product: Product | undefined }) => {
   const [isLoginModalVisible, setIsLoginModalVisible] = useState(false); // untuk modal login
 
   const { genCheckoutToken } = useProduct();
-  const { addToCart } = useCart()
+  const { addToCart } = useCart();
   const { getUser } = useAuth();
   const token = getAccessToken();
   const { user, isLoading, isError } = getUser(token);
@@ -67,12 +67,12 @@ const DetailProduct = ({ product }: { product: Product | undefined }) => {
     try {
       setLoading(true);
       await addToCart({ productDetailId: data.id, cartId: user.cartId });
-    } catch (error) {
-      message.error("Error saat proses checkout");
-      console.error(error);
+      message.success("Product added to cart.");
+    } catch (error: any) {
+      message.error(`Error when adding to cart: ${error.response.body.message}`);
       setLoading(false);
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
   };
 
@@ -140,7 +140,7 @@ const DetailProduct = ({ product }: { product: Product | undefined }) => {
               </div>
               <div className="grid grid-cols-4 gap-3 mb-6 2xl:grid-cols-5">
                 {product?.productDetails &&
-                  product?.productDetails.length > 0 ? (
+                product?.productDetails.length > 0 ? (
                   product?.productDetails.map((detail: any, index: number) => (
                     <Button
                       disabled={loading || detail.stock <= 0}

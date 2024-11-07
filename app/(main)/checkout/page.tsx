@@ -48,11 +48,14 @@ export default function Checkout() {
   const [loading, setLoading] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
 
-  const [delivery, setDelivery] = useState<{
-    courier: string;
-    price: number;
-  } | null>(null);
+  // const [delivery, setDelivery] = useState<{
+  //   courier: string;
+  //   price: number;
+  //   service: string;
+  // } | null>(null);
 
+  const [delivery, setDelivery] = useState<any>(null);
+  console.log(delivery);
   useEffect(() => {
     const getRate = async () => {
       if (address && product) {
@@ -71,7 +74,7 @@ export default function Checkout() {
     };
 
     getRate();
-  }, [address, product]);
+  }, [address]);
 
   if (productLoading) {
     return (
@@ -87,7 +90,11 @@ export default function Checkout() {
       label: (
         <h2 className="flex items-center justify-between text-xl">
           <p>Choose Delivery: </p>
-          <p>{delivery ? `${delivery.courier}` : ""}</p>
+          <p>
+            {delivery
+              ? `${delivery.courier_name} (${delivery.courier_service_name})`
+              : ""}
+          </p>
         </h2>
       ),
       children: isLoading ? (
@@ -96,13 +103,11 @@ export default function Checkout() {
         </div>
       ) : (
         <div className="flex flex-col items-start gap-2">
-          {rate.map((data: any) => (
+          {rate.map((data: any, index: number) => (
             <Button
               block
-              key={data.company}
-              onClick={() =>
-                setDelivery({ courier: data.courier_name, price: data.price })
-              }
+              key={index}
+              onClick={() => setDelivery(data)}
               className="flex justify-between"
             >
               <p className="font-medium">
@@ -131,11 +136,21 @@ export default function Checkout() {
 
     try {
       setLoading(true);
+      // const response = await postToken({
+      //   orderTotal:
+      //     product.reduce((acc: any, val: any) => acc + val.product.price, 0) +
+      //     delivery.price,
+      //   orderShip: delivery.price,
+      //   orderItems: product,
+      //   customer: user,
+      // });
+
       const response = await postToken({
-        orderTotal:
-          product.reduce((acc: any, val: any) => acc + val.product.price, 0) +
-          delivery.price,
-        orderShip: delivery.price,
+        orderTotal: product.reduce(
+          (acc: any, val: any) => acc + val.product.price,
+          0
+        ),
+        delivery: delivery,
         orderItems: product,
         customer: user,
       });
@@ -147,8 +162,6 @@ export default function Checkout() {
       setLoading(false);
     }
   };
-
-  console.log(product);
 
   return (
     <div className="max-w-7xl flex items-center min-h-[86vh] mx-auto py-3">

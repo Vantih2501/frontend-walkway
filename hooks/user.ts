@@ -50,7 +50,7 @@ export const useUser = () => {
     zipcode,
     address,
     note,
-  }: AddressDto) => {
+  }: AddressDto, token?: string) => {
     await fetcher.post(`/user/add-address`, {
       email,
       contact_name,
@@ -63,6 +63,7 @@ export const useUser = () => {
       note,
     });
     mutate(`/user/address/${email}`);
+    mutate(`/auth/user/${token}`);
   };
 
   const setDefaultAddress = async (

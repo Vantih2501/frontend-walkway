@@ -1,7 +1,7 @@
 "use client";
 import { useAuth } from "#/hooks/auth";
 import { setAccessToken } from "#/utils/token";
-import { Button, Divider, Form, Input } from "antd";
+import { Button, Divider, Form, Input, message } from "antd";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
@@ -22,18 +22,18 @@ const RegisterForm = () => {
   const onFinish = async (values: RegisterFormValues) => {
     try {
       setIsLoading(true);
-      const response = await register(
+      await register(
         values.name,
         values.email,
         "+62" + values.phone_number.replace(/-/g, ""),
         values.password
       );
-      setAccessToken(response.access_token);
+      // setAccessToken(response.access_token);
+      message.success("Registration successful. Please log in first.");
+      router.push("/login");
     } catch (error) {
       console.error(error);
       setIsLoading(false);
-    } finally {
-      router.push("/");
     }
   };
   return (
