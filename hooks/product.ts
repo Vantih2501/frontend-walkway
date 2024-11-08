@@ -79,7 +79,7 @@ export const useProduct = () => {
     mutate(`/product`);
   };
 
-  const genCheckoutToken = async (data: ProductDetail[]): Promise<{ checkout_token: string }> => {
+  const genCheckoutToken = async (data: ProductDetail[] | any): Promise<{ checkout_token: string }> => {
     return await fetcher.post("/product/checkout-token", { data });
   };
 

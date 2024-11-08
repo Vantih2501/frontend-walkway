@@ -9,6 +9,8 @@ interface User {
   role: Role | string;
   defaultAddress: string;
   cartId: string;
+  cart: Cart;
+  cartItemTotal: number;
 }
 
 interface Role {

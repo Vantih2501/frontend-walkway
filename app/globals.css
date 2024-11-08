@@ -39,6 +39,10 @@ body {
   padding: 0px !important;
 }
 
+.nav-cart :where(.css-dev-only-do-not-override-zjyjzs).ant-dropdown .ant-dropdown-menu .ant-dropdown-menu-item:hover, :where(.css-dev-only-do-not-override-zjyjzs).ant-dropdown-menu-submenu .ant-dropdown-menu .ant-dropdown-menu-item:hover, :where(.css-dev-only-do-not-override-zjyjzs).ant-dropdown .ant-dropdown-menu .ant-dropdown-menu-submenu-title:hover, :where(.css-dev-only-do-not-override-zjyjzs).ant-dropdown-menu-submenu .ant-dropdown-menu .ant-dropdown-menu-submenu-title:hover, :where(.css-dev-only-do-not-override-zjyjzs).ant-dropdown .ant-dropdown-menu .ant-dropdown-menu-item-active, :where(.css-dev-only-do-not-override-zjyjzs).ant-dropdown-menu-submenu .ant-dropdown-menu .ant-dropdown-menu-item-active, :where(.css-dev-only-do-not-override-zjyjzs).ant-dropdown .ant-dropdown-menu .ant-dropdown-menu-submenu-title-active, :where(.css-dev-only-do-not-override-zjyjzs).ant-dropdown-menu-submenu .ant-dropdown-menu .ant-dropdown-menu-submenu-title-active {
+  background-color: inherit !important;
+}
+
 .phone-input .ant-input-group>.ant-input:last-child {
   padding: 8px;
 }
