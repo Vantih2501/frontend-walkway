@@ -20,7 +20,7 @@ export const useCart = () => {
 
   const getCartItem = (cartId?: string) => {
     const { data, error, isLoading } = useSWR<CartItem[]>(
-      `/user/cart/${cartId}`,
+      cartId ? `/user/cart/${cartId}` : null,
       fetcher.get
     );
     return {

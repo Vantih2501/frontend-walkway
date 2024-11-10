@@ -21,62 +21,47 @@ import { formatPhoneNumber } from "#/utils/formatter";
 import ChangeAddressModal from "#/components/common/modal/ChangeAddressModal";
 
 export default function Checkout() {
-  const token = getCheckoutToken();
-  const { getCheckoutData, getCourierRate } = useProduct();
-
-  const { getUser } = useAuth();
+  const checkout_token = getCheckoutToken();
   const auth_token = getAccessToken();
-  const { user } = getUser(auth_token);
 
+  const { getCheckoutData, getCourierRate } = useProduct();
+  const { getUser } = useAuth();
+  const { user, isLoading: userLoading } = getUser(auth_token);
   const { getAddress, fetchAddress } = useUser();
-  const { address, isLoading: addressLoading } = getAddress(
-    user?.defaultAddress
-  );
-
-  const { address: addresses, isLoading: addressesLoading } = fetchAddress(
-    user?.email
-  );
-
   const { postToken } = useOrder();
-  const {
-    product,
-    isLoading: productLoading,
-    isError,
-  } = getCheckoutData(token);
+
+  const { address, isLoading: addressLoading } = getAddress(user?.defaultAddress);
+  const { address: addresses, isLoading: addressesLoading } = fetchAddress(user?.email);
+  const { product, isLoading: productLoading } = getCheckoutData(checkout_token);
+
   const [rate, setRate] = useState<any>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [loading, setLoading] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
 
-  // const [delivery, setDelivery] = useState<{
-  //   courier: string;
-  //   price: number;
-  //   service: string;
-  // } | null>(null);
-
   const [delivery, setDelivery] = useState<any>(null);
-  console.log(delivery);
-  useEffect(() => {
-    const getRate = async () => {
-      if (address && product) {
-        try {
-          setIsLoading(true);
-          setRate([]);
-          setDelivery(null);
-          const rateResponse = await getCourierRate(address, product);
-          setRate(rateResponse.pricing);
-        } catch (error) {
-          console.error(error);
-        } finally {
-          setIsLoading(false);
-        }
-      }
-    };
 
-    getRate();
-  }, [address]);
+  // useEffect(() => {
+  //   const getRate = async () => {
+  //     if (address && product) {
+  //       try {
+  //         setIsLoading(true);
+  //         setRate([]);
+  //         setDelivery(null);
+  //         const rateResponse = await getCourierRate(address, product);
+  //         setRate(rateResponse.pricing);
+  //       } catch (error) {
+  //         console.error(error);
+  //       } finally {
+  //         setIsLoading(false);
+  //       }
+  //     }
+  //   };
 
-  if (productLoading) {
+  //   getRate();
+  // }, [address]);
+
+  if (productLoading || userLoading) {
     return (
       <div className="w-screen h-[86vh] flex items-center justify-center">
         <Spin size="large" />
@@ -170,7 +155,7 @@ export default function Checkout() {
         <div className="flex justify-between gap-2">
           <div className="w-4/6 p-6 space-y-8 bg-white rounded-lg">
             {product &&
-              product.map((product: any) => <OrderItem data={product} />)}
+              product.map((product: any) => <OrderItem data={product} key={product.id} />)}
 
             <hr className="h-px my-8 bg-gray-200 border-0 dark:bg-gray-700" />
 
@@ -210,7 +195,7 @@ export default function Checkout() {
               className="delivery-select"
             />
           </div>
-          <div className="w-2/6 p-6 space-y-6 bg-white rounded-lg">
+          {/* <div className="w-2/6 p-6 space-y-6 bg-white rounded-lg">
             <h2 className="text-xl">Order Summary</h2>
             <hr className="h-px my-8 bg-gray-200 border-0 dark:bg-gray-700" />
             <div className="space-y-2">
@@ -243,11 +228,11 @@ export default function Checkout() {
                 Rp{" "}
                 {product && delivery?.price
                   ? (
-                      product?.reduce(
-                        (acc: any, val: any) => acc + val.product?.price,
-                        0
-                      ) + delivery?.price
-                    ).toLocaleString("en-US")
+                    product?.reduce(
+                      (acc: any, val: any) => acc + val.product?.price,
+                      0
+                    ) + delivery?.price
+                  ).toLocaleString("en-US")
                   : "-"}
               </p>
             </div>
@@ -261,7 +246,7 @@ export default function Checkout() {
             >
               Proceed to Payment
             </Button>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>

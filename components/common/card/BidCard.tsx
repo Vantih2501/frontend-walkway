@@ -79,7 +79,7 @@ export const BidCard = ({ bid, imageUrl, product }: CardProps) => {
           <h2 className="text-lg">Rp {bid.start_price.toLocaleString('en-US')}</h2>
         </div>
         <p className="mb-auto text-base text-primary-100 line-clamp-1">
-          {bid.productDetail.product.name}
+          {bid.productName}
         </p>
       </div>
     </div>

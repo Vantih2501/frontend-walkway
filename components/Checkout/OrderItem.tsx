@@ -26,7 +26,7 @@ import { config } from "#/config/app";
 const { Title } = Typography;
 
 interface OrderItemProps {
-  data: ProductDetail;
+  data: CartItem;
 }
 
 export default function OrderItem({ data }: OrderItemProps) {
@@ -47,32 +47,39 @@ export default function OrderItem({ data }: OrderItemProps) {
   return (
     <>
       <div className="flex flex-col w-full gap-6">
-        <div className="flex items-start justify-between">
-          <div className="flex w-3/5 gap-6">
-            <div className="bg-white shadow-md max-w-24">
+        <div className="flex items-start justify-between gap-6">
+          <div className="flex gap-6">
+            <div className="bg-white max-w-24">
               {data && (
                 <Image
-                  src={`${config.apiUrl}/product/uploads/${
-                    data.product?.productPhotos.find(
-                      (photo: ProductImage) => photo.photoType === "front"
-                    )?.image || ""
-                  }`}
+                  src={`${config.apiUrl}/product/uploads/${data.productDetail.product?.productPhotos.find(
+                    (photo: ProductImage) => photo.photoType === "front"
+                  )?.image || ""
+                    }`}
                   alt="product"
                   preview={false}
-                  className="object-contain aspect-square"
+                  className="object-contain aspect-square rounded-md shadow-md"
                 />
               )}
             </div>
-            <div className="-space-y-0.5">
+            <div className="flex flex-col justify-between">
               <h2 className="text-lg font-medium line-clamp-2">
-                {data.product?.name}
+                {data.productDetail.product.brand.name}{" "}
+                {data.productDetail.product.name}{" "}
+                <span className="text-sm text-gray-500">x{data.quantity}</span>
               </h2>
-              <p className="text-sm text-gray-500">Size: {data.size}</p>
+              <div>
+                <p className="text-sm text-gray-500">Size: {data.productDetail.size}</p>
+                <p className="text-sm text-gray-500"><span className="text-green-700">Rp {data.productDetail.product.price.toLocaleString("en-Us")}</span> per item</p>
+              </div>
             </div>
           </div>
-          <h2 className="text-xl font-medium">
-            Rp {data.product?.price.toLocaleString("en-Us")}
-          </h2>
+          <div className="flex flex-col items-end space-y-1">
+            <h2 className="text-xl font-medium">
+              Rp {(data.productDetail.product.price * data.quantity).toLocaleString("en-Us")}
+            </h2>
+            <p className="text-sm text-gray-500"><span className="text-green-700">Rp {data.productDetail.product.price.toLocaleString("en-Us")}</span> * {data.quantity}</p>
+          </div>
         </div>
       </div>
 

@@ -81,7 +81,7 @@ export const useUser = () => {
 
   const getAddress = (id?: string) => {
     const { data, error, isLoading } = useSWR<Address>(
-      `/user/get-address/${id}`,
+      id ? `/user/get-address/${id}` : null,
       fetcher.get
     );
     return {
@@ -103,7 +103,7 @@ export const useUser = () => {
       email,
       phone_number,
       password,
-      roleId,                                                                                                                              
+      roleId,
     });
     mutate(`/user/admins`);
   };
