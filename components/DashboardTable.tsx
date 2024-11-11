@@ -1,10 +1,9 @@
 import { config } from "#/config/app";
-import { Table, Tag, Image, TableProps, Spin, Empty } from "antd";
+import { Table, Tag, Image, TableProps} from "antd";
 import { createStyles } from "antd-style";
-import { useProduct } from "#/hooks/product";
 import React from "react";
 
-const DashboardTable = () => {
+const DashboardTable = ({product}: any) => {
 	const useStyle = createStyles(({ css }) => {
 		return {
 			customTable: css`
@@ -41,7 +40,7 @@ const DashboardTable = () => {
 						/>
 					</div>
 					<div className="flex-1 min-w-0 ms-4">
-						<p className="mb-1 text-base font-medium text-gray-800 2xl:text-sm line-clamp-2">
+						<p className="mb-1 text-xs line-clamp-2">
 							{record.name}
 						</p>
 					</div>
@@ -53,7 +52,7 @@ const DashboardTable = () => {
 			key: "price",
 			dataIndex: "price",
 			align: "center",
-			render: (_, record) => <p>{record.price.toLocaleString("id-ID")}</p>,
+			render: (_, record) => <p>Rp. {record.price.toLocaleString("id-ID")}</p>,
 		},
 		{
 			title: "Stock",
@@ -70,34 +69,22 @@ const DashboardTable = () => {
 			dataIndex: "status",
 			align: "center",
 			render: (status: string) => (
-				<Tag color={status === "available" ? "green" : "red"}>{status}</Tag>
+				<Tag color={status === "active" ? "green" : "red"}>{status}</Tag>
 			),
 		},
 	];
 
     const { styles } = useStyle();
-    const { fetchProduct } = useProduct();
-    const { product, isLoading } = fetchProduct();
-
-    if (!product) return <Empty />;
-
-    if (isLoading) {
-        return (
-            <div className="w-full h-full flex items-center justify-center">
-                <Spin size="large" />
-            </div>
-        )
-    }
 
 	return (
 		<div className="w-full rounded-lg p-4 border border-zinc-300">
-            <h1 className="text-lg mb-4">Stock Product</h1>
+            <h1 className="text-base mb-4">Stock Product</h1>
 			{product && (
 				<Table
 					className={styles.customTable}
 					columns={columns}
 					dataSource={product}
-					scroll={{ y: 100 * 5 }}
+					scroll={{ y: 40 * 5 }}
 					pagination={false}
 				/>
 			)}

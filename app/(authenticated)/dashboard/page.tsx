@@ -5,26 +5,48 @@ import React from "react";
 import ContainerInfo from "#/components/Admin/Dashboard/ContainerInfo";
 import SiderContent from "#/components/Admin/Dashboard/SiderContent";
 import Charts from "#/components/Admin/Dashboard/Charts";
-import DashboardTable from "#/components/Admin/Dashboard/DashboardTable";
+import DashboardTable from "#/components/DashboardTable";
+import { useProduct } from "#/hooks/product";
+import { Spin } from "antd";
 
 const Dashboard = () => {
-  return (
-    <div className="grid grid-cols-12 gap-4">
-      <div className="h-full col-span-8">
-        <div className="flex flex-col justify-between gap-4">
-          <ContainerInfo className="flex justify-between gap-4 h-fit" />
+	const { fetchProduct } = useProduct();
+	const { product, isLoading } = fetchProduct();
 
-          <Charts />
+	if (isLoading) {
+		return (
+			<div className="w-full h-[80vh] flex items-center justify-center">
+				<Spin size="large" />
+			</div>
+		);
+	}
 
-          <DashboardTable/>
-        </div>
-      </div>
+	return (
+		<div className="space-y-4">
+			<main className="grid grid-cols-12 gap-4">
+				<section className="h-full col-span-8">
+					<div className="h-full flex flex-col justify-between gap-4">
+						<ContainerInfo
+							totalRevenue={"RP. 300,000K"}
+							totalSales={"30"}
+							totalProduct={product}
+							className="flex justify-between gap-4 h-fit"
+						/>
+						<Charts />
+					</div>
+				</section>
 
-      {/* <div className="h-full col-span-4 border rounded-lg border-zinc-300">
-        <SiderContent />
-      </div> */}
-    </div>
-  );
+				<aside className="h-full col-span-4 border rounded-lg border-zinc-300">
+					{/* Change to Order Api */}
+					<SiderContent orders={product} />
+				</aside>
+			</main>
+
+			<footer>
+				<DashboardTable product={product} />
+			</footer>
+		</div>
+	);
 };
 
 export default Dashboard;

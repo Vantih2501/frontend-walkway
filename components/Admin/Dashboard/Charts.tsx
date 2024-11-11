@@ -44,7 +44,7 @@ const chartConfig = {
 
 export default function Charts() {
 	return (
-		<Card className="border border-zinc-300 rounded-lg">
+		<Card className="border border-zinc-300 rounded-lg h-full">
 			<CardHeader>
 				<CardTitle>Overview</CardTitle>
 				<CardDescription>January - Desember 2024</CardDescription>

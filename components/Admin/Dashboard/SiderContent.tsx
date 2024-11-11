@@ -1,10 +1,11 @@
-import { products } from "#/mock-data/products";
+// import { products } from "#/mock-data/products";
 import { Avatar } from "antd";
+import dayjs from "dayjs";
 import Link from "next/link";
 import React from "react";
 import { HiMiniChevronRight } from "react-icons/hi2";
 
-const SiderContent = () => {
+const SiderContent = ({orders}: any) => {
 	return (
 		<div className="p-4 2xl:p-5 flex flex-col space-y-5">
 			<div className="flex justify-between items-center">
@@ -14,29 +15,29 @@ const SiderContent = () => {
 					<HiMiniChevronRight />
 				</Link>
 			</div>
-			<div className="h-[600px] 2xl:h-[858px] overflow-y-auto">
+			<div className="overflow-y-auto">
 				<ul role="list" className="space-y-2">
-					{products.map((user, index) => (
-						<li key={index} className="p-3 bg-zinc-50 rounded-md">
+					{orders.map((order: Product) => (
+						<li key={order.id} className="p-3 bg-zinc-50 rounded-md">
 							<div className="flex items-center">
 								<div className="size-16 aspect-square bg-white rounded-md">
 									<Avatar
 										className="size-full"
-										src={user.image}
+										src={order.frontImage}
 										shape="square"
 									/>
 								</div>
-								<div className="flex gap-3 2xl:gap-5">
+								<div className="w-full flex gap-3 2xl:gap-5">
 									<div className="flex-1 min-w-0 ms-4">
 										<p className="text-[10px] 2xl:text-xs font-medium text-gray-800 line-clamp-2 mb-1">
-											{user.name}
+											{order.name}
 										</p>
 										<p className="text-[10px] text-gray-400 truncate">
-											{user.time} Minutes Ago
+											{dayjs(order.createdAt).format("mm")} Minutes Ago
 										</p>
 									</div>
 									<div className="h-full text-[10px] 2xl:text-xs font-medium text-primary">
-										+Rp. {user.price}
+										+Rp. {order.price}
 									</div>
 								</div>
 							</div>
