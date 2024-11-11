@@ -5,6 +5,7 @@ import React from "react";
 import ContainerInfo from "#/components/Admin/Dashboard/ContainerInfo";
 import SiderContent from "#/components/Admin/Dashboard/SiderContent";
 import Charts from "#/components/Admin/Dashboard/Charts";
+import DashboardTable from "#/components/Admin/Dashboard/DashboardTable";
 
 const Dashboard = () => {
   return (
@@ -15,9 +16,7 @@ const Dashboard = () => {
 
           <Charts />
 
-          <div className="h-fit">
-            {/* <CarouselStock dataFetch={products} /> */}
-          </div>
+          <DashboardTable/>
         </div>
       </div>
 
