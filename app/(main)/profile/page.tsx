@@ -1,6 +1,7 @@
 "use client";
 import AddressModalForm from "#/components/common/modal/AddressModal";
 import { useAuth } from "#/hooks/auth";
+import { useOrder } from "#/hooks/order";
 import { useUser } from "#/hooks/user";
 import { formatPhoneNumber } from "#/utils/formatter";
 import { getAccessToken } from "#/utils/token";
@@ -21,14 +22,18 @@ import { HiArrowLeftOnRectangle } from "react-icons/hi2";
 export default function Profile() {
   const { getUser } = useAuth();
   const { fetchAddress, postAddress, setDefaultAddress } = useUser();
+  const { getOrder } = useOrder();
   const token = getAccessToken();
-  const { user, isLoading } = getUser(token);
 
+  const { user, isLoading } = getUser(token);
+  const { order } = getOrder(user?.email);
   const { address } = fetchAddress(user?.email);
   const [currentMenu, setCurrentMenu] = useState("Profile");
   const [openAddress, setOpenAddress] = useState(false);
 
   const menus = ["Profile", "Order History", "Bid History"];
+
+  console.log(order);
 
   const handleAddressFinish = async (values: any) => {
     try {
@@ -211,7 +216,11 @@ export default function Profile() {
                     />
                   </div>
                   <div className="flex items-center justify-center w-full h-3/5">
-                    <Empty />
+                    {order ? (
+                      order.map((order) => <div>{order.receipt}</div>)
+                    ) : (
+                      <Empty />
+                    )}
                   </div>
                 </div>
               )}

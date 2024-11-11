@@ -58,11 +58,11 @@ export default function OrderItem({ data }: OrderItemProps) {
                     }`}
                   alt="product"
                   preview={false}
-                  className="object-contain aspect-square rounded-md shadow-md"
+                  className="object-contain rounded-md shadow-md aspect-square"
                 />
               )}
             </div>
-            <div className="flex flex-col justify-between">
+            <div className="space-y-1">
               <h2 className="text-lg font-medium line-clamp-2">
                 {data.productDetail.product.brand.name}{" "}
                 {data.productDetail.product.name}{" "}
@@ -70,7 +70,7 @@ export default function OrderItem({ data }: OrderItemProps) {
               </h2>
               <div>
                 <p className="text-sm text-gray-500">Size: {data.productDetail.size}</p>
-                <p className="text-sm text-gray-500"><span className="text-green-700">Rp {data.productDetail.product.price.toLocaleString("en-Us")}</span> per item</p>
+                {/* <p className="text-sm text-gray-500"><span className="text-green-700">Rp {data.productDetail.product.price.toLocaleString("en-Us")}</span> per item</p>  */}
               </div>
             </div>
           </div>

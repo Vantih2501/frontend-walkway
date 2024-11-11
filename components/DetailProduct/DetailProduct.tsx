@@ -47,8 +47,8 @@ const DetailProduct = ({ product }: { product: Product | undefined }) => {
     try {
       setLoading(true);
       return console.log({ ...data, quantity: 1 });
-      const response = await genCheckoutToken({ ...data, quantity: 1 });
-      setCheckoutToken(response.checkout_token);
+      // const response = await genCheckoutToken({ ...data });
+      // setCheckoutToken(response.checkout_token);
 
       router.push("/checkout");
     } catch (error) {

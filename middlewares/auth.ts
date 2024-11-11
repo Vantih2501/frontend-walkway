@@ -35,7 +35,7 @@ export async function AuthMiddleware(req: NextRequest) {
   // ];
   
   // const authRoutes = ["/login", "/register"];
-  // const userOnlyRoutes = ["/profiles", "/checkout"];
+  // const userOnlyRoutes = ["/profile", "/checkout"];
   // const superadminOnlyRoutes = ["/dashboard/account"];
   
   // const currentPath = req.nextUrl.pathname;

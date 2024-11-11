@@ -95,7 +95,7 @@ export const useProduct = () => {
 
   const getCourierRate = async (address: Address | any, product: ProductDetail[] | any): Promise<{ pricing: any[] }> => {
     if (!address || !product) {
-      return { pricing: [] }; // Return empty pricing array if no address or product
+      return { pricing: [] }; 
     }
 
     const response = await fetcher.post("/order/rates", {
@@ -103,7 +103,7 @@ export const useProduct = () => {
       product
     });
 
-    return { pricing: response.pricing }; // Access pricing directly
+    return { pricing: response.pricing };
   };
 
 

@@ -110,7 +110,7 @@ export default function Navbar({ user }: { user?: User }) {
     },
     {
       key: 2,
-      label: <Link href="/profiles">Profile</Link>,
+      label: <Link href="/profile">Profile</Link>,
     },
     {
       key: 3,

@@ -30,9 +30,14 @@ export default function Checkout() {
   const { getAddress, fetchAddress } = useUser();
   const { postToken } = useOrder();
 
-  const { address, isLoading: addressLoading } = getAddress(user?.defaultAddress);
-  const { address: addresses, isLoading: addressesLoading } = fetchAddress(user?.email);
-  const { product, isLoading: productLoading } = getCheckoutData(checkout_token);
+  const { address, isLoading: addressLoading } = getAddress(
+    user?.defaultAddress
+  );
+  const { address: addresses, isLoading: addressesLoading } = fetchAddress(
+    user?.email
+  );
+  const { product, isLoading: productLoading } =
+    getCheckoutData(checkout_token);
 
   const [rate, setRate] = useState<any>([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -41,25 +46,25 @@ export default function Checkout() {
 
   const [delivery, setDelivery] = useState<any>(null);
 
-  // useEffect(() => {
-  //   const getRate = async () => {
-  //     if (address && product) {
-  //       try {
-  //         setIsLoading(true);
-  //         setRate([]);
-  //         setDelivery(null);
-  //         const rateResponse = await getCourierRate(address, product);
-  //         setRate(rateResponse.pricing);
-  //       } catch (error) {
-  //         console.error(error);
-  //       } finally {
-  //         setIsLoading(false);
-  //       }
-  //     }
-  //   };
+  useEffect(() => {
+    const getRate = async () => {
+      if (address && product) {
+        try {
+          setIsLoading(true);
+          setRate([]);
+          setDelivery(null);
+          const rateResponse = await getCourierRate(address, product);
+          setRate(rateResponse.pricing);
+        } catch (error) {
+          console.error(error);
+        } finally {
+          setIsLoading(false);
+        }
+      }
+    };
 
-  //   getRate();
-  // }, [address]);
+    getRate();
+  }, [address, product]);
 
   if (productLoading || userLoading) {
     return (
@@ -88,27 +93,31 @@ export default function Checkout() {
         </div>
       ) : (
         <div className="flex flex-col items-start gap-2">
-          {rate.map((data: any, index: number) => (
-            <Button
-              block
-              key={index}
-              onClick={() => setDelivery(data)}
-              className="flex justify-between"
-            >
-              <p className="font-medium">
-                {data.courier_name}{" "}
-                <span className="text-gray-400">
-                  ({data.courier_service_name})
-                </span>
-              </p>
-              <p className="flex gap-5">
-                <span className="text-gray-400">{data.duration}</span>
-                <span className="text-green-700">
-                  Rp {data.price.toLocaleString("en-US")}
-                </span>
-              </p>
-            </Button>
-          ))}
+          {rate.length > 0 ? (
+            rate.map((data: any, index: number) => (
+              <Button
+                block
+                key={index}
+                onClick={() => setDelivery(data)}
+                className="flex justify-between"
+              >
+                <p className="font-medium">
+                  {data.courier_name}{" "}
+                  <span className="text-gray-400">
+                    ({data.courier_service_name})
+                  </span>
+                </p>
+                <p className="flex gap-5">
+                  <span className="text-gray-400">{data.duration}</span>
+                  <span className="text-green-700">
+                    Rp {data.price.toLocaleString("en-US")}
+                  </span>
+                </p>
+              </Button>
+            ))
+          ) : (
+            <div>No shipping service available</div>
+          )}
         </div>
       ),
     },
@@ -132,7 +141,8 @@ export default function Checkout() {
 
       const response = await postToken({
         orderTotal: product.reduce(
-          (acc: any, val: any) => acc + val.product.price,
+          (acc: any, val: CartItem) =>
+            acc + val.productDetail.product.price * val.quantity,
           0
         ),
         delivery: delivery,
@@ -155,7 +165,9 @@ export default function Checkout() {
         <div className="flex justify-between gap-2">
           <div className="w-4/6 p-6 space-y-8 bg-white rounded-lg">
             {product &&
-              product.map((product: any) => <OrderItem data={product} key={product.id} />)}
+              product.map((product: any) => (
+                <OrderItem data={product} key={product.id} />
+              ))}
 
             <hr className="h-px my-8 bg-gray-200 border-0 dark:bg-gray-700" />
 
@@ -195,7 +207,7 @@ export default function Checkout() {
               className="delivery-select"
             />
           </div>
-          {/* <div className="w-2/6 p-6 space-y-6 bg-white rounded-lg">
+          <div className="w-2/6 p-6 space-y-6 bg-white rounded-lg">
             <h2 className="text-xl">Order Summary</h2>
             <hr className="h-px my-8 bg-gray-200 border-0 dark:bg-gray-700" />
             <div className="space-y-2">
@@ -205,7 +217,8 @@ export default function Checkout() {
                   Rp{" "}
                   {product
                     ?.reduce(
-                      (acc: any, val: any) => acc + val.product?.price,
+                      (acc: any, val: CartItem) =>
+                        acc + val.productDetail.product.price * val.quantity,
                       0
                     )
                     .toLocaleString("en-US")}
@@ -228,11 +241,12 @@ export default function Checkout() {
                 Rp{" "}
                 {product && delivery?.price
                   ? (
-                    product?.reduce(
-                      (acc: any, val: any) => acc + val.product?.price,
-                      0
-                    ) + delivery?.price
-                  ).toLocaleString("en-US")
+                      product?.reduce(
+                        (acc: any, val: CartItem) =>
+                          acc + val.productDetail.product.price * val.quantity,
+                        0
+                      ) + delivery.price
+                    ).toLocaleString("en-US")
                   : "-"}
               </p>
             </div>
@@ -246,7 +260,7 @@ export default function Checkout() {
             >
               Proceed to Payment
             </Button>
-          </div> */}
+          </div>
         </div>
       </div>
     </div>
