@@ -39,6 +39,7 @@ export default function Checkout() {
   const { product, isLoading: productLoading } =
     getCheckoutData(checkout_token);
 
+
   const [rate, setRate] = useState<any>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [loading, setLoading] = useState(false);

@@ -39,7 +39,6 @@ import Image from "next/image";
 import { useProduct } from "#/hooks/product";
 import { DropdownProps } from "antd/lib";
 import { compressJWT, decompressJWT } from "#/utils/compressor";
-import { decompress } from "lz-string";
 
 export default function Navbar({ user }: { user?: User }) {
   const router = useRouter();
@@ -147,6 +146,14 @@ export default function Navbar({ user }: { user?: User }) {
       setOpen(nextOpen);
     }
   };
+
+  const handleReduce = async (id: string) => {
+    try {
+
+    } catch (error) {
+      
+    }
+  }
 
   const cartItems: MenuProps["items"] = [
     {
@@ -310,7 +317,7 @@ export default function Navbar({ user }: { user?: User }) {
         />
 
         <div className="flex items-center gap-4">
-          {user && cartItem ? (
+          {user ? (
             <>
               <Dropdown
                 open={open}
