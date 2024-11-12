@@ -3,7 +3,7 @@ import { fetcher } from "#/utils/fetcher";
 import { UploadFile } from "antd";
 import { decompressJWT } from "#/utils/compressor";
 
-interface ProductDto {
+export interface ProductDto {
   name: string;
   price: number;
   weight: number;
