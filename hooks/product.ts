@@ -2,7 +2,7 @@ import useSWR, { mutate } from "swr";
 import { fetcher } from "#/utils/fetcher";
 import { UploadFile } from "antd";
 
-interface ProductDto {
+export interface ProductDto {
   name: string;
   price: number;
   weight: number;
