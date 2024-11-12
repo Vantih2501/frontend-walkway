@@ -37,7 +37,7 @@ const SiderContent = ({orders}: any) => {
 										</p>
 									</div>
 									<div className="h-full text-[10px] 2xl:text-xs font-medium text-primary">
-										+Rp. {order.price}
+										+Rp. {order.price.toLocaleString("id-ID")}
 									</div>
 								</div>
 							</div>

@@ -1,6 +1,7 @@
 import useSWR, { mutate } from "swr";
 import { fetcher } from "#/utils/fetcher";
 import { UploadFile } from "antd";
+import { decompressJWT } from "#/utils/compressor";
 
 interface ProductDto {
   name: string;
@@ -79,16 +80,14 @@ export const useProduct = () => {
     mutate(`/product`);
   };
 
-  const genCheckoutToken = async (data: ProductDetail[]): Promise<{ checkout_token: string }> => {
-    return await fetcher.post("/product/checkout-token", { data });
+  const genCheckoutToken = async (data: CartItem[]): Promise<{ checkout_token: string }> => {
+    return await fetcher.post("/product/checkout-token", { data: data.map((data) => ({ id: data.id, productDetailId: data.productDetailId })) });
   };
 
-  const getCheckoutData = (token?: string | null) => {
-    if (!token) { }
-
-    const { data, error, isLoading } = useSWR<ProductDetail | ProductDetail[] | any>(`/product/checkout/${token}`, fetcher.get);
+  const getCheckoutData = (token?: string) => {
+    const { data, error, isLoading } = useSWR<CartItem[]>(token ? `/product/checkout/${decompressJWT(token)}` : null, fetcher.get);
     return {
-      product: data?.[0] || [],
+      product: data,
       isError: error,
       isLoading,
     };
@@ -96,7 +95,7 @@ export const useProduct = () => {
 
   const getCourierRate = async (address: Address | any, product: ProductDetail[] | any): Promise<{ pricing: any[] }> => {
     if (!address || !product) {
-      return { pricing: [] }; // Return empty pricing array if no address or product
+      return { pricing: [] }; 
     }
 
     const response = await fetcher.post("/order/rates", {
@@ -104,7 +103,7 @@ export const useProduct = () => {
       product
     });
 
-    return { pricing: response.pricing }; // Access pricing directly
+    return { pricing: response.pricing };
   };
 
 

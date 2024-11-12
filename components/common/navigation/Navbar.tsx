@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useCallback, useState } from "react";
-import { SearchOutlined } from "@ant-design/icons";
+import { CloseOutlined, PlusOutlined, SearchOutlined } from "@ant-design/icons";
 import Link from "next/link";
 import {
   Input,
@@ -12,6 +12,8 @@ import {
   MenuProps,
   Image as AntdImage,
   Empty,
+  Badge,
+  Checkbox,
 } from "antd";
 import logo from "#/public/icons/logo.svg";
 import { HiOutlineShoppingBag } from "react-icons/hi2";
@@ -22,11 +24,22 @@ import {
   setCheckoutToken,
 } from "#/utils/token";
 import { useRouter } from "next/navigation";
-import { User } from "lucide-react";
+import {
+  Cross,
+  CrossIcon,
+  Minus,
+  Plus,
+  Trash,
+  Trash2,
+  User,
+} from "lucide-react";
 import { useCart } from "#/hooks/cart";
 import { config } from "#/config/app";
 import Image from "next/image";
 import { useProduct } from "#/hooks/product";
+import { DropdownProps } from "antd/lib";
+import { compressJWT, decompressJWT } from "#/utils/compressor";
+import { decompress } from "lz-string";
 
 export default function Navbar({ user }: { user?: User }) {
   const router = useRouter();
@@ -34,6 +47,7 @@ export default function Navbar({ user }: { user?: User }) {
   const [messageApi, contextHolder] = message.useMessage();
   const [loading, setLoading] = useState(false);
 
+  const [selectedItem, setSelectedItem] = useState<CartItem[]>([]);
   const { getCartItem } = useCart();
   const { genCheckoutToken } = useProduct();
   const { items: cartItem } = getCartItem(user?.cartId);
@@ -53,19 +67,35 @@ export default function Navbar({ user }: { user?: User }) {
   const menus = [
     {
       key: "Sneakers",
-      label: <Link className="hover:text-primary/80" href="/">Sneakers</Link>,
+      label: (
+        <Link className="hover:text-primary/80" href="/">
+          Sneakers
+        </Link>
+      ),
     },
     {
       key: "Casual",
-      label: <Link className="hover:text-primary/80" href="/">Casual</Link>,
+      label: (
+        <Link className="hover:text-primary/80" href="/">
+          Casual
+        </Link>
+      ),
     },
     {
       key: "Sport",
-      label: <Link className="hover:text-primary/80" href="/">Sport</Link>,
+      label: (
+        <Link className="hover:text-primary/80" href="/">
+          Sport
+        </Link>
+      ),
     },
     {
       key: "Auction",
-      label: <Link className="hover:text-primary/80" href="/">Auction</Link>,
+      label: (
+        <Link className="hover:text-primary/80" href="/">
+          Auction
+        </Link>
+      ),
     },
   ];
 
@@ -80,7 +110,7 @@ export default function Navbar({ user }: { user?: User }) {
     },
     {
       key: 2,
-      label: <Link href="/profiles">Profile</Link>,
+      label: <Link href="/profile">Profile</Link>,
     },
     {
       key: 3,
@@ -88,7 +118,7 @@ export default function Navbar({ user }: { user?: User }) {
     },
   ];
 
-  const handleCheckout = async (data: ProductDetail[]) => {
+  const handleCheckout = async (data: CartItem[]) => {
     const token = getCheckoutToken();
 
     if (token) {
@@ -98,11 +128,9 @@ export default function Navbar({ user }: { user?: User }) {
     try {
       setLoading(true);
 
-      console.log(data);
       const response = await genCheckoutToken(data);
-      // return console.log(response.checkout_token);
-      setCheckoutToken(response.checkout_token);
-      // localStorage.setItem('checkout_token', response.checkout_token)
+      const compressedToken = compressJWT(response.checkout_token)
+      setCheckoutToken(compressedToken);
 
       window.location.href = "/checkout";
     } catch (error) {
@@ -112,39 +140,98 @@ export default function Navbar({ user }: { user?: User }) {
     }
   };
 
+  const [open, setOpen] = useState(false);
+
+  const handleOpenChange: DropdownProps["onOpenChange"] = (nextOpen, info) => {
+    if (info.source === "trigger" || nextOpen) {
+      setOpen(nextOpen);
+    }
+  };
+
   const cartItems: MenuProps["items"] = [
     {
       key: 1,
-      label: `${user?.name}'s Cart`,
+      label: (
+        <div className="flex items-center justify-between w-full">
+          <h1 className="text-lg font-light">Cart</h1>
+          <Button
+            disabled={selectedItem.length <= 0}
+            icon={<Trash2 size={18} className="text-red-700" />}
+            shape="circle"
+            type="text"
+            size="small"
+            className={`pointer-events-auto ${selectedItem.length <= 0 && "hidden"
+              }`}
+          />
+        </div>
+      ),
       className: "pointer-events-none",
     },
-    { type: "divider" },
+    { type: "divider" as const },
     ...(cartItem && cartItem.length > 0
       ? [
-          ...cartItem.map((item) => ({
-            key: item.id,
-            label: (
-              <div className="flex gap-2 py-5">
+        ...cartItem.map((item) => ({
+          key: item.id,
+          label: (
+            <div className="flex items-center w-full gap-5">
+              <Checkbox
+                checked={selectedItem.some((items) => items.id === item.id)}
+                onClick={() => {
+                  setSelectedItem((prev) =>
+                    prev.some((items) => items.id === item.id)
+                      ? prev.filter((items) => items.id !== item.id)
+                      : [...prev, item]
+                  );
+                }}
+                className="pointer-events-auto"
+              />
+              <div className="flex flex-1 gap-2 py-5">
                 <AntdImage
-                  src={`${config.apiUrl}/product/uploads/${
-                    item.productDetail.product.productPhotos.find(
-                      (p) => p.photoType === "front"
-                    )?.image
-                  }`}
+                  src={`${config.apiUrl}/product/uploads/${item.productDetail.product.productPhotos.find(
+                    (p) => p.photoType === "front"
+                  )?.image
+                    }`}
                   alt="photo"
                   preview={false}
                   className="object-contain aspect-square"
                   width={90}
                 />
-                <div className="flex items-start justify-between flex-1">
-                  <div>
-                    <h2 className="w-3/5 line-clamp-2">
-                      {item.productDetail.product.name}
-                    </h2>
-                    {/* <p className="text-gray-500">
-                      Size: {item.productDetail.size}
-                    </p> */}
-                    <p className="text-gray-500">Quantity: {item.quantity}</p>
+                <div className="flex items-start justify-between flex-1 gap-4 pointer-events-auto">
+                  <div className="flex-1 space-y-1">
+                    <div className="-space-y-1">
+                      <h2 className="w-44 line-clamp-2">
+                        {item.productDetail.product.name}
+                      </h2>
+                      <p className="text-gray-500">
+                        Size: {item.productDetail.size}
+                      </p>
+                    </div>
+                    <div className="text-gray-500">
+                      <span className="flex items-center gap-2">
+                        <Button
+                          onClick={() => console.log("desc")}
+                          className="pointer-events-auto"
+                          disabled={item.quantity <= 1}
+                          size="small"
+                          shape="default"
+                          icon={
+                            <Minus className="text-zinc-800" size="14px" />
+                          }
+                        />
+                        <p className="text-center basis-1/12">
+                          {item.quantity}
+                        </p>
+                        <Button
+                          onClick={() => console.log("asc")}
+                          className="pointer-events-auto"
+                          size="small"
+                          shape="default"
+                          icon={
+                            <Plus className="text-zinc-800" size="14px" />
+                          }
+                        />
+                      </span>
+                    </div>
                   </div>
                   <h2 className="font-medium tracking-wide text-green-700">
                     Rp{" "}
@@ -154,36 +241,59 @@ export default function Navbar({ user }: { user?: User }) {
                   </h2>
                 </div>
               </div>
-            ),
-            className: "pointer-events-none",
-          })),
-          {
-            key: "checkout",
-            label: (
-              <Button
-                className="pointer-events-auto"
-                block
-                size="large"
-                type="primary"
-                onClick={() =>
-                  handleCheckout(cartItem.map((c) => c.productDetail))
-                }
-              >
-                Checkout
-              </Button>
-            ),
-            className: "pointer-events-none",
-          },
-        ]
+            </div>
+          ),
+          className: "pointer-events-none",
+        })),
+        { type: "divider" as const },
+        {
+          key: "total",
+          label: (
+            <div className="flex items-center justify-between w-full">
+              <h1>Order Subtotal:</h1>
+              <h2 className="font-medium tracking-wide text-green-700">
+                Rp{" "}
+                {selectedItem
+                  .reduce(
+                    (accumulator, current) =>
+                      accumulator +
+                      current.productDetail.product.price * current.quantity,
+                    0
+                  )
+                  .toLocaleString("en-US")}
+              </h2>
+            </div>
+          ),
+          className: "pointer-events-none",
+        },
+        {
+          key: "checkout",
+          label: (
+            <Button
+              loading={loading}
+              disabled={selectedItem.length <= 0}
+              className="pointer-events-auto"
+              block
+              size="large"
+              type="primary"
+              onClick={() =>
+                handleCheckout(selectedItem)
+              }
+            >
+              Checkout
+            </Button>
+          ),
+          className: "pointer-events-none",
+        },
+      ]
       : [
-          {
-            key: "no-data",
-            label: <Empty description="No items" />,
-            className: "text-gray-500 pointer-events-none",
-          },
-        ]),
+        {
+          key: "no-data",
+          label: <Empty description="No items" />,
+          className: "text-gray-500 pointer-events-none",
+        },
+      ]),
   ];
-
   return (
     <div className="sticky top-0 flex flex-col w-screen gap-6 py-5 bg-white shadow-lg z-[100] px-14">
       {contextHolder}
@@ -203,11 +313,16 @@ export default function Navbar({ user }: { user?: User }) {
           {user ? (
             <>
               <Dropdown
+                open={open}
+                trigger={["click"]}
+                onOpenChange={handleOpenChange}
                 menu={{ items: cartItems }}
                 placement="bottomRight"
-                className="cursor-pointer"
+                className="cursor-pointer nav-cart"
               >
-                <HiOutlineShoppingBag size={32} />
+                <Badge count={user.cartItemTotal}>
+                  <HiOutlineShoppingBag size={32} />
+                </Badge>
               </Dropdown>
               <Dropdown
                 menu={{ items }}

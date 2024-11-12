@@ -9,6 +9,8 @@ interface User {
   role: Role | string;
   defaultAddress: string;
   cartId: string;
+  cart: Cart;
+  cartItemTotal: number;
 }
 
 interface Role {
@@ -108,4 +110,20 @@ interface CartItem {
   productDetail: ProductDetail;
   productDetailId: string;
   quantity: number;
+}
+
+interface Order {
+  id: string;
+  referenceId: string;
+  order_date: Date;
+  receipt: string;
+  orderItems: OrderItems[];
+}
+
+interface OrderItems {
+  id: string;
+  orderId: string;
+  productDetailId: string;
+  order: Order;
+  productDetail: ProductDetail;
 }
