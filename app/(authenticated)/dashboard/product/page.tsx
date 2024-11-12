@@ -11,6 +11,7 @@ import {
   Empty,
   Form,
   Input,
+  message,
   Select,
   Space,
   Spin,
@@ -201,6 +202,7 @@ export default function Product() {
         await patchProduct(values.productId, payload);
       } else {
         await postProduct(payload);
+        message.success("Product created successfully!");
       }
     } catch (error) {
       console.error(error);
@@ -222,239 +224,238 @@ export default function Product() {
   };
 
   return (
-    <div className="flex max-h-screen gap-x-3">
-      <div
-        className={classNames(
-          "space-y-4 transition-all duration-300 ease-in-out",
-          { "w-3/4": showForm, "w-full": !showForm }
-        )}
-      >
-        <div className="flex items-center justify-between">
-          <div className="space-x-3">
-            <Select
-              defaultValue="all"
-              options={[
-                { value: "all", label: "All Product" },
-                { value: "sport", label: "Sport" },
-                { value: "casual", label: "Casual" },
-              ]}
-              className="!rounded-full"
-            />
-            <Select
-              defaultValue="all"
-              options={[
-                { value: "all", label: "All Brand" },
-                { value: "nike", label: "Nike" },
-                { value: "adidas", label: "Adidas" },
-              ]}
-            />
-          </div>
+		<div className="flex max-h-screen gap-x-3">
+			<div
+				className={classNames(
+					"space-y-4 transition-all duration-300 ease-in-out",
+					{ "w-3/4": showForm, "w-full": !showForm }
+				)}
+			>
+				<div className="flex items-center justify-between">
+					<div className="space-x-3">
+						<Select
+							defaultValue="all"
+							options={[
+								{ value: "all", label: "All Product" },
+								{ value: "sport", label: "Sport" },
+								{ value: "casual", label: "Casual" },
+							]}
+							className="!rounded-full"
+						/>
+						<Select
+							defaultValue="all"
+							options={[
+								{ value: "all", label: "All Brand" },
+								{ value: "nike", label: "Nike" },
+								{ value: "adidas", label: "Adidas" },
+							]}
+						/>
+					</div>
 
-          <Button
-            type="primary"
-            icon={<PlusOutlined />}
-            onClick={() => {
-              if (!showForm && !isEditing) {
-                setShowForm(true);
-              }
-              if (showForm && !isEditing) {
-                setShowForm(false);
-                setTimeout(() => {
-                  form.resetFields();
-                }, 500);
-              }
-              if (showForm && isEditing) {
-                setShowForm(false);
-                setTimeout(() => {
-                  setIsEditing(false);
-                  setEditData(undefined);
-                  form.resetFields();
-                  setShowForm(true);
-                }, 500);
-              }
-            }}
-            className="rounded-full"
-          >
-            Add New Product
-          </Button>
-        </div>
+					<Button
+						type="primary"
+						icon={<PlusOutlined />}
+						onClick={() => {
+							if (!showForm && !isEditing) {
+								setShowForm(true);
+							}
+							if (showForm && !isEditing) {
+								setShowForm(false);
+								setTimeout(() => {
+									form.resetFields();
+								}, 500);
+							}
+							if (showForm && isEditing) {
+								setShowForm(false);
+								setTimeout(() => {
+									setIsEditing(false);
+									setEditData(undefined);
+									form.resetFields();
+									setShowForm(true);
+								}, 500);
+							}
+						}}
+						className="rounded-full"
+					>
+						Add New Product
+					</Button>
+				</div>
 
-        <div
-          className={classNames(
-            "grid gap-3 transition-all duration-300 ease-in-out",
-            {
-              "grid-cols-3": showForm,
-              "grid-cols-4": !showForm,
-            }
-          )}
-        >
-          {product && product.length > 0 ? product.map((product) => (
-            <ProductCardAdmin
-              product={product}
-              key={product.id}
-              frontImage={product.frontImage}
-              sold={0}
-              onClick={(product) => {
-                if (!showForm && !isEditing) {
-                  setIsEditing(true);
-                  setEditData(product);
-                  setShowForm(true);
-                }
-                if (showForm && !isEditing) {
-                  setShowForm(false);
-                  setTimeout(() => {
-                    setIsEditing(true);
-                    setEditData(product);
-                    form.resetFields();
-                    setShowForm(true);
-                  }, 500);
-                }
-                if (showForm && isEditing) {
-                  setShowForm(false);
-                  setTimeout(() => {
-                    setIsEditing(false);
-                    setEditData(undefined);
-                    form.resetFields();
-                  }, 500);
-                }
-              }}
-            />
-          )) : <div className="col-span-4 py-10 flex items-center justify-center h-full w-full">
-            <Empty />
-          </div>}
-        </div>
-      </div>
+				<div
+					className={classNames(
+						"grid gap-3 transition-all duration-300 ease-in-out",
+						{
+							"grid-cols-3": showForm,
+							"grid-cols-4": !showForm,
+						}
+					)}
+				>
+					{product &&
+						product.map((product) => (
+							<ProductCardAdmin
+								product={product}
+								key={product.id}
+								frontImage={product.frontImage}
+								sold={0}
+								onClick={(product) => {
+									if (!showForm && !isEditing) {
+										setIsEditing(true);
+										setEditData(product);
+										setShowForm(true);
+									}
+									if (showForm && !isEditing) {
+										setShowForm(false);
+										setTimeout(() => {
+											setIsEditing(true);
+											setEditData(product);
+											form.resetFields();
+											setShowForm(true);
+										}, 500);
+									}
+									if (showForm && isEditing) {
+										setShowForm(false);
+										setTimeout(() => {
+											setIsEditing(false);
+											setEditData(undefined);
+											form.resetFields();
+										}, 500);
+									}
+								}}
+							/>
+						))}
+				</div>
+			</div>
 
-      <div
-        className={classNames(
-          "transition-all duration-300 ease-in-out overflow-hidden rounded-xl overflow-y-auto no-scrollbar",
-          {
-            "w-1/4 border": showForm,
-            "w-0": !showForm,
-          }
-        )}
-      >
-        <Form
-          form={form}
-          onFinish={(values) => onFinish(values)}
-          className="flex flex-col w-72 justify-between h-full gap-4 px-2 py-6 mx-auto"
-          layout="vertical"
-          requiredMark={false}
-        >
-          <div className="space-y-3">
-            <h2 className="text-lg font-medium tracking-wide">
-              {isEditing ? "Edit Product" : "Add Product"}
-            </h2>
-            <div className="flex items-center">
-              <Button
-                className="flex-1"
-                type={tab == "description" ? "primary" : "text"}
-                onClick={() => setTab("description")}
-              >
-                Description
-              </Button>
-              <Button
-                className="flex-1"
-                type={tab == "stock" ? "primary" : "text"}
-                onClick={() => setTab("stock")}
-              >
-                Stock
-              </Button>
-            </div>
+			<div
+				className={classNames(
+					"transition-all duration-300 ease-in-out overflow-hidden rounded-xl",
+					{
+						"w-1/4 border": showForm,
+						"w-0": !showForm,
+					}
+				)}
+			>
+				<Form
+					form={form}
+					onFinish={(values) => onFinish(values)}
+					className="flex flex-col justify-between h-full gap-4 px-4 py-4 mx-auto"
+					layout="vertical"
+					requiredMark={false}
+				>
+					<div className="space-y-3 overflow-y-auto no-scrollbar">
+						<h2 className="text-lg font-medium tracking-wide">
+							{isEditing ? "Edit Product" : "Add Product"}
+						</h2>
+						<div className="flex items-center">
+							<Button
+								className="flex-1"
+								type={tab == "description" ? "primary" : "text"}
+								onClick={() => setTab("description")}
+							>
+								Description
+							</Button>
+							<Button
+								className="flex-1"
+								type={tab == "stock" ? "primary" : "text"}
+								onClick={() => setTab("stock")}
+							>
+								Stock
+							</Button>
+						</div>
 
-            <div
-              className={tab == "description" ? "block space-y-2.5" : "hidden"}
-            >
-              {!isEditing ? (
-                <Form.Item
-                  name="productPhotos"
-                  rules={[
-                    {
-                      required: true,
-                      message: "Please upload at least 1 image",
-                    },
-                  ]}
-                >
-                  <Dragger
-                    beforeUpload={() => false}
-                    multiple={true}
-                    maxCount={4}
-                    onChange={(info) => {
-                      handleUpload(info.file, info.fileList);
-                    }}
-                    accept="image/*"
-                    listType="picture"
-                    className="upload-list-inline"
-                  >
-                    <p className="ant-upload-drag-icon">
-                      <InboxOutlined />
-                    </p>
-                    <p className="ant-upload-text">
-                      Click or drag images to upload
-                    </p>
-                    {/* <p className="ant-upload-hint">
+						<div
+							className={tab == "description" ? "block space-y-2.5" : "hidden"}
+						>
+							{!isEditing ? (
+								<Form.Item
+									name="productPhotos"
+									rules={[
+										{
+											required: true,
+											message: "Please upload at least 1 image",
+										},
+									]}
+								>
+									<Dragger
+										beforeUpload={() => false}
+										multiple={true}
+										maxCount={4}
+										onChange={(info) => {
+											handleUpload(info.file, info.fileList);
+										}}
+										accept="image/*"
+										listType="picture"
+										className="upload-list-inline"
+									>
+										<p className="ant-upload-drag-icon">
+											<InboxOutlined />
+										</p>
+										<p className="ant-upload-text">
+											Click or drag images to upload
+										</p>
+										{/* <p className="ant-upload-hint">
                       Upload in the order: Front, Side 1 & 2, Bottom
                     </p> */}
-                  </Dragger>
-                </Form.Item>
-              ) : (
-                <Form.Item hidden name="productId">
-                  <Input type="text" hidden />
-                </Form.Item>
-              )}
+									</Dragger>
+								</Form.Item>
+							) : (
+								<Form.Item hidden name="productId">
+									<Input type="text" hidden />
+								</Form.Item>
+							)}
 
-              <Form.Item label="Product Name" required>
-                <Space.Compact block>
-                  <Form.Item
-                    name="brand"
-                    noStyle
-                    rules={[
-                      {
-                        required: true,
-                        message: "Please select product brand",
-                      },
-                    ]}
-                  >
-                    <Select
-                      placeholder="Brand"
-                      options={brand?.map((brand) => ({
-                        value: brand?.id,
-                        label: brand?.name,
-                      }))}
-                      style={{ width: "30%" }}
-                    />
-                  </Form.Item>
+							<Form.Item label="Product Name" required>
+								<Space.Compact block>
+									<Form.Item
+										name="brand"
+										noStyle
+										rules={[
+											{
+												required: true,
+												message: "Please select product brand",
+											},
+										]}
+									>
+										<Select
+											placeholder="Brand"
+											options={brand?.map((brand) => ({
+												value: brand?.id,
+												label: brand?.name,
+											}))}
+											style={{ width: "30%" }}
+										/>
+									</Form.Item>
 
-                  <Form.Item
-                    name="name"
-                    noStyle
-                    rules={[
-                      { required: true, message: "Please enter product name" },
-                    ]}
-                  >
-                    <Input
-                      placeholder="Product Name"
-                      className="rounded-lg"
-                      style={{ width: "70%" }}
-                    />
-                  </Form.Item>
-                </Space.Compact>
-              </Form.Item>
+									<Form.Item
+										name="name"
+										noStyle
+										rules={[
+											{ required: true, message: "Please enter product name" },
+										]}
+									>
+										<Input
+											placeholder="Product Name"
+											className="rounded-lg"
+											style={{ width: "70%" }}
+										/>
+									</Form.Item>
+								</Space.Compact>
+							</Form.Item>
 
-              <Form.Item
-                name="categories"
-                label="Product Category"
-                rules={[
-                  {
-                    required: true,
-                    message: "Please select at least one category",
-                  },
-                ]}
-              >
-                <CategorySelector onChange={() => { }} />
-              </Form.Item>
+							<Form.Item
+								name="categories"
+								label="Product Category"
+								rules={[
+									{
+										required: true,
+										message: "Please select at least one category",
+									},
+								]}
+							>
+								<CategorySelector onChange={() => {}} />
+							</Form.Item>
 
-              {/* 
+							{/* 
               <Form.Item
                 name="price"
                 label="Price"
@@ -468,115 +469,115 @@ export default function Product() {
                 />
               </Form.Item> */}
 
-              <PriceInput
-                currencyPrefix="Rp"
-                label="Price"
-                name="price"
-                placeholder="Enter product price"
-                required
-              />
+							<PriceInput
+								currencyPrefix="Rp"
+								label="Price"
+								name="price"
+								placeholder="Enter product price"
+								required
+							/>
 
-              <Form.Item
-                name="status"
-                label="Status"
-                className="col-span-2"
-                rules={[
-                  { required: true, message: "Please select product status" },
-                ]}
-              >
-                <Select
-                  placeholder="Select account status"
-                  className="h-10"
-                  options={[
-                    { value: "active", label: "Active" },
-                    { value: "inactive", label: "Inactive" },
-                  ]}
-                />
-              </Form.Item>
-            </div>
+							<Form.Item
+								name="status"
+								label="Status"
+								className="col-span-2"
+								rules={[
+									{ required: true, message: "Please select product status" },
+								]}
+							>
+								<Select
+									placeholder="Select account status"
+									className="h-10"
+									options={[
+										{ value: "active", label: "Active" },
+										{ value: "inactive", label: "Inactive" },
+									]}
+								/>
+							</Form.Item>
+						</div>
 
-            <div className={tab == "stock" ? "block space-y-2" : "hidden"}>
-              <Form.List name="stock">
-                {(fields, { add, remove }) => (
-                  <>
-                    {fields.map(({ key, name, ...restField }) => (
-                      <Space
-                        key={key}
-                        style={{ display: "flex", marginBottom: 8 }}
-                        align="baseline"
-                      >
-                        <Form.Item
-                          {...restField}
-                          name={[name, "size"]}
-                          label="Size"
-                          rules={[
-                            {
-                              required: true,
-                              message: "Please input the size",
-                            },
-                          ]}
-                        >
-                          <Input placeholder="Size" />
-                        </Form.Item>
+						<div className={tab == "stock" ? "block space-y-2" : "hidden"}>
+							<Form.List name="stock">
+								{(fields, { add, remove }) => (
+									<>
+										{fields.map(({ key, name, ...restField }) => (
+											<Space
+												key={key}
+												style={{ display: "flex", marginBottom: 8 }}
+												align="baseline"
+											>
+												<Form.Item
+													{...restField}
+													name={[name, "size"]}
+													label="Size"
+													rules={[
+														{
+															required: true,
+															message: "Please input the size",
+														},
+													]}
+												>
+													<Input placeholder="Size" />
+												</Form.Item>
 
-                        <Form.Item
-                          {...restField}
-                          name={[name, "stock"]}
-                          label="Quantity"
-                          rules={[
-                            {
-                              required: true,
-                              message: "Please input the quantity",
-                            },
-                          ]}
-                        >
-                          <Input placeholder="Quantity" type="number" />
-                        </Form.Item>
+												<Form.Item
+													{...restField}
+													name={[name, "stock"]}
+													label="Quantity"
+													rules={[
+														{
+															required: true,
+															message: "Please input the quantity",
+														},
+													]}
+												>
+													<Input placeholder="Quantity" type="number" />
+												</Form.Item>
 
                         <MinusCircleOutlined onClick={() => remove(name)} />
                       </Space>
                     ))}
 
-                    <Form.Item>
-                      <Button
-                        type="dashed"
-                        onClick={() => add()}
-                        icon={<PlusOutlined />}
-                        style={{ width: "100%" }}
-                      >
-                        Add Size
-                      </Button>
-                    </Form.Item>
-                  </>
-                )}
-              </Form.List>
-            </div>
-          </div>
-          <div className="flex items-center gap-1">
-            <Button
-              className="flex-1 py-4"
-              variant="filled"
-              onClick={() => {
-                setShowForm(false);
-                setEditData(undefined);
-                setIsEditing(false);
-                setFileList([]);
-                form.resetFields();
-              }}
-            >
-              Discard
-            </Button>
-            <Button
-              className="flex-1 py-4"
-              type="primary"
-              htmlType="submit"
-              loading={loading}
-            >
-              Save Changes
-            </Button>
-          </div>
-        </Form>
-      </div>
-    </div>
-  );
+										<Form.Item>
+											<Button
+												type="dashed"
+												onClick={() => add()}
+												icon={<PlusOutlined />}
+												style={{ width: "100%" }}
+											>
+												Add Size
+											</Button>
+										</Form.Item>
+									</>
+								)}
+							</Form.List>
+						</div>
+					</div>
+					<div className="flex items-center gap-3">
+						<Button
+							className="flex-1 py-4"
+							variant="filled"
+							onClick={() => {
+								setShowForm(false);
+								setEditData(undefined);
+								setIsEditing(false);
+								setFileList([]);
+								form.resetFields();
+							}}
+						>
+							Discard
+						</Button>
+						<Button
+							className="flex-1 py-4"
+							type="primary"
+							htmlType="submit"
+							loading={loading}
+						>
+							Save Changes
+						</Button>
+					</div>
+				</Form>
+			</div>
+		</div>
+	);
 }

@@ -7,6 +7,7 @@ import { useAuth } from "#/hooks/auth";
 import { getAccessToken } from "#/utils/token";
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { User } from "lucide-react";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -56,7 +57,7 @@ export default function AdminLayout({ children }: LayoutProps) {
           </h1>
 
           <Link href="/dashboard/profile" className="flex items-center gap-2">
-            <Avatar size={43} src="/fotoprof.jpg" />
+            <Avatar size={43} icon={<User />} />
             <div className="-space-y-1">
               <h2 className="text-base font-medium leading-6">
                 {user?.name}

@@ -1,4 +1,4 @@
-import { Button, Form, Input, Select, DatePicker, Modal } from "antd";
+import { Button, Form, Input, Select, DatePicker, Modal, message } from "antd";
 import React, { useState, useEffect } from "react";
 import dayjs from "dayjs";
 import PriceInput from "../input/PriceInput";
@@ -68,6 +68,7 @@ const BidModal = ({ open, onCancel, product, postBid, isEditing, setIsEditing, s
 				console.log(values.productId, values)
 			} else {
 				await postBid(payload);
+				message.success("Bid created successfully!");
 			}
 		} catch (error) {
 			console.error(error);

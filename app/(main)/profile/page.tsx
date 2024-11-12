@@ -1,31 +1,48 @@
 "use client";
 import AddressModalForm from "#/components/common/modal/AddressModal";
 import { useAuth } from "#/hooks/auth";
+import { useOrder } from "#/hooks/order";
 import { useUser } from "#/hooks/user";
 import { formatPhoneNumber } from "#/utils/formatter";
 import { getAccessToken } from "#/utils/token";
 import { EditOutlined, PlusOutlined } from "@ant-design/icons";
-import { Avatar, Badge, Button, Divider, Empty, Spin } from "antd";
+import {
+  Avatar,
+  Badge,
+  Button,
+  Divider,
+  Empty,
+  message,
+  Select,
+  Spin,
+} from "antd";
 import { useState } from "react";
 import { HiArrowLeftOnRectangle } from "react-icons/hi2";
 
 export default function Profile() {
   const { getUser } = useAuth();
   const { fetchAddress, postAddress, setDefaultAddress } = useUser();
+  const { getOrder } = useOrder();
   const token = getAccessToken();
-  const { user, isLoading } = getUser(token);
 
+  const { user, isLoading } = getUser(token);
+  const { order } = getOrder(user?.email);
   const { address } = fetchAddress(user?.email);
   const [currentMenu, setCurrentMenu] = useState("Profile");
   const [openAddress, setOpenAddress] = useState(false);
 
   const menus = ["Profile", "Order History", "Bid History"];
 
+  console.log(order);
+
   const handleAddressFinish = async (values: any) => {
     try {
-      await postAddress({ ...values, email: user?.email });
-    } catch (error) {
-      console.log(error);
+      message.success("Address created successfully.");
+      await postAddress({ ...values, email: user?.email }, token);
+    } catch (error: any) {
+      message.error(
+        `Error when creating address: ${error.response.body.message}`
+      );
     } finally {
       setOpenAddress(false);
     }
@@ -33,9 +50,13 @@ export default function Profile() {
 
   const handleChangeAddress = async (id: any) => {
     try {
+      message.success("Default address changed.");
+
       await setDefaultAddress(user?.email, id, token);
-    } catch (error) {
-      console.error(error);
+    } catch (error: any) {
+      message.error(
+        `Error when creating address: ${error.response.body.message}`
+      );
     }
   };
 
@@ -175,6 +196,52 @@ export default function Profile() {
                         </div>
                       )}
                     </div>
+                  </div>
+                </div>
+              )}
+              {currentMenu == "Order History" && (
+                <div className="flex flex-col h-full gap-3 p-6 bg-white border rounded-lg">
+                  <h2 className="text-lg font-medium pt-0.5">Order History</h2>
+                  <div className="flex items-center gap-3">
+                    <h2>Status:</h2>
+                    <Select
+                      className="w-40"
+                      value={"all"}
+                      options={[
+                        { value: "all", label: "All" },
+                        { value: "pending", label: "Pending" },
+                        { value: "cancelled", label: "Cancelled" },
+                        { value: "delivered", label: "Delivered" },
+                      ]}
+                    />
+                  </div>
+                  <div className="flex items-center justify-center w-full h-3/5">
+                    {order ? (
+                      order.map((order) => <div>{order.receipt}</div>)
+                    ) : (
+                      <Empty />
+                    )}
+                  </div>
+                </div>
+              )}
+              {currentMenu == "Bid History" && (
+                <div className="flex flex-col h-full gap-3 p-6 bg-white border rounded-lg">
+                  <h2 className="text-lg font-medium pt-0.5">Bid History</h2>
+                  <div className="flex items-center gap-3">
+                    <h2>Status:</h2>
+                    <Select
+                      className="w-40"
+                      value={"all"}
+                      options={[
+                        { value: "all", label: "All" },
+                        { value: "Win", label: "Win" },
+                        { value: "Lose", label: "Lose" },
+                        { value: "Ongoing", label: "Ongoing" },
+                      ]}
+                    />
+                  </div>
+                  <div className="flex items-center justify-center w-full h-3/5">
+                    <Empty />
                   </div>
                 </div>
               )}

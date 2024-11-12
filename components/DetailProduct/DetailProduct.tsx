@@ -27,10 +27,10 @@ const DetailProduct = ({ product }: { product: Product | undefined }) => {
   const [isLoginModalVisible, setIsLoginModalVisible] = useState(false); // untuk modal login
 
   const { genCheckoutToken } = useProduct();
-  const { addToCart } = useCart()
+  const { addToCart } = useCart();
   const { getUser } = useAuth();
   const token = getAccessToken();
-  const { user, isLoading, isError } = getUser(token);
+  const { user } = getUser(token);
 
   const handleCheckout = async (data: ProductDetail[]) => {
     const token = getCheckoutToken();
@@ -46,9 +46,9 @@ const DetailProduct = ({ product }: { product: Product | undefined }) => {
 
     try {
       setLoading(true);
-
-      const response = await genCheckoutToken(data);
-      setCheckoutToken(response.checkout_token);
+      return console.log({ ...data, quantity: 1 });
+      // const response = await genCheckoutToken({ ...data });
+      // setCheckoutToken(response.checkout_token);
 
       router.push("/checkout");
     } catch (error) {
@@ -67,18 +67,20 @@ const DetailProduct = ({ product }: { product: Product | undefined }) => {
     try {
       setLoading(true);
       await addToCart({ productDetailId: data.id, cartId: user.cartId });
-    } catch (error) {
-      message.error("Error saat proses checkout");
-      console.error(error);
+      message.success("Product added to cart.");
+    } catch (error: any) {
+      message.error(
+        `Error when adding to cart: ${error.response.body.message}`
+      );
       setLoading(false);
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
   };
 
   const handleLoginRedirect = () => {
     setIsLoginModalVisible(false);
-    router.push("/login"); // Redirect ke halaman login
+    router.push("/login");
   };
 
   return (
@@ -140,7 +142,7 @@ const DetailProduct = ({ product }: { product: Product | undefined }) => {
               </div>
               <div className="grid grid-cols-4 gap-3 mb-6 2xl:grid-cols-5">
                 {product?.productDetails &&
-                  product?.productDetails.length > 0 ? (
+                product?.productDetails.length > 0 ? (
                   product?.productDetails.map((detail: any, index: number) => (
                     <Button
                       disabled={loading || detail.stock <= 0}
@@ -150,7 +152,11 @@ const DetailProduct = ({ product }: { product: Product | undefined }) => {
                           ? "primary"
                           : "default"
                       }
-                      onClick={() => setSelectedSize(detail)}
+                      onClick={() => {
+                        selectedSize == detail
+                          ? setSelectedSize(undefined)
+                          : setSelectedSize(detail);
+                      }}
                       className="py-5 text-sm border rounded-full border-zinc-300"
                     >
                       {detail.size}
@@ -160,11 +166,21 @@ const DetailProduct = ({ product }: { product: Product | undefined }) => {
                   <div>No product details available.</div>
                 )}
               </div>
-              <div>
-                <p className="text-zinc-500">Available For:</p>
-                <h1 className="text-2xl font-medium">
-                  Rp {product?.price.toLocaleString("en-US")}
-                </h1>
+              <div className="flex items-end justify-between">
+                <div>
+                  <p className="text-zinc-500">Available For:</p>
+                  <h1 className="text-2xl font-medium">
+                    Rp {product?.price.toLocaleString("en-US")}
+                  </h1>
+                </div>
+                {selectedSize && (
+                  <p className="text-zinc-500">
+                    Stock:{" "}
+                    <span className={selectedSize.stock < 10 ? "text-orange-500" : ""}>
+                      {selectedSize.stock}
+                    </span>
+                  </p>
+                )}
               </div>
             </div>
             <div className="flex gap-4">

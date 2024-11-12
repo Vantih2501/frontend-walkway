@@ -1,8 +1,8 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { Breadcrumb, Button, Form, Input, Modal, Spin } from "antd";
-import { EyeOutlined } from "@ant-design/icons";
+import { Alert, Breadcrumb, Button, Form, Modal, Spin, Tooltip } from "antd";
+import { EyeOutlined, InfoCircleOutlined } from "@ant-design/icons";
 import Image from "next/image";
 import ProductImage from "#/components/DetailProduct/ui/ProductImage";
 import BidUserDisplay from "#/components/Auction/ui/BidUserDisplay";
@@ -11,79 +11,122 @@ import dayjs from "dayjs";
 import duration from "dayjs/plugin/duration";
 import { useAuth } from "#/hooks/auth";
 import { getAccessToken } from "#/utils/token";
-import PriceInput from "#/components/common/input/PriceInput";
 import BidInput from "#/components/common/input/BidInput";
 import { useOrder } from "#/hooks/order";
 
 dayjs.extend(duration);
 
-const Bid = ({ params }: { params: { id: string } }) => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+interface BidStatus {
+  state: "not_started" | "in_progress" | "ended";
+  message: string;
+}
+
+const BidPage = ({ params }: { params: { id: string } }) => {
+  const [sizeGuideModal, setSizeGuideModal] = useState(false);
   const [timeRemaining, setTimeRemaining] = useState("00:00:00");
-  const [status, setStatus] = useState("Begins at");
-  const [ended, setEnded] = useState(false);
+  const [bidStatus, setBidStatus] = useState<BidStatus>({
+    state: "not_started",
+    message: "Auction has not started",
+  });
+
   const [loading, setLoading] = useState(false);
+  const [form] = Form.useForm();
 
   const token = getAccessToken();
-  const showModal = () => {
-    setIsModalOpen(true);
-  };
-
-  const handleOk = () => {
-    setIsModalOpen(false);
-  };
-
-  const handleCancel = () => {
-    setIsModalOpen(false);
-  };
-
-  const { fetchBid } = useBid();
-  const { bid, isLoading } = fetchBid(params.id);
-
+  const { fetchBid, postBidAmount } = useBid();
+  const { bid, isLoading: isBidLoading } = fetchBid(params.id);
   const { getUser } = useAuth();
   const { user } = getUser(token);
 
-  const { postBidToken } = useOrder();
+  const currentHighestBid = bid?.bidParticipants.length
+    ? Math.max(...bid.bidParticipants.map((b) => b.amount))
+    : bid?.start_price || 0;
+
+    console.log(bid, user)
+
+  const userCurrentBid =
+    bid?.bidParticipants.find((b) => b.user.email === user?.email)?.amount || 0;
 
   useEffect(() => {
-    if (bid) {
+    if (!bid) return;
+
+    const updateAuctionStatus = () => {
+      const now = dayjs();
       const startDate = dayjs(bid.start_date);
       const endDate = dayjs(bid.end_date);
+
+      if (now.isBefore(startDate)) {
+        setBidStatus({
+          state: "not_started",
+          message: "Begins at",
+        });
+        return startDate;
+      } else if (now.isAfter(endDate)) {
+        setBidStatus({
+          state: "ended",
+          message: "Auction ended",
+        });
+        return null;
+      } else {
+        setBidStatus({
+          state: "in_progress",
+          message: "Ends in",
+        });
+        return endDate;
+      }
+    };
+
+    const targetDate = updateAuctionStatus();
+    if (!targetDate) return;
+
+    const interval = setInterval(() => {
       const now = dayjs();
+      const diff = targetDate.diff(now);
 
-      const isBeforeStart = now.isBefore(startDate);
-      const isAfterStart = now.isAfter(startDate) && now.isBefore(endDate);
-      const isEnded = now.isAfter(endDate);
+      if (diff <= 0) {
+        clearInterval(interval);
+        setTimeRemaining("00:00:00");
+        updateAuctionStatus();
+        return;
+      }
 
-      setEnded(isEnded);
+      const time = dayjs.duration(diff);
+      setTimeRemaining(
+        `${String(time.hours()).padStart(2, "0")}:${String(
+          time.minutes()
+        ).padStart(2, "0")}:${String(time.seconds()).padStart(2, "0")}`
+      );
+    }, 1000);
 
-      let targetDate = isBeforeStart ? startDate : endDate;
-      let countdownType = isBeforeStart ? "Begins at" : "Ends in";
-
-      setStatus(countdownType);
-
-      const interval = setInterval(() => {
-        const now = dayjs();
-        const diff = targetDate.diff(now);
-        if (diff > 0) {
-          const time = dayjs.duration(diff);
-          setTimeRemaining(
-            `${String(time.hours()).padStart(2, "0")}:${String(
-              time.minutes()
-            ).padStart(2, "0")}:${String(time.seconds()).padStart(2, "0")}`
-          );
-        } else {
-          clearInterval(interval);
-          setTimeRemaining("00:00:00");
-          setEnded(true);
-        }
-      }, 1000);
-
-      return () => clearInterval(interval);
-    }
+    return () => clearInterval(interval);
   }, [bid]);
 
-  if (isLoading) {
+  const handleBidSubmit = async (values: { bid_amount: number }) => {
+    try {
+      if (!user) {
+        // setError("Please log in to place a bid");
+        return;
+      }
+
+      const bidAmount = Number(values.bid_amount.toString().replace(/,/g, ""));
+
+      if (bidAmount <= currentHighestBid) {
+        // setError("Your bid must be higher than the current highest bid");
+        return;
+      }
+
+      setLoading(true);
+
+      await postBidAmount(params.id, user.email, bidAmount);
+    } catch (error) {
+      // setError("Failed to place bid. Please try again.");
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  if (isBidLoading) {
     return (
       <div className="w-screen h-[86vh] flex items-center justify-center">
         <Spin size="large" />
@@ -91,45 +134,22 @@ const Bid = ({ params }: { params: { id: string } }) => {
     );
   }
 
-  const onFinish = async (values: any) => {
-    try {
-      const formattedPrice = Number(values.price.toString().replace(/,/g, ""));
-      setLoading(true);
-      const response = await postBidToken({
-        orderTotal: formattedPrice,
-        orderItems: bid,
-        customer: user,
-        // orderTotal: bid && Math.max(...bid.bidParticipants.map((bid) => bid.amount)),
-        // // orderShip: delivery.price,
-      });
-      window.snap.pay(response.token);
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
   return (
-    <div className="py-16 px-52 2xl:px-72">
-      <div className="grid grid-cols-12 gap-8">
-        <div className="col-span-5">
+    <div className="px-4 py-8 mx-auto max-w-7xl sm:px-6 lg:px-8">
+      <div className="grid grid-cols-1 gap-8 lg:grid-cols-12">
+        <div className="-space-y-3 lg:col-span-5">
+          <div className="relative z-50 flex flex-col items-center p-4 space-y-2 text-white shadow-sm rounded-tl-xl rounded-tr-xl bg-primary-300">
+            <span className="text-lg font-light">{bidStatus.message}</span>
+            <h2 className="text-2xl font-semibold">{timeRemaining}</h2>
+          </div>
+
           {bid && (
-            <div className="space-y-3">
-              <div className="flex flex-col items-center -space-y-1">
-                <span className="text-lg font-light">
-                  {ended ? "Ended" : status}
-                </span>
-                <h2 className="text-2xl font-semibold">{timeRemaining}</h2>
-              </div>
-              <ProductImage
-                imageUrl={bid.productDetail.product.productPhotos}
-              />
-            </div>
+            <ProductImage imageUrl={bid.productDetail.product.productPhotos} />
           )}
         </div>
-        <div className="flex flex-col col-span-7 space-y-7">
-          <div className="flex flex-col space-y-4">
+
+        <div className="space-y-6 lg:col-span-7">
+          <div className="space-y-4">
             <Breadcrumb
               items={[
                 {
@@ -140,135 +160,111 @@ const Bid = ({ params }: { params: { id: string } }) => {
                 },
               ]}
             />
-            <h1 className="pb-5 border-b text-4xl font-semibold 2xl:text-5xl 2xl:leading-[60px]">
+            <h1 className="pb-4 text-3xl font-semibold border-b sm:text-4xl">
               {bid?.productName}
             </h1>
           </div>
 
-          <div className="space-y-4">
-            {dayjs() < dayjs(bid?.start_date) ? (
-              <div>
-                <p className="mb-1 text-sm text-zinc-400">Starting Price:</p>
-                <h1 className="text-2xl font-medium">
-                  Rp {bid?.start_price.toLocaleString("en-us")}
-                </h1>
-              </div>
-            ) : (
-              <div>
-                <p className="mb-1 text-sm text-zinc-400">
-                  Current Highest Bid:
-                </p>
-                <h1 className="text-2xl font-medium">
-                  Rp{" "}
-                  {bid && bid.bidParticipants.length < 0 ?
-                    Math.max(
-                      ...bid.bidParticipants.map((bid) => bid.amount)
-                    ).toLocaleString("en-Us") : 0}
-                </h1>
-              </div>
-            )}
+          <div className="space-y-6 bg-white rounded-lg ">
+            <div>
+              <p className="mb-1 text-sm text-gray-500">
+                {bidStatus.state === "not_started"
+                  ? "Starting Price:"
+                  : "Current Highest Bid:"}
+              </p>
+              <h1 className="text-2xl font-medium">
+                Rp {currentHighestBid.toLocaleString("en-US")}
+              </h1>
+            </div>
 
             {bid && user && (
               <BidUserDisplay participant={bid.bidParticipants} user={user} />
             )}
 
-            <div className="flex items-center justify-between pb-3 border-b border-zinc-300">
+            <div className="flex items-center justify-between py-3 border-b">
               <div className="flex items-center gap-2">
                 <h1 className="text-xl font-semibold">
                   {bid?.productDetail.size}
                 </h1>
-                <p>Shoe size</p>
+                <p className="text-gray-600">Shoe size</p>
+                <Tooltip title="Click 'Size Guide' for detailed sizing information">
+                  <InfoCircleOutlined className="text-gray-400" />
+                </Tooltip>
               </div>
-              <Button icon={<EyeOutlined />} type="text" onClick={showModal}>
+              <Button
+                icon={<EyeOutlined />}
+                onClick={() => setSizeGuideModal(true)}
+                type="text"
+              >
                 Size Guide
               </Button>
-              <Modal
-                title={"SIZE GUIDE"}
-                open={isModalOpen}
-                onOk={handleOk}
-                onCancel={handleCancel}
-                footer={null}
-              >
-                <div className="mt-4 border rounded-xl border-zinc-300">
-                  <div className="p-5 text-sm font-semibold border-b border-zinc-300">
-                    Adidas Men`s
-                  </div>
-                  <div className="overflow-y-auto h-[500px] ">
-                    <Image
-                      src={"/image/size-guide.png"}
-                      alt={"size guide"}
-                      width={500}
-                      height={1000}
-                      quality={100}
-                      className="w-full h-auto"
-                    />
-                  </div>
-                </div>
-              </Modal>
             </div>
-          </div>
 
-          <Form onFinish={onFinish}>
-            <div className="flex items-start justify-between gap-4 h-fit">
-              <Form.Item className="mb-0">
-                <div className="px-4 py-2 my-auto w-max bg-zinc-100 rounded-xl">
-                  <p className="text-xs text-zinc-600">Your bid</p>
-                  <h1 className="text-base font-medium truncate">
-                    Rp{" "}
-                    {bid &&
-                      bid.bidParticipants.find(
-                        (bid) => bid.user.email == user?.email
-                      )
-                      ? bid.bidParticipants
-                        .find((bid) => bid.user.email == user?.email)
-                        ?.amount.toLocaleString("en-US")
-                      : 0}
+            <Form form={form} onFinish={handleBidSubmit} className="space-y-4">
+              <div className="flex flex-col gap-4 sm:flex-row">
+                <div className="px-4 py-2 bg-gray-50 rounded-xl h-min">
+                  <p className="text-xs text-gray-600">Your current bid</p>
+                  <h1 className="text-base font-medium">
+                    Rp {userCurrentBid.toLocaleString("en-US")}
                   </h1>
                 </div>
-              </Form.Item>
-              {/* <Form.Item className="w-full mb-0">
-                <Input
-                  className="rounded-xl h-14"
+
+                <BidInput
                   placeholder={
-                    bid &&
-                    bid.bidParticipants.find(
-                      (bid) => bid.user.email == user?.email
-                    )
-                      ? "Add your Bid"
-                      : "Post your Bid"
+                    userCurrentBid
+                      ? "Increase your bid"
+                      : "Place your first bid"
                   }
-                  variant="filled"
+                  disabled={bidStatus.state !== "in_progress" || loading}
+                  minimumBid={
+                    currentHighestBid > 0
+                      ? currentHighestBid + 5000
+                      : bid?.start_price || 0
+                  }
                 />
-              </Form.Item> */}
 
-              <BidInput
-                placeholder={
-                  bid &&
-                    bid.bidParticipants.find(
-                      (bid) => bid.user.email == user?.email
-                    )
-                    ? "Add your Bid"
-                    : "Post your Bid"
-                }
-              // required={false}
-              />
-
-              <Form.Item className="mb-0">
-                <Button
-                  className="h-14 rounded-xl"
-                  block
-                  type="primary"
-                  htmlType="submit"
-                >
-                  Bid Now
-                </Button>
-              </Form.Item>
-            </div>
-          </Form>
+                <Form.Item className="mb-0">
+                  <Button
+                    className="w-full h-14 rounded-xl sm:w-auto"
+                    type="primary"
+                    htmlType="submit"
+                    loading={loading}
+                    disabled={bidStatus.state !== "in_progress"}
+                  >
+                    {loading ? "Processing..." : "Place Bid"}
+                  </Button>
+                </Form.Item>
+              </div>
+            </Form>
+          </div>
         </div>
       </div>
+
+      <Modal
+        title="Size Guide"
+        open={sizeGuideModal}
+        onCancel={() => setSizeGuideModal(false)}
+        footer={null}
+        width={600}
+      >
+        <div className="mt-4 border border-gray-200 rounded-xl">
+          <div className="p-4 text-sm font-semibold border-b">
+            {bid?.productDetail.product.brand.name} Size Guide
+          </div>
+          <div className="max-h-[500px] overflow-y-auto">
+            <Image
+              src="/image/size-guide.png"
+              alt="size guide"
+              width={500}
+              height={1000}
+              quality={100}
+              className="w-full h-auto"
+            />
+          </div>
+        </div>
+      </Modal>
     </div>
   );
 };
 
-export default Bid;
+export default BidPage;

@@ -50,7 +50,7 @@ export const useUser = () => {
     zipcode,
     address,
     note,
-  }: AddressDto) => {
+  }: AddressDto, token?: string) => {
     await fetcher.post(`/user/add-address`, {
       email,
       contact_name,
@@ -62,7 +62,8 @@ export const useUser = () => {
       address,
       note,
     });
-    mutate(`/user/address/${email}`);
+    await mutate(`/user/address/${email}`);
+    await mutate(`/auth/user/${token}`);
   };
 
   const setDefaultAddress = async (
@@ -75,12 +76,12 @@ export const useUser = () => {
       addressId
     });
 
-    mutate(`/auth/user/${token}`);
+    await mutate(`/auth/user/${token}`);
   };
 
   const getAddress = (id?: string) => {
     const { data, error, isLoading } = useSWR<Address>(
-      `/user/get-address/${id}`,
+      id ? `/user/get-address/${id}` : null,
       fetcher.get
     );
     return {
@@ -102,9 +103,9 @@ export const useUser = () => {
       email,
       phone_number,
       password,
-      roleId,                                                                                                                              
+      roleId,
     });
-    mutate(`/user/admins`);
+    await mutate(`/user/admins`);
   };
 
   const patchUser = async (
@@ -119,13 +120,13 @@ export const useUser = () => {
       status,
     });
 
-    mutate(`/user/admins`);
+    await mutate(`/user/admins`);
   };
 
   const deleteUser = async (userId: string) => {
     await fetcher.del(`/user/${userId}`);
 
-    mutate(`/user/admins`);
+    await mutate(`/user/admins`);
   };
 
   return {

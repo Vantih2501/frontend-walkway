@@ -68,7 +68,7 @@ const DisplayProduct: React.FC<DisplayProductProps> = ({
             key={product.id}
             productName={product.name}
             price={product.price}
-            // imageUrl={product.productPhotos}
+            imageUrl={product.productPhotos.find((p) => p.photoType =='front')?.image}
             // variant="categories"
             // size="md"
           />

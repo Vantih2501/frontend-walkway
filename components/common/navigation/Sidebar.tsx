@@ -41,15 +41,15 @@ export default function Sidebar({ role }: { role?: string | any }) {
       roles: ["superadmin"]
     },
     {
-      label: "Product",
-      path: "/dashboard/product",
-      icon: pathname === "/dashboard/product" ? <Product /> : <ProductOutline />,
-      roles: ["admin", "superadmin"]
-    },
-    {
       label: "Category & Brand",
       path: "/dashboard/categories",
       icon: <HiOutlineTag />,
+      roles: ["admin", "superadmin"]
+    },
+    {
+      label: "Product",
+      path: "/dashboard/product",
+      icon: pathname === "/dashboard/product" ? <Product /> : <ProductOutline />,
       roles: ["admin", "superadmin"]
     },
     {
@@ -116,7 +116,7 @@ export default function Sidebar({ role }: { role?: string | any }) {
         <Button
           type="text"
           block
-          className="flex items-center gap-2 justify-start py-6 text-base border hover:text-red-500"
+          className="flex items-center justify-start gap-2 py-6 text-base border hover:text-red-500"
           onClick={handleLogout}
         >
           <HiArrowLeftOnRectangle />

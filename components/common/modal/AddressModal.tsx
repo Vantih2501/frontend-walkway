@@ -93,11 +93,11 @@ const AddressModalForm = ({
               zipcode: Number(values.zipcode),
             };
             onFinish(formattedValues);
-            // setSelectedProvince("");
-            // setSelectedCity("");
-            // setSelectedSubDistrict("");
-            // setSelectedZipCode("");
-            // form.resetFields();
+            setSelectedProvince("");
+            setSelectedCity("");
+            setSelectedSubDistrict("");
+            setSelectedZipCode("");
+            form.resetFields();
           }}
         >
           {dom}
