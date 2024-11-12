@@ -12,7 +12,6 @@ body {
 }
 
 @layer base {
-
   input[type="number"]::-webkit-outer-spin-button,
   input[type="number"]::-webkit-inner-spin-button,
   input[type="number"] {
@@ -35,19 +34,45 @@ body {
   margin-bottom: 0;
 }
 
-.delivery-select.ant-collapse>.ant-collapse-item>.ant-collapse-header {
+.delivery-select.ant-collapse > .ant-collapse-item > .ant-collapse-header {
   padding: 0px !important;
 }
 
-.nav-cart :where(.css-dev-only-do-not-override-zjyjzs).ant-dropdown .ant-dropdown-menu .ant-dropdown-menu-item:hover, :where(.css-dev-only-do-not-override-zjyjzs).ant-dropdown-menu-submenu .ant-dropdown-menu .ant-dropdown-menu-item:hover, :where(.css-dev-only-do-not-override-zjyjzs).ant-dropdown .ant-dropdown-menu .ant-dropdown-menu-submenu-title:hover, :where(.css-dev-only-do-not-override-zjyjzs).ant-dropdown-menu-submenu .ant-dropdown-menu .ant-dropdown-menu-submenu-title:hover, :where(.css-dev-only-do-not-override-zjyjzs).ant-dropdown .ant-dropdown-menu .ant-dropdown-menu-item-active, :where(.css-dev-only-do-not-override-zjyjzs).ant-dropdown-menu-submenu .ant-dropdown-menu .ant-dropdown-menu-item-active, :where(.css-dev-only-do-not-override-zjyjzs).ant-dropdown .ant-dropdown-menu .ant-dropdown-menu-submenu-title-active, :where(.css-dev-only-do-not-override-zjyjzs).ant-dropdown-menu-submenu .ant-dropdown-menu .ant-dropdown-menu-submenu-title-active {
+.nav-cart
+  :where(.css-dev-only-do-not-override-zjyjzs).ant-dropdown
+  .ant-dropdown-menu
+  .ant-dropdown-menu-item:hover,
+:where(.css-dev-only-do-not-override-zjyjzs).ant-dropdown-menu-submenu
+  .ant-dropdown-menu
+  .ant-dropdown-menu-item:hover,
+:where(.css-dev-only-do-not-override-zjyjzs).ant-dropdown
+  .ant-dropdown-menu
+  .ant-dropdown-menu-submenu-title:hover,
+:where(.css-dev-only-do-not-override-zjyjzs).ant-dropdown-menu-submenu
+  .ant-dropdown-menu
+  .ant-dropdown-menu-submenu-title:hover,
+:where(.css-dev-only-do-not-override-zjyjzs).ant-dropdown
+  .ant-dropdown-menu
+  .ant-dropdown-menu-item-active,
+:where(.css-dev-only-do-not-override-zjyjzs).ant-dropdown-menu-submenu
+  .ant-dropdown-menu
+  .ant-dropdown-menu-item-active,
+:where(.css-dev-only-do-not-override-zjyjzs).ant-dropdown
+  .ant-dropdown-menu
+  .ant-dropdown-menu-submenu-title-active,
+:where(.css-dev-only-do-not-override-zjyjzs).ant-dropdown-menu-submenu
+  .ant-dropdown-menu
+  .ant-dropdown-menu-submenu-title-active {
   background-color: inherit !important;
 }
 
-.phone-input .ant-input-group>.ant-input:last-child {
+.phone-input .ant-input-group > .ant-input:last-child {
   padding: 8px;
 }
 
-:where(.css-dev-only-do-not-override-zjyjzs).ant-timeline .ant-timeline-item-last>.ant-timeline-item-content {
+:where(.css-dev-only-do-not-override-zjyjzs).ant-timeline
+  .ant-timeline-item-last
+  > .ant-timeline-item-content {
   min-height: 0px;
 }
 
@@ -55,10 +80,17 @@ body {
   height: 100%;
 }
 
-.bid-input :where(.css-dev-only-do-not-override-zjyjzs).ant-input-group .ant-input {
+.bid-input
+  :where(.css-dev-only-do-not-override-zjyjzs).ant-input-group
+  .ant-input {
   height: 100%;
 }
 
+.bid-input
+  :where(.css-dev-only-do-not-override-14ugp7t)[class^="ant-input"]
+  [class^="ant-input"] {
+  height: 100%;
+}
 
 p,
 h1 {
@@ -76,11 +108,11 @@ a:-webkit-any-link {
   text-decoration: none;
 }
 
-.ant-table-thead>tr>th {
+.ant-table-thead > tr > th {
   @apply bg-zinc-100 text-xs 2xl:text-sm !font-normal;
 }
 
-.ant-table-tbody>tr>td {
+.ant-table-tbody > tr > td {
   @apply text-xs 2xl:text-sm;
 }
 
@@ -513,7 +545,6 @@ a:-webkit-any-link {
   margin-left: 60rem;
 }
 
-
 .product-layout {
   display: flex;
   justify-content: space-between;
@@ -735,19 +766,17 @@ th {
   height: 36px;
 }
 
-.select-bid .ant-select-selector{
+.select-bid .ant-select-selector {
   border-radius: 50px !important;
   font-size: 12px;
 }
 
-.select-product .ant-select-selector{
+.select-product .ant-select-selector {
   border-radius: 50px !important;
   font-size: px;
 }
 
-
 @media screen and (max-width: 1440px) {
-
   .CardCat {
     width: 35rem;
   }
@@ -1281,5 +1310,4 @@ th {
     width: 27rem;
     margin-left: -20px;
   }
-
 }

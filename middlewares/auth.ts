@@ -21,96 +21,97 @@ function checkTokenExpiration(token: string): boolean {
 }
 
 export async function AuthMiddleware(req: NextRequest) {
-  // const accessToken = req.cookies.get("access_token")?.value;
-  // const checkoutToken = req.cookies.get("checkout_token")?.value;
+  const accessToken = req.cookies.get("access_token")?.value;
+  const checkoutToken = req.cookies.get("checkout_token")?.value;
   
-  // const publicRoutes = [
-  //   "/",
-  //   "/product",
-  // ];
+  const publicRoutes = [
+    "/",
+    "/product",
+    "/thanks"
+  ];
   
-  // const dynamicPublicRoutes = [
-  //   /^\/product\/[\w-]+$/,
-  //   /^\/product\/[\w-]+\/[\w-]+$/,
-  // ];
+  const dynamicPublicRoutes = [
+    /^\/product\/[\w-]+$/,
+    /^\/product\/[\w-]+\/[\w-]+$/,
+  ];
   
-  // const authRoutes = ["/login", "/register"];
-  // const userOnlyRoutes = ["/profile", "/checkout"];
-  // const superadminOnlyRoutes = ["/dashboard/account"];
+  const authRoutes = ["/login", "/register"];
+  const userOnlyRoutes = ["/profile", "/checkout", "/thanks"];
+  const superadminOnlyRoutes = ["/dashboard/account"];
   
-  // const currentPath = req.nextUrl.pathname;
+  const currentPath = req.nextUrl.pathname;
   
-  // const isPathMatchingDynamicRoutes = (path: string, patterns: RegExp[]) => {
-  //   return patterns.some(pattern => pattern.test(path));
-  // };
+  const isPathMatchingDynamicRoutes = (path: string, patterns: RegExp[]) => {
+    return patterns.some(pattern => pattern.test(path));
+  };
   
-  // const isPublicPath = (path: string) => {
-  //   return publicRoutes.includes(path) || isPathMatchingDynamicRoutes(path, dynamicPublicRoutes);
-  // };
+  const isPublicPath = (path: string) => {
+    return publicRoutes.includes(path) || isPathMatchingDynamicRoutes(path, dynamicPublicRoutes);
+  };
   
-  // const isDashboardPath = currentPath.startsWith("/dashboard");
+  const isDashboardPath = currentPath.startsWith("/dashboard");
 
-  // // Handle checkout token logic
-  // if (currentPath === "/checkout") {
-  //   if (!checkoutToken) {
-  //     return NextResponse.redirect(new URL("/", req.url));
-  //   }
-  //   // If we have both tokens and we're on checkout, proceed
-  //   if (accessToken) {
-  //     return NextResponse.next();
-  //   }
-  // } else if (checkoutToken) {
-  //   const response = NextResponse.redirect(new URL(currentPath, req.url));
-  //   response.cookies.delete("checkout_token");
-  //   return response;
-  // }
+  // Handle checkout token logic
+  if (currentPath === "/checkout") {
+    if (!checkoutToken) {
+      return NextResponse.redirect(new URL("/", req.url));
+    }
+    // If we have both tokens and we're on checkout, proceed
+    if (accessToken) {
+      return NextResponse.next();
+    }
+  } else if (checkoutToken) {
+    const response = NextResponse.redirect(new URL(currentPath, req.url));
+    response.cookies.delete("checkout_token");
+    return response;
+  }
 
-  // // Handle unauthenticated users
-  // if (!accessToken) {
-  //   if (authRoutes.includes(currentPath) || isPublicPath(currentPath)) {
-  //     return NextResponse.next();
-  //   }
-  //   return NextResponse.redirect(new URL("/login", req.url));
-  // }
+  // Handle unauthenticated users
+  if (!accessToken) {
+    if (authRoutes.includes(currentPath) || isPublicPath(currentPath)) {
+      return NextResponse.next();
+    }
+    return NextResponse.redirect(new URL("/login", req.url));
+  }
 
-  // const decodedToken: DecodedToken = jwtDecode(accessToken);
-  // const isTokenExpired = checkTokenExpiration(accessToken);
+  const decodedToken: DecodedToken = jwtDecode(accessToken);
+  const isTokenExpired = checkTokenExpiration(accessToken);
   
-  // if (isTokenExpired) {
-  //   return NextResponse.redirect(new URL("/login", req.url));
-  // }
+  if (isTokenExpired) {
+    return NextResponse.redirect(new URL("/login", req.url));
+  }
 
-  // switch (decodedToken.role) {
-  //   case "superadmin":
-  //     if (!isDashboardPath) {
-  //       return NextResponse.redirect(new URL("/dashboard", req.url));
-  //     }
-  //     break;
+  switch (decodedToken.role) {
+    case "superadmin":
+      if (!isDashboardPath) {
+        return NextResponse.redirect(new URL("/dashboard", req.url));
+      }
+      break;
       
-  //   case "admin":
-  //     if (!isDashboardPath) {
-  //       return NextResponse.redirect(new URL("/dashboard", req.url));
-  //     }
-  //     if (superadminOnlyRoutes.includes(currentPath)) {
-  //       return NextResponse.redirect(new URL("/dashboard", req.url));
-  //     }
-  //     break;
+    case "admin":
+      if (!isDashboardPath) {
+        return NextResponse.redirect(new URL("/dashboard", req.url));
+      }
+      if (superadminOnlyRoutes.includes(currentPath)) {
+        return NextResponse.redirect(new URL("/dashboard", req.url));
+      }
+      break;
       
-  //   case "user":
-  //     if (authRoutes.includes(currentPath)) {
-  //       return NextResponse.redirect(new URL("/", req.url));
-  //     }
-  //     if (isDashboardPath) {
-  //       return NextResponse.redirect(new URL("/", req.url));
-  //     }
-  //     if (!isPublicPath(currentPath) && !userOnlyRoutes.includes(currentPath)) {
-  //       return NextResponse.redirect(new URL("/", req.url));
-  //     }
-  //     break;
+    case "user":
+      if (authRoutes.includes(currentPath)) {
+        return NextResponse.redirect(new URL("/", req.url));
+      }
+      if (isDashboardPath) {
+        return NextResponse.redirect(new URL("/", req.url));
+      }
+      if (!isPublicPath(currentPath) && !userOnlyRoutes.includes(currentPath)) {
+        return NextResponse.redirect(new URL("/", req.url));
+      }
+      break;
       
-  //   default:
-  //     return NextResponse.redirect(new URL("/login", req.url));
-  // }
+    default:
+      return NextResponse.redirect(new URL("/login", req.url));
+  }
 
   return NextResponse.next();
 }

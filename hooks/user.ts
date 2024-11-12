@@ -62,8 +62,8 @@ export const useUser = () => {
       address,
       note,
     });
-    mutate(`/user/address/${email}`);
-    mutate(`/auth/user/${token}`);
+    await mutate(`/user/address/${email}`);
+    await mutate(`/auth/user/${token}`);
   };
 
   const setDefaultAddress = async (
@@ -76,7 +76,7 @@ export const useUser = () => {
       addressId
     });
 
-    mutate(`/auth/user/${token}`);
+    await mutate(`/auth/user/${token}`);
   };
 
   const getAddress = (id?: string) => {
@@ -105,7 +105,7 @@ export const useUser = () => {
       password,
       roleId,
     });
-    mutate(`/user/admins`);
+    await mutate(`/user/admins`);
   };
 
   const patchUser = async (
@@ -120,13 +120,13 @@ export const useUser = () => {
       status,
     });
 
-    mutate(`/user/admins`);
+    await mutate(`/user/admins`);
   };
 
   const deleteUser = async (userId: string) => {
     await fetcher.del(`/user/${userId}`);
 
-    mutate(`/user/admins`);
+    await mutate(`/user/admins`);
   };
 
   return {

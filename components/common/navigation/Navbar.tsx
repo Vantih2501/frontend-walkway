@@ -310,7 +310,7 @@ export default function Navbar({ user }: { user?: User }) {
         />
 
         <div className="flex items-center gap-4">
-          {user ? (
+          {user && cartItem ? (
             <>
               <Dropdown
                 open={open}

@@ -47,7 +47,7 @@ export const useBrand = () => {
       name,
       image
     });
-    mutate(`/brand`);
+    await mutate(`/brand`);
   };
 
   const patchBrand = async (brandId: string, { name, status }: BrandDto) => {
@@ -55,7 +55,7 @@ export const useBrand = () => {
       name,
       status
     });
-    mutate(`/brand`);
+    await mutate(`/brand`);
   };
 
   return { fetchBrand, fetchRecentBrand, fetchBrandName, uploadImage, postBrand, patchBrand }

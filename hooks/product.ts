@@ -65,7 +65,7 @@ export const useProduct = () => {
       productPhotos,
       weight
     });
-    mutate(`/product`);
+    await mutate(`/product`);
   };
 
   const patchProduct = async (productId: string, { brandId, name, categoryId, price, productDetails }: ProductDto) => {
@@ -77,7 +77,7 @@ export const useProduct = () => {
       productDetails,
       weight: 400
     });
-    mutate(`/product`);
+    await mutate(`/product`);
   };
 
   const genCheckoutToken = async (data: CartItem[]): Promise<{ checkout_token: string }> => {

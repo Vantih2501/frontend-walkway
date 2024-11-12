@@ -14,8 +14,8 @@ export const useCart = () => {
   }) => {
     await fetcher.post("/product/add-to-cart", { productDetailId, cartId });
 
-    mutate(`/user/cart/${cartId}`);
-    mutate(`/auth/user/${token}`);
+    await mutate(`/user/cart/${cartId}`);
+    await mutate(`/auth/user/${token}`);
   };
 
   const getCartItem = (cartId?: string) => {
