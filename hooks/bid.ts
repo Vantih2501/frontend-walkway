@@ -38,8 +38,23 @@ export const useBid = () => {
       end_date,
       start_price,
     });
-    mutate(`/product/bids`);
+    await mutate(`/product/bids`);
   };
 
-  return { fetchBids, postBid, fetchBid };
+  const postBidAmount = async (
+    bidProductId?: string,
+    userEmail?: string,
+    bidAmount?: number
+  ) => {
+    await fetcher.post("/product/participate-bid", {
+      bidProductId,
+      userEmail,
+      bidAmount,
+    });
+
+    await mutate(`/product/bids`);
+    await mutate(`/product/bid/${bidProductId}`);
+  };
+
+  return { fetchBids, postBid, fetchBid, postBidAmount };
 };

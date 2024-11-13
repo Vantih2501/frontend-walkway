@@ -20,7 +20,7 @@ export const useCategory = () => {
     await fetcher.post("/category", {
       name,
     });
-    mutate(`/category`);
+    await mutate(`/category`);
   };
 
   const patchCategory = async (id: string, { name, status }: CategoryDto) => {
@@ -28,7 +28,7 @@ export const useCategory = () => {
       name,
       status
     });
-    mutate(`/category`);
+    await mutate(`/category`);
   };
 
   return { fetchCategory, postCategory, patchCategory }

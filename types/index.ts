@@ -5,12 +5,12 @@ interface User {
   roleId: string;
   phone_number: string;
   status: string;
-  address: Address[];
+  address?: Address[];
   role: Role | string;
-  defaultAddress: string;
-  cartId: string;
-  cart: Cart;
-  cartItemTotal: number;
+  defaultAddress?: string;
+  cartId?: string;
+  cart?: Cart;
+  cartItemTotal?: number;
 }
 
 interface Role {

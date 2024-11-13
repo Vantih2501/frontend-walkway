@@ -1,3 +1,4 @@
+"use client"
 import React, { useState, useEffect } from "react";
 import { Button, Divider } from "antd";
 
@@ -13,7 +14,7 @@ const TagStyle =
 const CategoryTag = ({
   brand,
   category,
-  onFilterChange,
+  onFilterChange
 }: CategoryTagProps) => {
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [selectedBrands, setSelectedBrands] = useState<string[]>([]);

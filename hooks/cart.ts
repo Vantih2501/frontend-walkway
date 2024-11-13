@@ -8,14 +8,16 @@ export const useCart = () => {
   const addToCart = async ({
     productDetailId,
     cartId,
+    quantity
   }: {
     productDetailId: string;
-    cartId: string;
+    cartId?: string;
+    quantity?: number;
   }) => {
-    await fetcher.post("/product/add-to-cart", { productDetailId, cartId });
+    await fetcher.post("/product/add-to-cart", { productDetailId, cartId, quantity });
 
-    mutate(`/user/cart/${cartId}`);
-    mutate(`/auth/user/${token}`);
+    await mutate(`/user/cart/${cartId}`);
+    await mutate(`/auth/user/${token}`);
   };
 
   const getCartItem = (cartId?: string) => {

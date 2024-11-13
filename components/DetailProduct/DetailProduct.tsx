@@ -18,13 +18,16 @@ import {
 import { useAuth } from "#/hooks/auth";
 import Title from "antd/es/typography/Title";
 import { useCart } from "#/hooks/cart";
+import { Minus, Plus } from "lucide-react";
+import { compressJWT, decompressJWT } from "#/utils/compressor";
 
 const DetailProduct = ({ product }: { product: Product | undefined }) => {
-  const [isModalOpen, setIsModalOpen] = useState(false); // untuk modal Size Guide
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [quantity, setQuantity] = useState(1);
   const [selectedSize, setSelectedSize] = useState<ProductDetail>();
   const [loading, setLoading] = useState(false);
   const router = useRouter();
-  const [isLoginModalVisible, setIsLoginModalVisible] = useState(false); // untuk modal login
+  const [isLoginModalVisible, setIsLoginModalVisible] = useState(false);
 
   const { genCheckoutToken } = useProduct();
   const { addToCart } = useCart();
@@ -46,9 +49,10 @@ const DetailProduct = ({ product }: { product: Product | undefined }) => {
 
     try {
       setLoading(true);
-      return console.log({ ...data, quantity: 1 });
-      // const response = await genCheckoutToken({ ...data });
-      // setCheckoutToken(response.checkout_token);
+      
+      const response = await genCheckoutToken([{ id: data[0].id, quantity: quantity }]);
+      const compressedToken = compressJWT(response.checkout_token)
+      setCheckoutToken(compressedToken);
 
       router.push("/checkout");
     } catch (error) {
@@ -66,7 +70,7 @@ const DetailProduct = ({ product }: { product: Product | undefined }) => {
 
     try {
       setLoading(true);
-      await addToCart({ productDetailId: data.id, cartId: user.cartId });
+      await addToCart({ productDetailId: data.id, cartId: user.cartId, quantity: quantity });
       message.success("Product added to cart.");
     } catch (error: any) {
       message.error(
@@ -74,6 +78,8 @@ const DetailProduct = ({ product }: { product: Product | undefined }) => {
       );
       setLoading(false);
     } finally {
+      setQuantity(1)
+      setSelectedSize(undefined)
       setLoading(false);
     }
   };
@@ -90,7 +96,7 @@ const DetailProduct = ({ product }: { product: Product | undefined }) => {
           <div className="col-span-5">
             {product && <ProductImage imageUrl={product?.productPhotos} />}
           </div>
-          <div className="flex flex-col col-span-7 space-y-8">
+          <div className="flex flex-col col-span-7 space-y-6">
             <div className="flex flex-col space-y-4">
               <Breadcrumb
                 items={[
@@ -106,65 +112,70 @@ const DetailProduct = ({ product }: { product: Product | undefined }) => {
                 {product?.name}
               </h1>
             </div>
-            <div>
-              <div className="flex items-center justify-between mb-4">
-                <p>Select Size</p>
-                <Button
-                  icon={<EyeOutlined />}
-                  type="text"
-                  onClick={() => setIsModalOpen(true)}
-                >
-                  Size Guide
-                </Button>
-                <Modal
-                  title={"SIZE GUIDE"}
-                  open={isModalOpen}
-                  onOk={() => setIsModalOpen(false)}
-                  onCancel={() => setIsModalOpen(false)}
-                  footer={null}
-                >
-                  <div className="mt-4 border rounded-xl border-zinc-300">
-                    <div className="p-5 text-sm font-semibold border-b border-zinc-300">
-                      {product?.brand.name} Size Chart
+            <div className="space-y-5">
+              <div className="space-y-0.5">
+                <div className="flex items-center justify-between">
+                  <p>Select Size</p>
+                  <Button
+                    icon={<EyeOutlined />}
+                    type="text"
+                    onClick={() => setIsModalOpen(true)}
+                  >
+                    Size Guide
+                  </Button>
+                  <Modal
+                    title={"SIZE GUIDE"}
+                    open={isModalOpen}
+                    onOk={() => setIsModalOpen(false)}
+                    onCancel={() => setIsModalOpen(false)}
+                    footer={null}
+                  >
+                    <div className="mt-4 border rounded-xl border-zinc-300">
+                      <div className="p-5 text-sm font-semibold border-b border-zinc-300">
+                        {product?.brand.name} Size Chart
+                      </div>
+                      <div className="overflow-y-auto h-[500px] ">
+                        <Image
+                          src={"/image/size-guide.png"}
+                          alt={"size guide"}
+                          width={500}
+                          height={1000}
+                          quality={100}
+                          className="w-full h-auto"
+                        />
+                      </div>
                     </div>
-                    <div className="overflow-y-auto h-[500px] ">
-                      <Image
-                        src={"/image/size-guide.png"}
-                        alt={"size guide"}
-                        width={500}
-                        height={1000}
-                        quality={100}
-                        className="w-full h-auto"
-                      />
-                    </div>
-                  </div>
-                </Modal>
-              </div>
-              <div className="grid grid-cols-4 gap-3 mb-6 2xl:grid-cols-5">
-                {product?.productDetails &&
-                product?.productDetails.length > 0 ? (
-                  product?.productDetails.map((detail: any, index: number) => (
-                    <Button
-                      disabled={loading || detail.stock <= 0}
-                      key={index}
-                      type={
-                        selectedSize && selectedSize.size == detail.size
-                          ? "primary"
-                          : "default"
-                      }
-                      onClick={() => {
-                        selectedSize == detail
-                          ? setSelectedSize(undefined)
-                          : setSelectedSize(detail);
-                      }}
-                      className="py-5 text-sm border rounded-full border-zinc-300"
-                    >
-                      {detail.size}
-                    </Button>
-                  ))
-                ) : (
-                  <div>No product details available.</div>
-                )}
+                  </Modal>
+                </div>
+                <div className="grid grid-cols-4 gap-3 2xl:grid-cols-5">
+                  {product?.productDetails &&
+                  product?.productDetails.length > 0 ? (
+                    product?.productDetails.map(
+                      (detail: any, index: number) => (
+                        <Button
+                          disabled={loading || detail.stock <= 0}
+                          key={index}
+                          type={
+                            selectedSize && selectedSize.size == detail.size
+                              ? "primary"
+                              : "default"
+                          }
+                          onClick={() => {
+                            selectedSize == detail
+                              ? setSelectedSize(undefined)
+                              : setSelectedSize(detail);
+                            setQuantity(1);
+                          }}
+                          className="py-5 text-sm border rounded-full border-zinc-300"
+                        >
+                          {detail.size}
+                        </Button>
+                      )
+                    )
+                  ) : (
+                    <div>No product details available.</div>
+                  )}
+                </div>
               </div>
               <div className="flex items-end justify-between">
                 <div>
@@ -176,12 +187,35 @@ const DetailProduct = ({ product }: { product: Product | undefined }) => {
                 {selectedSize && (
                   <p className="text-zinc-500">
                     Stock:{" "}
-                    <span className={selectedSize.stock < 10 ? "text-orange-500" : ""}>
+                    <span
+                      className={
+                        selectedSize.stock < 10 ? "text-orange-500" : ""
+                      }
+                    >
                       {selectedSize.stock}
                     </span>
                   </p>
                 )}
               </div>
+              {selectedSize && (
+                <div className="flex items-center gap-1">
+                  <Button
+                    onClick={() => setQuantity((prev) => prev - 1)}
+                    className="pointer-events-auto"
+                    disabled={quantity <= 1}
+                    shape="default"
+                    icon={<Minus className="text-zinc-800" size="14px" />}
+                  />
+                  <p className="text-center basis-6">{quantity}</p>
+                  <Button
+                    onClick={() => setQuantity((prev) => prev + 1)}
+                    disabled={quantity == selectedSize.stock}
+                    className="pointer-events-auto"
+                    shape="default"
+                    icon={<Plus className="text-zinc-800" size="14px" />}
+                  />
+                </div>
+              )}
             </div>
             <div className="flex gap-4">
               <Button
