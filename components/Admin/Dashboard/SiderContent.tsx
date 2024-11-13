@@ -1,25 +1,28 @@
-import { products } from "#/mock-data/products";
 import { Avatar } from "antd";
 import Link from "next/link";
 import React from "react";
 import { HiMiniChevronRight } from "react-icons/hi2";
 
-const SiderContent = () => {
+interface Props {
+	orders: Order[]
+}
+
+const SiderContent = ({ orders }: Props) => {
 	return (
-		<div className="p-4 2xl:p-5 flex flex-col space-y-5">
-			<div className="flex justify-between items-center">
-				<h1 className="text-base 2xl:text-xl font-medium">New Order</h1>
+		<div className="flex flex-col p-4 space-y-5">
+			<div className="flex items-center justify-between">
+				<h1 className="text-base font-medium 2xl:text-xl">New Order</h1>
 				<Link href={"/"} className="flex items-center hover:opacity-75">
 					<p className="text-[10px] 2xl:text-xs">See Orders</p>
 					<HiMiniChevronRight />
 				</Link>
 			</div>
-			<div className="h-[600px] 2xl:h-[858px] overflow-y-auto">
+			<div className="overflow-y-auto">
 				<ul role="list" className="space-y-2">
-					{products.map((user, index) => (
-						<li key={index} className="p-3 bg-zinc-50 rounded-md">
+					{/* {products.map((user, index) => (
+						<li key={index} className="p-3 rounded-md bg-zinc-50">
 							<div className="flex items-center">
-								<div className="size-16 aspect-square bg-white rounded-md">
+								<div className="bg-white rounded-md size-16 aspect-square">
 									<Avatar
 										className="size-full"
 										src={user.image}
@@ -41,7 +44,7 @@ const SiderContent = () => {
 								</div>
 							</div>
 						</li>
-					))}
+					))} */}
 				</ul>
 			</div>
 		</div>
