@@ -89,7 +89,7 @@ export default function BrandTable({ brand }: BrandTableProps) {
       }
 
     } catch (error: any) {
-      // message.error(error.response.body.message)
+      message.error(error.response.body.message)
     } finally {
       setOpen(false)
       setLoading(false)
@@ -115,7 +115,7 @@ export default function BrandTable({ brand }: BrandTableProps) {
         className={styles.customTable}
         columns={columns}
         dataSource={brand}
-        scroll={{ y: 60 * 5 }}
+        // scroll={{ y: 60 * 5 }}
         pagination={false}
       />
 

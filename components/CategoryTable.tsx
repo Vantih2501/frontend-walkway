@@ -89,8 +89,8 @@ export default function CategoryTable({ category }: CategoryTableProps) {
         message.success("Category created successfully")
       }
 
-    } catch (error) {
-
+    } catch (error: any) {
+      message.error(error.response.body.message)
     } finally {
       setOpen(false)
       setLoading(false)
@@ -116,7 +116,7 @@ export default function CategoryTable({ category }: CategoryTableProps) {
         className={styles.customTable}
         columns={columns}
         dataSource={category}
-        scroll={{ y: 60 * 5 }}
+        // scroll={{ y: 60 * 5 }}
         pagination={false}
       />
 
