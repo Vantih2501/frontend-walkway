@@ -1,6 +1,6 @@
 "use client"
 import { EditOutlined, PlusOutlined } from "@ant-design/icons";
-import { Button, Form, Space, Table, TableProps, Tag } from "antd";
+import { Button, Form, message, Space, Table, TableProps, Tag } from "antd";
 import BrandModalForm from "./common/modal/BrandModal";
 import { useState } from "react";
 import { createStyles } from "antd-style";
@@ -82,12 +82,14 @@ export default function BrandTable({ brand }: BrandTableProps) {
       setLoading(true)
       if (editing) {
         await patchBrand(values.id, values)
+        message.success("Brand updated successfully")
       } else {
         await postBrand(values)
+        message.success("Brand created successfully")
       }
 
-    } catch (error) {
-
+    } catch (error: any) {
+      message.error(error.response.body.message)
     } finally {
       setOpen(false)
       setLoading(false)
@@ -113,7 +115,7 @@ export default function BrandTable({ brand }: BrandTableProps) {
         className={styles.customTable}
         columns={columns}
         dataSource={brand}
-        scroll={{ y: 60 * 5 }}
+        // scroll={{ y: 60 * 5 }}
         pagination={false}
       />
 

@@ -26,7 +26,7 @@ export default function Categories() {
   }
 
   return (
-    <div className="px-12 grid grid-cols-12 gap-4">
+    <div className="px-12 grid grid-cols-12 gap-4 min-h-[80vh]">
       <div className="col-span-7 border rounded-md p-6 space-y-2">
         {brand && (<BrandTable brand={brand} />)}
       </div>

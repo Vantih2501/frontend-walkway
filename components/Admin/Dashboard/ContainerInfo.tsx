@@ -7,17 +7,18 @@ import { IoCubeOutline } from "react-icons/io5";
 interface Props {
   className: string;
   product: Product[];
+  order: Order[]
 }
 
-const ContainerInfo = ({ className, product }: Props) => {
+const ContainerInfo = ({ className, product, order }: Props) => {
   return (
     <div className={`${className}`}>
       <CardInfo
         title={"Total Revenue"}
-        value={"RP. 300,000K"}
+        value={`Rp ${order.reduce((acc, val) => acc + val.order_total, 0).toLocaleString('en-US')}`}
         Icon={LuDollarSign}
       />
-      <CardInfo title={"Total Sales"} value={"201"} Icon={PiWallet} />
+      <CardInfo title={"Total Sales"} value={order.length} Icon={PiWallet} />
       <CardInfo
         title={"Total Product"}
         perMonth={false}

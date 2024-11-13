@@ -6,6 +6,13 @@ import { useAuth } from "#/hooks/auth"
 import { getAccessToken } from "#/utils/token"
 import { LoadingOutlined } from "@ant-design/icons"
 import { Spin } from "antd"
+import { Poppins } from "next/font/google"
+
+const poppins = Poppins({
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700"],
+  preload: false,
+})
 
 interface LayoutProps {
   children: React.ReactNode
@@ -27,7 +34,7 @@ export default function MainLayout({ children }: LayoutProps) {
   }
 
   return (
-    <main>
+    <main className={poppins.className}>
       <Navbar user={user} />
       <div>{children}</div>
       <Footer />

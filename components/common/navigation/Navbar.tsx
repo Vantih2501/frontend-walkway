@@ -337,61 +337,61 @@ export default function Navbar({ user }: { user?: User }) {
         ]),
   ];
   return (
-    <div className="sticky top-0 flex flex-col w-screen gap-6 py-5 bg-white shadow-lg z-[100] px-14">
-      {contextHolder}
-      <div className="flex items-center justify-between gap-6">
-        <Link href="/">
-          <Image src={logo} alt="logo" className="" />
-        </Link>
+		<div className="sticky top-0 flex flex-col w-screen gap-6 py-5 bg-white z-[100] px-14 shadow-[0_8px_30px_rgb(0,0,0,0.12)]">
+			{contextHolder}
+			<div className="flex items-center justify-between gap-6">
+				<Link href="/">
+					<Image src={logo} alt="logo" className="" />
+				</Link>
 
-        <Input
-          onFocus={() => console.log("click")}
-          prefix={<SearchOutlined className="mr-1 text-gray-400" />}
-          placeholder="Search for sneakers..."
-          className="rounded-full cursor-pointer"
-        />
+				<Input
+					onFocus={() => console.log("click")}
+					prefix={<SearchOutlined className="mr-1 text-gray-400" />}
+					placeholder="Search for sneakers..."
+					className="rounded-full cursor-pointer"
+				/>
 
-        <div className="flex items-center gap-4">
-          {user ? (
-            <>
-              <Dropdown
-                open={open}
-                trigger={["click"]}
-                onOpenChange={handleOpenChange}
-                menu={{ items: cartItems }}
-                placement="bottomRight"
-                className="cursor-pointer nav-cart"
-              >
-                <Badge count={user.cartItemTotal}>
-                  <HiOutlineShoppingBag size={32} />
-                </Badge>
-              </Dropdown>
-              <Dropdown
-                menu={{ items }}
-                placement="bottomRight"
-                className="cursor-pointer"
-              >
-                <Avatar icon={<User />}>{user.name}</Avatar>
-              </Dropdown>
-            </>
-          ) : (
-            <>
-              <Button href="/register" className="rounded-full" type="primary">
-                Sign Up
-              </Button>
-              <Button href="/login" type="text" className="rounded-full">
-                Sign In
-              </Button>
-            </>
-          )}
-        </div>
-      </div>
+				<div className="flex items-center gap-4">
+					{user ? (
+						<>
+							<Dropdown
+								open={open}
+								trigger={["click"]}
+								onOpenChange={handleOpenChange}
+								menu={{ items: cartItems }}
+								placement="bottomRight"
+								className="cursor-pointer nav-cart"
+							>
+								<Badge count={user.cartItemTotal}>
+									<HiOutlineShoppingBag size={32} />
+								</Badge>
+							</Dropdown>
+							<Dropdown
+								menu={{ items }}
+								placement="bottomRight"
+								className="cursor-pointer"
+							>
+								<Avatar icon={<User />}>{user.name}</Avatar>
+							</Dropdown>
+						</>
+					) : (
+						<>
+							<Button href="/register" className="rounded-full" type="primary">
+								Sign Up
+							</Button>
+							<Button href="/login" type="text" className="rounded-full">
+								Sign In
+							</Button>
+						</>
+					)}
+				</div>
+			</div>
 
-      <div className="flex justify-center gap-12">
-        {menus.map((menu) => (
-          <div key={menu.key}>{menu.label}</div>
-        ))}
-      </div>
-    </div>
-  );
+			<div className="flex justify-center gap-12">
+				{menus.map((menu) => (
+					<div key={menu.key}>{menu.label}</div>
+				))}
+			</div>
+		</div>
+	);
 }
