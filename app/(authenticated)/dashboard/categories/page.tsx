@@ -26,12 +26,12 @@ export default function Categories() {
   }
 
   return (
-    <div className="px-12 grid grid-cols-12 gap-4 min-h-[80vh]">
-      <div className="col-span-7 border rounded-md p-6 space-y-2">
+    <div className="px-12 grid grid-cols-12 gap-4 min-h-[85vh]">
+      <div className="col-span-7 border rounded-md p-6 space-y-3">
         {brand && (<BrandTable brand={brand} />)}
       </div>
 
-      <div className="col-span-5 border rounded-md p-6 space-y-2">
+      <div className="col-span-5 border rounded-md p-6 space-y-3">
         {category && (<CategoryTable category={category} />)}
       </div>
     </div>
