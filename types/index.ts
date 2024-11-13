@@ -118,6 +118,8 @@ interface Order {
   order_date: Date;
   receipt: string;
   orderItems: OrderItems[];
+  order_total: number;
+  created_at: Date
 }
 
 interface OrderItems {

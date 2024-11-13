@@ -8,13 +8,17 @@ export const useCart = () => {
   const addToCart = async ({
     productDetailId,
     cartId,
-    quantity
+    quantity,
   }: {
     productDetailId: string;
     cartId?: string;
     quantity?: number;
   }) => {
-    await fetcher.post("/product/add-to-cart", { productDetailId, cartId, quantity });
+    await fetcher.post("/product/add-to-cart", {
+      productDetailId,
+      cartId,
+      quantity,
+    });
 
     await mutate(`/user/cart/${cartId}`);
     await mutate(`/auth/user/${token}`);
@@ -32,12 +36,26 @@ export const useCart = () => {
     };
   };
 
-  const reduceQty = (cartId?: string) => {
-    // await fetcher.post("/product/add-to-cart", { productDetailId, cartId });
+  const addQty = async (cartId?: string, id?: string) => {
+    await fetcher.post("/user/add-item", { cartId });
 
-    mutate(`/user/cart/${cartId}`);
-    mutate(`/auth/user/${token}`);
+    await mutate(`/user/cart/${id}`);
+    await mutate(`/auth/user/${token}`);
   };
 
-  return { addToCart, getCartItem };
+  const reduceQty = async (cartId?: string, id?: string) => {
+    await fetcher.post("/user/reduce-item", { cartId });
+
+    await mutate(`/user/cart/${id}`);
+    await mutate(`/auth/user/${token}`);
+  };
+
+  const removeItem = async (cartId?: string[], id?: string) => {
+    await fetcher.post("/user/remove-item", { cartId });
+
+    await mutate(`/user/cart/${id}`);
+    await mutate(`/auth/user/${token}`);
+  };
+
+  return { addToCart, getCartItem, reduceQty, addQty, removeItem };
 };

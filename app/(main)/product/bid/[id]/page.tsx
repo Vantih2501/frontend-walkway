@@ -42,8 +42,6 @@ const BidPage = ({ params }: { params: { id: string } }) => {
     ? Math.max(...bid.bidParticipants.map((b) => b.amount))
     : bid?.start_price || 0;
 
-    console.log(bid, user)
-
   const userCurrentBid =
     bid?.bidParticipants.find((b) => b.user.email === user?.email)?.amount || 0;
 
@@ -118,6 +116,7 @@ const BidPage = ({ params }: { params: { id: string } }) => {
       setLoading(true);
 
       await postBidAmount(params.id, user.email, bidAmount);
+      form.resetFields()
     } catch (error) {
       // setError("Failed to place bid. Please try again.");
       console.error(error);
@@ -177,8 +176,8 @@ const BidPage = ({ params }: { params: { id: string } }) => {
               </h1>
             </div>
 
-            {bid && user && (
-              <BidUserDisplay participant={bid.bidParticipants} user={user} />
+            {bid && (
+              <BidUserDisplay participant={bid?.bidParticipants} user={user} />
             )}
 
             <div className="flex items-center justify-between py-3 border-b">

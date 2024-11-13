@@ -47,7 +47,7 @@ export default function Navbar({ user }: { user?: User }) {
   const [loading, setLoading] = useState(false);
 
   const [selectedItem, setSelectedItem] = useState<CartItem[]>([]);
-  const { getCartItem } = useCart();
+  const { getCartItem, reduceQty, addQty, removeItem } = useCart();
   const { genCheckoutToken } = useProduct();
   const { items: cartItem } = getCartItem(user?.cartId);
   const handleLogout = useCallback(async () => {
@@ -128,7 +128,7 @@ export default function Navbar({ user }: { user?: User }) {
       setLoading(true);
 
       const response = await genCheckoutToken(data);
-      const compressedToken = compressJWT(response.checkout_token)
+      const compressedToken = compressJWT(response.checkout_token);
       setCheckoutToken(compressedToken);
 
       window.location.href = "/checkout";
@@ -147,13 +147,45 @@ export default function Navbar({ user }: { user?: User }) {
     }
   };
 
+  const [processing, setProcessing] = useState(false);
+
+  const handleRemove = async (id: string[]) => {
+    try {
+      setProcessing(true);
+      await removeItem(id, user?.cartId);
+      message.success("Item successfully removed")
+    } catch (error) {
+      setProcessing(false);
+      throw error;
+    } finally {
+      setSelectedItem([])
+      setProcessing(false);
+    }
+  };
+
   const handleReduce = async (id: string) => {
     try {
-
+      setProcessing(true);
+      await reduceQty(id, user?.cartId);
     } catch (error) {
-      
+      setProcessing(false);
+      throw error;
+    } finally {
+      setProcessing(false);
     }
-  }
+  };
+
+  const handleAdd = async (id: string) => {
+    try {
+      setProcessing(true);
+      await addQty(id, user?.cartId);
+    } catch (error) {
+      setProcessing(false);
+      throw error;
+    } finally {
+      setProcessing(false);
+    }
+  };
 
   const cartItems: MenuProps["items"] = [
     {
@@ -162,13 +194,15 @@ export default function Navbar({ user }: { user?: User }) {
         <div className="flex items-center justify-between w-full">
           <h1 className="text-lg font-light">Cart</h1>
           <Button
-            disabled={selectedItem.length <= 0}
+            disabled={selectedItem.length <= 0 || processing}
+            onClick={() => handleRemove(selectedItem.map(item => item.id))}
             icon={<Trash2 size={18} className="text-red-700" />}
             shape="circle"
             type="text"
             size="small"
-            className={`pointer-events-auto ${selectedItem.length <= 0 && "hidden"
-              }`}
+            className={`pointer-events-auto ${
+              selectedItem.length <= 0 && "hidden"
+            }`}
           />
         </div>
       ),
@@ -177,129 +211,130 @@ export default function Navbar({ user }: { user?: User }) {
     { type: "divider" as const },
     ...(cartItem && cartItem.length > 0
       ? [
-        ...cartItem.map((item) => ({
-          key: item.id,
-          label: (
-            <div className="flex items-center w-full gap-5">
-              <Checkbox
-                checked={selectedItem.some((items) => items.id === item.id)}
-                onClick={() => {
-                  setSelectedItem((prev) =>
-                    prev.some((items) => items.id === item.id)
-                      ? prev.filter((items) => items.id !== item.id)
-                      : [...prev, item]
-                  );
-                }}
-                className="pointer-events-auto"
-              />
-              <div className="flex flex-1 gap-2 py-5">
-                <AntdImage
-                  src={`${config.apiUrl}/product/uploads/${item.productDetail.product.productPhotos.find(
-                    (p) => p.photoType === "front"
-                  )?.image
-                    }`}
-                  alt="photo"
-                  preview={false}
-                  className="object-contain aspect-square"
-                  width={90}
+          ...cartItem.map((item) => ({
+            key: item.id,
+            label: (
+              <div className="flex items-center w-full gap-5">
+                <Checkbox
+                  checked={selectedItem.some((items) => items.id === item.id)}
+                  onClick={() => {
+                    setSelectedItem((prev) =>
+                      prev.some((items) => items.id === item.id)
+                        ? prev.filter((items) => items.id !== item.id)
+                        : [...prev, item]
+                    );
+                  }}
+                  className="pointer-events-auto"
                 />
-                <div className="flex items-start justify-between flex-1 gap-4 pointer-events-auto">
-                  <div className="flex-1 space-y-1">
-                    <div className="-space-y-1">
-                      <h2 className="w-44 line-clamp-2">
-                        {item.productDetail.product.name}
-                      </h2>
-                      <p className="text-gray-500">
-                        Size: {item.productDetail.size}
-                      </p>
-                    </div>
-                    <div className="text-gray-500">
-                      <span className="flex items-center gap-2">
-                        <Button
-                          onClick={() => console.log("desc")}
-                          className="pointer-events-auto"
-                          disabled={item.quantity <= 1}
-                          size="small"
-                          shape="default"
-                          icon={
-                            <Minus className="text-zinc-800" size="14px" />
-                          }
-                        />
-                        <p className="text-center basis-1/12">
-                          {item.quantity}
+                <div className="flex flex-1 gap-2 py-5">
+                  <AntdImage
+                    src={`${config.apiUrl}/product/uploads/${
+                      item.productDetail.product.productPhotos.find(
+                        (p) => p.photoType === "front"
+                      )?.image
+                    }`}
+                    alt="photo"
+                    preview={false}
+                    className="object-contain aspect-square"
+                    width={90}
+                  />
+                  <div className="flex items-start justify-between flex-1 gap-5 pointer-events-auto">
+                    <div className="flex-1 space-y-1">
+                      <div className="-space-y-1">
+                        <h2 className="w-40 line-clamp-2">
+                          {item.productDetail.product.name}
+                        </h2>
+                        <p className="text-gray-500">
+                          Size: {item.productDetail.size}
                         </p>
-                        <Button
-                          onClick={() => console.log("asc")}
-                          className="pointer-events-auto"
-                          size="small"
-                          shape="default"
-                          icon={
-                            <Plus className="text-zinc-800" size="14px" />
-                          }
-                        />
-                      </span>
+                      </div>
+                      <div className="text-gray-500">
+                        <span className="flex items-center gap-2">
+                          <Button
+                            onClick={() => handleReduce(item.id)}
+                            className="pointer-events-auto"
+                            disabled={item.quantity <= 1 || processing}
+                            size="small"
+                            shape="default"
+                            icon={
+                              <Minus className="text-zinc-800" size="14px" />
+                            }
+                          />
+                          <p className="text-center basis-6">{item.quantity}</p>
+                          <Button
+                            onClick={() => handleAdd(item.id)}
+                            className="pointer-events-auto"
+                            size="small"
+                            shape="default"
+                            disabled={
+                              processing ||
+                              item.quantity == item.productDetail.stock
+                            }
+                            icon={
+                              <Plus className="text-zinc-800" size="14px" />
+                            }
+                          />
+                        </span>
+                      </div>
                     </div>
+                    <h2 className="w-32 font-medium tracking-wide text-right text-green-700">
+                      Rp{" "}
+                      {(
+                        item.productDetail.product.price * item.quantity
+                      ).toLocaleString("en-US")}
+                    </h2>
                   </div>
-                  <h2 className="font-medium tracking-wide text-green-700">
-                    Rp{" "}
-                    {(
-                      item.productDetail.product.price * item.quantity
-                    ).toLocaleString("en-US")}
-                  </h2>
                 </div>
               </div>
-            </div>
-          ),
-          className: "pointer-events-none",
-        })),
-        { type: "divider" as const },
-        {
-          key: "total",
-          label: (
-            <div className="flex items-center justify-between w-full">
-              <h1>Order Subtotal:</h1>
-              <h2 className="font-medium tracking-wide text-green-700">
-                Rp{" "}
-                {selectedItem
-                  .reduce(
-                    (accumulator, current) =>
-                      accumulator +
-                      current.productDetail.product.price * current.quantity,
-                    0
-                  )
-                  .toLocaleString("en-US")}
-              </h2>
-            </div>
-          ),
-          className: "pointer-events-none",
-        },
-        {
-          key: "checkout",
-          label: (
-            <Button
-              loading={loading}
-              disabled={selectedItem.length <= 0}
-              className="pointer-events-auto"
-              block
-              size="large"
-              type="primary"
-              onClick={() =>
-                handleCheckout(selectedItem)
-              }
-            >
-              Checkout
-            </Button>
-          ),
-          className: "pointer-events-none",
-        },
-      ]
+            ),
+            className: "pointer-events-none",
+          })),
+          { type: "divider" as const },
+          {
+            key: "total",
+            label: (
+              <div className="flex items-center justify-between w-full">
+                <h1>Order Subtotal:</h1>
+                <h2 className="font-medium tracking-wide text-green-700">
+                  Rp{" "}
+                  {selectedItem
+                    .reduce(
+                      (accumulator, current) =>
+                        accumulator +
+                        current.productDetail.product.price * current.quantity,
+                      0
+                    )
+                    .toLocaleString("en-US")}
+                </h2>
+              </div>
+            ),
+            className: "pointer-events-none",
+          },
+          {
+            key: "checkout",
+            label: (
+              <Button
+                loading={loading || processing}
+                disabled={selectedItem.length <= 0}
+                className="pointer-events-auto"
+                block
+                size="large"
+                type="primary"
+                onClick={() => handleCheckout(selectedItem)}
+              >
+                Checkout
+              </Button>
+            ),
+            className: "pointer-events-none",
+          },
+        ]
       : [
-        {
-          key: "no-data",
-          label: <Empty description="No items" />,
-          className: "text-gray-500 pointer-events-none",
-        },
-      ]),
+          {
+            key: "no-data",
+            label: <Empty description="No items" />,
+            className: "text-gray-500 pointer-events-none",
+          },
+        ]),
   ];
   return (
 		<div className="sticky top-0 flex flex-col w-screen gap-6 py-5 bg-white z-[100] px-14 shadow-[0_8px_30px_rgb(0,0,0,0.12)]">

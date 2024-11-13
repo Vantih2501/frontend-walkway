@@ -8,45 +8,50 @@ import Charts from "#/components/Admin/Dashboard/Charts";
 import DashboardTable from "#/components/DashboardTable";
 import { useProduct } from "#/hooks/product";
 import { Spin } from "antd";
+import { useOrder } from "#/hooks/order";
 
 const Dashboard = () => {
-	const { fetchProduct } = useProduct();
-	const { product, isLoading } = fetchProduct();
+  const { fetchProduct } = useProduct();
+  const { fetchOrder } = useOrder();
 
-	if (isLoading) {
-		return (
-			<div className="w-full h-[80vh] flex items-center justify-center">
-				<Spin size="large" />
-			</div>
-		);
-	}
+  const { product, isLoading: productLoading } = fetchProduct();
+  const { order, isLoading: orderLoading } = fetchOrder();
 
-	return (
-		<div className="space-y-4">
-			<main className="grid grid-cols-12 gap-4">
-				<section className="h-full col-span-8">
-					<div className="h-full flex flex-col justify-between gap-4">
-						<ContainerInfo
-							totalRevenue={"RP. 300,000K"}
-							totalSales={"30"}
-							totalProduct={product}
-							className="flex justify-between gap-4 h-fit"
-						/>
-						<Charts />
-					</div>
-				</section>
+  if (productLoading || orderLoading) {
+    return (
+      <div className="w-screen h-[86vh] flex items-center justify-center">
+        <Spin size="large" />
+      </div>
+    );
+  }
 
-				<aside className="h-full col-span-4 border rounded-lg border-zinc-300">
-					{/* Change to Order Api */}
-					<SiderContent orders={product} />
-				</aside>
-			</main>
+  return (
+    <div className="space-y-4">
+      <div className="grid grid-cols-12 gap-4">
+        <div className="h-full col-span-8">
+          <div className="mb-4">
+            {product && order && (
+              <ContainerInfo
+                product={product}
+                order={order}
+                className="flex justify-between gap-4 h-fit"
+              />
+            )}
+          </div>
 
-			<footer>
-				<DashboardTable product={product} />
-			</footer>
-		</div>
-	);
+          {order && <Charts order={order} />}
+        </div>
+
+        <aside className="h-full col-span-4 transition-all ease-in-out border rounded-lg border-zinc-300 hover:border-primary hover:shadow-md">
+          {/* Change to Order Api */}
+          {order && <SiderContent orders={order} />}
+        </aside>
+      </div>
+      <footer className="w-full">
+        <DashboardTable product={product} />
+      </footer>
+    </div>
+  );
 };
 
 export default Dashboard;
