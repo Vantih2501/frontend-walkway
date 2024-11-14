@@ -44,7 +44,7 @@ const ProductCarousel = ({ product }: CarouselProps) => {
           { breakpoint: 768, settings: { slidesToShow: 1 } },
         ]}
       >
-        {product.map((product) => (
+        {product.filter((product) => product.status !== 'inactive').map((product) => (
           <Link href={`/product/${urlFormatter(product?.brand.name)}/${urlFormatter(product.name)}`} key={product.id} className="px-1 hover:text-inherit">
             <ProductCard
               price={product?.price}
