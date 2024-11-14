@@ -209,7 +209,7 @@ const AddressModalForm = ({
             ]}
           >
             <Select
-              placeholder="Select sub discrict"
+              placeholder="Select discrict"
               className="h-10"
               loading={subDistrictLoading}
               showSearch
