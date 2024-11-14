@@ -43,7 +43,6 @@ const Dashboard = () => {
         </div>
 
         <aside className="h-full col-span-4 transition-all ease-in-out border rounded-lg border-zinc-300 hover:border-primary hover:shadow-md">
-          {/* Change to Order Api */}
           {order && <SiderContent orders={order} />}
         </aside>
       </div>

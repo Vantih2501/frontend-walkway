@@ -108,14 +108,14 @@ const BidModal = ({ open, onCancel, product, postBid, isEditing, setIsEditing, s
 					onFinish={(values) => onFinish(values)}
 					layout="vertical"
 					requiredMark={false}
-					className="p-6 mx-auto flex flex-col justify-between h-full gap-4"
+					className="flex flex-col justify-between h-full gap-4 p-6 mx-auto"
 				>
 					{dom}
 				</Form>
 			)}
 		>
-			<div className="space-y-4 py-4">
-				<div className="flex items-center">
+			<div className="py-4 space-y-4">
+				{/* <div className="flex items-center">
 					<Button
 						className="flex-1 h-9"
 						type={tab == "description" ? "primary" : "text"}
@@ -131,7 +131,7 @@ const BidModal = ({ open, onCancel, product, postBid, isEditing, setIsEditing, s
 					>
 						Participant
 					</Button>
-				</div>
+				</div> */}
 
 				<div className={tab == "description" ? "block space-y-3" : "hidden"}>
 					{isEditing && (
@@ -208,7 +208,7 @@ const BidModal = ({ open, onCancel, product, postBid, isEditing, setIsEditing, s
 							showTime
 							format="YYYY-MM-DD HH:mm"
 							onChange={handleDateChange}
-							className="h-9 w-full"
+							className="w-full h-9"
 						/>
 					</Form.Item>
 

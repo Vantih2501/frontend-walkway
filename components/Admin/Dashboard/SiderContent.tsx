@@ -22,8 +22,8 @@ const SiderContent = ({ orders }: Props) => {
         </Link>
       </div>
       <div className="overflow-y-auto">
-        <ul role="list" className="space-y-2">
-          {orders.map((order: Order) => (
+        <ul role="list" className="space-y-1.5">
+          {orders.slice(0, 8).map((order: Order) => (
             <li key={order.id} className="p-3 rounded-md cursor-pointer bg-zinc-100">
               <div className="flex items-stretch">
                 <div className="bg-white rounded-md size-16 aspect-square">
@@ -43,7 +43,7 @@ const SiderContent = ({ orders }: Props) => {
                       {order.orderItems[0].productDetail.product.name}
                     </p>
                     <p className="text-xs text-gray-400 truncate">
-                      {dayjs(order.created_at).fromNow()}
+                      {dayjs(order.createdAt).fromNow()}
                     </p>
                   </div>
                   <div className="h-full text-sm font-medium text-right text-primary basis-3/6">

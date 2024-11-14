@@ -1,6 +1,7 @@
 "use client"
 import React, { useEffect, useState } from "react";
 import { CheckCircle, Home, Gift } from "lucide-react";
+import { config } from "#/config/app";
 
 export default function Thanks() {
   const [showElements, setShowElements] = useState(false);
@@ -40,7 +41,7 @@ export default function Thanks() {
 
         <div className="flex flex-col items-center justify-center gap-4 sm:flex-row">
           <a
-            href="http://localhost:3000/"
+            href={`${config.baseUrl}`}
             className="inline-flex items-center px-6 py-3 text-white transition-colors duration-200 bg-blue-600 rounded-lg hover:bg-blue-700"
           >
             <Home className="w-5 h-5 mr-2" />
@@ -48,7 +49,7 @@ export default function Thanks() {
           </a>
 
           <a
-            href="/orders"
+            href={`${config.baseUrl}/profile`}
             className="inline-flex items-center px-6 py-3 text-white transition-colors duration-200 bg-purple-600 rounded-lg hover:bg-purple-700"
           >
             <Gift className="w-5 h-5 mr-2" />

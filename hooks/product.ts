@@ -18,6 +18,7 @@ export interface ProductDto {
     side: string[];
     bottom: string;
   };
+  status: string;
 }
 
 export const useProduct = () => {
@@ -87,13 +88,14 @@ export const useProduct = () => {
 
   const patchProduct = async (
     productId: string,
-    { brandId, name, categoryId, price, productDetails }: ProductDto
+    { brandId, name, categoryId, price, productDetails, status }: ProductDto
   ) => {
     await fetcher.patch(`/product/${productId}`, {
       brandId,
       name,
       categoryId,
       price,
+      status,
       productDetails,
       weight: 400,
     });
