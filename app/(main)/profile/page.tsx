@@ -20,6 +20,7 @@ import {
 	Spin,
 	Tag,
 	Modal,
+	Form,
 } from "antd";
 import dayjs from "dayjs";
 import { useState } from "react";
@@ -38,7 +39,12 @@ export default function Profile() {
 	const [openAddress, setOpenAddress] = useState(false);
 	const [showModal, setShowModal] = useState(false);
 
-	const menus = ["Profile", "Order History", "Bid History"];
+	const [form] = Form.useForm()
+
+	const menus = [
+		"Profile", "Order History", 
+		// "Bid History"
+	];
 
 	// console.log(order);
 
@@ -50,12 +56,15 @@ export default function Profile() {
 		try {
 			message.success("Address created successfully.");
 			await postAddress({ ...values, email: user?.email }, token);
+			setOpenAddress(false);
 		} catch (error: any) {
 			message.error(
 				`Error when creating address: ${error.response.body.message}`
 			);
+			setOpenAddress(false);
 		} finally {
 			setOpenAddress(false);
+			form.resetFields()
 		}
 	};
 
@@ -71,18 +80,14 @@ export default function Profile() {
 		}
 	};
 
-	const isRedirect = () => {
-		route.push(
-			`/product/${
-				order.orderItems[0].productDetail.product.brand.name
-			}/${urlFormatter(order.orderItems[0].productDetail.product.name)}`
-		);
-	};
+	// const isRedirect = () => {
+	// 	window.location.href={`/product/${order.orderItems[0].productDetail.product.brand.name}/${urlFormatter(order.orderItems[0].productDetail.product.name)}`}
+	// };
 
 	return (
 		<>
 			<div className="px-40 py-10">
-				<div className="rounded-2xl bg-zinc-50 w-full p-6 space-y-6">
+				<div className="w-full p-6 space-y-6 rounded-2xl bg-zinc-50">
 					<div className="-space-y-0.5">
 						<h2 className="text-2xl font-medium tracking-wide">My Profile</h2>
 						{/* <p className="text-zinc-600">Kelola informasi profil Anda untuk memudahkan proses transaksi</p> */}
@@ -112,14 +117,14 @@ export default function Profile() {
 								</div>
 							</div>
 							<div className="pt-3 space-y-3 border-t">
-								<Button
+								{/* <Button
 									type="text"
 									block
-									className="flex items-center justify-start py-6 text-base border truncate"
+									className="flex items-center justify-start py-6 text-base truncate border"
 								>
 									<EditOutlined />
 									Change Password
-								</Button>
+								</Button> */}
 
 								<Button
 									type="text"
@@ -149,7 +154,7 @@ export default function Profile() {
 											</Button>
 										</div>
 										<Divider />
-										<div className="flex flex-wrap gap-40">
+										<div className="flex flex-wrap justify-between gap-6">
 											<div className="-space-y-0.5">
 												<p className="text-gray-400">Name</p>
 												<h2 className="text-lg font-medium tracking-wide">
@@ -243,10 +248,10 @@ export default function Profile() {
 														<>
 															<div
 																key={order.id}
-																className="pb-5 mb-5 w-full border-b space-y-3 hover:opacity-60 cursor-pointer"
+																className="w-full pb-5 mb-5 space-y-3 border-b cursor-pointer hover:opacity-60"
 																onClick={handleShowModal}
 															>
-																<header className="flex items-center justify-between px-3 py-2 bg-zinc-50 text-xs rounded-lg">
+																<header className="flex items-center justify-between px-3 py-2 text-xs rounded-lg bg-zinc-50">
 																	<div className="flex items-center">
 																		<Tag
 																			className="order-tag rounded-full text-[10px]"
@@ -271,8 +276,8 @@ export default function Profile() {
 																		src={`${config.apiUrl}/product/uploads/${order.orderItems[0].productDetail.product.productPhotos.find(t => t.photoType == 'front')?.image}`}
 																		preview={false}
 																	/>
-																	<div className="h-full flex-1 space-y-1 flex flex-col justify-center">
-																		<p className="text-sm line-clamp-2 w-2/5">
+																	<div className="flex flex-col justify-center flex-1 h-full space-y-1">
+																		<p className="w-2/5 text-sm line-clamp-2">
 																			{order.orderItems[0].productDetail.product.name}
 																		</p>
 																		<div className="flex items-center gap-3 text-sm text-zinc-400">
@@ -285,7 +290,7 @@ export default function Profile() {
 																			Rp {order.order_total.toLocaleString("id-ID")}
 																		</p>
 																		<Button
-																			onClick={isRedirect}
+																			// onClick={isRedirect}
 																			type="primary"
 																			size="small"
 																			className="text-[10px] h-7 px-4 rounded-md"
@@ -331,10 +336,10 @@ export default function Profile() {
 											order.map((orders) => (
 												<>
 													<div
-														className="pb-5 w-full border-b space-y-3 hover:bg-zinc-50"
+														className="w-full pb-5 space-y-3 border-b hover:bg-zinc-50"
 														onClick={handleShowModal}
 													>
-														<header className="flex items-center justify-between px-3 py-2 bg-zinc-50 text-xs rounded-lg">
+														<header className="flex items-center justify-between px-3 py-2 text-xs rounded-lg bg-zinc-50">
 															<div className="flex items-center gap-1">
 																<Tag
 																	className="order-tag rounded-full text-[10px]"
@@ -359,8 +364,8 @@ export default function Profile() {
 																src={""}
 																preview={false}
 															/>
-															<div className="h-full flex-1 flex flex-col justify-between">
-																<p className="text-sm line-clamp-2 w-3/5">
+															<div className="flex flex-col justify-between flex-1 h-full">
+																<p className="w-3/5 text-sm line-clamp-2">
 																	Nike Shoes blue black series
 																</p>
 																<div className="flex items-center gap-3 text-sm text-zinc-400">
@@ -399,6 +404,7 @@ export default function Profile() {
 				</div>
 			</div>
 			<AddressModalForm
+				form={form}
 				open={openAddress}
 				onCancel={() => setOpenAddress(false)}
 				onFinish={handleAddressFinish}

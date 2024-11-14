@@ -86,7 +86,7 @@ const DetailProduct = ({ product }: { product: Product | undefined }) => {
 
   const handleLoginRedirect = () => {
     setIsLoginModalVisible(false);
-    router.push("/login");
+    window.location.href="/login"
   };
 
   return (
