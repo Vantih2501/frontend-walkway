@@ -22,6 +22,7 @@ import {
 	Modal,
 } from "antd";
 import dayjs from "dayjs";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { HiArrowLeftOnRectangle } from "react-icons/hi2";
 
@@ -37,12 +38,15 @@ export default function Profile() {
 	const [currentMenu, setCurrentMenu] = useState("Profile");
 	const [openAddress, setOpenAddress] = useState(false);
 	const [showModal, setShowModal] = useState(false);
+	const [selectedOrder, setSelectedOrder] = useState<Order | undefined>();
 
+	const route = useRouter();
 	const menus = ["Profile", "Order History", "Bid History"];
 
 	// console.log(order);
 
-	const handleShowModal = () => {
+	const handleShowModal = (order: any) => {
+		setSelectedOrder(order);
 		setShowModal(true);
 	};
 
@@ -236,71 +240,84 @@ export default function Profile() {
 									</div>
 									<div className="w-full mt-4">
 										{order ? (
-											order.map(
-												(order) => (
+											order.map((order) => (
 													console.log(order),
 													(
-														<>
-															<div
-																key={order.id}
-																className="pb-5 mb-5 w-full border-b space-y-3 hover:opacity-60 cursor-pointer"
-																onClick={handleShowModal}
-															>
-																<header className="flex items-center justify-between px-3 py-2 bg-zinc-50 text-xs rounded-lg">
-																	<div className="flex items-center">
-																		<Tag
-																			className="order-tag rounded-full text-[10px]"
-																			color="green"
-																		>
-																			{order.status}
-																		</Tag>
-																		<h1>
-																			{dayjs(order.order_date).format(
-																				"DD MMMM YYYY"
-																			)}
-																		</h1>
-																	</div>
-																	<h1>
-																		Nomor Resi: <span className="text-green-700">{order.receipt}</span>
-																	</h1>
-																</header>
-																<main className="flex gap-5 items-center h-[70px]">
-																	<Image
-																		className="rounded-lg !size-[70px] object-contain border border-zinc-300"
-																		alt={order.orderItems[0].productDetail.product.name}
-																		src={`${config.apiUrl}/product/uploads/${order.orderItems[0].productDetail.product.productPhotos.find(t => t.photoType == 'front')?.image}`}
-																		preview={false}
-																	/>
-																	<div className="h-full flex-1 space-y-1 flex flex-col justify-center">
-																		<p className="text-sm line-clamp-2 w-2/5">
-																			{order.orderItems[0].productDetail.product.name}
-																		</p>
-																		<div className="flex items-center gap-3 text-sm text-zinc-400">
-																			<p>Size: {order.orderItems.find(p => p.productDetail.size)?.productDetail.size}</p>
-																			<p>Quantity: {order.orderItems.length}</p>
-																		</div>
-																	</div>
-																	<div className="!h-full flex flex-col items-end justify-between">
-																		<p className="text-sm">
-																			Rp {order.order_total.toLocaleString("id-ID")}
-																		</p>
-																		<Button
-																			onClick={isRedirect}
-																			type="primary"
-																			size="small"
-																			className="text-[10px] h-7 px-4 rounded-md"
-																		>
-																			Buy Again
-																		</Button>
-																	</div>
-																</main>
+													<div
+														key={order.id}
+														className="pb-5 mb-5 w-full border-b space-y-3 hover:opacity-60 cursor-pointer"
+														onClick={() => handleShowModal(order)}
+													>
+														<header className="flex items-center justify-between px-3 py-2 bg-zinc-50 text-xs rounded-lg">
+															<div className="flex items-center">
+																<Tag
+																	className="order-tag rounded-full text-[10px]"
+																	color="green"
+																>
+																	{order.status}
+																</Tag>
+																<h1>
+																	{dayjs(order.order_date).format(
+																		"DD MMMM YYYY"
+																	)}
+																</h1>
 															</div>
-															<OrderHistoryModal
-																openModal={showModal}
-																setOpenModal={setShowModal}
-																order={order}
+															<h1>
+																Nomor Resi:{" "}
+																<span className="text-green-700">
+																	{order.receipt}
+																</span>
+															</h1>
+														</header>
+														<main className="flex gap-5 items-center h-[70px]">
+															<Image
+																className="rounded-lg !size-[70px] object-contain border border-zinc-300"
+																alt={
+																	order.orderItems[0].productDetail.product
+																		.name
+																}
+																src={`${config.apiUrl}/product/uploads/${
+																	order.orderItems[0].productDetail.product.productPhotos.find(
+																		(t) => t.photoType == "front"
+																	)?.image
+																}`}
+																preview={false}
 															/>
-														</>
+															<div className="h-full flex-1 space-y-1 flex flex-col justify-center">
+																<p className="text-sm line-clamp-2 w-2/5">
+																	{
+																		order.orderItems[0].productDetail.product
+																			.name
+																	}
+																</p>
+																<div className="flex items-center gap-3 text-sm text-zinc-400">
+																	<p>
+																		Size:{" "}
+																		{
+																			order.orderItems.find(
+																				(p) => p.productDetail.size
+																			)?.productDetail.size
+																		}
+																	</p>
+																	<p>Quantity: {order.orderItems.length}</p>
+																</div>
+															</div>
+															<div className="!h-full flex flex-col items-end justify-between">
+																<p className="text-sm">
+																	Rp{" "}
+																	{order.order_total.toLocaleString("id-ID")}
+																</p>
+																<Button
+																	onClick={isRedirect}
+																	type="primary"
+																	size="small"
+																	className="text-[10px] h-7 px-4 rounded-md"
+																>
+																	Buy Again
+																</Button>
+															</div>
+														</main>
+													</div>
 													)
 												)
 											)
@@ -308,6 +325,11 @@ export default function Profile() {
 											<Empty />
 										)}
 									</div>
+									<OrderHistoryModal
+										openModal={showModal}
+										setOpenModal={setShowModal}
+										order={selectedOrder}
+									/>
 								</div>
 							)}
 							{currentMenu == "Bid History" && (
