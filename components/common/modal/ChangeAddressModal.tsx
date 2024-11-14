@@ -3,6 +3,7 @@ import { useUser } from "#/hooks/user";
 import { formatPhoneNumber } from "#/utils/formatter";
 import { getAccessToken } from "#/utils/token";
 import { Button, Divider, Form, Input, Modal, Select } from "antd";
+import { Plus } from "lucide-react";
 import React, { useEffect } from "react";
 
 interface ModalProps {
@@ -11,12 +12,14 @@ interface ModalProps {
   loading: boolean;
   address?: Address[];
   user?: User;
+  onAdd: () => void;
 }
 
 const ChangeAddressModal = ({
   open,
   onCancel,
   loading,
+  onAdd,
   user,
   address,
 }: ModalProps) => {
@@ -32,11 +35,16 @@ const ChangeAddressModal = ({
   };
   return (
     <Modal
-      footer={[
-        <Button block onClick={() => onCancel()} type="default">
-          Close
-        </Button>,
-      ]}
+      footer={
+        <Button
+          block
+          onClick={() => onAdd()}
+          type="primary"
+          icon={<Plus className="w-4" />}
+        >
+          Add New Address
+        </Button>
+      }
       open={open}
       title="Address List"
       onCancel={() => {
@@ -44,7 +52,7 @@ const ChangeAddressModal = ({
       }}
       destroyOnClose
     >
-      <div className="space-y-2">
+      <div className="py-2.5 space-y-2">
         {address?.map((data, index) => (
           <div key={data.id}>
             <div className="px-2 space-y-3">

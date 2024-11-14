@@ -5,7 +5,9 @@ import {
   Card,
   Collapse,
   CollapseProps,
+  Form,
   Image,
+  message,
   Modal,
   Spin,
 } from "antd";
@@ -19,6 +21,7 @@ import { EditOutlined, PlusOutlined } from "@ant-design/icons";
 import { useUser } from "#/hooks/user";
 import { formatPhoneNumber } from "#/utils/formatter";
 import ChangeAddressModal from "#/components/common/modal/ChangeAddressModal";
+import AddressModalForm from "#/components/common/modal/AddressModal";
 
 export default function Checkout() {
   const checkout_token = getCheckoutToken();
@@ -27,8 +30,10 @@ export default function Checkout() {
   const { getCheckoutData, getCourierRate } = useProduct();
   const { getUser } = useAuth();
   const { user, isLoading: userLoading } = getUser(auth_token);
-  const { getAddress, fetchAddress } = useUser();
+  const { getAddress, fetchAddress, postAddress } = useUser();
   const { postToken } = useOrder();
+
+  const [form] = Form.useForm();
 
   const { address, isLoading: addressLoading } = getAddress(
     user?.defaultAddress
@@ -39,11 +44,11 @@ export default function Checkout() {
   const { product, isLoading: productLoading } =
     getCheckoutData(checkout_token);
 
-
   const [rate, setRate] = useState<any>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpenAdd, setIsOpenAdd] = useState(false);
+  const [isOpenChange, setIsOpenChange] = useState(false);
 
   const [delivery, setDelivery] = useState<any>(null);
 
@@ -159,6 +164,22 @@ export default function Checkout() {
     }
   };
 
+  const handleAddressFinish = async (values: any) => {
+    try {
+      message.success("Address created successfully.");
+      await postAddress({ ...values, email: user?.email }, auth_token);
+      setIsOpenAdd(false);
+    } catch (error: any) {
+      message.error(
+        `Error when creating address: ${error.response.body.message}`
+      );
+      setIsOpenAdd(false);
+    } finally {
+      setIsOpenAdd(false);
+      form.resetFields();
+    }
+  };
+
   return (
     <div className="max-w-7xl flex items-center min-h-[86vh] mx-auto py-3">
       <div className="w-full p-6 space-y-2 rounded-lg bg-zinc-50">
@@ -175,27 +196,55 @@ export default function Checkout() {
             <div className="space-y-3">
               <div className="flex items-center justify-between">
                 <h2 className="text-xl">Address</h2>
-                <Button
-                  type={address ? "default" : "primary"}
-                  icon={address ? <EditOutlined /> : <PlusOutlined />}
-                  onClick={() => setIsOpen(true)}
-                >
-                  {address ? "Change Address" : "Add Address"}
-                </Button>
+                {address ? (
+                  <Button
+                    type="default"
+                    icon={<EditOutlined />}
+                    onClick={() => setIsOpenChange(true)}
+                  >
+                    Change Address
+                  </Button>
+                ) : (
+                  <Button
+                    type="primary"
+                    icon={<PlusOutlined />}
+                    onClick={() => setIsOpenAdd(true)}
+                  >
+                    Add Address
+                  </Button>
+                )}
+                <AddressModalForm
+                  form={form}
+                  open={isOpenAdd}
+                  onCancel={() => setIsOpenAdd(false)}
+                  onFinish={handleAddressFinish}
+                />
                 <ChangeAddressModal
+                  onAdd={() => {
+                    setIsOpenChange(false);
+                    setIsOpenAdd(true);
+                  }}
                   user={user}
-                  open={isOpen}
+                  open={isOpenChange}
                   loading={addressesLoading}
                   address={addresses}
-                  onCancel={() => setIsOpen(false)}
+                  onCancel={() => setIsOpenChange(false)}
                 />
               </div>
               <div className="px-5 space-y-1">
-                <p>
-                  <span className="font-medium">{address?.contact_name}</span> |{" "}
-                  {formatPhoneNumber(address?.contact_number)}
-                </p>
-                <p className="w-3/5 leading-snug">{address?.address}</p>
+                {address ? (
+                  <>
+                    <p>
+                      <span className="font-medium">
+                        {address?.contact_name}
+                      </span>{" "}
+                      | {formatPhoneNumber(address?.contact_number)}
+                    </p>
+                    <p className="w-3/5 leading-snug">{address?.address}</p>
+                  </>
+                ) : (
+                  <p className="leading-snug">No address available</p>
+                )}
               </div>
             </div>
 
