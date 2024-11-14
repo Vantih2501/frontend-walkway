@@ -31,7 +31,8 @@ const RegisterForm = () => {
       // setAccessToken(response.access_token);
       message.success("Registration successful. Please log in first.");
       router.push("/login");
-    } catch (error) {
+    } catch (error: any) {
+      message.error(`Error Accured: ${error.response.body.message}`);
       console.error(error);
       setIsLoading(false);
     }

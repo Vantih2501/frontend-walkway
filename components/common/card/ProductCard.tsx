@@ -1,6 +1,6 @@
 import React from "react";
 import type { CountdownProps } from "antd";
-import { Image, Statistic } from "antd";
+import { Image, Statistic, Tag } from "antd";
 import { config } from "#/config/app";
 
 const { Countdown } = Statistic;
@@ -64,12 +64,15 @@ export const ProductCardAdmin = ({ product, frontImage, sold, onClick }: AdminCa
   return (
     <div onClick={() => onClick(product)} className="flex flex-col justify-between gap-5 px-4 py-3 bg-white border rounded-md cursor-pointer">
       <div className="space-y-3">
-        <Image
-          src={`${config.apiUrl}/product/uploads/${frontImage}`}
-          alt="product"
-          preview={false}
-          className="object-contain border border-black aspect-video"
-        />
+        <div className="relative">
+          <Tag className="absolute top-1 left-0 rounded-full text-[10px] z-10" color={`${product.status === "active" ? "green" : "red"}`}>{product.status}</Tag>
+          <Image
+            src={`${config.apiUrl}/product/uploads/${frontImage}`}
+            alt="product"
+            preview={false}
+            className="object-contain border border-black aspect-video"
+          />
+        </div>
         <div className="">
           <h2 className="font-semibold line-clamp-1">{product.name}</h2>
           <p className="font-medium text-green-600">Rp {product.price.toLocaleString('en-US')}</p>

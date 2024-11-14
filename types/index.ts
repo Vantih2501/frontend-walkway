@@ -34,6 +34,7 @@ interface Product {
   productDetails: ProductDetail[];
   createdAt: Date;
   categories: Category[];
+  status: string
 }
 
 interface ProductDetail {
@@ -118,6 +119,8 @@ interface Order {
   order_date: Date;
   receipt: string;
   orderItems: OrderItems[];
+  order_total: number;
+  createdAt: Date
 }
 
 interface OrderItems {

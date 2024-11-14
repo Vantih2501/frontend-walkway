@@ -2,6 +2,15 @@ import useSWR, { mutate } from "swr";
 import { fetcher } from "#/utils/fetcher";
 
 export const useOrder = () => {
+  const fetchOrder = () => {
+    const { data, error, isLoading } = useSWR<Order[]>(`/order/`, fetcher.get);
+    return {
+      order: data,
+      isError: error,
+      isLoading,
+    };
+  };
+
   const getOrder = (email?: string) => {
     const { data, error, isLoading } = useSWR<Order[]>(
       email ? `/user/orders/${email}` : null,
@@ -54,5 +63,5 @@ export const useOrder = () => {
     };
   };
 
-  return { postToken, postBidToken, getOrder };
+  return { postToken, postBidToken, getOrder, fetchOrder };
 };

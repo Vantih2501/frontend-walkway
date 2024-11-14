@@ -1,10 +1,11 @@
 "use client"
 import { EditOutlined, PlusOutlined } from "@ant-design/icons";
-import { Button, Form, Space, Table, TableProps, Tag } from "antd";
+import { Button, Form, Image, message, Space, Table, TableProps, Tag } from "antd";
 import BrandModalForm from "./common/modal/BrandModal";
 import { useState } from "react";
 import { createStyles } from "antd-style";
 import { useBrand } from "#/hooks/brand";
+import { config } from "#/config/app";
 
 interface BrandTableProps {
   brand: Brand[]
@@ -34,8 +35,18 @@ export default function BrandTable({ brand }: BrandTableProps) {
   const columns: TableProps<Brand | undefined>['columns'] = [
     {
       title: "Name",
-      dataIndex: "name",
       key: "name",
+      render: (record) => (
+        <div className="flex items-center gap-2">
+          <Image
+            width={54}
+            className="object-contain aspect-square bg-black rounded-md"
+            preview={false}
+            src={`${config.apiUrl}/brand/uploads/${record.image}`}
+          />
+          <p>{record.name}</p>
+        </div>
+      )
     },
     {
       title: "Status",
@@ -82,12 +93,14 @@ export default function BrandTable({ brand }: BrandTableProps) {
       setLoading(true)
       if (editing) {
         await patchBrand(values.id, values)
+        message.success("Brand updated successfully")
       } else {
         await postBrand(values)
+        message.success("Brand created successfully")
       }
 
-    } catch (error) {
-
+    } catch (error: any) {
+      message.error(error.response.body.message)
     } finally {
       setOpen(false)
       setLoading(false)
@@ -113,7 +126,7 @@ export default function BrandTable({ brand }: BrandTableProps) {
         className={styles.customTable}
         columns={columns}
         dataSource={brand}
-        scroll={{ y: 60 * 5 }}
+        // scroll={{ y: 60 * 5 }}
         pagination={false}
       />
 

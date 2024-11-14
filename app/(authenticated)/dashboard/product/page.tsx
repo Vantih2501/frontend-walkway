@@ -36,6 +36,7 @@ interface FormValues {
   name: string;
   price: number;
   weight: number;
+  status: string;
   brand: string;
   categories: Category[];
   stock: ProductDetail[];
@@ -99,29 +100,70 @@ export default function Product() {
   }
 
   const handleUpload = async (file: UploadFile, fileList: UploadFile[]) => {
-    const response = await uploadImage(file);
-    if (!response) return;
+    // If it's a removal operation (file status is 'removed')
+    if (file.status === "removed") {
+      setPhotos((prev: any) => {
+        const updatedPhotos = { ...prev };
 
-    setPhotos((prev: any) => {
-      const updatedPhotos = { ...prev };
+        // Reset the structure based on remaining files
+        updatedPhotos.front = undefined;
+        updatedPhotos.side = [];
+        updatedPhotos.bottom = undefined;
 
-      if (fileList.length === 1) {
-        updatedPhotos.front = response.imageUrl;
-      } else if (fileList.length === 2) {
-        updatedPhotos.side = [response.imageUrl];
-      } else if (fileList.length === 3) {
-        updatedPhotos.side = [...updatedPhotos.side, response.imageUrl];
-      } else if (fileList.length === 4) {
-        updatedPhotos.bottom = response.imageUrl;
-      } else {
-        return Upload.LIST_IGNORE;
-      }
+        // Reassign photos based on remaining fileList
+        fileList.forEach((remainingFile, index) => {
+          const imageUrl =
+            remainingFile.response?.imageUrl || remainingFile.url;
 
-      return updatedPhotos;
-    });
+          if (index === 0) {
+            updatedPhotos.front = imageUrl;
+          } else if (index === 1 || index === 2) {
+            if (!updatedPhotos.side) updatedPhotos.side = [];
+            updatedPhotos.side.push(imageUrl);
+          } else if (index === 3) {
+            updatedPhotos.bottom = imageUrl;
+          }
+        });
 
-    setFileList(fileList);
-    return false;
+        return updatedPhotos;
+      });
+
+      setFileList(fileList);
+      return false;
+    }
+
+    // Handle new file upload
+    try {
+      const response = await uploadImage(file);
+      if (!response) return Upload.LIST_IGNORE;
+
+      setPhotos((prev: any) => {
+        const updatedPhotos = { ...prev };
+
+        if (fileList.length === 1) {
+          updatedPhotos.front = response.imageUrl;
+        } else if (fileList.length === 2) {
+          updatedPhotos.side = [response.imageUrl];
+        } else if (fileList.length === 3) {
+          updatedPhotos.side = [
+            ...(updatedPhotos.side || []),
+            response.imageUrl,
+          ];
+        } else if (fileList.length === 4) {
+          updatedPhotos.bottom = response.imageUrl;
+        } else {
+          return Upload.LIST_IGNORE;
+        }
+
+        return updatedPhotos;
+      });
+
+      setFileList(fileList);
+      return false;
+    } catch (error) {
+      console.error("Upload error:", error);
+      return Upload.LIST_IGNORE;
+    }
   };
 
   useEffect(() => {
@@ -147,7 +189,7 @@ export default function Product() {
         brand: editData.brand.id,
         categories: selectedCategories,
         price: editData.price,
-        status: "active",
+        status: editData.status,
         stock: stockDetails,
       });
     } else {
@@ -217,6 +259,7 @@ export default function Product() {
         categoryId: categoryIds,
         name: values.name,
         price: formattedPrice,
+        status: values.status,
         productDetails: productDetails,
         productPhotos: photos,
         weight: 400,

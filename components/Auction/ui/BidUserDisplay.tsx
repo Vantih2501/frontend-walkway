@@ -11,7 +11,7 @@ const BidUserDisplay = ({
   user,
 }: {
   participant: BidParticipant[];
-  user: User;
+  user?: User;
 }) => {
   return (
     <div className="overflow-hidden border border-primary rounded-xl">
@@ -25,7 +25,7 @@ const BidUserDisplay = ({
               <div className="flex-1 min-w-0 ms-4">
                 <p className="text-white truncate">
                   {participant[0].user.name}{" "}
-                  {participant[0].user.email == user.email && "(You)"}
+                  {user?.email && participant[0].user.email == user.email && "(You)"}
                 </p>
                 <p className="text-sm truncate text-zinc-100">
                   {dayjs(participant[0].updatedAt).fromNow()}
@@ -47,7 +47,7 @@ const BidUserDisplay = ({
                     <div className="flex-1 min-w-0 ms-4">
                       <p className="text-sm font-medium text-gray-900 truncate">
                         {participant.user.name}{" "}
-                        {participant.user.email == user.email && "(You)"}
+                        {user?.email && participant.user.email == user.email && "(You)"}
                       </p>
                       <p className="text-xs text-gray-400 truncate">
                         {dayjs(participant.updatedAt).fromNow()}

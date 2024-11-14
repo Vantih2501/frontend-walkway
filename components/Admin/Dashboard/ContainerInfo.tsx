@@ -4,16 +4,27 @@ import { LuDollarSign } from "react-icons/lu";
 import { PiWallet } from "react-icons/pi";
 import { IoCubeOutline } from "react-icons/io5";
 
-const ContainerInfo = ({ className }: { className: string }) => {
+interface Props {
+  className: string;
+  product: Product[];
+  order: Order[]
+}
+
+const ContainerInfo = ({ className, product, order }: Props) => {
   return (
     <div className={`${className}`}>
       <CardInfo
         title={"Total Revenue"}
-        value={"RP. 300,000K"}
+        value={`Rp ${order.reduce((acc, val) => acc + val.order_total, 0).toLocaleString('en-US')}`}
         Icon={LuDollarSign}
       />
-      <CardInfo title={"Total Sales"} value={"201"} Icon={PiWallet} />
-      <CardInfo title={"Total Product"} value={"20"} Icon={IoCubeOutline} />
+      <CardInfo title={"Total Sales"} value={order.length} Icon={PiWallet} />
+      <CardInfo
+        title={"Total Product"}
+        perMonth={false}
+        value={product.length.toLocaleString("en-us")}
+        Icon={IoCubeOutline}
+      />
     </div>
   );
 };
