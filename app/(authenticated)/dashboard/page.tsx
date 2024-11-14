@@ -27,7 +27,7 @@ const Dashboard = () => {
 
   return (
     <div className="space-y-4">
-      <div className="grid grid-cols-12 gap-4">
+      {/* <div className="grid grid-cols-12 gap-4">
         <div className="h-full col-span-8">
           <div className="mb-4">
             {product && order && (
@@ -43,13 +43,12 @@ const Dashboard = () => {
         </div>
 
         <aside className="h-full col-span-4 transition-all ease-in-out border rounded-lg border-zinc-300 hover:border-primary hover:shadow-md">
-          {/* Change to Order Api */}
           {order && <SiderContent orders={order} />}
         </aside>
       </div>
       <footer className="w-full">
         <DashboardTable product={product} />
-      </footer>
+      </footer> */}
     </div>
   );
 };
