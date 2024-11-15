@@ -12,6 +12,7 @@ interface ModalProps {
   loading?: boolean;
   isEditing?: boolean;
   address?: Address;
+  form: any
 }
 
 const AddressModalForm = ({
@@ -21,8 +22,8 @@ const AddressModalForm = ({
   loading,
   address,
   isEditing,
+  form
 }: ModalProps) => {
-  const [form] = Form.useForm();
 
   const [selectedProvince, setSelectedProvince] = useState("");
   const [selectedCity, setSelectedCity] = useState("");
@@ -97,7 +98,6 @@ const AddressModalForm = ({
             setSelectedCity("");
             setSelectedSubDistrict("");
             setSelectedZipCode("");
-            form.resetFields();
           }}
         >
           {dom}
@@ -209,7 +209,7 @@ const AddressModalForm = ({
             ]}
           >
             <Select
-              placeholder="Select sub discrict"
+              placeholder="Select discrict"
               className="h-10"
               loading={subDistrictLoading}
               showSearch

@@ -23,7 +23,7 @@ const SiderContent = ({ orders }: Props) => {
       </div>
       <div className="overflow-y-auto">
         <ul role="list" className="space-y-1.5">
-          {orders.slice(0, 8).map((order: Order) => (
+          {orders.slice(0, 6).map((order: Order) => (
             <li key={order.id} className="p-3 rounded-md cursor-pointer bg-zinc-100">
               <div className="flex items-stretch">
                 <div className="bg-white rounded-md size-16 aspect-square">
