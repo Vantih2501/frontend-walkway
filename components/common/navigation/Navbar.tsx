@@ -67,7 +67,7 @@ export default function Navbar({ user }: { user?: User }) {
     {
       key: "Sneakers",
       label: (
-        <Link className="hover:text-primary/80" href="/">
+        <Link className="hover:text-primary/80" href="/product">
           Sneakers
         </Link>
       ),
@@ -75,7 +75,7 @@ export default function Navbar({ user }: { user?: User }) {
     {
       key: "Casual",
       label: (
-        <Link className="hover:text-primary/80" href="/">
+        <Link className="hover:text-primary/80" href="/product">
           Casual
         </Link>
       ),
@@ -83,7 +83,7 @@ export default function Navbar({ user }: { user?: User }) {
     {
       key: "Sport",
       label: (
-        <Link className="hover:text-primary/80" href="/">
+        <Link className="hover:text-primary/80" href="/product">
           Sport
         </Link>
       ),
@@ -91,8 +91,8 @@ export default function Navbar({ user }: { user?: User }) {
     {
       key: "Auction",
       label: (
-        <Link className="hover:text-primary/80" href="/">
-          Auction
+        <Link className="hover:text-primary/80" href="/product">
+          Running
         </Link>
       ),
     },

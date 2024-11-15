@@ -56,13 +56,12 @@ export default function AdminLayout({ children }: LayoutProps) {
             {getTitle()}
           </h1>
 
-          <Link href="/dashboard/profile" className="flex items-center gap-2">
+          <Link href="/dashboard/profile" className="flex items-center gap-2 rever">
             <Avatar size={43} icon={<User />} />
             <div className="-space-y-1">
               <h2 className="text-base font-medium leading-6">
                 {user?.name}
               </h2>
-              <p className="text-xs text-zinc-400">{user?.email}</p>
             </div>
           </Link>
         </div>

@@ -1,7 +1,17 @@
 "use client";
 
 import React, { useState } from "react";
-import { Button, Form, Input, Modal, Select, Space, Spin, Table, Tag } from "antd";
+import {
+  Button,
+  Form,
+  Input,
+  Modal,
+  Select,
+  Space,
+  Spin,
+  Table,
+  Tag,
+} from "antd";
 import type { TableProps } from "antd";
 import {
   DeleteOutlined,
@@ -13,6 +23,8 @@ import { createStyles } from "antd-style";
 import AccountModalForm from "#/components/common/modal/AccountModal";
 import { useUser } from "#/hooks/user";
 import { useRole } from "#/hooks/role";
+import { formatPhoneNumber } from "#/utils/formatter";
+import { capitalize } from "#/utils/capitalize";
 
 const { confirm } = Modal;
 
@@ -38,13 +50,13 @@ const AccountTable = () => {
               scrollbar-color: #eaeaea transparent;
               scrollbar-gutter: stable;
             }
-            }
-            }
-            `,
+          }
+        }
+      `,
     };
   });
-  const { fetchUser, postUser, patchUser, deleteUser } = useUser()
-  const { fetchRole } = useRole()
+  const { fetchUser, postUser, patchUser, deleteUser } = useUser();
+  const { fetchRole } = useRole();
   const [form] = Form.useForm();
   const { styles } = useStyle();
 
@@ -53,11 +65,18 @@ const AccountTable = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [editUserData, setEditUserData] = useState<User>();
 
+  const [roleData, setRoleData] = useState("all");
+
   const columns: TableProps<User>["columns"] = [
     {
       title: "Name",
       dataIndex: "name",
       key: "name",
+    },
+    {
+      title: "Role",
+      key: "role",
+      render: (record) => <p>{capitalize(record.role.name)}</p>,
     },
     {
       title: "Email",
@@ -66,8 +85,8 @@ const AccountTable = () => {
     },
     {
       title: "Phone Number",
-      dataIndex: "phone_number",
       key: "phone_number",
+      render: (record) => <p>{formatPhoneNumber(record.phone_number)}</p>,
     },
     {
       title: "Status",
@@ -112,21 +131,21 @@ const AccountTable = () => {
       okType: "danger",
       cancelText: "No",
       onOk: async () => {
-        await deleteUser(userId)
+        await deleteUser(userId);
       },
     });
   };
 
   const onFinish = async (values: FormValues) => {
     try {
-      setLoading(true)
+      setLoading(true);
       if (isEditing) {
         await patchUser(
           values.userId,
           values.name,
           values.phone_number,
           values.status
-        )
+        );
       } else {
         await postUser(
           values.name,
@@ -134,42 +153,58 @@ const AccountTable = () => {
           values.phone_number,
           values.password,
           values.role
-        )
+        );
       }
     } catch (error) {
-      console.error(error)
+      console.error(error);
     } finally {
-      setOpenModal(false)
-      setLoading(false)
-      form.resetFields()
+      setOpenModal(false);
+      setLoading(false);
+      form.resetFields();
     }
   };
 
-  const { user, isLoading: isUserLoading } = fetchUser()
-  const { role, isLoading: isRoleLoading } = fetchRole()
+  const { user, isLoading: isUserLoading } = fetchUser();
+  const { role, isLoading: isRoleLoading } = fetchRole();
 
   if (isUserLoading || isRoleLoading) {
     return (
       <div className="w-full h-[80vh] flex items-center justify-center">
         <Spin size="large" />
       </div>
-    )
+    );
   }
 
   return (
     <div className="space-y-5">
-      <Button
-        type={"primary"}
-        className="rounded-md text-xs h-[33px]"
-        onClick={() => {
-          setOpenModal(true),
-            setIsEditing(false),
-            setEditUserData(undefined)
-        }}
-        icon={<PlusOutlined />}
-      >
-        Account
-      </Button>
+      <div className="flex flex-row-reverse justify-between">
+        <Button
+          type={"primary"}
+          className="rounded-md text-xs h-[33px]"
+          onClick={() => {
+            setOpenModal(true), setIsEditing(false), setEditUserData(undefined);
+          }}
+          icon={<PlusOutlined />}
+        >
+          Account
+        </Button>
+
+        <Select
+          className="select-bid"
+          defaultValue="all"
+          onChange={(value) => {
+            setRoleData(value);
+            console.log("Selected Brand:", value);
+          }}
+          options={[
+            { value: "all", label: "All Role" },
+            ...(role?.map((role) => ({
+              value: role.name,
+              label: capitalize(role.name),
+            })) || []),
+          ]}
+        />
+      </div>
 
       <AccountModalForm
         open={openModal}
@@ -190,7 +225,11 @@ const AccountTable = () => {
         <Table<User>
           className={styles.customTable}
           columns={columns}
-          dataSource={user}
+          dataSource={
+            roleData == "all"
+              ? user
+              : user?.filter((user) => user.role.name == roleData)
+          }
           scroll={{ y: 60 * 5 }}
           pagination={false}
         />

@@ -20,7 +20,7 @@ export const ProductCard = ({
   return (
     <div
       className={
-        "bg-white h-100vh cursor-pointer rounded-xl border border-transparent transition-all duration-300 ease-in-out hover:border-primary-500 w-full group"
+        "bg-white h-100vh cursor-pointer rounded-xl border  transition-all duration-300 ease-in-out hover:border-primary-500 w-full group"
       }
     >
 

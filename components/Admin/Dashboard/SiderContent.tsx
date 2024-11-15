@@ -20,7 +20,7 @@ const SiderContent = ({ orders }: Props) => {
 		<div className="flex flex-col p-4 space-y-5">
 			<div className="flex items-center justify-between">
 				<h1 className="text-base font-medium 2xl:text-xl">New Order</h1>
-				<Link href={"/"} className="flex items-center hover:opacity-75">
+				<Link href={"/dashboard/order"} className="flex items-center hover:opacity-75">
 					<p className="text-[10px] 2xl:text-xs">See Orders</p>
 					<HiMiniChevronRight />
 				</Link>
