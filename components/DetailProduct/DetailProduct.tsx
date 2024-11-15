@@ -259,20 +259,33 @@ const DetailProduct = ({ product }: { product: Product | undefined }) => {
       {/* Modal untuk login */}
       <Modal
         open={isLoginModalVisible}
-        onOk={handleLoginRedirect}
-        onCancel={() => setIsLoginModalVisible(false)}
+        // onOk={handleLoginRedirect}
+        // onCancel={() => setIsLoginModalVisible(false)}
         okText="Login"
         cancelText="Cancel"
         closable={false}
+        width={400}
+        footer={null}
       >
-        <div className="flex ">
+        <br />
+        <div className="justify-center justify-items-center ">
           <ExclamationCircleOutlined
-            className="text-6xl"
+            className="text-7xl mb-3"
             style={{ color: "#b91c1c" }}
           />
           <Title level={4} className="mx-4 mt-4">
             Login first to checkout.
           </Title>
+          <br />
+          <Button
+            onClick={() => setIsLoginModalVisible(false)}
+            style={{ marginRight: 20 }}
+          >
+            Cancel
+          </Button>
+          <Button type="primary" onClick={handleLoginRedirect}>
+            Login
+          </Button>
         </div>
       </Modal>
     </>

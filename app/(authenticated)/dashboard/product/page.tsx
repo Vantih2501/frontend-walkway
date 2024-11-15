@@ -210,6 +210,27 @@ export default function Product() {
   const { brand, isLoading: brandLoading } = fetchBrand();
   const { category, isLoading: categoryLoading } = fetchCategory();
 
+  const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
+  const [selectedCategory, setSelectedCategory] = useState("All Product");
+  const [selectedBrand, setSelectedBrand] = useState("All Brand");
+
+  const product2: Product[] = [];
+
+  useEffect(() => {
+    setFilteredProducts(product2);
+  }, [product]);
+
+  useEffect(() => {
+    let filtered = (product ?? []).filter(
+      (prod) =>
+        (selectedCategory === "All Product" ||
+          prod.categories.find((cate) => cate.name === selectedCategory)) &&
+        (selectedBrand === "All Brand" || prod.brand.name === selectedBrand)
+    );
+
+    setFilteredProducts(filtered);
+  }, [selectedCategory, selectedBrand, product]);
+
   if (productLoading || brandLoading || categoryLoading) {
     return (
       <div className="w-full h-[80vh] flex items-center justify-center">
@@ -278,20 +299,27 @@ export default function Product() {
         <div className="flex items-center justify-between">
           <div className="space-x-3">
             <Select
-              defaultValue="all"
+              defaultValue="All Product"
+              onChange={(value) => setSelectedCategory(value)}
               options={[
-                { value: "all", label: "All Product" },
-                { value: "sport", label: "Sport" },
-                { value: "casual", label: "Casual" },
+                { value: "All Product", label: "All Product" },
+                ...(category?.map((cat) => ({
+                  value: cat.name,
+                  label: cat.name,
+                })) || []),
               ]}
               className="!rounded-full"
             />
+
             <Select
-              defaultValue="all"
+              defaultValue="All Brand"
+              onChange={(value) => setSelectedBrand(value)}
               options={[
-                { value: "all", label: "All Brand" },
-                { value: "nike", label: "Nike" },
-                { value: "adidas", label: "Adidas" },
+                { value: "All Brand", label: "All Brand" },
+                ...(brand?.map((brn) => ({
+                  value: brn.name,
+                  label: brn.name,
+                })) || []),
               ]}
             />
           </div>
@@ -334,8 +362,8 @@ export default function Product() {
             }
           )}
         >
-          {product &&
-            product.map((product) => (
+          {filteredProducts &&
+            filteredProducts.map((product) => (
               <ProductCardAdmin
                 isSelected={product.id == editData?.id}
                 product={product}
@@ -422,19 +450,11 @@ export default function Product() {
                   ]}
                 >
                   <Dragger
-                    fileList={fileList}
                     beforeUpload={() => false}
                     multiple={true}
                     maxCount={4}
-                    onChange={({ file, fileList }) =>
-                      handleUpload(file, fileList)
-                    }
-                    onRemove={(file) => {
-                      handleUpload(
-                        { ...file, status: "removed" },
-                        fileList.filter((f) => f.uid !== file.uid)
-                      );
-                      return true;
+                    onChange={(info) => {
+                      handleUpload(info.file, info.fileList);
                     }}
                     accept="image/*"
                     listType="picture"
@@ -446,9 +466,9 @@ export default function Product() {
                     <p className="ant-upload-text">
                       Click or drag images to upload
                     </p>
-                    <p className="ant-upload-hint">
+                    {/* <p className="ant-upload-hint">
                       Upload in the order: Front, Side 1 & 2, Bottom
-                    </p>
+                    </p> */}
                   </Dragger>
                 </Form.Item>
               ) : (
@@ -507,6 +527,20 @@ export default function Product() {
               >
                 <CategorySelector onChange={() => {}} />
               </Form.Item>
+
+              {/* 
+              <Form.Item
+                name="price"
+                label="Price"
+                rules={[{ required: true, message: "Please input product price" }]}
+              >
+                <Input
+                  type="number"
+                  addonBefore="Rp"
+                  placeholder="Enter your product price"
+                  className="price-input"
+                />
+              </Form.Item> */}
 
               <PriceInput
                 currencyPrefix="Rp"
