@@ -79,7 +79,7 @@ export default function Sidebar({ role }: { role?: string | any }) {
     try {
       removeTokens();
       messageApi.success("Logged out successfully");
-      window.location.href = "/";
+      window.location.href = "/login";
     } catch (error) {
       messageApi.error("Failed to logout. Please try again.");
       console.error("Logout error:", error);

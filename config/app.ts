@@ -5,12 +5,7 @@ export const config = {
       : "") ||
     process.env.NEXT_PUBLIC_API_URL ||
     "http://localhost:3222",
-  baseUrl:
-    (typeof window !== "undefined"
-      ? (window as any).serverEnv?.DYNAMIC_ENV_BASE_URL
-      : "") ||
-    process.env.NEXT_PUBLIC_API_URL ||
-    "https://f209kkb4-3000.asse.devtunnels.ms",
+  baseUrl: "https://f209kkb4-3000.asse.devtunnels.ms",
   sandboxUrl:
     (typeof window !== "undefined"
       ? (window as any).serverEnv?.DYNAMIC_ENV_BASE_URL
