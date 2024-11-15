@@ -228,11 +228,9 @@ export default function Product() {
         (selectedBrand === "All Brand" || prod.brand.name === selectedBrand)
     );
 
-
     setFilteredProducts(filtered);
   }, [selectedCategory, selectedBrand, product]);
 
-   
   if (productLoading || brandLoading || categoryLoading) {
     return (
       <div className="w-full h-[80vh] flex items-center justify-center">
@@ -319,9 +317,9 @@ export default function Product() {
               options={[
                 { value: "All Brand", label: "All Brand" },
                 ...(brand?.map((brn) => ({
-					value: brn.name,
-					label: brn.name
-				})) || []),
+                  value: brn.name,
+                  label: brn.name,
+                })) || []),
               ]}
             />
           </div>

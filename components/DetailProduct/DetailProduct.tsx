@@ -268,7 +268,7 @@ const DetailProduct = ({ product }: { product: Product | undefined }) => {
           <Title level={4} className="mx-4 mt-4">
             Login first to checkout.
           </Title>
-              <br />
+          <br />
           <Button
             onClick={() => setIsLoginModalVisible(false)}
             style={{ marginRight: 20 }}
