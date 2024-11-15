@@ -40,7 +40,7 @@ export default function BrandTable({ brand }: BrandTableProps) {
         <div className="flex items-center gap-2">
           <Image
             width={54}
-            className="object-contain aspect-square bg-black rounded-md"
+            className="object-contain bg-black rounded-md aspect-square invert"
             preview={false}
             src={`${config.apiUrl}/brand/uploads/${record.image}`}
           />

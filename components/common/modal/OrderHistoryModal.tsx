@@ -54,7 +54,7 @@ const OrderHistoryModal = ({
             </p>
           </div>
           <h1 className="flex items-center gap-1 text-xs">
-            Receipt:<span className="text-green-600 underline cursor-pointer">{order.receipt}</span>
+            Receipt:<Link href={`${config.apiUrl}/order/export/${order.id}`} target="_blank" className="text-green-700 underline cursor-pointer hover:underline hover:text-green-800">{order.receipt}</Link>
           </h1>
         </div>
         <Divider />
