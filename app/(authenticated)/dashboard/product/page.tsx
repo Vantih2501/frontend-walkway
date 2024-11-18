@@ -365,6 +365,7 @@ export default function Product() {
           {filteredProducts &&
             filteredProducts.map((product) => (
               <ProductCardAdmin
+                isSelected={product.id == editData?.id}
                 product={product}
                 key={product.id}
                 frontImage={product.frontImage}

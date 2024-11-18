@@ -6,7 +6,7 @@ interface User {
   phone_number: string;
   status: string;
   address?: Address[];
-  role: Role | string;
+  role: Role;
   defaultAddress?: string;
   cartId?: string;
   cart?: Cart;

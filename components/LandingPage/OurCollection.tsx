@@ -26,7 +26,7 @@ const OurCollection = () => {
           </div>
           <div className="grid grid-cols-5 gap-4 2xl:grid-cols-6">
             {product &&
-              product.map((product) => (
+              product.slice(0, 12).map((product) => (
                 <Link key={product.id} href={`/product/${urlFormatter(product.brand.name)}/${urlFormatter(product.name)}`}>
                   <ProductCard
                     key={product.id}

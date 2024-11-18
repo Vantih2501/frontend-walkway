@@ -64,7 +64,7 @@ const AccountModalForm = ({
           onFinish={(values) => {
             const formattedValues = {
               ...values,
-              phone_number: "+62" + values.phone_number,
+              phone_number: "+62" + values.phone_number.replace(/-/g, ""),
             };
             onFinish(formattedValues);
           }}
