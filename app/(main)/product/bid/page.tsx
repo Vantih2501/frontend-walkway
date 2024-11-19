@@ -1,6 +1,6 @@
 "use client";
 
-import { Carousel, Image } from "antd";
+import { Carousel, Image, Spin } from "antd";
 import { BidCard } from "#/components/common/card/BidCard";
 import { useBid } from "#/hooks/bid";
 import React from "react";
@@ -16,60 +16,40 @@ const contentStyle: React.CSSProperties = {
 	background: "#364d79",
 };
 
+const banner = [
+	{ id: 1, image: "/image/banner-1.png" },
+	{ id: 2, image: "/image/banner-2.png" },
+	{ id: 3, image: "/image/banner-3.png" },
+];
+
 const Bid = () => {
 	const { fetchBids } = useBid();
 	const { bids, isError, isLoading } = fetchBids();
 
-	const carouselRef = React.useRef<any>(null);
-
-	const handleNext = () => {
-		carouselRef.current.next();
-	};
-
-	const handlePrev = () => {
-		carouselRef.current.prev();
-	};
+	if (isLoading) return (
+		<div className="w-screen h-[86vh] flex items-center justify-center">
+			<Spin size="large" />
+		</div>
+	);
 
 	return (
 		<div className="py-20 px-24 2xl:px-0 max-w-7xl mx-auto">
 			<nav className="mb-11">
 				<Carousel autoplay>
-					<div>
-						<h3 style={contentStyle}>
-							<Image
-								src="/image/banner-1.png"
-								alt="banner-1"
-								height={"100%"}
-								width={"100%"}
-								preview={false}
-								className="w-full object-cover object-center"
-							/>
-						</h3>
-					</div>
-					<div>
-						<h3 style={contentStyle}>
-							<Image
-								src="/image/banner-2.png"
-								alt="banner-2"
-								height={"100%"}
-								width={"100%"}
-								preview={false}
-								className="w-full object-cover object-center"
-							/>
-						</h3>
-					</div>
-					<div>
-						<h3 style={contentStyle}>
-							<Image
-								src=""
-								alt="banner-3"
-								height={"100%"}
-								width={"100%"}
-								preview={false}
-								className="w-full object-cover object-center"
-							/>
-						</h3>
-					</div>
+					{banner.map((banner) => (
+						<div key={banner.id}>
+							<h3 style={contentStyle}>
+								<Image
+									src={banner.image}
+									alt={`banner-${banner.id}`}
+									height={"100%"}
+									width={"100%"}
+									preview={false}
+									className="w-full object-cover object-center"
+								/>
+							</h3>
+						</div>
+					))}
 				</Carousel>
 			</nav>
 			<section className="space-y-11">
@@ -80,14 +60,14 @@ const Bid = () => {
 				<main className="grid grid-cols-5 gap-4">
 					{bids &&
 						bids.map((bid) => (
-                            <Link href={`/product/bid/${bid.id}`} key={bid.id}>
-                                <BidCard
-                                    key={bid.id}
-                                    bid={bid}
-                                    imageUrl={bid.productPhotos}
-                                    product={bid.productDetail.product}
-                                />
-                            </Link>
+							<Link href={`/product/bid/${bid.id}`} key={bid.id}>
+								<BidCard
+									key={bid.id}
+									bid={bid}
+									imageUrl={bid.productPhotos}
+									product={bid.productDetail.product}
+								/>
+							</Link>
 						))}
 				</main>
 			</section>
