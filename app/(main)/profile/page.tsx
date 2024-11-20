@@ -24,8 +24,17 @@ import {
 } from "antd";
 import dayjs from "dayjs";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { HiArrowLeftOnRectangle } from "react-icons/hi2";
+
+enum OrderStatus {
+  All = "all",
+  Confirmed= "confirmed",
+  Pending = "pending",
+  Cancelled = "cancelled",
+  Delivered = "delivered",
+  Picking_up = "picking_up",
+}
 
 export default function Profile() {
   const { getUser } = useAuth();
@@ -39,7 +48,17 @@ export default function Profile() {
   const [currentMenu, setCurrentMenu] = useState("Profile");
   const [openAddress, setOpenAddress] = useState(false);
   const [showModal, setShowModal] = useState(false);
-  const [selectedOrder, setSelectedOrder] = useState<Order>();
+  const [selectedStatus, setSelectedStatus] = useState<string>("all");
+  const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
+  const [filteredOrder, setFilteredOrder] = useState<Order[]>([]);
+
+  useEffect(() => {
+    const filter = (order ?? []).filter(
+      (ord) => selectedStatus === "all" || ord.status === selectedStatus
+    );
+
+    setFilteredOrder(filter);
+  }, [selectedStatus, order]);
 
   const [form] = Form.useForm();
 
@@ -233,18 +252,17 @@ export default function Profile() {
                     <h2>Status:</h2>
                     <Select
                       className="w-40"
-                      value={"all"}
-                      options={[
-                        { value: "all", label: "All" },
-                        { value: "pending", label: "Pending" },
-                        { value: "cancelled", label: "Cancelled" },
-                        { value: "delivered", label: "Delivered" },
-                      ]}
+                      value={selectedStatus}
+                      onChange={(value) => setSelectedStatus(value as OrderStatus)}
+                      options={Object.values(OrderStatus).map((status) => ({
+                        value: status,
+                        label: status.charAt(0).toUpperCase() + status.slice(1),
+                      }))}
                     />
                   </div>
                   <div className="w-full mt-4 space-y-3">
                     {order ? (
-                      order.map((item, index) => (
+                      filteredOrder.map((item, index) => (
                         <div key={item.id}>
                           <div
                             className="w-full space-y-3 transition-all ease-in-out cursor-pointer hover:opacity-60"

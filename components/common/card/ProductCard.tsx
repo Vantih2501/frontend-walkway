@@ -20,7 +20,7 @@ export const ProductCard = ({
   return (
     <div
       className={
-        "bg-white h-100vh cursor-pointer rounded-xl border border-transparent transition-all duration-300 ease-in-out hover:border-primary-500 w-full group"
+        "bg-white h-100vh cursor-pointer rounded-xl border  transition-all duration-300 ease-in-out hover:border-primary-500 w-full group"
       }
     >
 
@@ -57,12 +57,13 @@ interface AdminCardProps {
   sold: number;
   product: Product,
   onClick: (value: any) => void;
+  isSelected: boolean
 }
 
 
-export const ProductCardAdmin = ({ product, frontImage, sold, onClick }: AdminCardProps) => {
+export const ProductCardAdmin = ({ product, frontImage, sold, onClick, isSelected }: AdminCardProps) => {
   return (
-    <div onClick={() => onClick(product)} className="flex flex-col justify-between gap-5 px-4 py-3 bg-white border rounded-md cursor-pointer">
+    <div onClick={() => onClick(product)} className={`flex flex-col justify-between gap-5 px-4 py-3 bg-white border ${isSelected && ("border-primary-300")} rounded-md cursor-pointer transition-all ease-in-out`}>
       <div className="space-y-3">
         <div className="relative">
           <Tag className="absolute top-1 left-0 rounded-full text-[10px] z-10" color={`${product.status === "active" ? "green" : "red"}`}>{product.status}</Tag>
