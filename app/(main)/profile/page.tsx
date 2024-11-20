@@ -81,7 +81,7 @@ export default function Profile() {
       setOpenAddress(false);
     } catch (error: any) {
       message.error(
-        `Error when creating address: ${error.response.body.message}`
+        `Error Occurred: ${error.response.body.message}`
       );
       setOpenAddress(false);
     } finally {

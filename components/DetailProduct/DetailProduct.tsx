@@ -80,7 +80,7 @@ const DetailProduct = ({ product }: { product: Product | undefined }) => {
       message.success("Product added to cart.");
     } catch (error: any) {
       message.error(
-        `Error when adding to cart: ${error.response.body.message}`
+        `Error Occurred: ${error.response.body.message}`
       );
       setLoading(false);
     } finally {
@@ -270,7 +270,7 @@ const DetailProduct = ({ product }: { product: Product | undefined }) => {
         <br />
         <div className="justify-center justify-items-center ">
           <ExclamationCircleOutlined
-            className="text-7xl mb-3"
+            className="mb-3 text-7xl"
             style={{ color: "#b91c1c" }}
           />
           <Title level={4} className="mx-4 mt-4">

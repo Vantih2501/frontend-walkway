@@ -100,7 +100,7 @@ export default function BrandTable({ brand }: BrandTableProps) {
       }
 
     } catch (error: any) {
-      message.error(error.response.body.message)
+      message.error(`Error Occurred: ${error.response.body.message}`)
     } finally {
       setOpen(false)
       setLoading(false)

@@ -14,7 +14,7 @@ const BrandBanner = () => {
       <div className="px-6 py-8 mx-auto max-w-7xl">
         <div className="flex flex-wrap items-center w-full justify-evenly gap-x-24">
           {brand &&
-            brand.map((brand, index) => (
+            brand.filter((b) => b.status !== 'inactive').map((brand, index) => (
               <Link key={index} href={`/product/${urlFormatter(brand.name)}`}>
                 <Image src={`${config.apiUrl}/brand/uploads/${brand.image}`} alt={brand.name} preview={false} className="max-w-32 mix-blend-screen"/>
               </Link>
