@@ -6,12 +6,15 @@ import { useBrand } from "#/hooks/brand";
 import { useCategory } from "#/hooks/category";
 import { useProduct, ProductDto } from "#/hooks/product";
 import { Spin } from "antd";
+import { useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import React, { useState, useEffect } from "react";
 
 const ProductCategory = () => {
   const { fetchBrand } = useBrand();
   const { fetchCategory } = useCategory();
   const { fetchProduct } = useProduct();
+  const router = useRouter();
 
   const { brand, isLoading: brandLoading } = fetchBrand();
   const { category, isLoading: categoryLoading } = fetchCategory();
@@ -21,7 +24,25 @@ const ProductCategory = () => {
   const [selectedBrands, setSelectedBrands] = useState<string[]>([]);
   const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
 
-  // Update produk yang difilter berdasarkan kategori dan brand
+  const searchParams = useSearchParams();
+  const categoryQuery = searchParams ? searchParams.get('category') || 'All Product' : 'All Product';
+
+  useEffect(() => {
+    if(product && category) {
+      // Setel kategori yang dipilih berdasarkan parameter kategori di URL
+      setSelectedCategories([categoryQuery]);
+
+      // Filter produk berdasarkan kategori yang dipilih
+      const filtered = product.filter((product) =>
+        categoryQuery === 'All Product'
+          ? true
+          : product.categories?.some((cat) => cat.name.toLowerCase() === categoryQuery.toLowerCase())
+      );
+      setFilteredProducts(filtered);
+    }
+  }, [searchParams, product]); 
+
+  // Memperbarui produk yang difilter berdasarkan kategori dan brand yang dipilih
   const updateFilteredProducts = (categories: string[], brands: string[]) => {
     if (!product || product.length === 0) return;
 
@@ -29,31 +50,35 @@ const ProductCategory = () => {
       const categoryMatch = categories.length === 0 || item.categories.some((category) => categories.includes(category.name));
       const brandMatch = brands.length === 0 || brands.includes(item.brand.name);
   
-      // Memastikan setidaknya ada satu produk yang cocok dengan filter
+      // Pastikan produk cocok dengan kategori dan brand yang dipilih
       return categoryMatch && brandMatch;
     });
-  
+
     if (filtered.length === 0) {
-      console.log('No products match the selected filters'); // Log jika tidak ada produk yang cocok
+      console.log('Tidak ada produk yang cocok dengan filter yang dipilih');
     }
-  
+
     setFilteredProducts(filtered);
   };
 
-  const handleFilterChange = (categories: string[], brands: string[]) => {
-    console.log('Selected Categories:', categories);
-    console.log('Selected Brands:', brands);
+  const handleFilterChange = (categories: string[], brands: string[], newCategory: string) => {
+    console.log('Kategori yang Dipilih:', categories);
+    console.log('Brand yang Dipilih:', brands);
+
     setSelectedCategories(categories);
     setSelectedBrands(brands);
+
+    // Memperbarui produk berdasarkan filter yang baru
     updateFilteredProducts(categories, brands);
+    router.push(`/product?category=${newCategory}`);
   };
 
   useEffect(() => {
-    console.log('Filtered Products:', filteredProducts);
+    console.log('Produk yang sudah difilter:', filteredProducts);
     updateFilteredProducts(selectedCategories, selectedBrands);
-  }, [selectedCategories, selectedBrands]);
+  }, [selectedCategories, selectedBrands]); // Update ketika kategori atau brand berubah
 
-  // Loading state
+  // Menampilkan loading state jika data brand, kategori, atau produk sedang dimuat
   if (brandLoading || categoryLoading || productsLoading) {
     return (
       <div className="w-screen h-[86vh] flex items-center justify-center">
