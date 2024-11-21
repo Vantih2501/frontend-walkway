@@ -44,6 +44,7 @@ const SiderContent = ({ orders }: Props) => {
                   <div className="flex items-stretch">
                     <div className="bg-white rounded-md size-16 aspect-square">
                       <Image
+                        alt="img"
                         className="object-contain bg-white rounded-md shadow-sm aspect-square"
                         preview={false}
                         src={`${config.apiUrl}/product/uploads/${

@@ -1,6 +1,6 @@
 "use client"
 import React, { useState, useEffect } from "react";
-import { Button, Divider } from "antd";
+import { Button } from "antd";
 
 interface CategoryTagProps {
   brand?: Brand[];
@@ -36,8 +36,8 @@ const CategoryTag = ({
   }, [selectedCategories, selectedBrands, onFilterChange]);
 
   return (
-    <div className="p-6 border border-zinc-300 rounded-2xl">
-      <div>
+    <div className="p-6 border border-zinc-300 rounded-2xl space-y-8">
+      <div className="pb-8 border-b border-zinc-300">
         <p className="mb-4">Category</p>
         <div className="flex flex-wrap gap-2">
           {category &&
@@ -53,8 +53,6 @@ const CategoryTag = ({
             ))}
         </div>
       </div>
-
-      <Divider />
 
       <div>
         <p className="mb-4">Brands</p>

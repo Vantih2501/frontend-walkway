@@ -12,6 +12,8 @@ import {
   Modal,
   DatePicker,
   message,
+  Dropdown,
+  Menu,
 } from "antd";
 import { ColumnsType } from "antd/es/table";
 import { createStyles } from "antd-style";
@@ -21,6 +23,10 @@ import { EllipsisVertical } from "lucide-react";
 import { config } from "#/config/app";
 import { useOrder } from "#/hooks/order";
 import { capitalize } from "#/utils/capitalize";
+import { TableProps } from "antd/lib";
+import { HiEllipsisVertical, HiOutlineEye } from "react-icons/hi2";
+import { EditOutlined } from "@ant-design/icons";
+import OrderDetailModal from "#/components/common/modal/OrderDetailModal";
 
 const { MonthPicker } = DatePicker;
 
@@ -41,8 +47,11 @@ export default function OrderPage() {
   }));
 
   const [openModal, setOpenModal] = useState(false);
+  const [openModalExport, setOpenModalExport] = useState(false);
   const [selectedMonth, setSelectedMonth] = useState<Dayjs | null>(null);
   const [exportLoading, setExportLoading] = useState(false);
+
+  const [dataOrder, setDataOrder] = useState<Order>();
 
   const { styles } = useStyle();
   const { fetchOrder } = useOrder();
@@ -101,44 +110,51 @@ export default function OrderPage() {
     );
   }
 
-  const columns: ColumnsType<Order> = [
+  const columns: TableProps<Order>["columns"] = [
     {
       title: "Product",
       key: "product",
-      render: (_, record) => {
-        const firstItem = record.orderItems[0];
-        const firstProduct = firstItem?.productDetail?.product;
-        const frontPhoto = firstProduct?.productPhotos?.find(
-          (p) => p.photoType === "front"
-        );
-
-        return (
-          <div className="flex items-center">
-            <div className="rounded-md size-16 aspect-square bg-zinc-50">
-              <Image
-                className="bg-white size-full"
-                preview={false}
-                alt={firstProduct?.name || "Product"}
-                src={
-                  frontPhoto
-                    ? `${config.apiUrl}/product/uploads/${frontPhoto.image}`
-                    : "/default-product.png"
+      render: (_, record) => (
+        <div className="flex items-center">
+          <div className="rounded-md size-16 aspect-square bg-zinc-50">
+            <Image
+              className="size-full"
+              preview={false}
+              alt={`${
+                record.orderItems.find(
+                  (item) => item.productDetail.product.name
+                )?.productDetail.product.name
+              }`}
+              src={`
+								${config.apiUrl}/product/uploads/
+								${
+                  record.orderItems[0].productDetail.product.productPhotos.find(
+                    (p) => p.photoType == "front"
+                  )?.image
+                }`}
+            />
+          </div>
+          <div className="flex gap-3 2xl:gap-5">
+            <div className="flex-1 min-w-0 ms-4">
+              <p className="mb-1 text-sm font-medium text-gray-800 2xl:text-sm line-clamp-1">
+                {
+                  record.orderItems.find(
+                    (item) => item.productDetail.product.brand.name
+                  )?.productDetail.product.brand.name
+                }{" "}
+                {
+                  record.orderItems.find(
+                    (item) => item.productDetail.product.name
+                  )?.productDetail.product.name
                 }
-              />
-            </div>
-            <div className="flex gap-3 2xl:gap-5">
-              <div className="flex-1 min-w-0 ms-4">
-                <p className="mb-1 text-sm font-medium text-gray-800 2xl:text-sm line-clamp-1">
-                  {firstProduct?.name || "N/A"}
-                </p>
-                <p className="text-sm text-gray-500 2xl:text-sm line-clamp-2">
-                  Rp. {record.order_total.toLocaleString("id-ID")}
-                </p>
-              </div>
+              </p>
+              <p className="text-sm text-gray-500 2xl:text-sm line-clamp-2">
+                Rp. {record.order_total.toLocaleString("id-ID")}
+              </p>
             </div>
           </div>
-        );
-      },
+        </div>
+      ),
     },
     {
       title: "Customer",
@@ -165,7 +181,7 @@ export default function OrderPage() {
       ),
     },
     {
-      title: "Purchase Date",
+      title: "Purcase Date",
       dataIndex: "order_date",
       key: "order_date",
       align: "left",
@@ -191,9 +207,42 @@ export default function OrderPage() {
       key: "action",
       align: "center",
       render: (_, record) => (
-        <Space size="middle">
-          <Button icon={<EllipsisVertical />} type="default" />
-        </Space>
+        <Dropdown
+          overlay={
+            <Menu>
+              <Menu.Item key="1">
+                <Button
+                  className="text-sm"
+                  icon={<HiOutlineEye size={16} />}
+                  type="text"
+                  block
+                  onClick={() => {
+                    setOpenModal(true);
+                    setDataOrder(record);
+                  }}
+                >
+                  View Details
+                </Button>
+              </Menu.Item>
+              <Menu.Item key="2">
+                <Button
+                  className="text-sm"
+                  icon={<EditOutlined />}
+                  type="text"
+                  block
+                >
+                  Edit Status
+                </Button>
+              </Menu.Item>
+            </Menu>
+          }
+          placement="bottomCenter"
+          className="cursor-pointer"
+        >
+          <div className="p-3 mx-auto w-fit rounded-xl hover:bg-zinc-100">
+            <HiEllipsisVertical className="text-xl" />
+          </div>
+        </Dropdown>
       ),
     },
   ];
@@ -224,7 +273,7 @@ export default function OrderPage() {
 
         <Button
           type="primary"
-          onClick={() => setOpenModal(true)}
+          onClick={() => setOpenModalExport(true)}
           className="rounded-full text-xs h-[33px]"
         >
           Export
@@ -233,10 +282,10 @@ export default function OrderPage() {
 
       <Modal
         title="Export Orders"
-        open={openModal}
-        onCancel={() => setOpenModal(false)}
+        open={openModalExport}
+        onCancel={() => setOpenModalExport(false)}
         footer={[
-          <Button key="cancel" onClick={() => setOpenModal(false)}>
+          <Button key="cancel" onClick={() => setOpenModalExport(false)}>
             Cancel
           </Button>,
           <Button
@@ -266,6 +315,12 @@ export default function OrderPage() {
         dataSource={order}
         scroll={{ y: 100 * 5 }}
         pagination={false}
+      />
+
+      <OrderDetailModal
+        openModal={openModal}
+        setOpenModal={setOpenModal}
+        order={dataOrder}
       />
     </div>
   );
