@@ -1,11 +1,11 @@
-"use client"
-import React, { useState, useEffect } from "react";
+"use client";
+import React, { useState } from "react";
 import { Button } from "antd";
 
 interface CategoryTagProps {
   brand?: Brand[];
   category?: Category[];
-  onFilterChange?: (selectedCategories: string[], selectedBrands: string[]) => void;
+  onFilterChange?: (selectedCategories: string[], selectedBrands: string[], newCategory: string) => void;
 }
 
 const TagStyle =
@@ -25,18 +25,14 @@ const CategoryTag = ({
     setList: React.Dispatch<React.SetStateAction<string[]>>
   ) => {
     setList((prevList) =>
-      prevList.includes(name) ? prevList.filter((item) => item !== name) : [...prevList, name]
+      prevList.includes(name)
+        ? prevList.filter((item) => item !== name)
+        : [...prevList, name]
     );
   };
 
-  useEffect(() => {
-    if (onFilterChange) {
-      onFilterChange(selectedCategories, selectedBrands);
-    }
-  }, [selectedCategories, selectedBrands, onFilterChange]);
-
   return (
-    <div className="p-6 border border-zinc-300 rounded-2xl space-y-8">
+    <div className="p-6 space-y-8 border border-zinc-300 rounded-2xl">
       <div className="pb-8 border-b border-zinc-300">
         <p className="mb-4">Category</p>
         <div className="flex flex-wrap gap-2">
@@ -46,7 +42,13 @@ const CategoryTag = ({
                 key={cat.id}
                 type={selectedCategories.includes(cat.name) ? "primary" : "default"}
                 className={`${TagStyle} ${selectedCategories.includes(cat.name) ? "text-white" : "text-zinc-900 bg-white"}`}
-                onClick={() => toggleSelection(cat.name, selectedCategories, setSelectedCategories)}
+                onClick={() => {
+                  const newCategory = cat.name;
+                  toggleSelection(cat.name, selectedCategories, setSelectedCategories);
+                  if (onFilterChange) {
+                    onFilterChange(selectedCategories, selectedBrands, newCategory); // Directly use selectedCategories and newCategory
+                  }
+                }}
               >
                 {cat.name}
               </Button>
@@ -63,7 +65,12 @@ const CategoryTag = ({
                 key={br.id}
                 type={selectedBrands.includes(br.name) ? "primary" : "default"}
                 className={`${TagStyle} ${selectedBrands.includes(br.name) ? "text-white" : "text-zinc-900 bg-white"}`}
-                onClick={() => toggleSelection(br.name, selectedBrands, setSelectedBrands)}
+                onClick={() => {
+                  toggleSelection(br.name, selectedBrands, setSelectedBrands);
+                  if (onFilterChange) {
+                    onFilterChange(selectedCategories, selectedBrands, ""); // Passing selectedCategories and selectedBrands for the brands change
+                  }
+                }}
               >
                 {br.name}
               </Button>

@@ -39,6 +39,7 @@ import Image from "next/image";
 import { useProduct } from "#/hooks/product";
 import { DropdownProps } from "antd/lib";
 import { compressJWT, decompressJWT } from "#/utils/compressor";
+import { useSearchParams } from 'next/navigation'
 
 export default function Navbar({ user }: { user?: User }) {
   const router = useRouter();
@@ -67,7 +68,7 @@ export default function Navbar({ user }: { user?: User }) {
     {
       key: "Sneakers",
       label: (
-        <Link className="hover:text-primary/80" href="/product">
+        <Link className="hover:text-primary/80" href="/product?category=Sneakers">
           Sneakers
         </Link>
       ),
@@ -75,7 +76,7 @@ export default function Navbar({ user }: { user?: User }) {
     {
       key: "Casual",
       label: (
-        <Link className="hover:text-primary/80" href="/product">
+        <Link className="hover:text-primary/80" href="/product?category=Casual">
           Casual
         </Link>
       ),
@@ -83,7 +84,7 @@ export default function Navbar({ user }: { user?: User }) {
     {
       key: "Sport",
       label: (
-        <Link className="hover:text-primary/80" href="/product">
+        <Link className="hover:text-primary/80" href="/product?category=Sport">
           Sport
         </Link>
       ),
@@ -91,7 +92,7 @@ export default function Navbar({ user }: { user?: User }) {
     {
       key: "Auction",
       label: (
-        <Link className="hover:text-primary/80" href="/product">
+        <Link className="hover:text-primary/80" href="/product?category=Running">
           Running
         </Link>
       ),
