@@ -18,7 +18,7 @@ const OurCollection = () => {
               OUR COLLECTION
             </h1>
             <Link
-              href={"#"} 
+              href={"/product"} 
               className="text-sm font-medium font-montserrat text-zinc-500 hover:opacity-75"
             >
               VIEW ALL

@@ -63,7 +63,7 @@ const ProductCategory = () => {
   }
 
   return (
-    <div className="grid grid-cols-12 gap-5 p-24">
+    <div className="grid grid-cols-12 gap-8 px-24 py-16">
       <div className="col-span-3">
         <CategoryTag
           brand={brand}
