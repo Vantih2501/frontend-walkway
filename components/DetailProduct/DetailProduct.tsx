@@ -21,11 +21,15 @@ import { useCart } from "#/hooks/cart";
 import { Minus, Plus } from "lucide-react";
 import { compressJWT, decompressJWT } from "#/utils/compressor";
 
+import sizeHeader from "#/public/image/size-header.png";
+import sizeContent from "#/public/image/size-content.png";
+
 const DetailProduct = ({ product }: { product: Product | undefined }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [quantity, setQuantity] = useState(1);
   const [selectedSize, setSelectedSize] = useState<ProductDetail>();
-  const [loading, setLoading] = useState(false);
+  const [cartLoading, setCartLoading] = useState(false);
+  const [checkoutLoading, setCheckoutLoading] = useState(false);
   const router = useRouter();
   const [isLoginModalVisible, setIsLoginModalVisible] = useState(false);
 
@@ -48,7 +52,7 @@ const DetailProduct = ({ product }: { product: Product | undefined }) => {
     }
 
     try {
-      setLoading(true);
+      setCheckoutLoading(true);
 
       const response = await genCheckoutToken([
         { id: data[0].id, quantity: quantity },
@@ -60,7 +64,7 @@ const DetailProduct = ({ product }: { product: Product | undefined }) => {
     } catch (error) {
       message.error("Error saat proses checkout");
       console.error(error);
-      setLoading(false);
+      setCheckoutLoading(false);
     }
   };
 
@@ -71,7 +75,7 @@ const DetailProduct = ({ product }: { product: Product | undefined }) => {
     }
 
     try {
-      setLoading(true);
+      setCartLoading(true);
       await addToCart({
         productDetailId: data.id,
         cartId: user.cartId,
@@ -79,14 +83,12 @@ const DetailProduct = ({ product }: { product: Product | undefined }) => {
       });
       message.success("Product added to cart.");
     } catch (error: any) {
-      message.error(
-        `Error when adding to cart: ${error.response.body.message}`
-      );
-      setLoading(false);
+      message.error(`Error Occurred: ${error.response.body.message}`);
+      setCartLoading(false);
     } finally {
       setQuantity(1);
       setSelectedSize(undefined);
-      setLoading(false);
+      setCartLoading(false);
     }
   };
 
@@ -142,9 +144,17 @@ const DetailProduct = ({ product }: { product: Product | undefined }) => {
                           <div className="p-5 text-sm font-semibold border-b border-zinc-300">
                             {product?.brand.name} Size Chart
                           </div>
-                          <div className="overflow-y-auto h-[500px] ">
+                          <Image
+                            src={sizeHeader}
+                            alt={"size header"}
+                            width={500}
+                            height={400}
+                            quality={100}
+                            className="w-full h-auto"
+                          />
+                          <div className="overflow-y-auto h-[500px] no-scrollbar">
                             <Image
-                              src={"/image/size-guide.png"}
+                              src={sizeContent}
                               alt={"size guide"}
                               width={500}
                               height={1000}
@@ -161,7 +171,11 @@ const DetailProduct = ({ product }: { product: Product | undefined }) => {
                         product?.productDetails.map(
                           (detail: any, index: number) => (
                             <Button
-                              disabled={loading || detail.stock <= 0}
+                              disabled={
+                                cartLoading ||
+                                checkoutLoading ||
+                                detail.stock <= 0
+                              }
                               key={index}
                               type={
                                 selectedSize && selectedSize.size == detail.size
@@ -226,15 +240,17 @@ const DetailProduct = ({ product }: { product: Product | undefined }) => {
                   )}
                 </>
               ) : (
-                <div className="py-10 text-center">Product is currently unavailable</div>
+                <div className="py-10 text-center">
+                  Product is currently unavailable
+                </div>
               )}
             </div>
             {product?.status !== "inactive" && (
               <div className="flex gap-4">
                 <Button
                   className="flex-1 h-14 rounded-xl"
-                  loading={loading}
-                  disabled={!selectedSize}
+                  loading={cartLoading}
+                  disabled={!selectedSize || checkoutLoading}
                   onClick={() => selectedSize && handleCart(selectedSize)}
                 >
                   Add To Cart
@@ -243,8 +259,8 @@ const DetailProduct = ({ product }: { product: Product | undefined }) => {
                   block
                   className="flex-1 h-14 rounded-xl"
                   type="primary"
-                  loading={loading}
-                  disabled={selectedSize == null}
+                  loading={checkoutLoading}
+                  disabled={!selectedSize || cartLoading}
                   onClick={() => selectedSize && handleCheckout([selectedSize])}
                 >
                   Buy Now
@@ -270,7 +286,7 @@ const DetailProduct = ({ product }: { product: Product | undefined }) => {
         <br />
         <div className="justify-center justify-items-center ">
           <ExclamationCircleOutlined
-            className="text-7xl mb-3"
+            className="mb-3 text-7xl"
             style={{ color: "#b91c1c" }}
           />
           <Title level={4} className="mx-4 mt-4">

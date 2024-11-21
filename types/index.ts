@@ -53,6 +53,7 @@ interface Bid {
   productDetail: ProductDetail;
   productPhotos: string;
   productName: string;
+  isEnded: boolean;
   bidParticipants: BidParticipant[];
 }
 
@@ -77,6 +78,7 @@ interface Category {
   id: string;
   name: string;
   status: string;
+  createdAt: Date;
 }
 
 interface RefreshToken {

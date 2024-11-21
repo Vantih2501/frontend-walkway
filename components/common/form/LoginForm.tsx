@@ -24,7 +24,7 @@ const LoginForm = () => {
       message.success('Login successful.');
       router.push("/");
     } catch (error: any) {
-      message.error(`Invalid Credentials: ${error.response.body.message}`);
+      message.error(`Error Occurred: ${error.response.body.message}`);
       setIsLoading(false);
     }
 

@@ -32,7 +32,7 @@ const RegisterForm = () => {
       message.success("Registration successful. Please log in first.");
       router.push("/login");
     } catch (error: any) {
-      message.error(`Error Accured: ${error.response.body.message}`);
+      message.error(`Error Occurred: ${error.response.body.message}`);
       console.error(error);
       setIsLoading(false);
     }

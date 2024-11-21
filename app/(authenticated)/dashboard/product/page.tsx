@@ -24,6 +24,7 @@ import { useProduct } from "#/hooks/product";
 import { useBrand } from "#/hooks/brand";
 import { useCategory } from "#/hooks/category";
 import PriceInput from "#/components/common/input/PriceInput";
+import { useOrder } from "#/hooks/order";
 const { Dragger } = Upload;
 
 interface CategorySelectorProps {
@@ -77,24 +78,30 @@ export default function Product() {
     return (
       <div className="flex flex-wrap gap-2">
         {category &&
-          category.map((category) => {
-            const isSelected = value.some((item) => item.id === category.id);
+          category
+            .sort(
+              (a, b) =>
+                new Date(a.createdAt ?? 0).getTime() -
+                new Date(b.createdAt ?? 0).getTime()
+            )
+            .map((category) => {
+              const isSelected = value.some((item) => item.id === category.id);
 
-            return (
-              <button
-                key={category.id}
-                type="button"
-                className={`px-4 py-2 rounded-full transition-colors duration-300 ${
-                  isSelected
-                    ? "bg-primary-200 border border-primary-200 text-white"
-                    : "border border-gray-200 text-gray-900"
-                }`}
-                onClick={() => handleCategoryChange(category)}
-              >
-                {category.name}
-              </button>
-            );
-          })}
+              return (
+                <button
+                  key={category.id}
+                  type="button"
+                  className={`px-4 py-2 rounded-full transition-colors duration-300 ${
+                    isSelected
+                      ? "bg-primary-200 border border-primary-200 text-white"
+                      : "border border-gray-200 text-gray-900"
+                  }`}
+                  onClick={() => handleCategoryChange(category)}
+                >
+                  {category.name}
+                </button>
+              );
+            })}
       </div>
     );
   }
@@ -205,13 +212,17 @@ export default function Product() {
   const { fetchProduct, uploadImage, postProduct, patchProduct } = useProduct();
   const { fetchBrand } = useBrand();
   const { fetchCategory } = useCategory();
+  const { fetchOrder } = useOrder();
 
   const { product, isLoading: productLoading } = fetchProduct();
   const { brand, isLoading: brandLoading } = fetchBrand();
   const { category, isLoading: categoryLoading } = fetchCategory();
+  const { order, isLoading: orderLoading } = fetchOrder();
+
+  console.log(order)
 
   const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
-  const [selectedCategory, setSelectedCategory] = useState("All Product");
+  const [selectedCategory, setSelectedCategory] = useState("All Category");
   const [selectedBrand, setSelectedBrand] = useState("All Brand");
 
   const product2: Product[] = [];
@@ -223,7 +234,7 @@ export default function Product() {
   useEffect(() => {
     let filtered = (product ?? []).filter(
       (prod) =>
-        (selectedCategory === "All Product" ||
+        (selectedCategory === "All Category" ||
           prod.categories.find((cate) => cate.name === selectedCategory)) &&
         (selectedBrand === "All Brand" || prod.brand.name === selectedBrand)
     );
@@ -231,7 +242,7 @@ export default function Product() {
     setFilteredProducts(filtered);
   }, [selectedCategory, selectedBrand, product]);
 
-  if (productLoading || brandLoading || categoryLoading) {
+  if (productLoading || brandLoading || categoryLoading || orderLoading) {
     return (
       <div className="w-full h-[80vh] flex items-center justify-center">
         <Spin size="large" />
@@ -265,10 +276,13 @@ export default function Product() {
 
       if (isEditing) {
         await patchProduct(values.productId, payload);
+        message.success("Product edited successfully!");
       } else {
         await postProduct(payload);
         message.success("Product created successfully!");
       }
+
+      setTab("description");
     } catch (error) {
       console.error(error);
     } finally {
@@ -289,7 +303,7 @@ export default function Product() {
   };
 
   return (
-    <div className="flex max-h-screen gap-x-3">
+    <div className="flex h-[78vh] gap-x-3">
       <div
         className={classNames(
           "space-y-4 transition-all duration-300 ease-in-out",
@@ -299,10 +313,10 @@ export default function Product() {
         <div className="flex items-center justify-between">
           <div className="space-x-3">
             <Select
-              defaultValue="All Product"
+              defaultValue="All Category"
               onChange={(value) => setSelectedCategory(value)}
               options={[
-                { value: "All Product", label: "All Product" },
+                { value: "All Category", label: "All Category" },
                 ...(category?.map((cat) => ({
                   value: cat.name,
                   label: cat.name,
@@ -355,14 +369,23 @@ export default function Product() {
 
         <div
           className={classNames(
-            "grid gap-3 transition-all duration-300 ease-in-out",
+            "grid gap-3 transition-all duration-300 ease-in-out h-full overflow-y-auto pr-2",
+            "[&::-webkit-scrollbar]:w-2",
+            "[&::-webkit-scrollbar]:rounded-full",
+            "[&::-webkit-scrollbar-track]:bg-gray-100",
+            "[&::-webkit-scrollbar-track]:rounded-full",
+            "[&::-webkit-scrollbar-thumb]:bg-gray-300",
+            "[&::-webkit-scrollbar-thumb]:rounded-full",
+            "[&::-webkit-scrollbar-thumb]:border-2",
+            "[&::-webkit-scrollbar-thumb]:border-transparent",
+            "[&::-webkit-scrollbar-thumb]:bg-clip-padding",
             {
               "grid-cols-3": showForm,
               "grid-cols-4": !showForm,
             }
           )}
         >
-          {filteredProducts &&
+          {filteredProducts && filteredProducts.length > 0 ? (
             filteredProducts.map((product) => (
               <ProductCardAdmin
                 isSelected={product.id == editData?.id}
@@ -395,13 +418,18 @@ export default function Product() {
                   }
                 }}
               />
-            ))}
+            ))
+          ) : (
+            <div className="flex items-center justify-center col-span-4 py-60">
+              <Empty />
+            </div>
+          )}
         </div>
       </div>
 
       <div
         className={classNames(
-          "transition-all duration-300 ease-in-out overflow-hidden rounded-xl",
+          "transition-all duration-300 ease-in-out overflow-hidden rounded-xl h-[84vh]",
           {
             "w-1/4 border": showForm,
             "w-0": !showForm,
@@ -597,6 +625,7 @@ export default function Product() {
                           {...restField}
                           name={[name, "stock"]}
                           label="Quantity"
+                          initialValue={12}
                           rules={[
                             {
                               required: true,

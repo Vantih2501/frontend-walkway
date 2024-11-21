@@ -230,8 +230,8 @@ const AccountTable = () => {
               ? user
               : user?.filter((user) => user.role.name == roleData)
           }
-          scroll={{ y: 60 * 5 }}
-          pagination={false}
+          scroll={{ y: 80 * 5 }}
+          pagination={{ pageSize: 6, position: ["bottomRight"] }}
         />
       )}
     </div>

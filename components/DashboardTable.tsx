@@ -46,11 +46,11 @@ const DashboardTable = ({ product }: any) => {
       ),
     },
     {
-      title: "Price",
-      key: "price",
-      dataIndex: "price",
+      title: "Size",
+      key: "size",
+      dataIndex: "size",
       align: "center",
-      render: (_, record) => <p>Rp. {record.price.toLocaleString("id-ID")}</p>,
+      render: (_, record) => <p>{record.productDetails.find((p) => p.id == record.id)?.size.toLocaleString("id-ID")}</p>,
     },
     {
       title: "Stock",
