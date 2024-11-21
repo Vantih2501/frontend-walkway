@@ -1,15 +1,19 @@
 "use client";
 
-import { Carousel, Image, Spin } from "antd";
+import { Carousel, Spin } from "antd";
 import { BidCard } from "#/components/common/card/BidCard";
 import { useBid } from "#/hooks/bid";
 import React from "react";
 import Link from "next/link";
-import { config } from "#/config/app";
+import Image from "next/image";
+
+import Banner1 from "#/public/image/banner-1.png";
+import Banner2 from "#/public/image/banner-2.png";
+import Banner3 from "#/public/image/banner-3.png";
 
 const contentStyle: React.CSSProperties = {
 	margin: 0,
-	height: "350px",
+	height: "400px",
 	color: "#fff",
 	lineHeight: "160px",
 	textAlign: "center",
@@ -17,20 +21,21 @@ const contentStyle: React.CSSProperties = {
 };
 
 const banner = [
-	{ id: 1, image: "/image/banner-1.png" },
-	{ id: 2, image: "/image/banner-2.png" },
-	{ id: 3, image: "/image/banner-3.png" },
+	{ id: 1, image: Banner1 },
+	{ id: 2, image: Banner2 },
+	{ id: 3, image: Banner3 },
 ];
 
 const Bid = () => {
 	const { fetchBids } = useBid();
 	const { bids, isError, isLoading } = fetchBids();
 
-	if (isLoading) return (
-		<div className="w-screen h-[86vh] flex items-center justify-center">
-			<Spin size="large" />
-		</div>
-	);
+	if (isLoading)
+		return (
+			<div className="w-screen h-[86vh] flex items-center justify-center">
+				<Spin size="large" />
+			</div>
+		);
 
 	return (
 		<div className="py-20 px-24 2xl:px-0 max-w-7xl mx-auto">
@@ -42,10 +47,8 @@ const Bid = () => {
 								<Image
 									src={banner.image}
 									alt={`banner-${banner.id}`}
-									height={"100%"}
-									width={"100%"}
-									preview={false}
-									className="w-full object-cover object-center"
+									layout="intrinsic"
+									className="object-center"
 								/>
 							</h3>
 						</div>

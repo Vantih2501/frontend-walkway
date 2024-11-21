@@ -313,6 +313,7 @@ export default function Product() {
         <div className="flex items-center justify-between">
           <div className="space-x-3">
             <Select
+              className="select-bid"
               defaultValue="All Category"
               onChange={(value) => setSelectedCategory(value)}
               options={[
@@ -322,10 +323,10 @@ export default function Product() {
                   label: cat.name,
                 })) || []),
               ]}
-              className="!rounded-full"
             />
 
             <Select
+              className="select-bid"
               defaultValue="All Brand"
               onChange={(value) => setSelectedBrand(value)}
               options={[

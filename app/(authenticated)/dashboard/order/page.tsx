@@ -1,202 +1,242 @@
 "use client";
 
+import OrderDetailModal from "#/components/common/modal/OrderDetailModal";
 import { config } from "#/config/app";
 import { useOrder } from "#/hooks/order";
 import { capitalize } from "#/utils/capitalize";
+import { EditOutlined } from "@ant-design/icons";
 import {
-  Button,
-  Select,
-  Table,
-  TableProps,
-  Image,
-  Tag,
-  Spin,
-  Space,
+	Button,
+	Select,
+	Table,
+	TableProps,
+	Image,
+	Tag,
+	Spin,
+	Dropdown,
+	MenuProps,
+	Menu,
 } from "antd";
 import { createStyles } from "antd-style";
 import dayjs from "dayjs";
-import { EllipsisVertical } from "lucide-react";
+import { useState } from "react";
+import { HiEllipsisVertical, HiOutlineEye } from "react-icons/hi2";
 
 export default function Order() {
-  const useStyle = createStyles(({ css }) => {
-    return {
-      customTable: css`
-        .ant-table {
-          .ant-table-container {
-            .ant-table-body,
-            .ant-table-content {
-              scrollbar-width: thin;
-              scrollbar-color: #eaeaea transparent;
-              scrollbar-gutter: stable;
-            }
-          }
-        }
-      `,
-    };
-  });
+	const [openModal, setOpenModal] = useState(false);
+	const [dataOrder, setDataOrder] = useState<Order>();
 
-  const { styles } = useStyle();
-  const { fetchOrder } = useOrder();
-  const { order, isError, isLoading } = fetchOrder();
+	const useStyle = createStyles(({ css }) => {
+		return {
+			customTable: css`
+				.ant-table {
+					.ant-table-container {
+						.ant-table-body,
+						.ant-table-content {
+							scrollbar-width: thin;
+							scrollbar-color: #eaeaea transparent;
+							scrollbar-gutter: stable;
+						}
+					}
+				}
+			`,
+		};
+	});
 
-  if (isError) return <div>Failed to load</div>;
-  if (isLoading) {
-    return (
-      <div className="w-full h-[80vh] flex items-center justify-center">
-        <Spin size="large" />
-      </div>
-    );
-  }
+	const { styles } = useStyle();
+	const { fetchOrder } = useOrder();
+	const { order, isError, isLoading } = fetchOrder();
 
-  const columns: TableProps<Order>["columns"] = [
-    {
-      title: "Product",
-      key: "product",
-      render: (_, record) => (
-        <div className="flex items-center">
-          <div className="rounded-md size-16 aspect-square bg-zinc-50">
-            <Image
-              className="bg-white size-full"
-              preview={false}
-              alt={`${
-                record.orderItems.find(
-                  (item) => item.productDetail.product.name
-                )?.productDetail.product.name
-              }`}
-              src={`
+	if (isError) return <div>Failed to load</div>;
+	if (isLoading) {
+		return (
+			<div className="w-full h-[80vh] flex items-center justify-center">
+				<Spin size="large" />
+			</div>
+		);
+	}
+
+	const columns: TableProps<Order>["columns"] = [
+		{
+			title: "Product",
+			key: "product",
+			render: (_, record) => (
+				<div className="flex items-center">
+					<div className="rounded-md size-16 aspect-square bg-zinc-50">
+						<Image
+							className="size-full"
+							preview={false}
+							alt={`${
+								record.orderItems.find(
+									(item) => item.productDetail.product.name
+								)?.productDetail.product.name
+							}`}
+							src={`
 								${config.apiUrl}/product/uploads/
 								${
-                  record.orderItems[0].productDetail.product.productPhotos.find(
-                    (p) => p.photoType == "front"
-                  )?.image
-                }`}
-            />
-          </div>
-          <div className="flex gap-3 2xl:gap-5">
-            <div className="flex-1 min-w-0 ms-4">
-              <p className="mb-1 text-sm font-medium text-gray-800 2xl:text-sm line-clamp-1">
-                {
-                  record.orderItems.find(
-                    (item) => item.productDetail.product.name
-                  )?.productDetail.product.name
-                }
-              </p>
-              <p className="text-sm text-gray-500 2xl:text-sm line-clamp-2">
-                Rp. {record.order_total.toLocaleString("id-ID")}
-              </p>
-            </div>
-          </div>
-        </div>
-      ),
-    },
-    {
-      title: "Customer",
-      key: "nama",
-      align: "left",
-      render: (_, record) => (
-        <div>
-          <p>{record.address.contact_name}</p>
-        </div>
-      ),
-    },
-    {
-      title: "Location",
-      dataIndex: "address",
-      key: "address",
-      align: "left",
-      render: (_, record) => (
-        <div>
-          <p>
-            {capitalize(record.address.city)},{" "}
-            {capitalize(record.address.province)}
-          </p>
-        </div>
-      ),
-    },
-    {
-      title: "Purcase Date",
-      dataIndex: "order_date",
-      key: "order_date",
-      align: "left",
-      render: (_, record) => (
-        <p>{dayjs(record.createdAt).format("DD MMM YYYY, HH:mm")}</p>
-      ),
-    },
-    {
-      title: "Status",
-      key: "status",
-      align: "center",
-      render: (_, record) => (
-        <Tag
-          className="!rounded-full"
-          color={record.status == "confirmed" ? "green" : "red"}
-        >
-          {record.status}
-        </Tag>
-      ),
-    },
-    {
-      title: "Action",
-      key: "action",
-      align: "center",
-      render: (_, record) => (
-        <Space size="middle">
-          <Button
-    				icon={<EllipsisVertical />}
-    				type="default"
-    				// onClick={() => {
-    				// 	setIsEditing(true);
-    				// 	setOpenModal(true);
-    				// 	setEditData(record);
-    				// }}
-    			/>
-          {/* <Button
-      icon={<DeleteOutlined />}
-      type="default"
-      onClick={() => confirmDelete(record.id)}
-    /> */}
-        </Space>
-      ),
-    },
-  ];
+									record.orderItems[0].productDetail.product.productPhotos.find(
+										(p) => p.photoType == "front"
+									)?.image
+								}`}
+						/>
+					</div>
+					<div className="flex gap-3 2xl:gap-5">
+						<div className="flex-1 min-w-0 ms-4">
+							<p className="mb-1 text-sm font-medium text-gray-800 2xl:text-sm line-clamp-1">
+								{
+									record.orderItems.find(
+										(item) => item.productDetail.product.brand.name
+									)?.productDetail.product.brand.name
+								}{" "}
+								{
+									record.orderItems.find(
+										(item) => item.productDetail.product.name
+									)?.productDetail.product.name
+								}
+							</p>
+							<p className="text-sm text-gray-500 2xl:text-sm line-clamp-2">
+								Rp. {record.order_total.toLocaleString("id-ID")}
+							</p>
+						</div>
+					</div>
+				</div>
+			),
+		},
+		{
+			title: "Customer",
+			key: "nama",
+			align: "left",
+			render: (_, record) => (
+				<div>
+					<p>{record.address.contact_name}</p>
+				</div>
+			),
+		},
+		{
+			title: "Location",
+			dataIndex: "address",
+			key: "address",
+			align: "left",
+			render: (_, record) => (
+				<div>
+					<p>
+						{capitalize(record.address.city)},{" "}
+						{capitalize(record.address.province)}
+					</p>
+				</div>
+			),
+		},
+		{
+			title: "Purcase Date",
+			dataIndex: "order_date",
+			key: "order_date",
+			align: "left",
+			render: (_, record) => (
+				<p>{dayjs(record.createdAt).format("DD MMM YYYY, HH:mm")}</p>
+			),
+		},
+		{
+			title: "Status",
+			key: "status",
+			align: "center",
+			render: (_, record) => (
+				<Tag
+					className="!rounded-full"
+					color={record.status == "confirmed" ? "green" : "red"}
+				>
+					{record.status}
+				</Tag>
+			),
+		},
+		{
+			title: "Action",
+			key: "action",
+			align: "center",
+			render: (_, record) => (
+				<Dropdown
+					overlay={
+						<Menu>
+							<Menu.Item key="1">
+								<Button
+									className="text-sm"
+									icon={<HiOutlineEye size={16} />}
+									type="text"
+                  block
+									onClick={() => {
+										setOpenModal(true);
+										setDataOrder(record);
+									}}
+								>
+									View Details
+								</Button>
+							</Menu.Item>
+							<Menu.Item key="2">
+								<Button 
+                  className="text-sm" 
+                  icon={<EditOutlined />} 
+                  type="text"
+                  block
+                >
+									Edit Status
+								</Button>
+							</Menu.Item>
+						</Menu>
+					}
+					placement="bottomCenter"
+					className="cursor-pointer"
+				>
+					<div className="w-fit rounded-xl p-3 mx-auto hover:bg-zinc-100">
+						<HiEllipsisVertical className="text-xl" />
+					</div>
+				</Dropdown>
+			),
+		},
+	];
 
-  return (
-    <div className="max-h-screen space-y-5">
-      <div className="flex items-center justify-between">
-        <div className="space-x-3">
-          <Select
-            className="select-bid"
-            defaultValue="Month"
-            options={[
-              { value: "all", label: "All Product" },
-              { value: "sport", label: "Sport" },
-              { value: "casual", label: "Casual" },
-              { value: "casual", label: "Casual" },
-            ]}
-          />
-          <Select
-            className="select-bid"
-            defaultValue="Status"
-            options={[
-              { value: "confirmed", label: "Comfirmed" },
-              { value: "pending", label: "Pending" },
-              { value: "cancelled", label: "Cancelled" },
-            ]}
-          />
-        </div>
+	return (
+		<div className="max-h-screen space-y-5">
+			<div className="flex items-center justify-between">
+				<div className="space-x-3">
+					<Select
+						className="select-bid"
+						defaultValue="Month"
+						options={[
+							{ value: "all", label: "All Product" },
+							{ value: "sport", label: "Sport" },
+							{ value: "casual", label: "Casual" },
+							{ value: "casual", label: "Casual" },
+						]}
+					/>
+					<Select
+						className="select-bid"
+						defaultValue="Status"
+						options={[
+							{ value: "confirmed", label: "Comfirmed" },
+							{ value: "pending", label: "Pending" },
+							{ value: "cancelled", label: "Cancelled" },
+						]}
+					/>
+				</div>
 
-        <Button type={"primary"} className="rounded-full text-xs h-[33px]">
-          Export
-        </Button>
-      </div>
+				<Button type={"primary"} className="rounded-full text-xs h-[33px]">
+					Export
+				</Button>
+			</div>
 
-      <Table
-        className={styles.customTable}
-        columns={columns}
-        dataSource={order}
-        scroll={{ y: 100 * 5 }}
-        pagination={false}
-      />
-    </div>
-  );
+			<Table
+        rowHoverable={false}
+				className={styles.customTable}
+				columns={columns}
+				dataSource={order}
+				scroll={{ y: 100 * 5 }}
+				pagination={false}
+			/>
+
+			<OrderDetailModal
+				openModal={openModal}
+				setOpenModal={setOpenModal}
+				order={dataOrder}
+			/>
+		</div>
+	);
 }
