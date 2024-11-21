@@ -1,6 +1,15 @@
-"use client"
+"use client";
 import { EditOutlined, PlusOutlined } from "@ant-design/icons";
-import { Button, Form, message, Space, Table, TableProps, Tag } from "antd";
+import {
+  Button,
+  Form,
+  message,
+  Select,
+  Space,
+  Table,
+  TableProps,
+  Tag,
+} from "antd";
 import { useState } from "react";
 import { createStyles } from "antd-style";
 import { useBrand } from "#/hooks/brand";
@@ -8,11 +17,11 @@ import { useCategory } from "#/hooks/category";
 import CategoryModalForm from "./common/modal/CategoryModal";
 
 interface CategoryTableProps {
-  category: Category[]
+  category: Category[];
 }
 
 export default function CategoryTable({ category }: CategoryTableProps) {
-  const [form] = Form.useForm()
+  const [form] = Form.useForm();
 
   const useStyle = createStyles(({ css }) => {
     return {
@@ -25,14 +34,14 @@ export default function CategoryTable({ category }: CategoryTableProps) {
               scrollbar-color: #eaeaea transparent;
               scrollbar-gutter: stable;
             }
-            }
-            }
-            `,
+          }
+        }
+      `,
     };
   });
   const { styles } = useStyle();
 
-  const columns: TableProps<Category | undefined>['columns'] = [
+  const columns: TableProps<Category | undefined>["columns"] = [
     {
       title: "Name",
       dataIndex: "name",
@@ -57,9 +66,9 @@ export default function CategoryTable({ category }: CategoryTableProps) {
             icon={<EditOutlined />}
             type="default"
             onClick={() => {
-              setEditCategory(record)
-              setEditing(true)
-              setOpen(true)
+              setEditCategory(record);
+              setEditing(true);
+              setOpen(true);
             }}
           />
           {/* <Button
@@ -69,55 +78,74 @@ export default function CategoryTable({ category }: CategoryTableProps) {
         </Space>
       ),
     },
-  ]
+  ];
 
-  const [editing, setEditing] = useState(false)
-  const [loading, setLoading] = useState(false)
-  const [open, setOpen] = useState(false)
-  const [editCategory, setEditCategory] = useState<Category | undefined>()
+  const [editing, setEditing] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [open, setOpen] = useState(false);
+  const [editCategory, setEditCategory] = useState<Category | undefined>();
+  const [categoryStatus, setCategoryStatus] = useState("all");
 
-  const { postCategory, patchCategory } = useCategory()
+  const { postCategory, patchCategory } = useCategory();
 
   const onFinish = async (values: any) => {
     try {
-      setLoading(true)
+      setLoading(true);
       if (editing) {
-        await patchCategory(values.id, values)
-        message.success("Category updated successfully")
+        await patchCategory(values.id, values);
+        message.success("Category updated successfully");
       } else {
-        await postCategory(values)
-        message.success("Category created successfully")
+        await postCategory(values);
+        message.success("Category created successfully");
       }
-
     } catch (error: any) {
-      message.error(`Error Occurred: ${error.response.body.message}`)
+      message.error(`Error Occurred: ${error.response.body.message}`);
     } finally {
-      setOpen(false)
-      setLoading(false)
-      setEditing(false)
-      form.resetFields()
+      setOpen(false);
+      setLoading(false);
+      setEditing(false);
+      form.resetFields();
     }
-  }
+  };
 
   return (
     <>
-      <Button
-        type="primary"
-        icon={<PlusOutlined />}
-        onClick={() => {
-          setEditing(false)
-          setOpen(true)
-        }}
-      >
-        Category
-      </Button>
+      <div className="flex flex-row-reverse items-center justify-between">
+        <Button
+          type="primary"
+          icon={<PlusOutlined />}
+          onClick={() => {
+            setEditing(false);
+            setOpen(true);
+          }}
+        >
+          Category
+        </Button>
+
+        <Select
+          className="select-bid"
+          defaultValue="all"
+          onChange={(value) => {
+            setCategoryStatus(value);
+          }}
+          options={[
+            { value: "all", label: "All Status" },
+            { value: "active", label: "Active" },
+            { value: "inactive", label: "Inactive" },
+          ]}
+        />
+      </div>
 
       <Table
         className={styles.customTable}
         columns={columns}
-        dataSource={category}
+        dataSource={
+          categoryStatus == "all"
+            ? category
+            : category.filter((category) => category.status === categoryStatus)
+        }
         // scroll={{ y: 60 * 5 }}
-        pagination={false}
+        pagination={{ pageSize: 9, position: ["bottomRight"] }}
       />
 
       <CategoryModalForm
@@ -126,14 +154,14 @@ export default function CategoryTable({ category }: CategoryTableProps) {
         isEditing={editing}
         loading={loading}
         onCancel={() => {
-          setOpen(false)
-          setEditing(false)
+          setOpen(false);
+          setEditing(false);
         }}
         onFinish={(values) => {
-          onFinish(values)
+          onFinish(values);
         }}
         open={open}
       />
     </>
-  )
+  );
 }

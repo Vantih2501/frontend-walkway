@@ -57,7 +57,7 @@ interface AdminCardProps {
   sold: number;
   product: Product,
   onClick: (value: any) => void;
-  isSelected: boolean
+  isSelected: boolean;
 }
 
 

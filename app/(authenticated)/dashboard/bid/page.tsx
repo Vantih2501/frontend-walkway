@@ -19,7 +19,7 @@ import { useEffect, useState } from "react";
 import { useProduct } from "#/hooks/product";
 import { useBid } from "#/hooks/bid";
 import { BidCardAdmin } from "#/components/common/card/BidCard";
-import dayjs from "dayjs";
+import dayjs, { Dayjs } from "dayjs";
 
 import { createStyles } from "antd-style";
 import BidModal from "#/components/common/modal/BidModal";
@@ -27,6 +27,40 @@ import { config } from "#/config/app";
 import { useBrand } from "#/hooks/brand";
 import { useCategory } from "#/hooks/category";
 const { Dragger } = Upload;
+
+interface BidStatusTagProps {
+  startDate: string | Date | Dayjs;
+  endDate: string | Date | Dayjs;
+}
+
+const BidStatusTag: React.FC<BidStatusTagProps> = ({ startDate, endDate }) => {
+  const currentDate = dayjs();
+  const start = dayjs(startDate);
+  const end = dayjs(endDate);
+
+  let status = "Unknown";
+  let color = "gray";
+
+  if (currentDate.isBefore(start)) {
+    status = "Not Started";
+    color = "blue";
+  } else if (
+    (currentDate.isAfter(start) || currentDate.isSame(start)) &&
+    (currentDate.isBefore(end) || currentDate.isSame(end))
+  ) {
+    status = "Ongoing";
+    color = "green";
+  } else if (currentDate.isAfter(end)) {
+    status = "Ended";
+    color = "red";
+  }
+
+  return (
+    <Tag className="rounded-full text-[10px]" color={color}>
+      {status}
+    </Tag>
+  );
+};
 
 export default function Bid() {
   const useStyle = createStyles(({ css }) => {
@@ -76,9 +110,10 @@ export default function Bid() {
               <p className="mb-1 text-sm font-medium text-gray-800 2xl:text-sm line-clamp-1">
                 {record.productName}
               </p>
-              <p className="text-sm text-gray-500 2xl:text-sm line-clamp-2">
-                Rp. {record.start_price.toLocaleString("id-ID")}
-              </p>
+              <BidStatusTag
+                startDate={record.start_date}
+                endDate={record.end_date}
+              />
             </div>
           </div>
         </div>
@@ -143,42 +178,46 @@ export default function Bid() {
   const { fetchBrand } = useBrand();
   const { fetchCategory } = useCategory();
 
-  const { bids, isLoading, isError } = fetchBids();
+  const { bids, isLoading } = fetchBids();
   const { product } = fetchProduct();
-  const { brand, isLoading: brandLoading } = fetchBrand();
-  const { category, isLoading: categoryLoading } = fetchCategory();
+  const { brand } = fetchBrand();
+  const { category } = fetchCategory();
+
+
+  console.log(category)
 
   const [filteredProducts, setFilteredProducts] = useState<Bid[]>([]);
-  const [selectedCategory, setSelectedCategory] = useState("All Product");
-  const [selectedBrand, setSelectedBrand] = useState("All Brand");
-
-  const productBid: Bid[] = [];
-
-  useEffect(() => {
-    setFilteredProducts(productBid);
-  }, [product]);
-  
+  const [selectedCategory, setSelectedCategory] = useState("all");
+  const [selectedBrand, setSelectedBrand] = useState("all");
+  const [selectedStatus, setSelectedStatus] = useState("all");
 
   useEffect(() => {
     let filtered = (bids ?? []).filter((bid) => {
-       const product = bid.productDetail.product;
+      const product = bid.productDetail.product;
 
-       console.log("Current Product Categories:", product.categories);
-       console.log("Selected Category:", selectedCategory);
-       console.log("Bid Product Detail:", bid.productDetail);
+      const currentDate = dayjs();
+      const startDate = dayjs(bid.start_date);
+      const endDate = dayjs(bid.end_date);
 
-       const isCategoryMatch = 
-           selectedCategory === "All Product" || 
-           product.categories?.some((cate) => cate.name === selectedCategory);
-       const isBrandMatch = 
-           selectedBrand === "All Brand" || 
-           product.brand.name === selectedBrand;
-       return isCategoryMatch && isBrandMatch;
+      const isCategoryMatch =
+        selectedCategory === "all" ||
+        product.categories?.some((cate) => cate.name === selectedCategory);
+      const isBrandMatch =
+        selectedBrand === "all" || product.brand.name === selectedBrand;
+
+      const isStatusMatch =
+        selectedStatus === "all" ||
+        (selectedStatus === "not_started" && currentDate.isBefore(startDate)) ||
+        (selectedStatus === "ongoing" &&
+          currentDate.isAfter(startDate) &&
+          currentDate.isBefore(endDate)) ||
+        (selectedStatus === "ended" && currentDate.isAfter(endDate));
+
+      return isCategoryMatch && isBrandMatch && isStatusMatch;
     });
- 
+
     setFilteredProducts(filtered);
- }, [selectedCategory, selectedBrand, bids]);
-  
+  }, [selectedCategory, selectedBrand, selectedStatus, bids]);
 
   if (isLoading) {
     return (
@@ -190,36 +229,39 @@ export default function Bid() {
 
   return (
     <div className="max-h-screen space-y-5">
-      <div className="flex justify-between items-center">
+      <div className="flex items-center justify-between">
         <div className="space-x-3">
           <Select
             className="select-bid"
             value={selectedCategory}
-            onChange={(value) => {
-              setSelectedCategory(value);
-              console.log("Selected Category:", value);
-           }}
-            options={[
-              { value: "all", label: "All Product" },
-              ...(category?.map((cat) => ({
+            onChange={(value) => setSelectedCategory(value)}
+            options={[{ value: "all", label: "All Category" }].concat(
+              category?.map((cat) => ({
                 value: cat.name,
                 label: cat.name,
-              })) || []),
-            ]}
+              })) || []
+            )}
           />
           <Select
             className="select-bid"
             defaultValue="all"
-            onChange={(value) => {
-              setSelectedBrand(value);
-              console.log("Selected Brand:", value);
-           }}
-            options={[
-              { value: "all", label: "All Product" },
-              ...(brand?.map((brn) => ({
+            onChange={(value) => setSelectedBrand(value)}
+            options={[{ value: "all", label: "All Brand" }].concat(
+              brand?.map((brn) => ({
                 value: brn.name,
                 label: brn.name,
-              })) || []),
+              })) || []
+            )}
+          />
+          <Select
+            className="select-bid"
+            defaultValue="all"
+            onChange={(value) => setSelectedStatus(value)}
+            options={[
+              { value: "all", label: "All Status" },
+              { value: "not_started", label: "Not Started" },
+              { value: "ongoing", label: "Ongoing" },
+              { value: "ended", label: "Ended" },
             ]}
           />
         </div>
@@ -228,7 +270,9 @@ export default function Bid() {
           type={"primary"}
           className="rounded-full text-xs h-[33px]"
           onClick={() => {
-            setOpenModal(true), setIsEditing(false), form.resetFields();
+            setOpenModal(true);
+            setIsEditing(false);
+            form.resetFields();
           }}
           icon={<PlusOutlined size={14} />}
         >
@@ -249,15 +293,13 @@ export default function Bid() {
         editData={editData}
       />
 
-      {filteredProducts && (
-        <Table
-          className={styles.customTable}
-          columns={columns}
-          dataSource={filteredProducts}
-          scroll={{ y: 100 * 5 }}
-          pagination={false}
-        />
-      )}
+      <Table
+        className={`${styles.customTable} overflow-x-auto rounded-lg`}
+        columns={columns}
+        rowKey={(row) => row.id}
+        dataSource={filteredProducts}
+        // pagination={{ position: ["bottomRight"] }}
+      />
     </div>
   );
 }

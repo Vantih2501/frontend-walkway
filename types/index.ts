@@ -53,6 +53,7 @@ interface Bid {
   productDetail: ProductDetail;
   productPhotos: string;
   productName: string;
+  isEnded: boolean;
   bidParticipants: BidParticipant[];
 }
 

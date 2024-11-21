@@ -56,7 +56,7 @@ const SiderContent = ({ orders }: Props) => {
                     <div className="flex w-full gap-3 2xl:gap-5">
                       <div className="flex flex-col justify-between min-w-0 basis-3/6 ms-4">
                         <p className="mb-1 text-sm font-medium text-gray-800 line-clamp-2">
-                          {order.orderItems[0].productDetail.product.name}
+                          {`${order.orderItems[0].productDetail.product.brand.name} ${order.orderItems[0].productDetail.product.name}`}
                         </p>
                         <p className="text-xs text-gray-400 truncate">
                           {dayjs(order.createdAt).fromNow()}

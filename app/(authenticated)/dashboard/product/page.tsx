@@ -24,6 +24,7 @@ import { useProduct } from "#/hooks/product";
 import { useBrand } from "#/hooks/brand";
 import { useCategory } from "#/hooks/category";
 import PriceInput from "#/components/common/input/PriceInput";
+import { useOrder } from "#/hooks/order";
 const { Dragger } = Upload;
 
 interface CategorySelectorProps {
@@ -211,13 +212,17 @@ export default function Product() {
   const { fetchProduct, uploadImage, postProduct, patchProduct } = useProduct();
   const { fetchBrand } = useBrand();
   const { fetchCategory } = useCategory();
+  const { fetchOrder } = useOrder();
 
   const { product, isLoading: productLoading } = fetchProduct();
   const { brand, isLoading: brandLoading } = fetchBrand();
   const { category, isLoading: categoryLoading } = fetchCategory();
+  const { order, isLoading: orderLoading } = fetchOrder();
+
+  console.log(order)
 
   const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
-  const [selectedCategory, setSelectedCategory] = useState("All Product");
+  const [selectedCategory, setSelectedCategory] = useState("All Category");
   const [selectedBrand, setSelectedBrand] = useState("All Brand");
 
   const product2: Product[] = [];
@@ -229,7 +234,7 @@ export default function Product() {
   useEffect(() => {
     let filtered = (product ?? []).filter(
       (prod) =>
-        (selectedCategory === "All Product" ||
+        (selectedCategory === "All Category" ||
           prod.categories.find((cate) => cate.name === selectedCategory)) &&
         (selectedBrand === "All Brand" || prod.brand.name === selectedBrand)
     );
@@ -237,7 +242,7 @@ export default function Product() {
     setFilteredProducts(filtered);
   }, [selectedCategory, selectedBrand, product]);
 
-  if (productLoading || brandLoading || categoryLoading) {
+  if (productLoading || brandLoading || categoryLoading || orderLoading) {
     return (
       <div className="w-full h-[80vh] flex items-center justify-center">
         <Spin size="large" />
@@ -271,6 +276,7 @@ export default function Product() {
 
       if (isEditing) {
         await patchProduct(values.productId, payload);
+        message.success("Product edited successfully!");
       } else {
         await postProduct(payload);
         message.success("Product created successfully!");
@@ -307,10 +313,10 @@ export default function Product() {
         <div className="flex items-center justify-between">
           <div className="space-x-3">
             <Select
-              defaultValue="All Product"
+              defaultValue="All Category"
               onChange={(value) => setSelectedCategory(value)}
               options={[
-                { value: "All Product", label: "All Product" },
+                { value: "All Category", label: "All Category" },
                 ...(category?.map((cat) => ({
                   value: cat.name,
                   label: cat.name,

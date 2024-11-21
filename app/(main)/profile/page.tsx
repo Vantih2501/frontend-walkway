@@ -307,10 +307,7 @@ export default function Profile() {
                               />
                               <div className="flex flex-col justify-center flex-1 h-full space-y-1">
                                 <p className="w-2/5 text-sm line-clamp-2">
-                                  {
-                                    item.orderItems[0].productDetail.product
-                                      .name
-                                  }
+                                  {`${item.orderItems[0].productDetail.product.brand.name} ${item.orderItems[0].productDetail.product.name}`}
                                 </p>
                                 <div className="flex items-center gap-3 text-sm text-zinc-400">
                                   <p>
