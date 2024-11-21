@@ -63,5 +63,17 @@ export const useOrder = () => {
     };
   };
 
+  const fetchExport = async (token: string) => {
+    const { data, error, isLoading } = useSWR(
+      `/order/export/${token}`,
+      fetcher.get
+    );
+    return {
+      export: data,
+      isError: error,
+      isLoading,
+    };
+  };
+
   return { postToken, postBidToken, getOrder, fetchOrder };
 };
