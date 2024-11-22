@@ -1,4 +1,5 @@
 "use client";
+import { formatStatus } from "#/app/(authenticated)/dashboard/order/page";
 import AddressModalForm from "#/components/common/modal/AddressModal";
 import OrderHistoryModal from "#/components/common/modal/OrderHistoryModal";
 import { config } from "#/config/app";
@@ -277,7 +278,7 @@ export default function Profile() {
                                   className="order-tag rounded-full text-[10px]"
                                   color="green"
                                 >
-                                  {item.status}
+                                  {formatStatus(item.status)}
                                 </Tag>
                                 <h1>
                                   {dayjs(item.order_date).format(

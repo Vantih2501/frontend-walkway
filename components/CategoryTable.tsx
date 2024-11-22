@@ -107,7 +107,9 @@ export default function CategoryTable({ category }: CategoryTableProps) {
       form.resetFields();
     }
   };
-
+  const sortedCategories = [...category].sort((a, b) => 
+    new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+  );
   return (
     <>
       <div className="flex flex-row-reverse items-center justify-between">
@@ -141,8 +143,8 @@ export default function CategoryTable({ category }: CategoryTableProps) {
         columns={columns}
         dataSource={
           categoryStatus == "all"
-            ? category
-            : category.filter((category) => category.status === categoryStatus)
+            ? sortedCategories
+            : sortedCategories.filter((category) => category.status === categoryStatus)
         }
         // scroll={{ y: 60 * 5 }}
         pagination={{ pageSize: 9, position: ["bottomRight"] }}

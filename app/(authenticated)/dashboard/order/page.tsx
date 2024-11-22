@@ -30,6 +30,32 @@ import OrderDetailModal from "#/components/common/modal/OrderDetailModal";
 
 const { MonthPicker } = DatePicker;
 
+type OrderStatus =
+  | "confirmed"
+  | "allocated"
+  | "picking_up"
+  | "picked"
+  | "dropping_off"
+  | "delivered";
+
+type OrderStatusFlow = {
+  [K in OrderStatus]: K extends "delivered" ? null : OrderStatus;
+};
+
+const ORDER_STATUS_FLOW: OrderStatusFlow = {
+  confirmed: "allocated",
+  allocated: "picking_up",
+  picking_up: "picked",
+  picked: "dropping_off",
+  dropping_off: "delivered",
+  delivered: null,
+};
+export const formatStatus = (status: string): string => {
+  return status
+    .split("_")
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+    .join(" ");
+};
 export default function OrderPage() {
   const useStyle = createStyles(({ css }) => ({
     customTable: css`
@@ -50,12 +76,66 @@ export default function OrderPage() {
   const [openModalExport, setOpenModalExport] = useState(false);
   const [selectedMonth, setSelectedMonth] = useState<Dayjs | null>(null);
   const [exportLoading, setExportLoading] = useState(false);
-
   const [dataOrder, setDataOrder] = useState<Order>();
 
   const { styles } = useStyle();
-  const { fetchOrder } = useOrder();
+  const { fetchOrder, updateStatus } = useOrder();
   const { order, isError, isLoading } = fetchOrder();
+
+  const handleStatusChange = async (
+    orderId: string,
+    newStatus: OrderStatus
+  ) => {
+    try {
+      await updateStatus(
+        orderId,
+        newStatus == "allocated" ? "allocate" : newStatus
+      );
+      message.success("Status updated successfully!");
+    } catch (error) {
+      message.error("Failed to update status");
+    }
+  };
+
+  const getNextStatus = (currentStatus: OrderStatus): OrderStatus | null => {
+    return ORDER_STATUS_FLOW[currentStatus];
+  };
+
+  const getActionMenu = (record: Order) => {
+    const nextStatus = getNextStatus(record.status as OrderStatus);
+
+    return (
+      <Menu>
+        <Menu.Item key="1">
+          <Button
+            className="flex items-center justify-start text-sm"
+            icon={<HiOutlineEye size={16} />}
+            type="text"
+            block
+            onClick={() => {
+              setOpenModal(true);
+              setDataOrder(record);
+            }}
+          >
+            View Details
+          </Button>
+        </Menu.Item>
+        {nextStatus && (
+          <Menu.Item key="2">
+            <Button
+              className="flex items-center justify-start text-sm"
+              icon={<EditOutlined />}
+              type="text"
+              block
+              onClick={() => handleStatusChange(record.referenceId, nextStatus)}
+            >
+              Update to {formatStatus(nextStatus)}
+            </Button>
+          </Menu.Item>
+        )}
+      </Menu>
+    );
+  };
 
   const handleExport = async () => {
     if (!selectedMonth) {
@@ -181,7 +261,7 @@ export default function OrderPage() {
       ),
     },
     {
-      title: "Purcase Date",
+      title: "Purchase Date",
       dataIndex: "order_date",
       key: "order_date",
       align: "left",
@@ -193,14 +273,14 @@ export default function OrderPage() {
       title: "Status",
       key: "status",
       align: "center",
-      render: (_, record) => (
-        <Tag
-          className="!rounded-full"
-          color={record.status == "confirmed" ? "green" : "red"}
-        >
-          {record.status}
-        </Tag>
-      ),
+      render: (_, record) => {
+        const nextStatus = getNextStatus(record.status as OrderStatus);
+        return (
+          <Tag className="!rounded-full" color={nextStatus ? "blue" : "green"}>
+            {formatStatus(record.status)}
+          </Tag>
+        );
+      },
     },
     {
       title: "Action",
@@ -208,34 +288,7 @@ export default function OrderPage() {
       align: "center",
       render: (_, record) => (
         <Dropdown
-          overlay={
-            <Menu>
-              <Menu.Item key="1">
-                <Button
-                  className="text-sm"
-                  icon={<HiOutlineEye size={16} />}
-                  type="text"
-                  block
-                  onClick={() => {
-                    setOpenModal(true);
-                    setDataOrder(record);
-                  }}
-                >
-                  View Details
-                </Button>
-              </Menu.Item>
-              <Menu.Item key="2">
-                <Button
-                  className="text-sm"
-                  icon={<EditOutlined />}
-                  type="text"
-                  block
-                >
-                  Edit Status
-                </Button>
-              </Menu.Item>
-            </Menu>
-          }
+          overlay={getActionMenu(record)}
           placement="bottomCenter"
           className="cursor-pointer"
         >
@@ -251,7 +304,7 @@ export default function OrderPage() {
     <div className="max-h-screen space-y-5">
       <div className="flex items-center justify-between">
         <div className="space-x-3">
-          <Select
+          {/* <Select
             className="select-bid"
             defaultValue="Month"
             options={[
@@ -259,7 +312,13 @@ export default function OrderPage() {
               { value: "sport", label: "Sport" },
               { value: "casual", label: "Casual" },
             ]}
+          /> */}
+          <DatePicker.MonthPicker 
+            placeholder="Select Month"
+            defaultValue={dayjs()}
+            className="rounded-full"
           />
+          
           <Select
             className="select-bid"
             defaultValue="Status"
@@ -313,8 +372,8 @@ export default function OrderPage() {
         className={styles.customTable}
         columns={columns}
         dataSource={order}
-        scroll={{ y: 100 * 5 }}
-        pagination={false}
+        scroll={{ y: 120 * 5 }}
+        pagination={{ pageSize: 6, position: ["bottomRight"] }}
       />
 
       <OrderDetailModal

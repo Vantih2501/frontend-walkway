@@ -3,7 +3,15 @@ import { fetcher } from "#/utils/fetcher";
 
 export const useOrder = () => {
   const fetchOrder = () => {
-    const { data, error, isLoading } = useSWR<Order[]>(`/order/`, fetcher.get);
+    const { data, error, isLoading } = useSWR<Order[]>(`/order`, fetcher.get);
+    return {
+      order: data,
+      isError: error,
+      isLoading,
+    };
+  };
+  const trackOrder = (id: string) => {
+    const { data, error, isLoading } = useSWR<any>(`/order/track/${id}`, fetcher.get);
     return {
       order: data,
       isError: error,
@@ -44,6 +52,18 @@ export const useOrder = () => {
     };
   };
 
+  const updateStatus = async (orderId: string, status: string) => {
+    await fetcher.postWithToken(
+      `https://api.biteship.com/v1/orders/${orderId}/update_status_test?environment=development`,
+      { status }
+    );
+
+    await mutate("/order", async () => {
+      // Fetch the updated orders directly
+      return await fetcher.get("/order");
+    });
+  };
+
   const postBidToken = async ({
     orderTotal,
     orderItems,
@@ -63,17 +83,5 @@ export const useOrder = () => {
     };
   };
 
-  const fetchExport = async (token: string) => {
-    const { data, error, isLoading } = useSWR(
-      `/order/export/${token}`,
-      fetcher.get
-    );
-    return {
-      export: data,
-      isError: error,
-      isLoading,
-    };
-  };
-
-  return { postToken, postBidToken, getOrder, fetchOrder };
+  return { postToken, postBidToken, getOrder, fetchOrder, updateStatus, trackOrder };
 };
