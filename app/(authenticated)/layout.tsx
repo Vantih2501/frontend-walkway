@@ -1,97 +1,73 @@
 "use client";
+import { Poppins } from "next/font/google";
+import Sidebar from "#/components/common/navigation/Sidebar";
+import { Avatar } from "antd";
+import { usePathname } from "next/navigation";
+import { useAuth } from "#/hooks/auth";
+import { getAccessToken } from "#/utils/token";
+import { useEffect, useState } from "react";
+import Link from "next/link";
+import { User } from "lucide-react";
 
-import React from 'react';
-import {HomeFilled, InfoCircleFilled, LaptopOutlined, NotificationOutlined, UserOutlined} from '@ant-design/icons';
-import type {MenuProps} from 'antd';
-import {Breadcrumb, Layout, Menu, theme} from 'antd';
-import {useRouter} from "next/navigation";
+const poppins = Poppins({
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700"],
+  preload: false,
+});
 
-const {Header, Content, Sider} = Layout;
-
-const items1: MenuProps['items'] = ['1', '2', '3'].map((key) => ({
-  key,
-  label: `nav ${key}`,
-}));
-
-const items2: MenuProps['items'] = [UserOutlined, LaptopOutlined, NotificationOutlined].map(
-  (icon, index) => {
-    const key = String(index + 1);
-
-    return {
-      key: `sub${key}`,
-      icon: React.createElement(icon),
-      label: `subnav ${key}`,
-
-      children: new Array(4).fill(null).map((_, j) => {
-        const subKey = index * 4 + j + 1;
-        return {
-          key: subKey,
-          label: `option${subKey}`,
-        };
-      }),
-    };
-  },
-);
-
-interface AuthenticatedLayoutProps {
-  children: React.ReactNode
+interface LayoutProps {
+  children: React.ReactNode;
 }
 
-const AuthenticatedLayout: React.FC<AuthenticatedLayoutProps> = ({children}) => {
-  const router = useRouter();
+export default function AdminLayout({ children }: LayoutProps) {
+  const pathname = usePathname();
 
-  const {
-    token: {colorBgContainer},
-  } = theme.useToken();
+  const getTitle = () => {
+    if (pathname === "/dashboard") return "Dashboard";
+    if (pathname === "/dashboard/profile") return "Profile";
+    if (pathname === "/dashboard/order") return "Order";
+    if (pathname === "/dashboard/account") return "Account";
+    if (pathname === "/dashboard/product") return "Product";
+    if (pathname === "/dashboard/categories") return "Category & Brand";
+    if (pathname === "/dashboard/bid") return "Bid";
 
-  const menu: MenuProps['items'] = [
-    {
-      key: `/home`,
-      icon: <HomeFilled/>,
-      label: `Home`,
-    },
-    {
-      key: `/about`,
-      icon: <InfoCircleFilled/>,
-      label: `About`,
-    }
-  ]
+    return "Dashboard";
+  };
+
+  const [isMounted, setIsMounted] = useState(false)
+  const { getUser } = useAuth()
+  const token = getAccessToken()
+  const { user, isLoading, isError } = getUser(token)
+
+  useEffect(() => {
+    setIsMounted(true)
+  }, [])
+
+  if (!isMounted || isLoading) {
+    return null
+  }
 
   return (
-    <Layout>
-      <Header className="header flex">
-        <div className={"text-white"}>y</div>
-        <Menu theme="dark" mode="horizontal" defaultSelectedKeys={[]} items={items1} className={"flex-1"}/>
-      </Header>
-      <Layout>
-        <Sider width={200} style={{background: colorBgContainer}}>
-          <Menu
-            mode="inline"
-            defaultSelectedKeys={['1']}
-            defaultOpenKeys={['sub1']}
-            style={{height: '100%', borderRight: 0}}
-            items={menu.concat(items2)}
-            onClick={({key}) => {
-              router.push(key);
-              // console.log(`key ${key} route not found`);
-            }}
-          />
-        </Sider>
-        <Layout style={{padding: '0 24px 24px', height: 'calc(100vh - 64px)'}}>
-          <Content
-            style={{
-              padding: 24,
-              margin: '16px 0 0 0',
-              minHeight: 280,
-              background: colorBgContainer,
-            }}
-          >
-            {children}
-          </Content>
-        </Layout>
-      </Layout>
-    </Layout>
-  );
-};
+    <div className={"flex " + poppins.className}>
+      <Sidebar role={user?.role} />
+      <div className="w-full h-screen px-4 overflow-y-auto">
+        <div className="sticky top-0 py-7 border-b bg-white z-[100] flex justify-between items-center">
+          <h1 className="mb-1 text-2xl font-medium tracking-tight">
+            {getTitle()}
+          </h1>
 
-export default AuthenticatedLayout;
+          <Link href="/dashboard/profile" className="flex items-center gap-2 rever">
+            <Avatar size={43} icon={<User />} />
+            <div className="-space-y-1">
+              <h2 className="text-base font-medium leading-6">
+                {user?.name}
+              </h2>
+            </div>
+          </Link>
+        </div>
+
+        <div className="py-7">{children}</div>
+      </div>
+    </div>
+  );
+}

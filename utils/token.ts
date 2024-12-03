@@ -1,51 +1,18 @@
-export class TokenUtil {
-  static accessToken?: string;
-  static refreshToken?: string;
-  static loadToken() {
-    if (typeof window === "undefined") {
-      return;
-    }
+import Cookies from 'js-cookie';
 
-    const accessToken = localStorage.getItem('access_token');
-    const refreshToken = localStorage.getItem('refresh_token');
-
-    if (accessToken) {
-      TokenUtil.setAccessToken(accessToken);
-    }
-
-    if (refreshToken) {
-      TokenUtil.setRefreshToken(refreshToken);
-    }
-  };
-
-  static persistToken() {
-    if (TokenUtil.accessToken != null) {
-      localStorage.setItem('access_token', TokenUtil.accessToken);
-    } else {
-      localStorage.removeItem('access_token');
-    }
-
-    if (TokenUtil.refreshToken != null) {
-      localStorage.setItem('refresh_token', TokenUtil.refreshToken);
-    } else {
-      localStorage.removeItem('refresh_token');
-    }
-
-  }
-
-  static setAccessToken(accessToken: string) {
-    TokenUtil.accessToken = accessToken;
-  }
-
-  static setRefreshToken(refreshToken: string) {
-    TokenUtil.refreshToken = refreshToken;
-  }
-
-  static clearAccessToken() {
-    TokenUtil.accessToken = undefined;
-  }
-
-  static clearRefreshToken() {
-    TokenUtil.accessToken = undefined;
-  }
+export const getAccessToken = () => Cookies.get('access_token');
+export const getCheckoutToken = () => Cookies.get('checkout_token');
+export function setAccessToken(accessToken: string) {
+  Cookies.set('access_token', accessToken, { expires: 1 });
+}
+export function setCheckoutToken(payload: any) {
+  Cookies.set('checkout_token', payload, { expires: 1 });
+}
+export function removeTokens() {
+  Cookies.remove('access_token');
+  Cookies.remove('checkout_token');
+  
+}
+export function removeCheckoutToken() {
+  Cookies.remove('checkout_token');
 }

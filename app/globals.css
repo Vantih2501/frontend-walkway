@@ -1,4 +1,1296 @@
-/*@tailwind base;*/
+/* Google Font */
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@100..900&display=swap");
+
+@tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+body {
+  @apply font-poppins text-zinc-900;
+  overflow-x: hidden;
+}
+
+@layer base {
+  input[type="number"]::-webkit-outer-spin-button,
+  input[type="number"]::-webkit-inner-spin-button,
+  input[type="number"] {
+    -webkit-appearance: none;
+    margin: 0;
+    -moz-appearance: textfield !important;
+  }
+
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}
+
+.ant-form-item {
+  margin-bottom: 0;
+}
+:where(.css-dev-only-do-not-override-14ugp7t).ant-timeline
+  .ant-timeline-item-last
+  > .ant-timeline-item-content {
+  min-height: inherit;
+}
+
+.delivery-select.ant-collapse > .ant-collapse-item > .ant-collapse-header {
+  padding: 0px !important;
+}
+
+:where(.css-dev-only-do-not-override-14ugp7t).ant-dropdown
+  .ant-dropdown-menu
+  .ant-dropdown-menu-item:hover {
+  background-color: inherit !important;
+}
+
+.phone-input .ant-input-group > .ant-input:last-child {
+  padding: 8px;
+}
+
+:where(.css-dev-only-do-not-override-zjyjzs).ant-timeline
+  .ant-timeline-item-last
+  > .ant-timeline-item-content {
+  min-height: 0px;
+}
+
+.bid-input :where(.css-dev-only-do-not-override-zjyjzs).ant-input-group {
+  height: 100%;
+}
+
+.bid-input
+  :where(.css-dev-only-do-not-override-zjyjzs).ant-input-group
+  .ant-input {
+  height: 100%;
+}
+
+.bid-input
+  :where(.css-dev-only-do-not-override-14ugp7t)[class^="ant-input"]
+  [class^="ant-input"] {
+  height: 100%;
+}
+
+p,
+h1 {
+  margin: 0;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+a:-webkit-any-link {
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.ant-table-thead > tr > th {
+  @apply bg-zinc-100 text-xs 2xl:text-sm !font-normal;
+}
+
+.ant-table-tbody > tr > td {
+  @apply text-xs 2xl:text-sm;
+}
+
+/* Button Components */
+.ant-btn-color-primary {
+  box-shadow: none;
+}
+
+/* Card Components */
+.ant-card .ant-card-body {
+  padding: 0px;
+  border-radius: 0px;
+}
+
+.gradient-image {
+  position: absolute;
+  background: linear-gradient(180deg, #000, #e0e0e0, #000);
+  /* Gradient warna */
+  height: 38rem;
+  width: 28rem;
+  margin-left: -25px;
+  margin-top: -608px;
+  opacity: 0.3;
+}
+
+.textW {
+  position: absolute;
+  margin-top: -580px;
+}
+
+.text2 {
+  margin-top: 420px;
+  color: white;
+  font-size: small;
+  width: 25rem;
+}
+
+.headernav {
+  height: 10rem !important;
+  background-color: #f4f4f5;
+  width: 120rem !important;
+  display: block !important;
+}
+
+.searcbar {
+  margin-left: 30px;
+  width: 75rem;
+}
+
+.head1 {
+  margin-left: 140px;
+}
+
+.fotoprof {
+  margin-left: 70px;
+  margin-top: -22px;
+}
+
+.menuNav {
+  margin-left: 45rem;
+  font-size: 15px;
+  font-weight: 600;
+  border-bottom: none;
+}
+
+.cardC {
+  width: 95rem;
+  background-color: #e4e4e7;
+
+  margin-top: 100px;
+}
+
+.cardI {
+  width: 52rem;
+}
+
+.CardT {
+  width: 36rem;
+}
+
+.butaddress {
+  margin-left: 470px;
+  font-size: 15px;
+  color: white;
+  background-color: #4e7772;
+}
+
+.svaddress {
+  font-size: 15px;
+  color: white;
+  background-color: #4e7772;
+}
+
+.svaddress:hover {
+  font-size: 15px;
+  color: #4e7772 !important;
+  background-color: #ffffff !important;
+  border: 1px solid #4e7772 !important;
+}
+
+.colprice {
+  margin-left: 230px;
+}
+
+.shipprice {
+  margin-left: 310px;
+}
+
+.coltotal {
+  margin-left: 250px;
+}
+
+.nameaddress {
+  margin-left: -20px;
+  width: 27rem;
+}
+
+.editadd {
+  margin-left: 470px;
+  font-size: 15px;
+  background-color: #ffffff !important;
+  border: 1px solid #4e7772 !important;
+}
+
+.cardFooter {
+  background-color: #29362c !important;
+  width: auto;
+  height: 400px;
+  padding: 0;
+}
+
+.img-bg-footer {
+  height: 395px;
+  padding: 0;
+  position: absolute;
+  margin-left: 73rem;
+}
+
+.text-footer {
+  margin-top: 100px;
+}
+
+.avatarProf {
+  width: 7rem;
+  height: 7rem;
+}
+
+.NavProf {
+  box-shadow: none !important;
+  border: none !important;
+  width: 13rem !important;
+}
+
+.NavProf:active {
+  color: white !important;
+}
+
+.editProf {
+  font-size: 15px;
+  color: white;
+  background-color: #4e7772;
+  margin-top: 40px;
+}
+
+.addressprof {
+  width: 27rem;
+}
+
+.scroll {
+  max-height: 280px;
+  overflow-y: auto;
+  padding-right: 10px;
+}
+
+.scroll::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 147, 96, 0.2);
+  border-radius: 4px;
+}
+
+.feTabs .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
+  background-color: #4e7772 !important;
+  color: white !important;
+  font-weight: 600;
+  width: 80px;
+  height: 40px;
+  border-radius: 5px;
+  padding: 0%;
+  line-height: 40px;
+}
+
+.ant-tabs-tab {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  height: 100%;
+  border-bottom: none !important;
+  box-shadow: none !important;
+  border: none !important;
+}
+
+.ant-tabs-nav::before {
+  border: none !important;
+}
+
+.ant-tabs-nav {
+  box-shadow: none !important;
+  border: none !important;
+}
+
+.ant-tabs {
+  box-shadow: none !important;
+  border: none !important;
+}
+
+.ant-tabs-content {
+  box-shadow: none !important;
+  border: none !important;
+}
+
+.status1 {
+  width: 90px;
+  height: 25px;
+  margin-top: 13px;
+  margin-left: 15px;
+  background-color: #e0ffe0;
+  text-align: center;
+  line-height: 25px;
+  color: #0f930f;
+}
+
+.status2 {
+  width: 90px;
+  height: 25px;
+  margin-top: 13px;
+  margin-left: 15px;
+  background-color: #ffefdb;
+  text-align: center;
+  line-height: 25px;
+  color: #ff9407;
+}
+
+.status3 {
+  width: 90px;
+  height: 25px;
+  margin-top: 13px;
+  margin-left: 15px;
+  background-color: #ffe6ea;
+  text-align: center;
+  line-height: 25px;
+  color: #d80027;
+}
+
+.list1 {
+  max-height: 56rem;
+  overflow-y: auto;
+  padding-right: 10px;
+}
+
+.list1::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 147, 96, 0.2);
+  border-radius: 4px;
+}
+
+.iconRight {
+  font-size: 30px;
+  margin-left: 28rem;
+}
+
+.priceC {
+  font-size: 20px;
+  margin-top: 25px;
+  width: 200px;
+  margin-left: 80px;
+}
+
+.textC {
+  font-size: 20px;
+  margin-top: 25px;
+}
+
+.cardInfo {
+  width: 60rem;
+  border-radius: 20px;
+  margin-left: 30px;
+  height: 23rem;
+}
+
+.cardProf {
+  width: 300;
+  border-radius: 20px;
+  height: 56rem;
+  margin-left: 70px;
+}
+
+.CardIAdd {
+  width: 60rem;
+  border-radius: 20px;
+  margin-left: 30px;
+}
+
+.hrProf {
+  align-content: center;
+  width: 55rem;
+}
+
+.CardOrder {
+  width: 59rem;
+  border-radius: 20px;
+  margin-left: 30px;
+  height: 56rem;
+}
+
+.cardStatus {
+  width: 1000;
+  height: 50;
+  border-radius: 10px;
+  background-color: #fafafa;
+}
+
+.HBut {
+  margin-left: 450px;
+}
+
+.resi {
+  margin-left: 400px;
+}
+
+.hrOrder {
+  width: 55rem;
+}
+
+.priceDetail {
+  color: gray;
+  margin-left: 600px;
+}
+
+.totalDetail {
+  margin-left: 670px;
+}
+
+.shipDetail {
+  color: gray;
+  margin-left: 710px;
+}
+
+.buttonDetail {
+  width: 900px;
+  margin-left: 25px;
+  margin-top: 180px;
+}
+
+.backDetail {
+  margin-top: 30px;
+  margin-left: 30rem;
+}
+
+.reffDetail {
+  margin-left: 700px;
+  color: #0f930f;
+}
+
+.chooseAdd {
+  margin-left: 200px;
+  font-size: 20px;
+  margin-top: -20px;
+}
+
+.upFoto {
+  width: 400px;
+  height: 150px;
+  padding: 30px;
+  border: 2px dashed #d9d9d9;
+  border-radius: 8px;
+  margin-left: 30px;
+}
+
+.avatar-uploader {
+  margin-left: 130px;
+  font-size: 20px;
+}
+
+.imageModalNav {
+  margin-top: -20px;
+  margin-left: -30px;
+}
+
+.pricemodal {
+  margin-left: 210px;
+}
+
+.sidebarMenu {
+  padding: 10px;
+  margin-bottom: 20rem;
+  background-color: #f4f4f5;
+  height: 100vh;
+}
+
+.ContentAdmin {
+  margin-left: 21rem;
+}
+
+.sidebarMenu .ant-menu-item:hover {
+  background-color: #4e7772 !important;
+  color: white !important;
+}
+
+.img-sidebar {
+  margin-top: -150rem;
+  margin-left: 45px;
+}
+
+.hrSide {
+  margin-top: -35rem;
+  width: 15rem;
+  margin-left: 25px;
+}
+
+.logoutBar {
+  margin-top: 30px;
+  font-size: 25px;
+  margin-left: 40px;
+}
+
+.profAdmin {
+  margin-left: 74rem;
+}
+
+.profAdminCB {
+  margin-left: 60rem;
+}
+
+.product-layout {
+  display: flex;
+  justify-content: space-between;
+}
+
+.add-product-card {
+  width: 40%;
+  margin-left: -320px;
+  margin-top: -30px;
+  border-radius: 20px;
+}
+
+.product-layout.with-card .product-list {
+  flex: 0 0 58%;
+  /* Ketika card muncul, product list jadi lebih kecil */
+}
+
+.product-layout.with-card .product-card {
+  display: block;
+  /* Tampilkan card */
+}
+
+.product-card {
+  display: none;
+  /* Sembunyikan card secara default */
+  z-index: 10;
+  margin-top: 85px;
+  position: fixed;
+  margin-left: 95rem;
+}
+
+.editProduct {
+  z-index: 10;
+  margin-top: 85px;
+  position: fixed;
+  margin-left: 95rem;
+}
+
+.product-list {
+  height: auto;
+  overflow-y: auto;
+  padding-right: 10px;
+  z-index: 1;
+}
+
+.header-fix {
+  z-index: 10 !important;
+  background-color: white;
+  padding: 10px;
+  width: 120%;
+  margin-left: -33px;
+  margin-top: -32px;
+}
+
+.productData {
+  overflow-y: auto;
+  width: 90rem;
+}
+
+.buttonAddP .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
+  background-color: #4e7772 !important;
+  color: white !important;
+  font-weight: 600;
+  width: 100px;
+  height: 40px;
+  border-radius: 20px;
+  padding: 0%;
+  line-height: 40px;
+}
+
+.buttonAddP .ant-tabs-tab {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  height: 100%;
+  border-bottom: none !important;
+  box-shadow: none !important;
+  border: none !important;
+}
+
+.buttonAddP .ant-tabs-nav::before {
+  border: none !important;
+}
+
+.buttonAddP .ant-tabs-nav {
+  box-shadow: none !important;
+  border: none !important;
+}
+
+.buttonAddP .ant-tabs {
+  box-shadow: none !important;
+  border: none !important;
+}
+
+.buttonAddP .ant-tabs-content {
+  box-shadow: none !important;
+  border: none !important;
+}
+
+.fotoProduct {
+  width: 250px;
+  height: 150px;
+  padding: 30px;
+  border: 2px dashed #d9d9d9;
+  border-radius: 8px;
+  margin-left: 0px;
+}
+
+.fotoAdmin {
+  width: 460px;
+  height: 150px;
+  padding: 30px;
+  border: 2px dashed #d9d9d9;
+  border-radius: 8px;
+  margin-left: 0px;
+}
+
+.LogoB {
+  width: 350px;
+  height: 150px;
+  padding: 30px;
+  border: 2px dashed #d9d9d9;
+  border-radius: 8px;
+  margin-left: 0px;
+}
+
+.LogoB-upload {
+  margin-left: 100px;
+  font-size: 20px;
+  margin-top: 20px;
+}
+
+.LogoB {
+  width: 350px;
+  height: 150px;
+  padding: 30px;
+  border: 2px dashed #d9d9d9;
+  border-radius: 8px;
+  margin-left: 0px;
+}
+
+.LogoB-upload {
+  margin-left: 100px;
+  font-size: 20px;
+  margin-top: 20px;
+}
+
+.avatar-upload {
+  margin-left: 55px;
+  font-size: 20px;
+  margin-top: 15px;
+}
+
+.admin-upload {
+  margin-left: 160px;
+  font-size: 20px;
+  margin-top: 15px;
+}
+
+.tagProduk {
+  height: 30px;
+  border-radius: 5px;
+  padding: 0%;
+  line-height: 30px;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  margin-bottom: 10px;
+  border-radius: 20px;
+  background-color: white;
+  display: inline-block;
+  padding: 0 15px;
+}
+
+th {
+  display: table-cell !important;
+}
+
+.CardProfA {
+  width: 90rem;
+  border-radius: 20px;
+  height: 45rem;
+  margin-left: -20rem;
+}
+
+.AdminFoto {
+  width: 80px;
+  height: 80px;
+}
+
+.contentProfile {
+  margin-left: 40px;
+  margin-right: 40px;
+}
+
+.editPAdmin {
+  margin-left: 60rem;
+}
+
+.tebleOrderP {
+  width: 90rem;
+  margin-left: 20px;
+}
+
+.CardB {
+  width: 50rem;
+}
+
+.CardC {
+  width: 40rem;
+}
+
+.price-input .ant-input-group-addon {
+  height: 36px;
+}
+
+.price-input .ant-input {
+  height: 36px;
+}
+
+.select-bid .ant-select-selector {
+  border-radius: 50px !important;
+  font-size: 12px;
+}
+
+.select-product .ant-select-selector {
+  border-radius: 50px !important;
+  font-size: px;
+}
+
+@media screen and (max-width: 1440px) {
+  .CardCat {
+    width: 35rem;
+  }
+
+  .cardI {
+    width: 41rem;
+    margin-left: -50rem;
+  }
+
+  .butaddress {
+    margin-left: 300px;
+    font-size: 15px;
+    color: white;
+    background-color: #4e7772;
+  }
+
+  .CardT {
+    width: 33rem;
+  }
+
+  .colprice {
+    margin-left: 180px;
+  }
+
+  .shipprice {
+    margin-left: 260px;
+  }
+
+  .coltotal {
+    margin-left: 210px;
+  }
+
+  .iconRight {
+    font-size: 25px;
+    margin-left: 18rem;
+  }
+
+  .priceC {
+    font-size: 18px;
+    margin-top: 25px;
+    width: 230px;
+    margin-left: 80px;
+  }
+
+  .textC {
+    font-size: 18px;
+    margin-top: 25px;
+  }
+
+  .menuNav {
+    margin-left: 40rem;
+    font-size: 15px;
+    font-weight: 600;
+    border-bottom: none;
+  }
+
+  .img-bg-footer {
+    height: 395px;
+    padding: 0;
+    position: absolute;
+    margin-left: 65rem;
+  }
+
+  .avatarProf {
+    width: 7rem;
+    height: 7rem;
+  }
+
+  .NavProf {
+    box-shadow: none !important;
+    border: none !important;
+    width: 13rem !important;
+  }
+
+  .NavProf:active {
+    color: white !important;
+  }
+
+  .editProf {
+    font-size: 15px;
+    color: white;
+    background-color: #4e7772;
+    margin-top: 40px;
+  }
+
+  .addressprof {
+    width: 27rem;
+  }
+
+  .scroll {
+    max-height: 280px;
+    overflow-y: auto;
+    padding-right: 10px;
+  }
+
+  .scroll::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 147, 96, 0.2);
+    border-radius: 4px;
+  }
+
+  .feTabs .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
+    background-color: #4e7772 !important;
+    color: white !important;
+    font-weight: 600;
+    width: 80px;
+    height: 40px;
+    border-radius: 5px;
+    padding: 0%;
+    line-height: 40px;
+  }
+
+  .ant-tabs-tab {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    height: 100%;
+    border-bottom: none !important;
+    box-shadow: none !important;
+    border: none !important;
+  }
+
+  .ant-tabs-nav::before {
+    border: none !important;
+  }
+
+  .ant-tabs-nav {
+    box-shadow: none !important;
+    border: none !important;
+  }
+
+  .ant-tabs {
+    box-shadow: none !important;
+    border: none !important;
+  }
+
+  .ant-tabs-content {
+    box-shadow: none !important;
+    border: none !important;
+  }
+
+  .status1 {
+    width: 90px;
+    height: 25px;
+    margin-top: 13px;
+    margin-left: 15px;
+    background-color: #e0ffe0;
+    text-align: center;
+    line-height: 25px;
+    color: #0f930f;
+  }
+
+  .status2 {
+    width: 90px;
+    height: 25px;
+    margin-top: 13px;
+    margin-left: 15px;
+    background-color: #ffefdb;
+    text-align: center;
+    line-height: 25px;
+    color: #ff9407;
+  }
+
+  .status3 {
+    width: 90px;
+    height: 25px;
+    margin-top: 13px;
+    margin-left: 15px;
+    background-color: #ffe6ea;
+    text-align: center;
+    line-height: 25px;
+    color: #d80027;
+  }
+
+  .list1 {
+    max-height: 56rem;
+    overflow-y: auto;
+    padding-right: 10px;
+  }
+
+  .list1::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 147, 96, 0.2);
+    border-radius: 4px;
+  }
+
+  .cardInfo {
+    width: 53rem;
+    border-radius: 20px;
+    margin-left: 30px;
+    height: 23rem;
+  }
+
+  .cardProf {
+    width: 300;
+    border-radius: 20px;
+    height: 56rem;
+    margin-left: 0px;
+  }
+
+  .CardIAdd {
+    width: 53rem;
+    border-radius: 20px;
+    margin-left: 30px;
+  }
+
+  .hrProf {
+    align-content: center;
+    width: 48rem;
+  }
+
+  .CardOrder {
+    width: 53rem;
+    border-radius: 20px;
+    margin-left: 30px;
+    height: 56rem;
+  }
+
+  .cardStatus {
+    width: 800;
+    height: 50;
+    border-radius: 10px;
+    background-color: #fafafa;
+  }
+
+  .HBut {
+    margin-left: 22rem;
+  }
+
+  .resi {
+    margin-left: 300px;
+  }
+
+  .hrOrder {
+    width: 50rem;
+  }
+
+  .priceDetail {
+    color: gray;
+    margin-left: 500px;
+  }
+
+  .shipDetail {
+    color: gray;
+    margin-left: 610px;
+  }
+
+  .totalDetail {
+    margin-left: 570px;
+  }
+
+  .buttonDetail {
+    width: 800px;
+    margin-left: 25px;
+    margin-top: 180px;
+  }
+
+  .backDetail {
+    margin-top: 30px;
+    margin-left: 25rem;
+  }
+
+  .reffDetail {
+    margin-left: 600px;
+    color: #0f930f;
+  }
+
+  .editadd {
+    margin-left: 320px;
+    font-size: 15px;
+    background-color: #ffffff !important;
+    border: 1px solid #4e7772 !important;
+  }
+
+  .chooseAdd {
+    margin-left: 50px;
+    font-size: 20px;
+    margin-top: -20px;
+  }
+
+  .head1 {
+    margin-left: 100px;
+  }
+
+  .sidebarMenu {
+    padding: 10px;
+    margin-bottom: 20rem;
+    margin-top: -30px;
+    background-color: #f4f4f5;
+    height: 65rem;
+  }
+
+  .sidebarMenu .ant-menu-item:hover {
+    background-color: #4e7772 !important;
+    color: white !important;
+  }
+
+  .img-sidebar {
+    margin-top: -160rem;
+    margin-left: 45px;
+  }
+
+  .hrSide {
+    margin-top: -40rem;
+    width: 15rem;
+    margin-left: 25px;
+  }
+
+  .hradmin {
+    width: 60rem;
+    margin-left: 10px;
+  }
+
+  .logoutBar {
+    margin-top: 20px;
+    font-size: 25px;
+    margin-left: 40px;
+  }
+
+  .profAdmin {
+    margin-left: 40rem;
+  }
+
+  .buttonAdd {
+    margin-left: -20rem;
+  }
+
+  .product-layout {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .add-product-card {
+    width: 40%;
+    margin-left: -320px;
+    margin-top: -30px;
+    border-radius: 20px;
+  }
+
+  .product-layout.with-card .product-list {
+    flex: 0 0 58%;
+    /* Ketika card muncul, product list jadi lebih kecil */
+  }
+
+  .product-layout.with-card .product-card {
+    display: block;
+    /* Tampilkan card */
+  }
+
+  .product-card {
+    display: none;
+    /* Sembunyikan card secara default */
+    z-index: 10;
+    margin-top: 85px;
+    position: fixed;
+    margin-left: 79rem;
+  }
+
+  .product-list {
+    height: auto;
+    overflow-y: auto;
+    padding-right: 10px;
+    z-index: 1;
+  }
+
+  .editProduct {
+    z-index: 10;
+    margin-top: 85px;
+    position: fixed;
+    margin-left: 79rem;
+  }
+
+  .header-fix {
+    z-index: 10 !important;
+    background-color: white;
+    padding: 10px;
+    width: 120%;
+    margin-left: -33px;
+    margin-top: -32px;
+  }
+
+  .productData {
+    overflow-y: auto;
+    width: 90rem;
+    margin-left: -30px;
+  }
+
+  .buttonAddP .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
+    background-color: #4e7772 !important;
+    color: white !important;
+    font-weight: 600;
+    width: 100px;
+    height: 40px;
+    border-radius: 20px;
+    padding: 0%;
+    line-height: 40px;
+  }
+
+  .buttonAddP .ant-tabs-tab {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    height: 100%;
+    border-bottom: none !important;
+    box-shadow: none !important;
+    border: none !important;
+  }
+
+  .buttonAddP .ant-tabs-nav::before {
+    border: none !important;
+  }
+
+  .buttonAddP .ant-tabs-nav {
+    box-shadow: none !important;
+    border: none !important;
+  }
+
+  .buttonAddP .ant-tabs {
+    box-shadow: none !important;
+    border: none !important;
+  }
+
+  .buttonAddP .ant-tabs-content {
+    box-shadow: none !important;
+    border: none !important;
+  }
+
+  .fotoProduct {
+    width: 250px;
+    height: 150px;
+    padding: 30px;
+    border: 2px dashed #d9d9d9;
+    border-radius: 8px;
+    margin-left: 0px;
+  }
+
+  .avatar-upload {
+    margin-left: 55px;
+    font-size: 20px;
+    margin-top: 15px;
+  }
+
+  .tagProduk {
+    height: 30px;
+    border-radius: 5px;
+    padding: 0%;
+    line-height: 30px;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    margin-bottom: 10px;
+    border-radius: 20px;
+    background-color: white;
+    display: inline-block;
+    padding: 0 15px;
+  }
+
+  .CardProfA {
+    width: 900px;
+    border-radius: 20px;
+    height: 45rem;
+  }
+
+  .AdminFoto {
+    width: 60px;
+    height: 60px;
+  }
+
+  .contentProfile {
+    margin-left: 40px;
+    margin-right: 40px;
+  }
+
+  .editPAdmin {
+    margin-left: 30rem;
+  }
+}
+
+/* Search Components */
+.ant-input css-dev-only-do-not-override-fau614 {
+  margin-left: 16px;
+}
+
+/* Navbar Search Component */
+.navbar-search {
+  margin: 0 4px;
+}
+
+.ant-card-meta-description {
+  font-size: 18px;
+}
+
+.ant-layout-sider {
+  height: 100%;
+}
+
+@media (min-width: 1536px) {
+  .navbar-search {
+    margin: 0 8px;
+    font-size: 1.2rem;
+  }
+}
+
+@layer base {
+  :root {
+    --radius: 0.5rem;
+    --chart-1: 173 21% 39%;
+  }
+}
+
+.hide-arrow[type="number"]::-webkit-inner-spin-button,
+.hide-arrow[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+
+  .profAdminCB {
+    margin-left: 30rem;
+  }
+
+  .tebleOrderP {
+    width: 58rem;
+    margin-left: -15px;
+  }
+
+  .CardB {
+    width: 32rem;
+    margin-left: -5px;
+  }
+
+  .CardC {
+    width: 27rem;
+    margin-left: -20px;
+  }
+}

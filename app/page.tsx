@@ -1,21 +1,22 @@
-"use client";
-
-import React, {useEffect, useState} from 'react';
-import { render } from 'react-dom';
-import {Button, DatePicker, message} from 'antd';
-import {useRouter} from "next/navigation";
+"use client"
+import {
+  HeroSection,
+  BrandBanner,
+  OurCollection,
+  ProductDisplay,
+  BidDisplay,
+} from "#/components/LandingPage/page";
+import React from "react";
+import MainLayout from "./(main)/layout";
 
 export default function Home() {
-  const router = useRouter();
-
-  useEffect(() => {
-    if(router) {
-      router.push('/home');
-    }
-  }, [router]);
-
   return (
-    <div style={{}}>
-    </div>
+    <MainLayout>
+      <HeroSection />
+      <BrandBanner />
+      <ProductDisplay />
+      <BidDisplay />
+      <OurCollection />
+    </MainLayout>
   );
 }
